@@ -15,6 +15,7 @@ pod 'FMDB'
 pod 'NJKWebViewProgress'
 pod 'DKNightVersion'
 pod 'AFNetworking'
+pod 'MBProgressHUD', '~> 1.0.0'
 
 end
 

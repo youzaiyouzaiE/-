@@ -21,6 +21,8 @@
 #import <DKNightVersion.h>
 #import "TwoLabelCell.h"
 #import "DisclosureCell.h"
+#import "TTLoginViewController.h"
+#import "AppDelegate.h"
 
 static NSString *const UserInfoCellIdentifier = @"UserInfoCell";
 static NSString *const SwitchCellIdentifier = @"SwitchCell";
@@ -177,7 +179,11 @@ CGFloat const footViewHeight = 30;
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section == 0 && indexPath.row == 0) {
-        [self.navigationController pushViewController:[[EditUserInfoViewController alloc] init] animated:YES];
+        AppDelegate *appDelegat = (AppDelegate *)[UIApplication sharedApplication].delegate;
+        if (appDelegat.isLogin) {
+            [self.navigationController pushViewController:[[EditUserInfoViewController alloc] init] animated:YES];
+        } else
+            [self.navigationController pushViewController:[[TTLoginViewController alloc] init] animated:YES];
     } else if (indexPath.section == 1 && indexPath.row ==2) {
         [SVProgressHUD show];
         [TTDataTool deletePartOfCacheInSqlite];
