@@ -9,12 +9,17 @@
 #import "TTLoginViewController.h"
 #import "DKNightVersion.h"
 #import "AppDelegate.h"
+#import "TTRegisterViewController.h"
+#import "TTFindPasswordViewController.h"
 
 @interface TTLoginViewController () <UITextFieldDelegate> {
     
     __weak IBOutlet UITextField *_userNameTextField;
     __weak IBOutlet UITextField *_passwordTextField;
     __weak IBOutlet UIButton *_loginButton;
+    
+    TTRegisterViewController *_findPassowrdVC;
+    TTRegisterViewController *_registerVC;
     
 }
 
@@ -53,15 +58,20 @@
 }
 
 - (IBAction)forgetPasswordAction:(UIButton *)sender {
-    
-    
+    if (!_findPassowrdVC) {
+        _findPassowrdVC = [[TTRegisterViewController alloc] init];
+    }
+     _findPassowrdVC.isForgetPassword = YES;
+    [self.navigationController pushViewController:_findPassowrdVC animated:YES];
 }
 
 - (IBAction)registerAction:(UIButton *)sender {
-    
-    
+    if (!_registerVC) {
+    _registerVC = [[TTRegisterViewController alloc] init];
+    }
+    _registerVC.isForgetPassword = NO;
+    [self.navigationController pushViewController:_registerVC animated:YES];
 }
-
 
 #pragma mark - UITextFieldDelegate
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {

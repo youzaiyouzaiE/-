@@ -35,7 +35,7 @@
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="密  码" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iuA-oq-5kC">
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="密   码" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iuA-oq-5kC">
                             <rect key="frame" x="15" y="58" width="52" height="21"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="21" id="XeL-49-wOB"/>
@@ -140,14 +140,21 @@
                         <constraint firstItem="iuA-oq-5kC" firstAttribute="leading" secondItem="Iig-kQ-tNO" secondAttribute="leading" constant="15" id="xhg-35-aZN"/>
                     </constraints>
                 </view>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mil-9v-Q23">
-                    <rect key="frame" x="16" y="226" width="343" height="45"/>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mil-9v-Q23">
+                    <rect key="frame" x="16" y="229" width="343" height="45"/>
                     <color key="backgroundColor" red="0.88235294119999996" green="0.2666666667" blue="0.13725490200000001" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="45" id="oDd-Sr-Eoa"/>
                     </constraints>
-                    <state key="normal" title="登陆">
-                        <color key="titleColor" red="0.94489829020000005" green="0.94489829020000005" blue="0.94489829020000005" alpha="1" colorSpace="calibratedRGB"/>
+                    <state key="normal">
+                        <attributedString key="attributedTitle">
+                            <fragment content="登 陆">
+                                <attributes>
+                                    <color key="NSColor" red="0.94489829020000005" green="0.94489829020000005" blue="0.94489829020000005" alpha="1" colorSpace="calibratedRGB"/>
+                                    <font key="NSFont" size="18" name="SimHei"/>
+                                </attributes>
+                            </fragment>
+                        </attributedString>
                     </state>
                     <connections>
                         <action selector="loginAction:" destination="-1" eventType="touchUpInside" id="OGE-WF-gHS"/>
@@ -167,8 +174,8 @@
             </subviews>
             <color key="backgroundColor" red="0.91755868889227743" green="0.92746032630099695" blue="0.92835637318360709" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
-                <constraint firstItem="mil-9v-Q23" firstAttribute="top" secondItem="Iig-kQ-tNO" secondAttribute="bottom" constant="47" id="36t-sL-lgw"/>
-                <constraint firstItem="7de-2o-QxO" firstAttribute="top" secondItem="mil-9v-Q23" secondAttribute="bottom" constant="17" id="6b6-ab-Y2K"/>
+                <constraint firstItem="mil-9v-Q23" firstAttribute="top" secondItem="Iig-kQ-tNO" secondAttribute="bottom" constant="50" id="36t-sL-lgw"/>
+                <constraint firstItem="7de-2o-QxO" firstAttribute="top" secondItem="mil-9v-Q23" secondAttribute="bottom" constant="14" id="6b6-ab-Y2K"/>
                 <constraint firstAttribute="trailing" secondItem="7de-2o-QxO" secondAttribute="trailing" constant="22" id="IB5-ag-QEo"/>
                 <constraint firstItem="Iig-kQ-tNO" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="88" id="NUx-zq-f5A"/>
                 <constraint firstAttribute="trailing" secondItem="Iig-kQ-tNO" secondAttribute="trailing" id="PE7-Np-8LL"/>
