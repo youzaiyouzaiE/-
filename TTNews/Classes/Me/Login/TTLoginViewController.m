@@ -34,6 +34,8 @@
     
     _loginButton.layer.masksToBounds = YES;
     _loginButton.layer.cornerRadius = 6;
+    _loginButton.backgroundColor = [UIColor colorWithDisplayP3Red:232.f/255.f green:114.f/255.f blue:112.f/255.f alpha:1];
+    
 }
 
 - (void)updateViewConstraints {

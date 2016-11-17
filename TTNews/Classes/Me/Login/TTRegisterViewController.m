@@ -36,7 +36,7 @@
     
     _buttonNext.layer.masksToBounds = YES;
     _buttonNext.layer.cornerRadius = 6;
-    
+    _buttonNext.backgroundColor = [UIColor colorWithDisplayP3Red:232.f/255.f green:114.f/255.f blue:112.f/255.f alpha:1];
 }
 
 - (void)didReceiveMemoryWarning {
