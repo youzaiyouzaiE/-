@@ -8,6 +8,10 @@
 
 #import "TTNetworkManager.h"
 
+
+
+
+
 @implementation TTNetworkManager
 +(TTNetworkManager *)shareManager {
     static TTNetworkManager *manager = nil;

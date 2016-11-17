@@ -10,8 +10,10 @@
 #import "DKNightVersion.h"
 #import "AppDelegate.h"
 #import "TTMailRegisterViewController.h"
+#import "MBProgressHUD.h"
+#import "TTNetworkManager.h"
 
-@interface TTRegisterViewController () {
+@interface TTRegisterViewController () <UITextFieldDelegate>{
     __weak IBOutlet UITextField *_textFieldNickname;
     __weak IBOutlet UITextField *_textFieldMailAddress;
     __weak IBOutlet UITextField *_textFieldIdentifyCode;
@@ -19,6 +21,8 @@
     __weak IBOutlet UIButton *_buttonNext;
     
 }
+
+@property (nonatomic, copy) NSString *imageGuid;
 
 @end
 
@@ -33,10 +37,11 @@
     } else
         self.navigationItem.title = @"邮箱注册 1/2";
     
-    
     _buttonNext.layer.masksToBounds = YES;
     _buttonNext.layer.cornerRadius = 6;
     _buttonNext.backgroundColor = [UIColor colorWithDisplayP3Red:232.f/255.f green:114.f/255.f blue:112.f/255.f alpha:1];
+    
+    [self initializeNetRequest];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -47,8 +52,7 @@
 
 #pragma mark - action perform
 - (IBAction)refreshButtonAction:(UIButton *)sender {
-    
-    
+    [self refreshPictureVerifyCode];
 }
 
 - (IBAction)nextButtonAction:(UIButton *)sender {
@@ -57,8 +61,90 @@
     [self.navigationController pushViewController:registerVC animated:YES];
 }
 
+#pragma mark - UITextFieldDelegate
+- (void)textFieldDidEndEditing:(UITextField *)textField {
+    if (textField == _textFieldMailAddress && _textFieldNickname.text.length > 1)  {
+        [self checkUserNameOrMailUsed];
+    }
+}
 
+#pragma mark - NET WORKER 
+- (void)checkUserNameOrMailUsed {
+    [[TTNetworkManager shareManager] Get:CHECK_EMAIL_URL Parameters:@{@"email":_textFieldMailAddress.text, @"username":_textFieldNickname.text} Success:^(NSURLSessionDataTask *task, NSDictionary *responseObject) {
+        NSDictionary *errDic = responseObject[@"errors"];
+        if (errDic) {
+            [self showMessage:errDic.allValues[0]];
+        } else {
+            NSNumber *signalNum = responseObject[@"signal"];
+            if (signalNum.integerValue == 1) {
+                [self showMessage:@"邮箱用户名可用"];
+            } else if (signalNum.integerValue == 100090){
+                [self showMessage:@"电子邮件被占用"];
+            } else if (signalNum.integerValue == 2170){
+                [self showMessage:@"昵称被占用"];
+            }else if (signalNum.integerValue == 1){
+                [self showMessage:responseObject[@"msg"]];
+            }
+        }
+    } Failure:^(NSError *error) {
+        
+    }];
+}
 
+- (void)initializeNetRequest {
+    [[TTNetworkManager shareManager] Get:INITIALIZE_URL Parameters:nil Success:^(NSURLSessionDataTask *task, NSDictionary *responseObject) {
+        NSNumber *signalNum = responseObject[@"signal"];
+        if (signalNum.integerValue == 1) {
+            _imageGuid = responseObject[@"data"][@"GUID"];
+        }
+    } Failure:^(NSError *error) {
+        
+    }];
+}
+
+- (void)refreshPictureVerifyCode {
+    MBProgressHUD *hud = [self showActivityHud];
+    [[TTNetworkManager shareManager] Get:PICTURE_VERIFY_CODE_URL Parameters:@{@"rndUid":_imageGuid} Success:^(NSURLSessionDataTask *task, NSDictionary *responseObject) {
+         [hud hideAnimated:YES];
+         NSDictionary *errDic = responseObject[@"errors"];
+        if (errDic) {
+            [self showMessage:errDic.allValues[0]];
+        } else{
+            NSLog(@"%@",responseObject);
+        }
+    } Failure:^(NSError *error) {
+        [hud hideAnimated:YES];
+    }];
+}
+
+#pragma mark - HUD view
+- (void)showMessage:(NSString *)message
+{
+    [self showMessageToView:self.view message:message autoHide:YES];
+}
+
+- (MBProgressHUD *)showMessageToView:(UIView *)view message:(NSString *)message autoHide:(BOOL)autoHide
+{
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:view animated:YES];
+    hud.mode = MBProgressHUDModeText;
+    hud.label.text = message;
+    hud.margin = 10.f;
+    hud.removeFromSuperViewOnHide = YES;
+    if (autoHide) {
+        [hud hideAnimated:YES afterDelay:2.0f];
+    }
+    return hud;
+}
+
+- (MBProgressHUD *)showActivityHud {
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    hud.mode = MBProgressHUDModeIndeterminate;
+    //    hud.labelText = @"";
+    hud.margin = 10.f;
+    hud.removeFromSuperViewOnHide = YES;
+    [hud showAnimated:YES];
+    return hud;
+}
 
 /*
 #pragma mark - Navigation

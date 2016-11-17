@@ -11,6 +11,8 @@
 #import "AppDelegate.h"
 #import "TTRegisterViewController.h"
 #import "TTFindPasswordViewController.h"
+#import "TTNetworkManager.h"
+#import "MBProgressHUD.h"
 
 @interface TTLoginViewController () <UITextFieldDelegate> {
     
@@ -22,6 +24,7 @@
     TTRegisterViewController *_registerVC;
     
 }
+@property (nonatomic, copy) NSString *guid;
 
 @end
 
@@ -35,7 +38,7 @@
     _loginButton.layer.masksToBounds = YES;
     _loginButton.layer.cornerRadius = 6;
     _loginButton.backgroundColor = [UIColor colorWithDisplayP3Red:232.f/255.f green:114.f/255.f blue:112.f/255.f alpha:1];
-    
+//    [self initializeNetRequest];
 }
 
 - (void)updateViewConstraints {
@@ -45,6 +48,20 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+
+#pragma mark - netWork request 
+- (void)initializeNetRequest {
+    [[TTNetworkManager shareManager] Get:INITIALIZE_URL Parameters:nil Success:^(NSURLSessionDataTask *task, NSDictionary *responseObject) {
+        NSNumber *signalNum = responseObject[@"signal"];
+        if (signalNum.integerValue == 1) {
+            _guid = responseObject[@"data"][@"GUID"];
+        }
+        
+    } Failure:^(NSError *error) {
+        
+    }];
 }
 
 #pragma mark - Action perform 
@@ -83,6 +100,38 @@
         
     }
     return YES;
+}
+
+
+#pragma mark - HUD view
+- (void)showMessageToView:(UIView *)view message:(NSString *)message
+{
+    [self showMessageToView:view message:message autoHide:YES];
+}
+
+- (MBProgressHUD *)showMessageToView:(UIView *)view message:(NSString *)message autoHide:(BOOL)autoHide
+{
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:view animated:YES];
+    
+    hud.mode = MBProgressHUDModeText;
+    hud.label.text = message;
+    hud.margin = 10.f;
+    hud.removeFromSuperViewOnHide = YES;
+    
+    if (autoHide) {
+        [hud hideAnimated:YES afterDelay:1.5f];
+    }
+    return hud;
+}
+
+- (MBProgressHUD *)showActivityHud {
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    hud.mode = MBProgressHUDModeIndeterminate;
+//    hud.labelText = @"";
+    hud.margin = 10.f;
+    hud.removeFromSuperViewOnHide = YES;
+    [hud showAnimated:YES];
+    return hud;
 }
 
 /*

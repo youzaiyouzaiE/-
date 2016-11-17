@@ -7,6 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "TTDefines.h"
+
 
 typedef void (^Completion)(NSURLSessionDataTask *task ,NSDictionary *responseObject);
 typedef void (^Failure)(NSError *error);

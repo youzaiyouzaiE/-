@@ -7,6 +7,7 @@
 //
 
 #import "TTMailRegisterViewController.h"
+#import "MBProgressHUD.h"
 
 @interface TTMailRegisterViewController () {
     
@@ -37,6 +38,35 @@
     // Dispose of any resources that can be recreated.
 }
 
+
+#pragma mark - HUD view
+- (void)showMessageToView:(UIView *)view message:(NSString *)message
+{
+    [self showMessageToView:view message:message autoHide:YES];
+}
+
+- (MBProgressHUD *)showMessageToView:(UIView *)view message:(NSString *)message autoHide:(BOOL)autoHide
+{
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:view animated:YES];
+    hud.mode = MBProgressHUDModeText;
+    hud.label.text = message;
+    hud.margin = 10.f;
+    hud.removeFromSuperViewOnHide = YES;
+    if (autoHide) {
+        [hud hideAnimated:YES afterDelay:1.5f];
+    }
+    return hud;
+}
+
+- (MBProgressHUD *)showActivityHud {
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    hud.mode = MBProgressHUDModeIndeterminate;
+    //    hud.labelText = @"";
+    hud.margin = 10.f;
+    hud.removeFromSuperViewOnHide = YES;
+    [hud showAnimated:YES];
+    return hud;
+}
 /*
 #pragma mark - Navigation
 

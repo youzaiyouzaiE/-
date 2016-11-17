@@ -133,6 +133,7 @@
 		96E44656E97FFEA8726671D5 /* Pods-TTNews.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TTNews.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TTNews/Pods-TTNews.debug.xcconfig"; sourceTree = "<group>"; };
 		BD2F2D1CCC7CC93810CE5EB9 /* Pods-TTNewsTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TTNewsTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-TTNewsTests/Pods-TTNewsTests.release.xcconfig"; sourceTree = "<group>"; };
 		C4C26A241D42CCF389274A89 /* libPods-TTNews.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-TTNews.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		DA2F26D01DDDE495002BD87B /* TTDefines.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TTDefines.h; sourceTree = "<group>"; };
 		DA5485D71DDC901000B65E38 /* TTRegisterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTRegisterViewController.h; sourceTree = "<group>"; };
 		DA5485D81DDC901000B65E38 /* TTRegisterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTRegisterViewController.m; sourceTree = "<group>"; };
 		DA5485D91DDC901000B65E38 /* TTRegisterViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TTRegisterViewController.xib; sourceTree = "<group>"; };
@@ -391,6 +392,7 @@
 				EE4635D71CC72B8900DB248F /* Info.plist */,
 				EE4635C71CC72B8900DB248F /* main.m */,
 				EE4BEB5C1D5480E400B4A035 /* NewsURLs.plist */,
+				DA2F26D01DDDE495002BD87B /* TTDefines.h */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
