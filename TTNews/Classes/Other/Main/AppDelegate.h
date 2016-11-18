@@ -8,12 +8,17 @@
 
 #import <UIKit/UIKit.h>
 
+#define SHARE_APP  ((AppDelegate *)[UIApplication sharedApplication].delegate)
+
+
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
 
 @property (nonatomic, assign) BOOL isLogin;
+@property (nonatomic, copy) NSString *guid;
 
+- (void)initializeNetRequest;
 
 @end
 

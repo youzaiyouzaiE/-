@@ -24,7 +24,7 @@
     TTRegisterViewController *_registerVC;
     
 }
-@property (nonatomic, copy) NSString *guid;
+
 
 @end
 
@@ -50,19 +50,6 @@
     // Dispose of any resources that can be recreated.
 }
 
-
-#pragma mark - netWork request 
-- (void)initializeNetRequest {
-    [[TTNetworkManager shareManager] Get:INITIALIZE_URL Parameters:nil Success:^(NSURLSessionDataTask *task, NSDictionary *responseObject) {
-        NSNumber *signalNum = responseObject[@"signal"];
-        if (signalNum.integerValue == 1) {
-            _guid = responseObject[@"data"][@"GUID"];
-        }
-        
-    } Failure:^(NSError *error) {
-        
-    }];
-}
 
 #pragma mark - Action perform 
 - (IBAction)loginAction:(UIButton *)sender {

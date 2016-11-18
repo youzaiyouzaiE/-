@@ -12,6 +12,7 @@
 #import "TTMailRegisterViewController.h"
 #import "MBProgressHUD.h"
 #import "TTNetworkManager.h"
+#import "NSString+Extension.h"
 
 @interface TTRegisterViewController () <UITextFieldDelegate>{
     __weak IBOutlet UITextField *_textFieldNickname;
@@ -19,6 +20,8 @@
     __weak IBOutlet UITextField *_textFieldIdentifyCode;
     __weak IBOutlet UIImageView *_imageViewIdentify;
     __weak IBOutlet UIButton *_buttonNext;
+    
+    BOOL _isMailPassed;
     
 }
 
@@ -41,7 +44,10 @@
     _buttonNext.layer.cornerRadius = 6;
     _buttonNext.backgroundColor = [UIColor colorWithDisplayP3Red:232.f/255.f green:114.f/255.f blue:112.f/255.f alpha:1];
     
-    [self initializeNetRequest];
+//    [self initializeNetRequest];
+    if (SHARE_APP.guid) {
+        _imageGuid = SHARE_APP.guid;
+    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -63,7 +69,13 @@
 
 #pragma mark - UITextFieldDelegate
 - (void)textFieldDidEndEditing:(UITextField *)textField {
-    if (textField == _textFieldMailAddress && _textFieldNickname.text.length > 1)  {
+    if (textField == _textFieldMailAddress && _textFieldNickname.text.length > 1) {
+        if (![_textFieldMailAddress.text isValidateEmail]) {
+            [self showMessage:@"邮箱用户名格式不正确"];
+            return ;
+        }
+        [self checkUserNameOrMailUsed];
+    } else if (textField == _textFieldNickname && _textFieldMailAddress.text.length >1 ) {
         [self checkUserNameOrMailUsed];
     }
 }
@@ -74,10 +86,13 @@
         NSDictionary *errDic = responseObject[@"errors"];
         if (errDic) {
             [self showMessage:errDic.allValues[0]];
+             _isMailPassed = NO;
         } else {
             NSNumber *signalNum = responseObject[@"signal"];
+             _isMailPassed = NO;
             if (signalNum.integerValue == 1) {
                 [self showMessage:@"邮箱用户名可用"];
+                _isMailPassed = YES;
             } else if (signalNum.integerValue == 100090){
                 [self showMessage:@"电子邮件被占用"];
             } else if (signalNum.integerValue == 2170){
@@ -87,7 +102,7 @@
             }
         }
     } Failure:^(NSError *error) {
-        
+         _isMailPassed = NO;
     }];
 }
 
@@ -103,6 +118,10 @@
 }
 
 - (void)refreshPictureVerifyCode {
+    if (!_imageGuid) {
+        [self initializeNetRequest];
+        return ;
+    }
     MBProgressHUD *hud = [self showActivityHud];
     [[TTNetworkManager shareManager] Get:PICTURE_VERIFY_CODE_URL Parameters:@{@"rndUid":_imageGuid} Success:^(NSURLSessionDataTask *task, NSDictionary *responseObject) {
          [hud hideAnimated:YES];

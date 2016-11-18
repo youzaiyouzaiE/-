@@ -9,6 +9,8 @@
 #import "AppDelegate.h"
 #import "TTTabBarController.h"
 #import "TTConst.h"
+#import "TTNetworkManager.H"
+
 
 @interface AppDelegate ()
 
@@ -22,7 +24,22 @@
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     self.window.rootViewController = [[TTTabBarController alloc] init];
     [self.window makeKeyAndVisible];
+    
+    [self initializeNetRequest];
     return YES;
+}
+
+#pragma mark - netWork request
+- (void)initializeNetRequest {
+    [[TTNetworkManager shareManager] Get:INITIALIZE_URL Parameters:nil Success:^(NSURLSessionDataTask *task, NSDictionary *responseObject) {
+        NSNumber *signalNum = responseObject[@"signal"];
+        if (signalNum.integerValue == 1) {
+            _guid = responseObject[@"data"][@"GUID"];
+        }
+        
+    } Failure:^(NSError *error) {
+        
+    }];
 }
 
 -(void)setupUserDefaults {
