@@ -11,6 +11,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="TTRegisterViewController">
             <connections>
+                <outlet property="_activityIndicatior" destination="qlM-mk-tkM" id="kQg-L7-Gc0"/>
                 <outlet property="_buttonNext" destination="SFh-0H-2XB" id="I1m-fg-cTx"/>
                 <outlet property="_imageViewIdentify" destination="jx0-3L-qZP" id="Umd-x9-2fu"/>
                 <outlet property="_textFieldIdentifyCode" destination="nk9-f1-6y3" id="p6x-gl-s8P"/>
@@ -169,6 +170,9 @@
                                 <action selector="refreshButtonAction:" destination="-1" eventType="touchUpInside" id="klr-PO-q7n"/>
                             </connections>
                         </button>
+                        <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="qlM-mk-tkM">
+                            <rect key="frame" x="274" y="103" width="20" height="20"/>
+                        </activityIndicatorView>
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
@@ -179,6 +183,7 @@
                         <constraint firstItem="dEr-Q0-Wmf" firstAttribute="top" secondItem="RSI-gw-tr6" secondAttribute="top" constant="53" id="GHo-pi-biQ"/>
                         <constraint firstItem="dEr-Q0-Wmf" firstAttribute="leading" secondItem="C8T-zt-9uR" secondAttribute="trailing" constant="10" id="Haf-mU-Ima"/>
                         <constraint firstItem="nk9-f1-6y3" firstAttribute="leading" secondItem="JLU-rX-9lV" secondAttribute="trailing" constant="8" id="NEF-18-b53"/>
+                        <constraint firstItem="qlM-mk-tkM" firstAttribute="centerX" secondItem="jx0-3L-qZP" secondAttribute="centerX" id="PJe-au-0fY"/>
                         <constraint firstItem="jx0-3L-qZP" firstAttribute="top" secondItem="8XQ-Vx-uQZ" secondAttribute="bottom" constant="6" id="Scu-2i-xpo"/>
                         <constraint firstAttribute="bottom" secondItem="dKi-lB-wMA" secondAttribute="bottom" constant="6" id="T5C-nA-yJA"/>
                         <constraint firstAttribute="trailing" secondItem="vYj-7w-NeR" secondAttribute="trailing" constant="18" id="Umg-PZ-O40"/>
@@ -193,6 +198,7 @@
                         <constraint firstItem="xj4-8T-ghJ" firstAttribute="leading" secondItem="Hhl-IK-8nc" secondAttribute="trailing" constant="8" id="aIK-P5-jvy"/>
                         <constraint firstItem="8XQ-Vx-uQZ" firstAttribute="top" secondItem="8az-LA-axt" secondAttribute="bottom" constant="45" id="aJg-oZ-eES"/>
                         <constraint firstItem="8XQ-Vx-uQZ" firstAttribute="leading" secondItem="RSI-gw-tr6" secondAttribute="leading" constant="15" id="aNW-Lj-Nxh"/>
+                        <constraint firstItem="qlM-mk-tkM" firstAttribute="centerY" secondItem="jx0-3L-qZP" secondAttribute="centerY" id="cAf-28-rLd"/>
                         <constraint firstItem="C8T-zt-9uR" firstAttribute="top" secondItem="8az-LA-axt" secondAttribute="bottom" constant="12" id="cg7-qB-4ws"/>
                         <constraint firstAttribute="trailing" secondItem="8XQ-Vx-uQZ" secondAttribute="trailing" id="eNE-WR-rQt"/>
                         <constraint firstItem="DJj-Pq-Ixv" firstAttribute="leading" secondItem="RSI-gw-tr6" secondAttribute="leading" constant="15" id="eim-VD-F0g"/>

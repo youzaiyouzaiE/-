@@ -20,59 +20,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TTNews/Classes/Me/Login/TTRegisterViewController.m"
-            timestampString = "501138512.292302"
+            timestampString = "501142486.964852"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "149"
-            endingLineNumber = "149"
-            landmarkName = "-refreshPictureVerifyCode"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "TTNews/Classes/Me/Login/TTRegisterViewController.m"
-            timestampString = "501138611.785614"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "138"
-            endingLineNumber = "138"
-            landmarkName = "-refreshPictureVerifyCode"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "TTNews/Classes/Me/Login/TTRegisterViewController.m"
-            timestampString = "501138512.292302"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "141"
-            endingLineNumber = "141"
-            landmarkName = "-refreshPictureVerifyCode"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "TTNews/Classes/Me/Login/TTRegisterViewController.m"
-            timestampString = "501138235.753997"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "86"
-            endingLineNumber = "86"
+            startingLineNumber = "88"
+            endingLineNumber = "88"
             landmarkName = "-checkUserNameOrMailUsed"
             landmarkType = "7">
          </BreakpointContent>
@@ -84,13 +36,109 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TTNews/Classes/Me/Login/TTRegisterViewController.m"
-            timestampString = "501138586.530657"
+            timestampString = "501142486.964852"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "132"
-            endingLineNumber = "132"
+            startingLineNumber = "133"
+            endingLineNumber = "133"
             landmarkName = "-refreshPictureVerifyCode"
             landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "TTNews/Classes/Me/Login/TTRegisterViewController.m"
+            timestampString = "501144059.043084"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "140"
+            endingLineNumber = "140"
+            landmarkName = "-refreshPictureVerifyCode"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[TTRegisterViewController refreshPictureVerifyCode]"
+                  moduleName = "TTNews"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/jiahui/Desktop/TTNews/TTNews/Classes/Me/Login/TTRegisterViewController.m"
+                  timestampString = "501144060.20953"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "146"
+                  endingLineNumber = "146"
+                  offsetFromSymbolStart = "256">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__52-[TTRegisterViewController refreshPictureVerifyCode]_block_invoke"
+                  moduleName = "TTNews"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/jiahui/Desktop/TTNews/TTNews/Classes/Me/Login/TTRegisterViewController.m"
+                  timestampString = "501144060.213022"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "146"
+                  endingLineNumber = "146"
+                  offsetFromSymbolStart = "16">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "TTNews/Classes/Me/Login/TTRegisterViewController.m"
+            timestampString = "501144059.043084"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "141"
+            endingLineNumber = "141"
+            landmarkName = "-refreshPictureVerifyCode"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[TTRegisterViewController refreshPictureVerifyCode]"
+                  moduleName = "TTNews"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/jiahui/Desktop/TTNews/TTNews/Classes/Me/Login/TTRegisterViewController.m"
+                  timestampString = "501144060.220318"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "146"
+                  endingLineNumber = "146"
+                  offsetFromSymbolStart = "256">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__52-[TTRegisterViewController refreshPictureVerifyCode]_block_invoke"
+                  moduleName = "TTNews"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/jiahui/Desktop/TTNews/TTNews/Classes/Me/Login/TTRegisterViewController.m"
+                  timestampString = "501144060.223456"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "146"
+                  endingLineNumber = "146"
+                  offsetFromSymbolStart = "16">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

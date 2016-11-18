@@ -13,6 +13,7 @@
 #import "MBProgressHUD.h"
 #import "TTNetworkManager.h"
 #import "NSString+Extension.h"
+#import <SDWebImage/UIImageView+WebCache.h>
 
 @interface TTRegisterViewController () <UITextFieldDelegate>{
     __weak IBOutlet UITextField *_textFieldNickname;
@@ -21,6 +22,7 @@
     __weak IBOutlet UIImageView *_imageViewIdentify;
     __weak IBOutlet UIButton *_buttonNext;
     
+    __weak IBOutlet UIActivityIndicatorView *_activityIndicatior;
     BOOL _isMailPassed;
     
 }
@@ -43,10 +45,10 @@
     _buttonNext.layer.masksToBounds = YES;
     _buttonNext.layer.cornerRadius = 6;
     _buttonNext.backgroundColor = [UIColor colorWithDisplayP3Red:232.f/255.f green:114.f/255.f blue:112.f/255.f alpha:1];
-    
-//    [self initializeNetRequest];
+    _activityIndicatior.hidden = YES;
     if (SHARE_APP.guid) {
         _imageGuid = SHARE_APP.guid;
+        [self refreshPictureVerifyCode];
     }
 }
 
@@ -99,7 +101,6 @@
                 return ;
             }
         }
-        
         NSNumber *signalNum = responseObject[@"signal"];
         _isMailPassed = NO;
         if (signalNum.integerValue == 1) {
@@ -133,21 +134,13 @@
         [self initializeNetRequest];
         return ;
     }
+    _activityIndicatior.hidden = NO;
     NSString *urlStr = [PICTURE_VERIFY_CODE_URL stringByAppendingString:[NSString stringWithFormat:@"?rndUid=%@",_imageGuid]];
-    UIImage *image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:urlStr]]];
-    _imageViewIdentify.image = image;
-//    MBProgressHUD *hud = [self showActivityHud];
-//    [[TTNetworkManager shareManager] Get:PICTURE_VERIFY_CODE_URL Parameters:@{@"rndUid":_imageGuid} Success:^(NSURLSessionDataTask *task, NSDictionary *responseObject) {
-//         [hud hideAnimated:YES];
-//         NSDictionary *errDic = responseObject[@"errors"];
-//        if (errDic) {
-//            [self showMessage:errDic.allValues[0]];
-//        } else{
-//            NSLog(@"%@",responseObject);
-//        }
-//    } Failure:^(NSError *error) {
-//        [hud hideAnimated:YES];
-//    }];
+    [_imageViewIdentify sd_setImageWithURL:[NSURL URLWithString:urlStr] placeholderImage:nil options:SDWebImageCacheMemoryOnly completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+        _activityIndicatior.hidden = YES;
+        _imageViewIdentify.image = image;
+        [[SDImageCache sharedImageCache] clearMemory];
+    }];
 }
 
 #pragma mark - HUD view
