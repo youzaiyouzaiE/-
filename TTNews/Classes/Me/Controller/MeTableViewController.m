@@ -133,7 +133,7 @@ CGFloat const footViewHeight = 30;
 #pragma mark -UITableViewDataSource 返回tableView每一组有多少行
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (section == 0) return 1;
-    return 5;
+    return 6;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
@@ -212,6 +212,8 @@ CGFloat const footViewHeight = 30;
         cell.leftLabel.text = @"反馈";
     } else if(indexPath.row == 4) {
         cell.leftLabel.text = @"关于";
+    } else if(indexPath.row == 5) {
+        cell.leftLabel.text = @"退出";
     }
     return cell;
 }
@@ -242,6 +244,11 @@ CGFloat const footViewHeight = 30;
         [self.navigationController pushViewController:[[SendFeedbackViewController alloc] init] animated:YES];
     } else if (indexPath.section == 1 && indexPath.row == 4) {
         [self.navigationController pushViewController:[[AppInfoViewController alloc] init] animated:YES];
+    }else if (indexPath.section == 1 && indexPath.row == 5) {
+        SHARE_APP.isLogin = NO;
+        [[NSUserDefaults standardUserDefaults] setObject:@"注册/登陆" forKey:UserNameKey];
+        [[NSUserDefaults standardUserDefaults] setObject:@"登陆推荐更精准" forKey:UserSignatureKey];
+        [self.tableView reloadData];
     }
 }
 

@@ -137,14 +137,23 @@
                                          [self showErrorMessageAlertView:errors];
                                      } else {
                                          NSNumber *signalNum = responseObject[@"signal"];
-                                         //            _isMailPassed = NO;
                                          if (signalNum.integerValue == 1) {
-                                             [self showMessage:@"邮箱用户名可用"];
-                                             //                _isMailPassed = YES;
+                                             if (_isForgetPassword) {
+                                                 [self showMessage:@"邮箱/用户不存在"];
+                                             } else
+                                                 [self showMessage:@"邮箱用户名可用"];
                                          } else if (signalNum.integerValue == 100090){
-                                             [self showMessage:@"电子邮件被占用"];
+                                             if (_isForgetPassword) {
+                                                  NSLog(@"邮箱已存在");
+//                                                 [self showMessage:@"邮箱已存在"];
+                                             } else
+                                                 [self showMessage:@"电子邮件被占用"];
                                          } else if (signalNum.integerValue == 2170){
-                                             [self showMessage:@"昵称被占用"];
+                                             if (_isForgetPassword) {
+                                                 NSLog(@"昵称已存在");
+//                                                 [self showMessage:@"昵称已存在"];
+                                             } else
+                                                 [self showMessage:@"昵称被占用"];
                                          } else if (signalNum.integerValue == 1){
                                              [self showMessage:responseObject[@"msg"]];
                                          }
