@@ -10,7 +10,6 @@
 
 @interface TTRegisterViewController : UIViewController
 
-
 @property (nonatomic, assign) BOOL isForgetPassword;
 
 @end

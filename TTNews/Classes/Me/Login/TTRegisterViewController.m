@@ -27,7 +27,7 @@
     __weak IBOutlet UIActivityIndicatorView *_activityIndicatior;
     
     BOOL _isCheckingMail;////正在校验邮件地址
-    BOOL _isMailPassed;
+//    BOOL _isMailPassed;
     BOOL _isSendingEmail;//
     
 }
@@ -128,29 +128,32 @@
 #pragma mark - NET WORKER 
 - (void)checkUserNameOrMailUsed {
     _isCheckingMail = YES;
-    [[TTNetworkManager shareManager] Get:CHECK_EMAIL_URL Parameters:@{@"email":_textFieldMailAddress.text, @"username":_textFieldNickname.text} Success:^(NSURLSessionDataTask *task, NSDictionary *responseObject) {
-        _isCheckingMail = NO;
-        id errors = responseObject[@"errors"];
-        if (![errors isEmptyObj]) {
-            [self showErrorMessageAlertView:errors];
-        } else {
-            NSNumber *signalNum = responseObject[@"signal"];
-            _isMailPassed = NO;
-            if (signalNum.integerValue == 1) {
-                [self showMessage:@"邮箱用户名可用"];
-                _isMailPassed = YES;
-            } else if (signalNum.integerValue == 100090){
-                [self showMessage:@"电子邮件被占用"];
-            } else if (signalNum.integerValue == 2170){
-                [self showMessage:@"昵称被占用"];
-            } else if (signalNum.integerValue == 1){
-                [self showMessage:responseObject[@"msg"]];
-            }
-        }
-    } Failure:^(NSError *error) {
-         _isMailPassed = NO;
-        _isCheckingMail = NO;
-    }];
+    [[TTNetworkManager shareManager] Get:CHECK_EMAIL_URL
+                              Parameters:@{@"email":_textFieldMailAddress.text, @"username":_textFieldNickname.text}
+                                 Success:^(NSURLSessionDataTask *task, NSDictionary *responseObject) {
+                                     _isCheckingMail = NO;
+                                     id errors = responseObject[@"errors"];
+                                     if (![errors isEmptyObj]) {
+                                         [self showErrorMessageAlertView:errors];
+                                     } else {
+                                         NSNumber *signalNum = responseObject[@"signal"];
+                                         //            _isMailPassed = NO;
+                                         if (signalNum.integerValue == 1) {
+                                             [self showMessage:@"邮箱用户名可用"];
+                                             //                _isMailPassed = YES;
+                                         } else if (signalNum.integerValue == 100090){
+                                             [self showMessage:@"电子邮件被占用"];
+                                         } else if (signalNum.integerValue == 2170){
+                                             [self showMessage:@"昵称被占用"];
+                                         } else if (signalNum.integerValue == 1){
+                                             [self showMessage:responseObject[@"msg"]];
+                                         }
+                                     }
+                                 }
+                                 Failure:^(NSError *error) {
+                                     //         _isMailPassed = NO;
+                                     _isCheckingMail = NO;
+                                 }];
 }
 
 - (void)initializeNetRequest {
@@ -214,6 +217,7 @@
                                  }
                                  Failure:^(NSError *error) {
                                      [hud hideAnimated:YES];
+                                     [self showMessage:[NSString stringWithFormat:@"请求出错! %@",error.localizedDescription]];
                                  }];
 }
 
@@ -227,7 +231,7 @@
                               cancelButtonTitle:@"知道了"
                               otherButtonTitles:nil, nil]
              show];
-            _isMailPassed = NO;
+//            _isMailPassed = NO;
             return ;
         }
     } else if ([errors isKindOfClass:[NSArray class]]) {
@@ -239,7 +243,7 @@
                               cancelButtonTitle:@"知道了"
                               otherButtonTitles:nil, nil]
              show];
-            _isMailPassed = NO;
+//            _isMailPassed = NO;
             return ;
         }
     }

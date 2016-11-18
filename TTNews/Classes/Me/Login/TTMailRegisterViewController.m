@@ -8,10 +8,15 @@
 
 #import "TTMailRegisterViewController.h"
 #import "MBProgressHUD.h"
+#import "TTNetworkManager.h"
+#import "NSObject+Extension.h"
 
-@interface TTMailRegisterViewController () {
-    
+@interface TTMailRegisterViewController ()<UITextFieldDelegate> {
     __weak IBOutlet UIButton *_buttonRegister;
+    __weak IBOutlet UITextField *_textFieldPassword;
+    __weak IBOutlet UITextField *_textFieldAgain;
+    __weak IBOutlet UITextField *_textFieldMailCode;
+    
 }
 
 @end
@@ -38,11 +43,111 @@
     // Dispose of any resources that can be recreated.
 }
 
+#pragma mark - UITextFieldDelegate
+- (void)textFieldDidEndEditing:(UITextField *)textField {
+    if (textField == _textFieldPassword) {
+        if (textField.text.length <6) {
+            [self showMessage:@"密码至少需6个字符"];
+            return ;
+        }
+    }
+}
+
+#pragma mark - Action Perform
+- (IBAction)registerAction:(UIButton *)sender {
+    if (_textFieldPassword.text.length < 1) {
+        [_textFieldPassword becomeFirstResponder];
+        return ;
+    }
+    if (_textFieldAgain.text.length < 1) {
+        [_textFieldAgain becomeFirstResponder];
+        return ;
+    }
+    if (_textFieldMailCode.text.length < 1) {
+        [_textFieldMailCode becomeFirstResponder];
+        return ;
+    }
+    if ([self checkInformationAvailability]) {
+        [self registerNetRequest];
+    }
+}
+
+
+- (BOOL)checkInformationAvailability {
+    if (![_textFieldPassword.text isEqualToString:_textFieldAgain.text]) {
+        [self showMessage:@"密码输入不一致!"];
+        return NO;
+    }
+    if (_textFieldMailCode.text.length < 6) {
+        [self showMessage:@"邮件验证码不正确!"];
+        return NO;
+    }
+    return YES;
+}
+
+#pragma mark - NET WORKER
+- (void)registerNetRequest{
+    MBProgressHUD *hud = [self showActivityHud];
+    [[TTNetworkManager shareManager] Get:REGISTER_URL
+                              Parameters:@{@"email":_mailStr, @"emailVerifyCode":_textFieldMailCode.text,@"username":_nickNameStr, @"password":_textFieldPassword.text}
+                                 Success:^(NSURLSessionDataTask *task, NSDictionary *responseObject) {
+                                     [hud hideAnimated:YES];
+                                     id errors = responseObject[@"errors"];
+                                     if (![errors isEmptyObj]) {
+                                         [self showErrorMessageAlertView:errors];
+                                     } else {
+                                         NSNumber *signalNum = responseObject[@"signal"];
+                                         if (signalNum.integerValue == 1) {
+                                             if (_isForgetPassword) {
+                                                  [self showMessage:@"修改成功!"];
+                                             } else {
+                                                 [self showMessage:@"注册成功!"];
+                                             }
+                                             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                                                  [self.navigationController popToViewController:self.navigationController.viewControllers[1] animated:YES];
+                                             });
+                                         } else {
+                                             [self showMessage:responseObject[@"msg"]];
+                                         }
+                                     }
+                                 }
+                                 Failure:^(NSError *error) {
+                                    [hud hideAnimated:YES];
+                                    [self showMessage:error.description];
+                                 }];
+}
+
+#pragma mark - alertView
+- (void)showErrorMessageAlertView:(id)errors {
+    if ([errors isKindOfClass:[NSDictionary class]]) {
+        NSDictionary *errDic = errors;
+        if (errDic.allValues.count > 0) {
+            [[[UIAlertView alloc] initWithTitle:@"提示"
+                                        message:errDic.allValues.firstObject
+                                       delegate:nil
+                              cancelButtonTitle:@"知道了"
+                              otherButtonTitles:nil, nil]
+             show];
+            return ;
+        }
+    } else if ([errors isKindOfClass:[NSArray class]]) {
+        NSArray *errArr = errors;
+        if (errArr.count > 0) {
+            [[[UIAlertView alloc] initWithTitle:@"提示"
+                                        message:errArr.firstObject
+                                       delegate:nil
+                              cancelButtonTitle:@"知道了"
+                              otherButtonTitles:nil, nil]
+             show];
+            return ;
+        }
+    }
+}
 
 #pragma mark - HUD view
-- (void)showMessageToView:(UIView *)view message:(NSString *)message
+- (void)showMessage:(NSString *)message
 {
-    [self showMessageToView:view message:message autoHide:YES];
+    [self showMessageToView:self.view message:message autoHide:YES];
 }
 
 - (MBProgressHUD *)showMessageToView:(UIView *)view message:(NSString *)message autoHide:(BOOL)autoHide

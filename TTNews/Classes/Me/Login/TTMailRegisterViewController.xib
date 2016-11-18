@@ -12,6 +12,9 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="TTMailRegisterViewController">
             <connections>
                 <outlet property="_buttonRegister" destination="iek-Vb-VQt" id="ic2-3C-ofm"/>
+                <outlet property="_textFieldAgain" destination="ZeQ-uu-2yb" id="NWX-1N-hzY"/>
+                <outlet property="_textFieldMailCode" destination="7zf-Ua-xbk" id="WdK-B5-PYn"/>
+                <outlet property="_textFieldPassword" destination="22a-ng-h9a" id="MiA-Jy-dMW"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -112,22 +115,25 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="再次输入密码" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ZeQ-uu-2yb">
-                            <rect key="frame" x="86" y="53" width="243" height="30"/>
+                            <rect key="frame" x="86" y="53" width="281" height="30"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="30" id="jCd-Qy-SEp"/>
                             </constraints>
                             <nil key="textColor"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                            <textInputTraits key="textInputTraits"/>
+                            <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
                         </textField>
                         <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="请输入密码" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="22a-ng-h9a">
-                            <rect key="frame" x="86" y="7" width="225" height="30"/>
+                            <rect key="frame" x="86" y="7" width="281" height="30"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="30" id="UBD-xa-dzd"/>
                             </constraints>
                             <nil key="textColor"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                            <textInputTraits key="textInputTraits"/>
+                            <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
+                            <connections>
+                                <outlet property="delegate" destination="-1" id="BKM-pK-qUJ"/>
+                            </connections>
                         </textField>
                         <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="请输入邮件里验证码" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="7zf-Ua-xbk">
                             <rect key="frame" x="86" y="99" width="243" height="30"/>
@@ -147,7 +153,7 @@
                         <constraint firstItem="22a-ng-h9a" firstAttribute="leading" secondItem="RIq-FP-eWK" secondAttribute="trailing" constant="8" id="8E0-q0-Rzp"/>
                         <constraint firstItem="RIq-FP-eWK" firstAttribute="leading" secondItem="1mx-fJ-PhG" secondAttribute="trailing" constant="10" id="AIh-pK-uah"/>
                         <constraint firstItem="7zf-Ua-xbk" firstAttribute="leading" secondItem="5Ia-1r-eqN" secondAttribute="trailing" constant="8" id="DPN-63-yXC"/>
-                        <constraint firstAttribute="trailing" secondItem="ZeQ-uu-2yb" secondAttribute="trailing" constant="46" id="FHy-eC-h20"/>
+                        <constraint firstAttribute="trailing" secondItem="ZeQ-uu-2yb" secondAttribute="trailing" constant="8" id="FHy-eC-h20"/>
                         <constraint firstItem="1mx-fJ-PhG" firstAttribute="leading" secondItem="Woy-Ja-Aex" secondAttribute="leading" constant="15" id="IfB-LU-h6f"/>
                         <constraint firstItem="RIq-FP-eWK" firstAttribute="top" secondItem="Woy-Ja-Aex" secondAttribute="top" constant="7" id="Ivc-k3-C8w"/>
                         <constraint firstItem="22a-ng-h9a" firstAttribute="top" secondItem="Woy-Ja-Aex" secondAttribute="top" constant="7" id="Jzc-aW-zvb"/>
@@ -155,7 +161,7 @@
                         <constraint firstAttribute="height" constant="137" id="LQA-OG-pbQ"/>
                         <constraint firstItem="9H0-a0-9nc" firstAttribute="top" secondItem="Woy-Ja-Aex" secondAttribute="top" constant="91" id="P0w-18-e6y"/>
                         <constraint firstItem="9H0-a0-9nc" firstAttribute="leading" secondItem="Woy-Ja-Aex" secondAttribute="leading" constant="15" id="QMd-Or-Eju"/>
-                        <constraint firstAttribute="trailing" secondItem="22a-ng-h9a" secondAttribute="trailing" constant="64" id="VBH-F6-88E"/>
+                        <constraint firstAttribute="trailing" secondItem="22a-ng-h9a" secondAttribute="trailing" constant="8" id="VBH-F6-88E"/>
                         <constraint firstItem="eXj-Np-RWT" firstAttribute="leading" secondItem="Woy-Ja-Aex" secondAttribute="leading" constant="15" id="Xax-Th-acm"/>
                         <constraint firstItem="1mx-fJ-PhG" firstAttribute="top" secondItem="Woy-Ja-Aex" secondAttribute="top" constant="12" id="Xji-p0-tgj"/>
                         <constraint firstItem="NTx-3A-4xk" firstAttribute="top" secondItem="9H0-a0-9nc" secondAttribute="bottom" constant="12" id="bCr-oT-Kz6"/>
@@ -181,6 +187,9 @@
                     <state key="normal" title="注  册">
                         <color key="titleColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </state>
+                    <connections>
+                        <action selector="registerAction:" destination="-1" eventType="touchUpInside" id="wWd-Rg-dFe"/>
+                    </connections>
                 </button>
             </subviews>
             <color key="backgroundColor" red="0.91755868890000003" green="0.92746032629999997" blue="0.92835637319999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
