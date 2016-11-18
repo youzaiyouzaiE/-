@@ -70,7 +70,7 @@
 #pragma mark - UITextFieldDelegate
 - (void)textFieldDidEndEditing:(UITextField *)textField {
     if (textField == _textFieldMailAddress && _textFieldNickname.text.length > 1) {
-        if (![_textFieldMailAddress.text isValidateEmail]) {
+        if (![_textFieldMailAddress.text isValidateEmail] && _textFieldMailAddress.text.length >1) {
             [self showMessage:@"邮箱用户名格式不正确"];
             return ;
         }
@@ -83,23 +83,34 @@
 #pragma mark - NET WORKER 
 - (void)checkUserNameOrMailUsed {
     [[TTNetworkManager shareManager] Get:CHECK_EMAIL_URL Parameters:@{@"email":_textFieldMailAddress.text, @"username":_textFieldNickname.text} Success:^(NSURLSessionDataTask *task, NSDictionary *responseObject) {
-        NSDictionary *errDic = responseObject[@"errors"];
-        if (errDic) {
-            [self showMessage:errDic.allValues[0]];
-             _isMailPassed = NO;
-        } else {
-            NSNumber *signalNum = responseObject[@"signal"];
-             _isMailPassed = NO;
-            if (signalNum.integerValue == 1) {
-                [self showMessage:@"邮箱用户名可用"];
-                _isMailPassed = YES;
-            } else if (signalNum.integerValue == 100090){
-                [self showMessage:@"电子邮件被占用"];
-            } else if (signalNum.integerValue == 2170){
-                [self showMessage:@"昵称被占用"];
-            }else if (signalNum.integerValue == 1){
-                [self showMessage:responseObject[@"msg"]];
+        id errors = responseObject[@"errors"];
+        if ([errors isKindOfClass:[NSDictionary class]]) {
+            NSDictionary *errDic = errors;
+            if (errDic.allValues.count > 0) {
+                [self showMessage:errDic.allValues.firstObject];
+                _isMailPassed = NO;
+                 return ;
             }
+        } else if ([errors isKindOfClass:[NSArray class]]) {
+            NSArray *errArr = errors;
+            if (errArr.count > 0) {
+                  [self showMessage:errArr.firstObject];
+                _isMailPassed = NO;
+                return ;
+            }
+        }
+        
+        NSNumber *signalNum = responseObject[@"signal"];
+        _isMailPassed = NO;
+        if (signalNum.integerValue == 1) {
+            [self showMessage:@"邮箱用户名可用"];
+            _isMailPassed = YES;
+        } else if (signalNum.integerValue == 100090){
+            [self showMessage:@"电子邮件被占用"];
+        } else if (signalNum.integerValue == 2170){
+            [self showMessage:@"昵称被占用"];
+        }else if (signalNum.integerValue == 1){
+            [self showMessage:responseObject[@"msg"]];
         }
     } Failure:^(NSError *error) {
          _isMailPassed = NO;
@@ -122,18 +133,21 @@
         [self initializeNetRequest];
         return ;
     }
-    MBProgressHUD *hud = [self showActivityHud];
-    [[TTNetworkManager shareManager] Get:PICTURE_VERIFY_CODE_URL Parameters:@{@"rndUid":_imageGuid} Success:^(NSURLSessionDataTask *task, NSDictionary *responseObject) {
-         [hud hideAnimated:YES];
-         NSDictionary *errDic = responseObject[@"errors"];
-        if (errDic) {
-            [self showMessage:errDic.allValues[0]];
-        } else{
-            NSLog(@"%@",responseObject);
-        }
-    } Failure:^(NSError *error) {
-        [hud hideAnimated:YES];
-    }];
+    NSString *urlStr = [PICTURE_VERIFY_CODE_URL stringByAppendingString:[NSString stringWithFormat:@"?rndUid=%@",_imageGuid]];
+    UIImage *image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:urlStr]]];
+    _imageViewIdentify.image = image;
+//    MBProgressHUD *hud = [self showActivityHud];
+//    [[TTNetworkManager shareManager] Get:PICTURE_VERIFY_CODE_URL Parameters:@{@"rndUid":_imageGuid} Success:^(NSURLSessionDataTask *task, NSDictionary *responseObject) {
+//         [hud hideAnimated:YES];
+//         NSDictionary *errDic = responseObject[@"errors"];
+//        if (errDic) {
+//            [self showMessage:errDic.allValues[0]];
+//        } else{
+//            NSLog(@"%@",responseObject);
+//        }
+//    } Failure:^(NSError *error) {
+//        [hud hideAnimated:YES];
+//    }];
 }
 
 #pragma mark - HUD view
