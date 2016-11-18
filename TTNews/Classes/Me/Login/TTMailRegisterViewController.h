@@ -12,4 +12,7 @@
 
 @property (nonatomic, assign) BOOL isForgetPassword;
 
+@property (nonatomic, copy) NSString *mailStr;
+@property (nonatomic, copy) NSString *nickNameStr;
+
 @end

@@ -11,6 +11,7 @@
 		5E2DDD507AFC5A2FC706C802 /* libPods-TTNews.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C4C26A241D42CCF389274A89 /* libPods-TTNews.a */; };
 		7D4937D66844CF5F5FCBDB08 /* libPods-TTNewsTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8BA86FD4B9FFE3FDD3FFE7EA /* libPods-TTNewsTests.a */; };
 		DA2F26D41DDE9C30002BD87B /* NSString+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = DA2F26D31DDE9C30002BD87B /* NSString+Extension.m */; };
+		DA2F26D71DDEF196002BD87B /* NSObject+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = DA2F26D61DDEF196002BD87B /* NSObject+Extension.m */; };
 		DA5485DA1DDC901000B65E38 /* TTRegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DA5485D81DDC901000B65E38 /* TTRegisterViewController.m */; };
 		DA5485DB1DDC901000B65E38 /* TTRegisterViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA5485D91DDC901000B65E38 /* TTRegisterViewController.xib */; };
 		DA5485DF1DDC905600B65E38 /* TTFindPasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DA5485DD1DDC905600B65E38 /* TTFindPasswordViewController.m */; };
@@ -137,6 +138,8 @@
 		DA2F26D01DDDE495002BD87B /* TTDefines.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TTDefines.h; sourceTree = "<group>"; };
 		DA2F26D21DDE9C30002BD87B /* NSString+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Extension.h"; sourceTree = "<group>"; };
 		DA2F26D31DDE9C30002BD87B /* NSString+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Extension.m"; sourceTree = "<group>"; };
+		DA2F26D51DDEF196002BD87B /* NSObject+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+Extension.h"; sourceTree = "<group>"; };
+		DA2F26D61DDEF196002BD87B /* NSObject+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+Extension.m"; sourceTree = "<group>"; };
 		DA5485D71DDC901000B65E38 /* TTRegisterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTRegisterViewController.h; sourceTree = "<group>"; };
 		DA5485D81DDC901000B65E38 /* TTRegisterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTRegisterViewController.m; sourceTree = "<group>"; };
 		DA5485D91DDC901000B65E38 /* TTRegisterViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TTRegisterViewController.xib; sourceTree = "<group>"; };
@@ -562,6 +565,8 @@
 				EE79B0C31CC8C435001029EF /* UIView+Extension.m */,
 				DA2F26D21DDE9C30002BD87B /* NSString+Extension.h */,
 				DA2F26D31DDE9C30002BD87B /* NSString+Extension.m */,
+				DA2F26D51DDEF196002BD87B /* NSObject+Extension.h */,
+				DA2F26D61DDEF196002BD87B /* NSObject+Extension.m */,
 			);
 			path = Category;
 			sourceTree = "<group>";
@@ -1066,6 +1071,7 @@
 				DA2F26D41DDE9C30002BD87B /* NSString+Extension.m in Sources */,
 				47AEC1F21DD853C3009BF036 /* TWNewsEntity.m in Sources */,
 				DA8F118C1DDBF01D00FA7D06 /* TTLoginViewController.m in Sources */,
+				DA2F26D71DDEF196002BD87B /* NSObject+Extension.m in Sources */,
 				EE8A19381D5B04C800BAE119 /* SwitchCell.m in Sources */,
 				EE79B12E1CC8C435001029EF /* TTNavigationController.m in Sources */,
 				EE79B1301CC8C435001029EF /* Reachability.m in Sources */,

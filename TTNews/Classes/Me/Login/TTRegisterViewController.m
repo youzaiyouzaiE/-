@@ -14,6 +14,8 @@
 #import "TTNetworkManager.h"
 #import "NSString+Extension.h"
 #import <SDWebImage/UIImageView+WebCache.h>
+#import "NSObject+Extension.h"
+
 
 @interface TTRegisterViewController () <UITextFieldDelegate>{
     __weak IBOutlet UITextField *_textFieldNickname;
@@ -23,7 +25,10 @@
     __weak IBOutlet UIButton *_buttonNext;
     
     __weak IBOutlet UIActivityIndicatorView *_activityIndicatior;
+    
+    BOOL _isCheckingMail;////正在校验邮件地址
     BOOL _isMailPassed;
+    BOOL _isSendingEmail;//
     
 }
 
@@ -52,11 +57,15 @@
     }
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+     _activityIndicatior.hidden = YES;
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
 
 #pragma mark - action perform
 - (IBAction)refreshButtonAction:(UIButton *)sender {
@@ -64,57 +73,83 @@
 }
 
 - (IBAction)nextButtonAction:(UIButton *)sender {
-    TTMailRegisterViewController *registerVC = [[TTMailRegisterViewController alloc] init];
-    registerVC.isForgetPassword = _isForgetPassword;
-    [self.navigationController pushViewController:registerVC animated:YES];
+    if ([self checkInputAvailability]) {
+          [self sendEmailRequest];
+    }
+}
+
+- (BOOL)checkInputAvailability {
+    if (_textFieldNickname.text.length < 1) {
+        [_textFieldNickname becomeFirstResponder];
+        return NO;
+    }
+    if (_textFieldMailAddress.text.length < 1) {
+        [_textFieldMailAddress becomeFirstResponder];
+        return NO;
+    }
+    if (_textFieldIdentifyCode.text.length < 4) {
+        [_textFieldIdentifyCode becomeFirstResponder];
+        [self showMessage:@"请输入正确的检证码"];
+        return NO;
+    }
+    if (![_textFieldMailAddress.text isValidateEmail]) {
+        [self showMessage:@"邮箱格式不正确"];
+        return NO;
+    }
+    
+    return YES;
 }
 
 #pragma mark - UITextFieldDelegate
 - (void)textFieldDidEndEditing:(UITextField *)textField {
     if (textField == _textFieldMailAddress && _textFieldNickname.text.length > 1) {
-        if (![_textFieldMailAddress.text isValidateEmail] && _textFieldMailAddress.text.length >1) {
-            [self showMessage:@"邮箱用户名格式不正确"];
-            return ;
+        if (![_textFieldMailAddress.text isValidateEmail] && _textFieldMailAddress.text.length > 1) {
+            [self showMessage:@"邮箱格式不正确"];
+            return;
         }
-        [self checkUserNameOrMailUsed];
-    } else if (textField == _textFieldNickname && _textFieldMailAddress.text.length >1 ) {
-        [self checkUserNameOrMailUsed];
+        if (!_isCheckingMail) {
+              [self checkUserNameOrMailUsed];
+        }
+    } else if (textField == _textFieldNickname && _textFieldMailAddress.text.length > 1 ) {
+        if (textField.text.length < 6) {
+             [self showMessage:@"昵称至少6个字符"];
+        }
+        if (!_isCheckingMail && ![_textFieldMailAddress.text isValidateEmail]) {
+            [self checkUserNameOrMailUsed];
+        }
     }
+}
+
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+    
+    return YES;
 }
 
 #pragma mark - NET WORKER 
 - (void)checkUserNameOrMailUsed {
+    _isCheckingMail = YES;
     [[TTNetworkManager shareManager] Get:CHECK_EMAIL_URL Parameters:@{@"email":_textFieldMailAddress.text, @"username":_textFieldNickname.text} Success:^(NSURLSessionDataTask *task, NSDictionary *responseObject) {
+        _isCheckingMail = NO;
         id errors = responseObject[@"errors"];
-        if ([errors isKindOfClass:[NSDictionary class]]) {
-            NSDictionary *errDic = errors;
-            if (errDic.allValues.count > 0) {
-                [self showMessage:errDic.allValues.firstObject];
-                _isMailPassed = NO;
-                 return ;
+        if (![errors isEmptyObj]) {
+            [self showErrorMessageAlertView:errors];
+        } else {
+            NSNumber *signalNum = responseObject[@"signal"];
+            _isMailPassed = NO;
+            if (signalNum.integerValue == 1) {
+                [self showMessage:@"邮箱用户名可用"];
+                _isMailPassed = YES;
+            } else if (signalNum.integerValue == 100090){
+                [self showMessage:@"电子邮件被占用"];
+            } else if (signalNum.integerValue == 2170){
+                [self showMessage:@"昵称被占用"];
+            } else if (signalNum.integerValue == 1){
+                [self showMessage:responseObject[@"msg"]];
             }
-        } else if ([errors isKindOfClass:[NSArray class]]) {
-            NSArray *errArr = errors;
-            if (errArr.count > 0) {
-                  [self showMessage:errArr.firstObject];
-                _isMailPassed = NO;
-                return ;
-            }
-        }
-        NSNumber *signalNum = responseObject[@"signal"];
-        _isMailPassed = NO;
-        if (signalNum.integerValue == 1) {
-            [self showMessage:@"邮箱用户名可用"];
-            _isMailPassed = YES;
-        } else if (signalNum.integerValue == 100090){
-            [self showMessage:@"电子邮件被占用"];
-        } else if (signalNum.integerValue == 2170){
-            [self showMessage:@"昵称被占用"];
-        }else if (signalNum.integerValue == 1){
-            [self showMessage:responseObject[@"msg"]];
         }
     } Failure:^(NSError *error) {
          _isMailPassed = NO;
+        _isCheckingMail = NO;
     }];
 }
 
@@ -123,6 +158,7 @@
         NSNumber *signalNum = responseObject[@"signal"];
         if (signalNum.integerValue == 1) {
             _imageGuid = responseObject[@"data"][@"GUID"];
+            SHARE_APP.guid = _imageGuid;
         }
     } Failure:^(NSError *error) {
         
@@ -141,6 +177,72 @@
         _imageViewIdentify.image = image;
         [[SDImageCache sharedImageCache] clearMemory];
     }];
+}
+
+- (void)sendEmailRequest {
+    MBProgressHUD *hud = [self showActivityHud];
+    [[TTNetworkManager shareManager] Get:SEND_EMAIL_URL
+                              Parameters:@{@"email":_textFieldMailAddress.text, @"username":_textFieldNickname.text, @"rndUid":_imageGuid, @"picVerifyCode":_textFieldIdentifyCode.text}
+                                 Success:^(NSURLSessionDataTask *task, NSDictionary *responseObject) {
+                                     [hud hideAnimated:YES];
+                                     id errors = responseObject[@"errors"];
+                                     if (![errors isEmptyObj]) {
+                                         [self showErrorMessageAlertView:errors];
+                                     } else {
+                                         NSNumber *signalNum = responseObject[@"signal"];
+                                         if (signalNum.integerValue == 1) {
+                                             [self showMessage:@"邮件发送成功"];
+                                             TTMailRegisterViewController *mailRequesVC = [[TTMailRegisterViewController alloc] init];
+                                             mailRequesVC.mailStr = _textFieldMailAddress.text;
+                                             mailRequesVC.nickNameStr = _textFieldNickname.text;
+                                             mailRequesVC.isForgetPassword = _isForgetPassword;
+                                             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                                                   [self.navigationController pushViewController:mailRequesVC animated:YES];
+                                             });
+                                             return ;
+                                         } else if (signalNum.integerValue == 103){
+                                             [self showMessage:@"邮件发送中"];
+                                         } else if (signalNum.integerValue == 6086){
+                                             [[[UIAlertView alloc] initWithTitle:@"提示"
+                                                                         message:@"邮件发送次数已经达到上限"
+                                                                        delegate:nil
+                                                               cancelButtonTitle:@"知道了"
+                                                               otherButtonTitles:nil, nil]
+                                              show];
+                                         }
+                                     }
+                                 }
+                                 Failure:^(NSError *error) {
+                                     [hud hideAnimated:YES];
+                                 }];
+}
+
+- (void)showErrorMessageAlertView:(id)errors {
+    if ([errors isKindOfClass:[NSDictionary class]]) {
+        NSDictionary *errDic = errors;
+        if (errDic.allValues.count > 0) {
+            [[[UIAlertView alloc] initWithTitle:@"提示"
+                                        message:errDic.allValues.firstObject
+                                       delegate:nil
+                              cancelButtonTitle:@"知道了"
+                              otherButtonTitles:nil, nil]
+             show];
+            _isMailPassed = NO;
+            return ;
+        }
+    } else if ([errors isKindOfClass:[NSArray class]]) {
+        NSArray *errArr = errors;
+        if (errArr.count > 0) {
+            [[[UIAlertView alloc] initWithTitle:@"提示"
+                                        message:errArr.firstObject
+                                       delegate:nil
+                              cancelButtonTitle:@"知道了"
+                              otherButtonTitles:nil, nil]
+             show];
+            _isMailPassed = NO;
+            return ;
+        }
+    }
 }
 
 #pragma mark - HUD view

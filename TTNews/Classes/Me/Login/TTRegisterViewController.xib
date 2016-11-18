@@ -222,7 +222,7 @@
                     </constraints>
                     <state key="normal">
                         <attributedString key="attributedTitle">
-                            <fragment content="下一步">
+                            <fragment content="发送邮件验证码">
                                 <attributes>
                                     <color key="NSColor" red="0.94489829020000005" green="0.94489829020000005" blue="0.94489829020000005" alpha="1" colorSpace="calibratedRGB"/>
                                     <font key="NSFont" size="18" name="SimHei"/>
