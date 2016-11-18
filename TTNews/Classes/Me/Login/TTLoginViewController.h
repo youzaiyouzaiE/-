@@ -8,6 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
+typedef void(^loginSuccessBlock)(NSNumber *, NSString *);
+
 @interface TTLoginViewController : UIViewController
+
+@property (nonatomic, copy) loginSuccessBlock loginBlock;
 
 @end

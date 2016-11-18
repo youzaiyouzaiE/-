@@ -23,13 +23,24 @@
 #import "DisclosureCell.h"
 #import "TTLoginViewController.h"
 #import "AppDelegate.h"
+#import "TTNetworkManager.h"
+#import "MBProgressHUD.h"
+#import "NSObject+Extension.h"
+
 
 static NSString *const UserInfoCellIdentifier = @"UserInfoCell";
 static NSString *const SwitchCellIdentifier = @"SwitchCell";
 static NSString *const TwoLabelCellIdentifier = @"TwoLabelCell";
 static NSString *const DisclosureCellIdentifier = @"DisclosureCell";
 
-@interface MeTableViewController ()
+@interface MeTableViewController () {
+    BOOL _isLoginSuccess;
+    NSNumber *_uid;
+    NSString *_token;
+    
+    NSString *_nickName;
+    NSString *_signature;
+}
 
 @property (nonatomic, copy) NSString *userName;
 @property (nonatomic, weak) UISwitch *shakeCanChangeSkinSwitch;
@@ -53,7 +64,9 @@ CGFloat const footViewHeight = 30;
 
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    
+    if (_isLoginSuccess) {
+        [self userInfoRequest];
+    }
 }
 
 -(void)viewWillDisappear:(BOOL)animated {
@@ -71,9 +84,6 @@ CGFloat const footViewHeight = 30;
     [self.tableView registerClass:[SwitchCell class] forCellReuseIdentifier:SwitchCellIdentifier];
     [self.tableView registerClass:[TwoLabelCell class] forCellReuseIdentifier:TwoLabelCellIdentifier];
     [self.tableView registerClass:[DisclosureCell class] forCellReuseIdentifier:DisclosureCellIdentifier];
-
-    
-
 }
 
 -(void)caculateCacheSize {
@@ -82,6 +92,35 @@ CGFloat const footViewHeight = 30;
 //    NSFileManager *fileManager = [NSFileManager defaultManager];
 //    float sqliteCache = [fileManager attributesOfItemAtPath:path error:nil].fileSize/1024.0/1024.0;
     self.cacheSize = imageCache;
+}
+
+- (void)userInfoRequest {
+    MBProgressHUD *hud = [self showActivityHud];
+    [[TTNetworkManager shareManager] Get:USER_INFO_URL
+                              Parameters:@{@"uid":_uid, @"token":_token}
+                                 Success:^(NSURLSessionDataTask *task, NSDictionary *responseObject) {
+                                     [hud hideAnimated:YES];
+                                     id errors = responseObject[@"errors"];
+                                     if (errors != nil) {
+                                         [self showErrorMessageAlertView:errors];
+                                     } else {
+                                         NSNumber *signalNum = responseObject[@"signal"];
+                                         if (signalNum.integerValue == 1) {
+                                             _nickName = responseObject[@"data"][@"nickname"];
+                                             _signature = responseObject[@"data"][@"signature"];
+                                             [[NSUserDefaults standardUserDefaults] setObject:_nickName forKey:UserNameKey];
+                                             [[NSUserDefaults standardUserDefaults] setObject:_signature forKey:UserSignatureKey];
+                                             [self.tableView reloadData];
+                                         } else {
+                                             [self showMessage:responseObject[@"msg"]];
+                                         }
+                                     }
+                                     _isLoginSuccess = NO;
+                                 }
+                                 Failure:^(NSError *error) {
+                                     [hud hideAnimated:YES];
+                                     [self showMessage:@"获取用户信息失败!"];
+                                 }];
 }
 
 #pragma mark - Table view data source
@@ -182,8 +221,16 @@ CGFloat const footViewHeight = 30;
         AppDelegate *appDelegat = (AppDelegate *)[UIApplication sharedApplication].delegate;
         if (appDelegat.isLogin) {
             [self.navigationController pushViewController:[[EditUserInfoViewController alloc] init] animated:YES];
-        } else
-            [self.navigationController pushViewController:[[TTLoginViewController alloc] init] animated:YES];
+        } else {
+            TTLoginViewController *loginVC = [[TTLoginViewController alloc] init];
+            loginVC.loginBlock = ^(NSNumber *uid, NSString *token) {
+                _uid = uid;
+                _token = token;
+                _isLoginSuccess = YES;
+                appDelegat.isLogin = YES;
+            };
+            [self.navigationController pushViewController:loginVC animated:YES];
+        }
     } else if (indexPath.section == 1 && indexPath.row ==2) {
         [SVProgressHUD show];
         [TTDataTool deletePartOfCacheInSqlite];
@@ -222,6 +269,65 @@ CGFloat const footViewHeight = 30;
 
 -(void)didReceiveMemoryWarning {
     [[SDImageCache sharedImageCache] clearDisk];
-    
 }
+
+#pragma mark - alertView
+- (void)showErrorMessageAlertView:(id)errors {
+    if ([errors isKindOfClass:[NSDictionary class]]) {
+        NSDictionary *errDic = errors;
+        if (errDic.allValues.count > 0) {
+            [[[UIAlertView alloc] initWithTitle:@"提示"
+                                        message:errDic.allValues.firstObject
+                                       delegate:nil
+                              cancelButtonTitle:@"知道了"
+                              otherButtonTitles:nil, nil]
+             show];
+            return ;
+        }
+    } else if ([errors isKindOfClass:[NSArray class]]) {
+        NSArray *errArr = errors;
+        if (errArr.count > 0) {
+            [[[UIAlertView alloc] initWithTitle:@"提示"
+                                        message:errArr.firstObject
+                                       delegate:nil
+                              cancelButtonTitle:@"知道了"
+                              otherButtonTitles:nil, nil]
+             show];
+            return ;
+        }
+    }
+}
+
+#pragma mark - HUD view
+- (void)showMessage:(NSString *)message
+{
+    [self showMessageToView:self.view message:message autoHide:YES];
+}
+
+- (MBProgressHUD *)showMessageToView:(UIView *)view message:(NSString *)message autoHide:(BOOL)autoHide
+{
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:view animated:YES];
+    
+    hud.mode = MBProgressHUDModeText;
+    hud.label.text = message;
+    hud.margin = 10.f;
+    hud.removeFromSuperViewOnHide = YES;
+    
+    if (autoHide) {
+        [hud hideAnimated:YES afterDelay:1.5f];
+    }
+    return hud;
+}
+
+- (MBProgressHUD *)showActivityHud {
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    hud.mode = MBProgressHUDModeIndeterminate;
+    //    hud.labelText = @"";
+    hud.margin = 10.f;
+    hud.removeFromSuperViewOnHide = YES;
+    [hud showAnimated:YES];
+    return hud;
+}
+
+
 @end
