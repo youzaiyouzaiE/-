@@ -36,7 +36,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.navigationItem.title = @"登录天天新闻";
+    self.navigationItem.title = @"登录天维新闻";
     self.view.dk_backgroundColorPicker = DKColorPickerWithRGB(0xf0f0f0, 0x000000, 0xfafafa);
     _itemsBackgroundView.dk_backgroundColorPicker = DKColorPickerWithRGB(0xffffff, 0x444444, 0xfafafa);
     
