@@ -70,10 +70,12 @@
     if (motion == UIEventSubtypeMotionShake) {
         if (self.isShakeCanChangeSkin == NO) return;
         if ([self.dk_manager.themeVersion isEqualToString:DKThemeVersionNormal]) {//将要切换至夜间模式
-            self.dk_manager.themeVersion = DKThemeVersionNight;                self.tabBar.barTintColor = [UIColor colorWithRed:34/255.0 green:34/255.0 blue:34/255.0 alpha:1.0];
+            self.dk_manager.themeVersion = DKThemeVersionNight;
+            self.tabBar.barTintColor = [UIColor colorWithRed:34/255.0 green:34/255.0 blue:34/255.0 alpha:1.0];
             _MeController.changeSkinSwitch.on = YES;
         } else {
-                self.dk_manager.themeVersion = DKThemeVersionNormal;             self.tabBar.barTintColor = [UIColor whiteColor];
+            self.dk_manager.themeVersion = DKThemeVersionNormal;
+            self.tabBar.barTintColor = [UIColor whiteColor];
             _MeController.changeSkinSwitch.on = NO;
 
         }

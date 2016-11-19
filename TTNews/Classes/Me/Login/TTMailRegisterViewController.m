@@ -10,12 +10,13 @@
 #import "MBProgressHUD.h"
 #import "TTNetworkManager.h"
 #import "NSObject+Extension.h"
-
+#import <DKNightVersion.h>
 @interface TTMailRegisterViewController ()<UITextFieldDelegate> {
     __weak IBOutlet UIButton *_buttonRegister;
     __weak IBOutlet UITextField *_textFieldPassword;
     __weak IBOutlet UITextField *_textFieldAgain;
     __weak IBOutlet UITextField *_textFieldMailCode;
+    __weak IBOutlet UIView *_itemsBackgroundView;
     
 }
 
@@ -35,7 +36,8 @@
     }
     _buttonRegister.layer.masksToBounds = YES;
     _buttonRegister.layer.cornerRadius = 6;
-    _buttonRegister.backgroundColor = [UIColor colorWithDisplayP3Red:232.f/255.f green:114.f/255.f blue:112.f/255.f alpha:1];
+    _buttonRegister.dk_backgroundColorPicker = DKColorPickerWithRGB(0xfa5054, 0x444444, 0xfa5054);
+    _itemsBackgroundView.dk_backgroundColorPicker = DKColorPickerWithRGB(0xffffff, 0x444444, 0xfafafa);
 }
 
 - (void)didReceiveMemoryWarning {

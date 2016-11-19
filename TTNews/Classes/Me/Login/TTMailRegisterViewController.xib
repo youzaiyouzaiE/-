@@ -12,6 +12,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="TTMailRegisterViewController">
             <connections>
                 <outlet property="_buttonRegister" destination="iek-Vb-VQt" id="ic2-3C-ofm"/>
+                <outlet property="_itemsBackgroundView" destination="Woy-Ja-Aex" id="iIc-hp-jt0"/>
                 <outlet property="_textFieldAgain" destination="ZeQ-uu-2yb" id="NWX-1N-hzY"/>
                 <outlet property="_textFieldMailCode" destination="7zf-Ua-xbk" id="WdK-B5-PYn"/>
                 <outlet property="_textFieldPassword" destination="22a-ng-h9a" id="MiA-Jy-dMW"/>

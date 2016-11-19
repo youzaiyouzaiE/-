@@ -14,6 +14,7 @@
                 <outlet property="_activityIndicatior" destination="qlM-mk-tkM" id="kQg-L7-Gc0"/>
                 <outlet property="_buttonNext" destination="SFh-0H-2XB" id="I1m-fg-cTx"/>
                 <outlet property="_imageViewIdentify" destination="jx0-3L-qZP" id="Umd-x9-2fu"/>
+                <outlet property="_itemsBackgroundView" destination="RSI-gw-tr6" id="382-fZ-qtf"/>
                 <outlet property="_textFieldIdentifyCode" destination="nk9-f1-6y3" id="p6x-gl-s8P"/>
                 <outlet property="_textFieldMailAddress" destination="vYj-7w-NeR" id="vde-cY-Tn2"/>
                 <outlet property="_textFieldNickname" destination="xj4-8T-ghJ" id="bRj-rN-OpU"/>

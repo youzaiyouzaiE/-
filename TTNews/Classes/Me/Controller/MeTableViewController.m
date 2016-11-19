@@ -33,7 +33,7 @@ static NSString *const SwitchCellIdentifier = @"SwitchCell";
 static NSString *const TwoLabelCellIdentifier = @"TwoLabelCell";
 static NSString *const DisclosureCellIdentifier = @"DisclosureCell";
 
-@interface MeTableViewController () {
+@interface MeTableViewController ()<UIAlertViewDelegate> {
     BOOL _isLoginSuccess;
     NSNumber *_uid;
     NSString *_token;
@@ -108,6 +108,9 @@ CGFloat const footViewHeight = 30;
                                          if (signalNum.integerValue == 1) {
                                              _nickName = responseObject[@"data"][@"nickname"];
                                              _signature = responseObject[@"data"][@"signature"];
+                                             if (_signature.length < 1) {
+                                                 _signature = @"这家伙很懒,什么也没留下";
+                                             }
                                              [[NSUserDefaults standardUserDefaults] setObject:_nickName forKey:UserNameKey];
                                              [[NSUserDefaults standardUserDefaults] setObject:_signature forKey:UserSignatureKey];
                                              [self.tableView reloadData];
@@ -210,10 +213,13 @@ CGFloat const footViewHeight = 30;
     DisclosureCell *cell = [tableView dequeueReusableCellWithIdentifier:DisclosureCellIdentifier];
     if (indexPath.row == 3) {
         cell.leftLabel.text = @"反馈";
+         return cell;
     } else if(indexPath.row == 4) {
         cell.leftLabel.text = @"关于";
+         return cell;
     } else if(indexPath.row == 5) {
         cell.leftLabel.text = @"退出";
+         return cell;
     }
     return cell;
 }
@@ -238,6 +244,7 @@ CGFloat const footViewHeight = 30;
         [TTDataTool deletePartOfCacheInSqlite];
         [[SDImageCache sharedImageCache] clearDisk];
         [SVProgressHUD showSuccessWithStatus:@"缓存清除完毕!"];
+        [self performSelector:@selector(dismissSvprogressHud) withObject:nil afterDelay:1];
         TwoLabelCell *cell = [tableView cellForRowAtIndexPath:indexPath];
         cell.rightLabel.text = [NSString stringWithFormat:@"0.0MB"];
     } else if (indexPath.section == 1 && indexPath.row == 3) {
@@ -245,12 +252,37 @@ CGFloat const footViewHeight = 30;
     } else if (indexPath.section == 1 && indexPath.row == 4) {
         [self.navigationController pushViewController:[[AppInfoViewController alloc] init] animated:YES];
     }else if (indexPath.section == 1 && indexPath.row == 5) {
-        SHARE_APP.isLogin = NO;
-        [[NSUserDefaults standardUserDefaults] setObject:@"注册/登陆" forKey:UserNameKey];
-        [[NSUserDefaults standardUserDefaults] setObject:@"登陆推荐更精准" forKey:UserSignatureKey];
-        [self.tableView reloadData];
+        if (SHARE_APP.isLogin) {
+            UIAlertView *alerView = [[UIAlertView alloc] initWithTitle:@"提示"
+                                                               message:@"退出当前帐号,将不能同步收藏,评论,分享等"
+                                                              delegate:self
+                                                     cancelButtonTitle:@"取消"
+                                                     otherButtonTitles:@"确认退出", nil];
+            [alerView show];
+        }
     }
 }
+
+#pragma mark - UIAlertViewDelegate 
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (buttonIndex == 1) {
+        [[NSUserDefaults standardUserDefaults] setObject:@"注册/登录" forKey:UserNameKey];
+        [[NSUserDefaults standardUserDefaults] setObject:@"登录推荐更精准" forKey:UserSignatureKey];
+        [self.tableView reloadData];
+        SHARE_APP.isLogin = NO;
+        
+        [SVProgressHUD show];
+        [TTDataTool deletePartOfCacheInSqlite];
+        [[SDImageCache sharedImageCache] clearDisk];
+        [SVProgressHUD showSuccessWithStatus:@"已退出登!"];
+        [self performSelector:@selector(dismissSvprogressHud) withObject:nil afterDelay:1];
+    }
+}
+
+- (void)dismissSvprogressHud{
+    [SVProgressHUD dismiss];
+}
+
 
 -(void)switchDidChange:(UISwitch *)theSwitch {
     if (theSwitch == self.changeSkinSwitch) {

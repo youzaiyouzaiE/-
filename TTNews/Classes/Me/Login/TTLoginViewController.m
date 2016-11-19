@@ -20,6 +20,7 @@
     
     __weak IBOutlet UITextField *_userNameTextField;
     __weak IBOutlet UITextField *_passwordTextField;
+    __weak IBOutlet UIView *_itemsBackgroundView;
     __weak IBOutlet UIButton *_loginButton;
     
     TTRegisterViewController *_findPassowrdVC;
@@ -35,12 +36,13 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.navigationItem.title = @"登陆天天新闻";
+    self.navigationItem.title = @"登录天天新闻";
     self.view.dk_backgroundColorPicker = DKColorPickerWithRGB(0xf0f0f0, 0x000000, 0xfafafa);
+    _itemsBackgroundView.dk_backgroundColorPicker = DKColorPickerWithRGB(0xffffff, 0x444444, 0xfafafa);
     
     _loginButton.layer.masksToBounds = YES;
     _loginButton.layer.cornerRadius = 6;
-    _loginButton.backgroundColor = [UIColor colorWithDisplayP3Red:232.f/255.f green:114.f/255.f blue:112.f/255.f alpha:1];
+    _loginButton.dk_backgroundColorPicker = DKColorPickerWithRGB(0xfa5054, 0x444444, 0xfa5054);
 //    [self initializeNetRequest];
 }
 
@@ -114,7 +116,7 @@
                                      } else {
                                          NSNumber *signalNum = responseObject[@"signal"];
                                          if (signalNum.integerValue == 1) {
-                                             [self showMessage:@"登陆成功!"];
+                                             [self showMessage:@"登录成功!"];
                                              NSDictionary *dateDic = responseObject[@"data"];
                                              if (dateDic) {
                                                  _uid = dateDic[@"uid"];
@@ -149,7 +151,7 @@
                                      } else {
                                          NSNumber *signalNum = responseObject[@"signal"];
                                          if (signalNum.integerValue == 1) {
-                                             [self showMessage:@"登陆成功!"];
+                                             [self showMessage:@"登录成功!"];
                                              dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                                                  [self.navigationController popViewControllerAnimated:YES];
                                              });

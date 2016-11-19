@@ -11,6 +11,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="TTLoginViewController">
             <connections>
+                <outlet property="_itemsBackgroundView" destination="Iig-kQ-tNO" id="3UB-yf-te4"/>
                 <outlet property="_loginButton" destination="mil-9v-Q23" id="zuK-wG-iWP"/>
                 <outlet property="_passwordTextField" destination="KUc-gZ-NDY" id="AXr-Z0-FFd"/>
                 <outlet property="_userNameTextField" destination="RlP-ff-kJo" id="YUY-5H-ioM"/>

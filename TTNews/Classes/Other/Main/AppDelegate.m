@@ -58,13 +58,13 @@
     
     NSString *userName = [[NSUserDefaults standardUserDefaults] stringForKey:UserNameKey];
     if (userName==nil) {
-        [[NSUserDefaults standardUserDefaults] setObject:@"注册/登陆" forKey:UserNameKey];
+        [[NSUserDefaults standardUserDefaults] setObject:@"注册/登录" forKey:UserNameKey];
         [[NSUserDefaults standardUserDefaults] synchronize];
     }
     
     NSString *userSignature = [[NSUserDefaults standardUserDefaults] stringForKey:UserSignatureKey];
     if ( !_isLogin) {
-        [[NSUserDefaults standardUserDefaults] setObject:@"登陆推荐更精准" forKey:UserSignatureKey];
+        [[NSUserDefaults standardUserDefaults] setObject:@"登录推荐更精准" forKey:UserSignatureKey];
         [[NSUserDefaults standardUserDefaults] synchronize];
     }
 }

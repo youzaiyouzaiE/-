@@ -15,7 +15,7 @@
 #import "NSString+Extension.h"
 #import <SDWebImage/UIImageView+WebCache.h>
 #import "NSObject+Extension.h"
-
+#import <DKNightVersion.h>
 
 @interface TTRegisterViewController () <UITextFieldDelegate>{
     __weak IBOutlet UITextField *_textFieldNickname;
@@ -23,6 +23,7 @@
     __weak IBOutlet UITextField *_textFieldIdentifyCode;
     __weak IBOutlet UIImageView *_imageViewIdentify;
     __weak IBOutlet UIButton *_buttonNext;
+    __weak IBOutlet UIView *_itemsBackgroundView;
     
     __weak IBOutlet UIActivityIndicatorView *_activityIndicatior;
     
@@ -49,7 +50,9 @@
     
     _buttonNext.layer.masksToBounds = YES;
     _buttonNext.layer.cornerRadius = 6;
-    _buttonNext.backgroundColor = [UIColor colorWithDisplayP3Red:232.f/255.f green:114.f/255.f blue:112.f/255.f alpha:1];
+    _buttonNext.dk_backgroundColorPicker = DKColorPickerWithRGB(0xfa5054, 0x444444, 0xfa5054);
+    _itemsBackgroundView.dk_backgroundColorPicker = DKColorPickerWithRGB(0xffffff, 0x444444, 0xfafafa);
+    
     _activityIndicatior.hidden = YES;
     if (SHARE_APP.guid) {
         _imageGuid = SHARE_APP.guid;
