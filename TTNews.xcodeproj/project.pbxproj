@@ -33,8 +33,6 @@
 		DAC65C8A1DF2D5080090369A /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DAC65BE81DF2D5070090369A /* DetailViewController.m */; };
 		DAC65C8B1DF2D5080090369A /* NewsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DAC65BEA1DF2D5070090369A /* NewsViewController.m */; };
 		DAC65C8C1DF2D5080090369A /* ShowMultiPictureViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DAC65BEC1DF2D5070090369A /* ShowMultiPictureViewController.m */; };
-		DAC65C8D1DF2D5080090369A /* SXNetworkTools.m in Sources */ = {isa = PBXBuildFile; fileRef = DAC65BEE1DF2D5070090369A /* SXNetworkTools.m */; };
-		DAC65C8E1DF2D5080090369A /* SXNewsEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = DAC65BF01DF2D5070090369A /* SXNewsEntity.m */; };
 		DAC65C8F1DF2D5080090369A /* TTHeaderNews.m in Sources */ = {isa = PBXBuildFile; fileRef = DAC65BF31DF2D5070090369A /* TTHeaderNews.m */; };
 		DAC65C901DF2D5080090369A /* TTNormalNews.m in Sources */ = {isa = PBXBuildFile; fileRef = DAC65BF51DF2D5070090369A /* TTNormalNews.m */; };
 		DAC65C911DF2D5080090369A /* TWNewsEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = DAC65BF71DF2D5070090369A /* TWNewsEntity.m */; };
@@ -101,6 +99,8 @@
 		DAC65CCE1DF2D5080090369A /* VideoCommentCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DAC65C711DF2D5080090369A /* VideoCommentCell.xib */; };
 		DAC65CCF1DF2D5080090369A /* VideoTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DAC65C731DF2D5080090369A /* VideoTableViewCell.m */; };
 		DAC65CD01DF2D5080090369A /* VideoTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DAC65C741DF2D5080090369A /* VideoTableViewCell.xib */; };
+		DAC65CE91DF307900090369A /* SXNetworkTools.m in Sources */ = {isa = PBXBuildFile; fileRef = DAC65CE61DF307900090369A /* SXNetworkTools.m */; };
+		DAC65CEA1DF307900090369A /* SXNewsEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = DAC65CE81DF307900090369A /* SXNewsEntity.m */; };
 		E0C9598EA91F8C8BFE604B7B /* libPods-TTNewsUITests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D813C1B45D80A6E775754DA /* libPods-TTNewsUITests.a */; };
 		EE4635C81CC72B8900DB248F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = EE4635C71CC72B8900DB248F /* main.m */; };
 		EE4635D31CC72B8900DB248F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EE4635D21CC72B8900DB248F /* Assets.xcassets */; };
@@ -181,10 +181,6 @@
 		DAC65BEA1DF2D5070090369A /* NewsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewsViewController.m; sourceTree = "<group>"; };
 		DAC65BEB1DF2D5070090369A /* ShowMultiPictureViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShowMultiPictureViewController.h; sourceTree = "<group>"; };
 		DAC65BEC1DF2D5070090369A /* ShowMultiPictureViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShowMultiPictureViewController.m; sourceTree = "<group>"; };
-		DAC65BED1DF2D5070090369A /* SXNetworkTools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SXNetworkTools.h; sourceTree = "<group>"; };
-		DAC65BEE1DF2D5070090369A /* SXNetworkTools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SXNetworkTools.m; sourceTree = "<group>"; };
-		DAC65BEF1DF2D5070090369A /* SXNewsEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SXNewsEntity.h; sourceTree = "<group>"; };
-		DAC65BF01DF2D5070090369A /* SXNewsEntity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SXNewsEntity.m; sourceTree = "<group>"; };
 		DAC65BF21DF2D5070090369A /* TTHeaderNews.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTHeaderNews.h; sourceTree = "<group>"; };
 		DAC65BF31DF2D5070090369A /* TTHeaderNews.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTHeaderNews.m; sourceTree = "<group>"; };
 		DAC65BF41DF2D5070090369A /* TTNormalNews.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTNormalNews.h; sourceTree = "<group>"; };
@@ -301,6 +297,10 @@
 		DAC65C721DF2D5080090369A /* VideoTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoTableViewCell.h; sourceTree = "<group>"; };
 		DAC65C731DF2D5080090369A /* VideoTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VideoTableViewCell.m; sourceTree = "<group>"; };
 		DAC65C741DF2D5080090369A /* VideoTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = VideoTableViewCell.xib; sourceTree = "<group>"; };
+		DAC65CE51DF307900090369A /* SXNetworkTools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SXNetworkTools.h; sourceTree = "<group>"; };
+		DAC65CE61DF307900090369A /* SXNetworkTools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SXNetworkTools.m; sourceTree = "<group>"; };
+		DAC65CE71DF307900090369A /* SXNewsEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SXNewsEntity.h; sourceTree = "<group>"; };
+		DAC65CE81DF307900090369A /* SXNewsEntity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SXNewsEntity.m; sourceTree = "<group>"; };
 		EE4635C31CC72B8900DB248F /* TTNews.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TTNews.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EE4635C71CC72B8900DB248F /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		EE4635D21CC72B8900DB248F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -467,18 +467,14 @@
 		DAC65BE41DF2D5070090369A /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				DAC65BE91DF2D5070090369A /* NewsViewController.h */,
+				DAC65BEA1DF2D5070090369A /* NewsViewController.m */,
 				DAC65BE51DF2D5070090369A /* ContentTableViewController.h */,
 				DAC65BE61DF2D5070090369A /* ContentTableViewController.m */,
 				DAC65BE71DF2D5070090369A /* DetailViewController.h */,
 				DAC65BE81DF2D5070090369A /* DetailViewController.m */,
-				DAC65BE91DF2D5070090369A /* NewsViewController.h */,
-				DAC65BEA1DF2D5070090369A /* NewsViewController.m */,
 				DAC65BEB1DF2D5070090369A /* ShowMultiPictureViewController.h */,
 				DAC65BEC1DF2D5070090369A /* ShowMultiPictureViewController.m */,
-				DAC65BED1DF2D5070090369A /* SXNetworkTools.h */,
-				DAC65BEE1DF2D5070090369A /* SXNetworkTools.m */,
-				DAC65BEF1DF2D5070090369A /* SXNewsEntity.h */,
-				DAC65BF01DF2D5070090369A /* SXNewsEntity.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -566,6 +562,10 @@
 		DAC65C251DF2D5070090369A /* Http */ = {
 			isa = PBXGroup;
 			children = (
+				DAC65CE51DF307900090369A /* SXNetworkTools.h */,
+				DAC65CE61DF307900090369A /* SXNetworkTools.m */,
+				DAC65CE71DF307900090369A /* SXNewsEntity.h */,
+				DAC65CE81DF307900090369A /* SXNewsEntity.m */,
 				DAC65C261DF2D5070090369A /* TTConst.h */,
 				DAC65C271DF2D5070090369A /* TTConst.m */,
 				DAC65C281DF2D5070090369A /* TTDataTool.h */,
@@ -1087,7 +1087,6 @@
 				DAC65C7F1DF2D5080090369A /* TTLoginViewController.m in Sources */,
 				DAC65CA31DF2D5080090369A /* Foundation+Log.m in Sources */,
 				DAC65C8F1DF2D5080090369A /* TTHeaderNews.m in Sources */,
-				DAC65C8D1DF2D5080090369A /* SXNetworkTools.m in Sources */,
 				DAC65C751DF2D5080090369A /* MHFacebookImageViewer.m in Sources */,
 				DAC65CC81DF2D5080090369A /* TTVideoComment.m in Sources */,
 				DAC65C971DF2D5080090369A /* MultiPictureTableViewCell.m in Sources */,
@@ -1112,7 +1111,9 @@
 				DAC65CA51DF2D5080090369A /* NSObject+Extension.m in Sources */,
 				DAC65CBA1DF2D5080090369A /* PictureViewController.m in Sources */,
 				DAC65CCD1DF2D5080090369A /* VideoCommentCell.m in Sources */,
+				DAC65CE91DF307900090369A /* SXNetworkTools.m in Sources */,
 				DAC65CB11DF2D5080090369A /* AppDelegate.m in Sources */,
+				DAC65CEA1DF307900090369A /* SXNewsEntity.m in Sources */,
 				DAC65CB81DF2D5080090369A /* PictureCommentViewController.m in Sources */,
 				DAC65CA91DF2D5080090369A /* UIImageView+Extension.m in Sources */,
 				DAC65CC91DF2D5080090369A /* TTVideoUser.m in Sources */,
@@ -1148,7 +1149,6 @@
 				DAC65CC01DF2D5080090369A /* PictureTableViewCell.m in Sources */,
 				DAC65C871DF2D5080090369A /* TwoLabelCell.m in Sources */,
 				DAC65C8B1DF2D5080090369A /* NewsViewController.m in Sources */,
-				DAC65C8E1DF2D5080090369A /* SXNewsEntity.m in Sources */,
 				DAC65CA71DF2D5080090369A /* UIBarButtonItem+Extension.m in Sources */,
 				DAC65C831DF2D5080090369A /* TTRegisterViewController.m in Sources */,
 				DAC65CBD1DF2D5080090369A /* TTPictureUser.m in Sources */,

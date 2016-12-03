@@ -17,7 +17,10 @@
 #import "TTNormalNews.h"
 #import <DKNightVersion.h>
 
-@interface NewsViewController()<UIScrollViewDelegate>
+@interface NewsViewController()<UIScrollViewDelegate,TTTopChannelContianerViewDelegate> {
+    
+}
+
 @property (nonatomic, strong) NSMutableArray *currentChannelsArray;
 @property (nonatomic, weak) TTTopChannelContianerView *topContianerView;
 @property (nonatomic, weak) UIScrollView *contentScrollView;
@@ -29,13 +32,13 @@ static NSString * const collectionCellID = @"ChannelCollectionCell";
 static NSString * const collectionViewSectionHeaderID = @"ChannelCollectionHeader";
 
 @implementation NewsViewController
-- (NSArray *)arrayLists
-{
+- (NSArray *)arrayLists {
     if (_arrayLists == nil) {
         _arrayLists = [NSArray arrayWithContentsOfFile:[[NSBundle mainBundle]pathForResource:@"NewsURLs.plist" ofType:nil]];
     }
     return _arrayLists;
 }
+
 -(void)viewDidLoad {
     self.automaticallyAdjustsScrollViewInsets = NO;
 //    self.isCellShouldShake = NO;
@@ -76,7 +79,7 @@ static NSString * const collectionViewSectionHeaderID = @"ChannelCollectionHeade
     TTTopChannelContianerView *topContianerView = [[TTTopChannelContianerView alloc] initWithFrame:CGRectMake(0, top, [UIScreen mainScreen].bounds.size.width, 30)];
     topContianerView.channelNameArray = self.currentChannelsArray;
     self.topContianerView  = topContianerView;
-    self.topContianerView.scrollView.delegate = self;
+    self.topContianerView.delegate = self;
     [self.view addSubview:topContianerView];
 }
 
@@ -117,9 +120,6 @@ static NSString * const collectionViewSectionHeaderID = @"ChannelCollectionHeade
     }
 }
 
-
-
-
 #pragma mark --UIScrollViewDelegate-- 滑动的减速动画结束后会调用这个方法
 -(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
     if (scrollView == self.contentScrollView) {
@@ -130,15 +130,18 @@ static NSString * const collectionViewSectionHeaderID = @"ChannelCollectionHeade
 }
 
 #pragma mark --UICollectionViewDataSource-- 返回每个UICollectionViewCell发Size
-- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
-{
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
     CGFloat kDeviceWidth = [UIScreen mainScreen].bounds.size.width;
     CGFloat kMargin = 10;
     return CGSizeMake((kDeviceWidth - 5*kMargin)/4, 40);
 }
 
-#pragma mark --TTTopChannelContianerViewDelegate--选择了某个新闻频道，更新scrollView的contenOffset
-- (void)chooseChannelWithIndex:(NSInteger)index {
+#pragma mark --TTTopChannelContianerViewDelegate
+- (void)topChannelView:(TTTopChannelContianerView *)chnnelView addActionWithButton:(UIButton *)button {
+    
+}
+
+- (void)topChannelView:(TTTopChannelContianerView *)chnnelView chooseChannelWithIndex:(NSInteger)index {
     [self.contentScrollView setContentOffset:CGPointMake(self.contentScrollView.frame.size.width * index, 0) animated:YES];
 }
 

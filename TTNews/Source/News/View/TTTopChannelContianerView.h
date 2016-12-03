@@ -7,13 +7,13 @@
 //这是新闻首页上方的新闻频道选择的scrollview
 
 #import <UIKit/UIKit.h>
-
+@class TTTopChannelContianerView;
 @protocol TTTopChannelContianerViewDelegate <NSObject>
 
 @optional
 
-- (void)showOrHiddenAddChannelsCollectionView:(UIButton *)button;
-- (void)chooseChannelWithIndex:(NSInteger)index;
+- (void)topChannelView:(TTTopChannelContianerView *)chnnelView addActionWithButton:(UIButton *)button;
+- (void)topChannelView:(TTTopChannelContianerView *)chnnelView chooseChannelWithIndex:(NSInteger)index;
 
 @end
 
@@ -28,7 +28,7 @@
 
 @property (nonatomic, strong) NSArray *channelNameArray;
 @property (nonatomic, weak) UIScrollView *scrollView;
-//@property (nonatomic, weak) UIButton *addButton;
+@property (nonatomic, weak) UIButton *addButton;
 @property (nonatomic, weak) id<TTTopChannelContianerViewDelegate> delegate;
 
 @end
