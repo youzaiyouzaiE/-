@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "TTBaseViewController.h"
 
-@interface SendFeedbackViewController : UIViewController
+@interface SendFeedbackViewController : TTBaseViewController
 
 @end

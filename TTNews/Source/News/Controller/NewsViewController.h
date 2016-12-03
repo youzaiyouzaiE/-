@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "TTBaseViewController.h"
 
-@interface NewsViewController : UIViewController
+@interface NewsViewController : TTBaseViewController
 
 @end

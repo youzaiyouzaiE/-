@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "TTBaseViewController.h"
 
-@interface EditUserInfoViewController : UIViewController
+@interface EditUserInfoViewController : TTBaseViewController
 
 @end

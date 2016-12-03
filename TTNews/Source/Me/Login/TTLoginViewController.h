@@ -7,10 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "TTBaseViewController.h"
 
 typedef void(^loginSuccessBlock)(NSNumber *, NSString *);
 
-@interface TTLoginViewController : UIViewController
+@interface TTLoginViewController : TTBaseViewController
 
 @property (nonatomic, copy) loginSuccessBlock loginBlock;
 

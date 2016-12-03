@@ -40,6 +40,7 @@ static NSString * const collectionViewSectionHeaderID = @"ChannelCollectionHeade
 }
 
 -(void)viewDidLoad {
+    [super viewDidLoad];
     self.automaticallyAdjustsScrollViewInsets = NO;
 //    self.isCellShouldShake = NO;
     self.view.dk_backgroundColorPicker = DKColorPickerWithRGB(0xf0f0f0, 0x000000, 0xfafafa);

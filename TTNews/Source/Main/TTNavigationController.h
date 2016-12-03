@@ -11,4 +11,5 @@
 @interface TTNavigationController : UINavigationController
 
 -(void)pushViewController:(UIViewController *)viewController animated:(BOOL)animated;
+
 @end

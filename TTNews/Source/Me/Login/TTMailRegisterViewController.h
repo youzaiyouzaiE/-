@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "TTBaseViewController.h"
 
-@interface TTMailRegisterViewController : UIViewController
+@interface TTMailRegisterViewController : TTBaseViewController
 
 @property (nonatomic, assign) BOOL isForgetPassword;
 

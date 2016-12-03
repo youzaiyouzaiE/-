@@ -8,7 +8,7 @@
 
 #import "TTBaseViewController.h"
 
-@interface TTBaseViewController () <UINavigationControllerDelegate>
+@interface TTBaseViewController () <UINavigationControllerDelegate,UIGestureRecognizerDelegate>
 
 @end
 
@@ -17,6 +17,11 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    if (self.navigationController.interactivePopGestureRecognizer) {
+        self.navigationController.interactivePopGestureRecognizer.enabled = YES;
+        self.navigationController.interactivePopGestureRecognizer.delegate = self;
+    }
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -44,6 +49,15 @@
     }
 }
 
+#pragma mark - UIGestureRecognizerDelegate
+- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer {
+    if (self.navigationController.viewControllers.count == 1) {//关闭主界面的右滑返回
+        return NO;
+    } else {
+        return YES;
+    }
+}
+
 #pragma mark - UINavigationControllerDelegate
 - (void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated {
     id<UIViewControllerTransitionCoordinator> tc = navigationController.topViewController.transitionCoordinator;
@@ -59,6 +73,11 @@
         [self naviBackAction];
     }
 }
+
+- (void)dealloc {
+     NSLog(@"%@ -> delloc",NSStringFromClass([self class]));
+}
+
 
 /*
 #pragma mark - Navigation
