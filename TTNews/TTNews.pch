@@ -1,0 +1,23 @@
+//
+//  TTNews.pch
+//  TTNews
+//
+//  Created by jiahui on 16/12/5.
+//  Copyright (c) 2015年 Home. All rights reserved.
+//
+
+#import <Availability.h>
+
+#ifdef __OBJC__
+    #import "AppDelegate.h"
+    #import "Masonry.h"
+
+#endif
+
+#ifdef DEBUG
+#define NSLog(...) NSLog(__VA_ARGS__)
+#else
+#define NSLog(...) {}
+
+
+#endif

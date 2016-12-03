@@ -16,6 +16,8 @@ pod 'NJKWebViewProgress'
 pod 'DKNightVersion'
 pod 'AFNetworking'
 pod 'MBProgressHUD', '~> 1.0.0'
+pod 'Masonry'
+pod 'pop'
 
 end
 

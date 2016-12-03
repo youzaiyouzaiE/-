@@ -20,6 +20,8 @@
 		DA5485E51DDCA8C800B65E38 /* TTMailRegisterViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA5485E31DDCA8C800B65E38 /* TTMailRegisterViewController.xib */; };
 		DA8F118C1DDBF01D00FA7D06 /* TTLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DA8F118A1DDBF01D00FA7D06 /* TTLoginViewController.m */; };
 		DA8F118D1DDBF01D00FA7D06 /* TTLoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA8F118B1DDBF01D00FA7D06 /* TTLoginViewController.xib */; };
+		DAC65BB21DF2B5680090369A /* TTBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DAC65BB11DF2B5680090369A /* TTBaseViewController.m */; };
+		DAC65BB81DF2BCD50090369A /* TTBaseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DAC65BB71DF2BCD50090369A /* TTBaseModel.m */; };
 		E0C9598EA91F8C8BFE604B7B /* libPods-TTNewsUITests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D813C1B45D80A6E775754DA /* libPods-TTNewsUITests.a */; };
 		EE3A071E1CDA1DAD0024C37A /* ContentTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE3A071D1CDA1DAD0024C37A /* ContentTableViewController.m */; };
 		EE4635C81CC72B8900DB248F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = EE4635C71CC72B8900DB248F /* main.m */; };
@@ -152,6 +154,11 @@
 		DA8F11891DDBF01D00FA7D06 /* TTLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTLoginViewController.h; sourceTree = "<group>"; };
 		DA8F118A1DDBF01D00FA7D06 /* TTLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTLoginViewController.m; sourceTree = "<group>"; };
 		DA8F118B1DDBF01D00FA7D06 /* TTLoginViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TTLoginViewController.xib; sourceTree = "<group>"; };
+		DAAEBD421DF2B054002D82CF /* TTNews.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTNews.pch; sourceTree = "<group>"; };
+		DAC65BB01DF2B5680090369A /* TTBaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTBaseViewController.h; sourceTree = "<group>"; };
+		DAC65BB11DF2B5680090369A /* TTBaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTBaseViewController.m; sourceTree = "<group>"; };
+		DAC65BB61DF2BCD50090369A /* TTBaseModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTBaseModel.h; sourceTree = "<group>"; };
+		DAC65BB71DF2BCD50090369A /* TTBaseModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTBaseModel.m; sourceTree = "<group>"; };
 		EE3A071D1CDA1DAD0024C37A /* ContentTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContentTableViewController.m; sourceTree = "<group>"; };
 		EE4635C31CC72B8900DB248F /* TTNews.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TTNews.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EE4635C71CC72B8900DB248F /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -399,6 +406,7 @@
 				EE4635C71CC72B8900DB248F /* main.m */,
 				EE4BEB5C1D5480E400B4A035 /* NewsURLs.plist */,
 				DA2F26D01DDDE495002BD87B /* TTDefines.h */,
+				DAAEBD421DF2B054002D82CF /* TTNews.pch */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -593,14 +601,18 @@
 		EE79B0CF1CC8C435001029EF /* Main */ = {
 			isa = PBXGroup;
 			children = (
-				EE79B0C51CC8C435001029EF /* TTConst.h */,
-				EE79B0C61CC8C435001029EF /* TTConst.m */,
 				EE79B0D01CC8C435001029EF /* AppDelegate.h */,
 				EE79B0D11CC8C435001029EF /* AppDelegate.m */,
+				EE79B0C51CC8C435001029EF /* TTConst.h */,
+				EE79B0C61CC8C435001029EF /* TTConst.m */,
 				EE79B0D21CC8C435001029EF /* TTNavigationController.h */,
 				EE79B0D31CC8C435001029EF /* TTNavigationController.m */,
 				EE79B0D41CC8C435001029EF /* TTTabBarController.h */,
 				EE79B0D51CC8C435001029EF /* TTTabBarController.m */,
+				DAC65BB01DF2B5680090369A /* TTBaseViewController.h */,
+				DAC65BB11DF2B5680090369A /* TTBaseViewController.m */,
+				DAC65BB61DF2BCD50090369A /* TTBaseModel.h */,
+				DAC65BB71DF2BCD50090369A /* TTBaseModel.m */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -847,7 +859,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0730;
-				ORGANIZATIONNAME = "瑞文戴尔";
+				ORGANIZATIONNAME = TTNews;
 				TargetAttributes = {
 					EE4635C21CC72B8900DB248F = {
 						CreatedOnToolsVersion = 7.3;
@@ -1071,6 +1083,7 @@
 				EE79B12D1CC8C435001029EF /* AppDelegate.m in Sources */,
 				DA2F26D41DDE9C30002BD87B /* NSString+Extension.m in Sources */,
 				47AEC1F21DD853C3009BF036 /* TWNewsEntity.m in Sources */,
+				DAC65BB81DF2BCD50090369A /* TTBaseModel.m in Sources */,
 				DA8F118C1DDBF01D00FA7D06 /* TTLoginViewController.m in Sources */,
 				DA2F26D71DDEF196002BD87B /* NSObject+Extension.m in Sources */,
 				EE8A19381D5B04C800BAE119 /* SwitchCell.m in Sources */,
@@ -1115,6 +1128,7 @@
 				EE79B1261CC8C435001029EF /* UIImageView+Extension.m in Sources */,
 				EE79B1441CC8C435001029EF /* FullViewController.m in Sources */,
 				EE79B1431CC8C435001029EF /* TTVideoUser.m in Sources */,
+				DAC65BB21DF2B5680090369A /* TTBaseViewController.m in Sources */,
 				EE79B1121CC8C435001029EF /* MeTableViewController.m in Sources */,
 				EE79B1421CC8C435001029EF /* TTVideoComment.m in Sources */,
 				EEB32A4B1CD38CAF00FF0AB8 /* TTTopChannelContianerView.m in Sources */,
@@ -1258,6 +1272,8 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = GW7ZRB8ABG;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SRCROOT)/TTNews/TTNews.pch";
 				INFOPLIST_FILE = TTNews/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1275,6 +1291,8 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = GW7ZRB8ABG;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SRCROOT)/TTNews/TTNews.pch";
 				INFOPLIST_FILE = TTNews/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
