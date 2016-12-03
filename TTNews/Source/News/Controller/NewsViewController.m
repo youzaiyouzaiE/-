@@ -7,12 +7,10 @@
 //
 
 #import "NewsViewController.h"
-#import <POP.h>
 #import <SVProgressHUD.h>
 #import <SDImageCache.h>
 #import "ContentTableViewController.h"
 #import "ChannelCollectionViewCell.h"
-#import "TTJudgeNetworking.h"
 #import "TTConst.h"
 #import "TTTopChannelContianerView.h"
 #import "ChannelsSectionHeaderView.h"

@@ -112,7 +112,10 @@ static NSString * const topPictureCell = @"TopPictureCell";
 
 - (void)loadDataForType:(int)type withURL:(NSString *)allUrlstring
 {
-    [[[SXNetworkTools sharedNetworkTools] GET:allUrlstring parameters:nil progress:nil success:^(NSURLSessionDataTask *task, NSDictionary* responseObject) {
+    [[[SXNetworkTools sharedNetworkTools] GET:allUrlstring
+                                   parameters:nil
+                                     progress:nil
+                                      success:^(NSURLSessionDataTask *task, NSDictionary* responseObject) {
         NSLog(@"%@",allUrlstring);
         NSString *key = [responseObject.keyEnumerator nextObject];
         

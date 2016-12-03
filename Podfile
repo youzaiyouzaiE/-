@@ -11,13 +11,14 @@ pod 'SDWebImage'
 pod 'pop'
 pod 'SVProgressHUD'
 pod 'DACircularProgress'
-pod 'FMDB'
+pod 'FMDB', '~> 2.5'
 pod 'NJKWebViewProgress'
 pod 'DKNightVersion'
 pod 'AFNetworking'
-pod 'MBProgressHUD', '~> 1.0.0'
+pod 'MBProgressHUD'
 pod 'Masonry'
-pod 'pop'
+pod 'iRate'
+pod 'UIColor-HexString'
 
 end
 

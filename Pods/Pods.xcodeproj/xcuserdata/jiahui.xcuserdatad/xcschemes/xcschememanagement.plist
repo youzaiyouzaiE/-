@@ -74,6 +74,16 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>UIColor-HexString.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>iRate.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>pop.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -87,12 +97,7 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>2215D36E5D5427FD5FB9818CC6B0C50D</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>2ACAFEA97E33235BB12CC87337C31C25</key>
+		<key>4CA00326C30A5A3B7B06DE4A16E8E2FD</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -107,12 +112,32 @@
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>8B090755233C44E8E118A8DA48015C08</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>8D98B214DE0E21F9384BB65A9C720F8F</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>90E98C0A65025A7A4DC9BDADA7E95B81</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>928353533005A4198EBDA5B700D37B64</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
 		<key>9775596B3CA16905FC8F66DA8E2A3C67</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>9E751E3416333AF44701DF2A3861D2D8</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -142,17 +167,12 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>D88B5F0608518160CAC410E9BF7BC608</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>DDACB8ABD8E909C8255821071C647A2F</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
 		<key>E96531D2698B334C4DEC89A22248E32D</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>FEDB5B4985B26C6E296236F85A0935CC</key>
 		<dict>
 			<key>primary</key>
 			<true/>

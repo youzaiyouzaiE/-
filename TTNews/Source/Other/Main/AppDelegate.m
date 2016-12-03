@@ -31,7 +31,9 @@
 
 #pragma mark - netWork request
 - (void)initializeNetRequest {
-    [[TTNetworkManager shareManager] Get:INITIALIZE_URL Parameters:nil Success:^(NSURLSessionDataTask *task, NSDictionary *responseObject) {
+    [[TTNetworkManager shareManager] Get:INITIALIZE_URL
+                              Parameters:nil
+                                 Success:^(NSURLSessionDataTask *task, NSDictionary *responseObject) {
         NSNumber *signalNum = responseObject[@"signal"];
         if (signalNum.integerValue == 1) {
             _guid = responseObject[@"data"][@"GUID"];
