@@ -19,7 +19,7 @@
 #import "UIView+Extension.h"
 #import "FullViewController.h"
 #import <DKNightVersion.h>
-#import "TTNetworkManager.h"
+#import "TTNetworkSessionManager.h"
 
 static NSString * const VideoCommentCellID = @"VideoCommentCell";
 
@@ -160,7 +160,7 @@ static NSString * const VideoCommentCellID = @"VideoCommentCell";
     params[@"hot"] = @"1";
     
 //    [TTDataTool VideoCommentsWithParameters:params success:^(NSDictionary *responseObject) {
-    [[TTNetworkManager shareManager] Get:@"http://api.budejie.com/api/api_open.php" Parameters:params Success:^(NSURLSessionDataTask *task, id responseObject) {
+    [[TTNetworkSessionManager shareManager] Get:@"http://api.budejie.com/api/api_open.php" Parameters:params Success:^(NSURLSessionDataTask *task, id responseObject) {
         
         // 最热评论
         self.hotComments = [TTVideoComment mj_objectArrayWithKeyValuesArray:responseObject[@"hot"]];
@@ -202,7 +202,7 @@ static NSString * const VideoCommentCellID = @"VideoCommentCell";
     
 //    [TTDataTool VideoCommentsWithParameters:params success:^(NSDictionary *responseObject) {
         // 没有数据
-    [[TTNetworkManager shareManager] Get:@"http://api.budejie.com/api/api_open.php" Parameters:params Success:^(NSURLSessionDataTask *task, id responseObject) {
+    [[TTNetworkSessionManager shareManager] Get:@"http://api.budejie.com/api/api_open.php" Parameters:params Success:^(NSURLSessionDataTask *task, id responseObject) {
         
         // 最新评论
         NSArray *newComments = [TTVideoComment mj_objectArrayWithKeyValuesArray:responseObject[@"data"]];

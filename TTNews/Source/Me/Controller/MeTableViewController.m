@@ -23,7 +23,7 @@
 #import "DisclosureCell.h"
 #import "TTLoginViewController.h"
 #import "AppDelegate.h"
-#import "TTNetworkManager.h"
+#import "TTNetworkSessionManager.h"
 #import "MBProgressHUD.h"
 #import "NSObject+Extension.h"
 
@@ -96,7 +96,7 @@ CGFloat const footViewHeight = 30;
 
 - (void)userInfoRequest {
     MBProgressHUD *hud = [self showActivityHud];
-    [[TTNetworkManager shareManager] Get:USER_INFO_URL
+    [[TTNetworkSessionManager shareManager] Get:USER_INFO_URL
                               Parameters:@{@"uid":_uid, @"token":_token}
                                  Success:^(NSURLSessionDataTask *task, NSDictionary *responseObject) {
                                      [hud hideAnimated:YES];

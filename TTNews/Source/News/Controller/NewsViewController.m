@@ -9,13 +9,15 @@
 #import "NewsViewController.h"
 #import <SVProgressHUD.h>
 #import <SDImageCache.h>
-#import "ContentTableViewController.h"
-#import "ChannelCollectionViewCell.h"
+#import "TTNewsContentViewController.h"
 #import "TTConst.h"
 #import "TTTopChannelContianerView.h"
 #import "ChannelsSectionHeaderView.h"
 #import "TTNormalNews.h"
 #import <DKNightVersion.h>
+#import "TTNetworkSessionManager.h"
+
+
 
 @interface NewsViewController()<UIScrollViewDelegate,TTTopChannelContianerViewDelegate> {
     
@@ -50,7 +52,7 @@ static NSString * const collectionViewSectionHeaderID = @"ChannelCollectionHeade
     [self setupChildController];
     [self setupContentScrollView];
 //    [self setupCollectionView];
-    
+    [self newsChannelsRequest];
 }
 
 -(void)viewWillAppear:(BOOL)animated {
@@ -62,14 +64,25 @@ static NSString * const collectionViewSectionHeaderID = @"ChannelCollectionHeade
     [super viewWillDisappear:animated];
 }
 
+- (void)newsChannelsRequest {
+    [TTProgressHUD show];
+    [[TTNetworkSessionManager shareManager] Get:TT_NEWS_CHANNELS
+                                     Parameters:nil
+                                        Success:^(NSURLSessionDataTask *task, NSDictionary *responseObject) {
+                                            [TTProgressHUD dismiss];
+    }
+                                        Failure:^(NSError *error) {
+                                            [TTProgressHUD dismiss];
+    }];
+    
+}
+
 #pragma mark --private Method--初始化子控制器
 -(void)setupChildController {
     for (NSInteger i = 0; i<self.currentChannelsArray.count; i++) {
-
-        ContentTableViewController *viewController = [[ContentTableViewController alloc] init];
-
+        TTNewsContentViewController *viewController = [[TTNewsContentViewController alloc] init];
         viewController.title = self.arrayLists[i][@"title"];
-        viewController.urlString = self.arrayLists[i][@"urlString"];
+        
         [self addChildViewController:viewController];
     }
 }
@@ -99,29 +112,27 @@ static NSString * const collectionViewSectionHeaderID = @"ChannelCollectionHeade
 - (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView {
     if (scrollView == self.contentScrollView) {
         NSInteger index = scrollView.contentOffset.x/self.contentScrollView.frame.size.width;
-        ContentTableViewController *vc = self.childViewControllers[index];
+        TTNewsContentViewController *vc = self.childViewControllers[index];
         vc.view.frame = CGRectMake(scrollView.contentOffset.x, 0, self.contentScrollView.frame.size.width, self.contentScrollView.frame.size.height);
-        vc.tableView.contentInset = UIEdgeInsetsMake(CGRectGetMaxY(self.navigationController.navigationBar.frame)+self.topContianerView.scrollView.frame.size.height, 0, self.tabBarController.tabBar.frame.size.height, 0);
+//        vc.tableView.contentInset = UIEdgeInsetsMake(CGRectGetMaxY(self.navigationController.navigationBar.frame)+self.topContianerView.scrollView.frame.size.height, 0, self.tabBarController.tabBar.frame.size.height, 0);
         [scrollView addSubview:vc.view];
-        for (int i = 0; i<self.contentScrollView.subviews.count; i++) {
-            NSInteger currentIndex = vc.tableView.frame.origin.x/self.contentScrollView.frame.size.width;
-            if ([self.contentScrollView.subviews[i] isKindOfClass:[UITableView class]]) {
-                UITableView *theTableView = self.contentScrollView.subviews[i];
-                NSInteger theIndex = theTableView.frame.origin.x/self.contentScrollView.frame.size.width;
-                NSInteger gap = theIndex - currentIndex;
-                if (gap<=2&&gap>=-2) {
-                    continue;
-                } else {
-                    [theTableView removeFromSuperview];
-                }
-            }
-            
-        }
-        
+//        for (int i = 0; i<self.contentScrollView.subviews.count; i++) {
+//            NSInteger currentIndex = vc.view.frame.origin.x/self.contentScrollView.frame.size.width;
+//            if ([self.contentScrollView.subviews[i] isKindOfClass:[UITableView class]]) {
+//                UITableView *theTableView = self.contentScrollView.subviews[i];
+//                NSInteger theIndex = theTableView.frame.origin.x/self.contentScrollView.frame.size.width;
+//                NSInteger gap = theIndex - currentIndex;
+//                if (gap<=2&&gap>=-2) {
+//                    continue;
+//                } else {
+//                    [theTableView removeFromSuperview];
+//                }
+//            }
+//            
+//        }
     }
 }
 
-#pragma mark --UIScrollViewDelegate-- 滑动的减速动画结束后会调用这个方法
 -(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
     if (scrollView == self.contentScrollView) {
         [self scrollViewDidEndScrollingAnimation:scrollView];

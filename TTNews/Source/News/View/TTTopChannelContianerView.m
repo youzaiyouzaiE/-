@@ -12,7 +12,7 @@
 @interface TTTopChannelContianerView()
 
 @property (nonatomic, weak) UIButton *lastSelectedButton;
-@property (nonatomic, weak) UIView *indicatorView;
+
 
 @end
 
@@ -44,7 +44,6 @@ static CGFloat buttonWidth = 65;
         [self.scrollView addSubview:button];
     }
     
-    //默认选中第三个channelButton,因为scrollView的subview含有indicatorView，所以第三个按钮对应scrollView的subview的index是3
     [self clickChannelButton:self.scrollView.subviews[0]];
 }
 
@@ -59,11 +58,6 @@ static CGFloat buttonWidth = 65;
     
     //初始化scrollView右侧的显示阴影效果的imageView
     [self addSubview:[self createSliderView]];
-    
-    //初始化被选中channelButton的红线，也就是indicatorView
-//    UIView *indicatorView = [self createIndicatorView];
-//    self.indicatorView = indicatorView;
-//    [self.scrollView addSubview:self.indicatorView];
     
     //初始化右侧的加号button
     UIButton *button = [self createTheAddButton];
@@ -102,14 +96,6 @@ static CGFloat buttonWidth = 65;
     return slideView;
 }
 
-#pragma mark 创建被选中channelButton的红线，也就是indicatorView
-- (UIView *)createIndicatorView {
-    UIView *indicatorView = [[UIView alloc] init];
-    indicatorView.backgroundColor = [UIColor colorWithRed:243/255.0 green:75/255.0 blue:80/255.0 alpha:1.0];
-    [self addSubview:indicatorView];
-    return indicatorView;
-}
-
 #pragma mark 创建ChannelButton
 - (UIButton *)createChannelButton{
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -139,11 +125,8 @@ static CGFloat buttonWidth = 65;
         [sender.titleLabel setFont:[UIFont systemFontOfSize:kTitleLabelSelectedFont]];
         [sender layoutIfNeeded];
         [self.scrollView setContentOffset:CGPointMake(newOffsetX, 0)];
-        //indicatorView宽度会比titleLabel宽20，centerX与titleLabel相同
-        self.indicatorView.frame = CGRectMake(sender.frame.origin.x + sender.titleLabel.frame.origin.x - 10, self.frame.size.height - 2, sender.titleLabel.frame.size.width + 25, 2);
     }];
     
-    //因为subviews包含indicatorView,所以index需要减1
     NSInteger index = [self.scrollView.subviews indexOfObject:sender];
     if ([self.delegate respondsToSelector:@selector(topChannelView:chooseChannelWithIndex:)]) {
         [self.delegate topChannelView:self chooseChannelWithIndex:index];
@@ -152,15 +135,12 @@ static CGFloat buttonWidth = 65;
 
 #pragma mark 选中某个ChannelButton
 - (void)selectChannelButtonWithIndex:(NSInteger)index {
-    self.indicatorView.hidden = NO;
-    //因为subviews包含indicatorView,所以index需要加1
-    [self clickChannelButton:self.scrollView.subviews[index+1]];
+    [self clickChannelButton:self.scrollView.subviews[index]];
 }
 
 #pragma mark 删除某个ChannelButton
 - (void)deleteChannelButtonWithIndex:(NSInteger)index {
-    //删除index对应的button，因为subviews包含indicatorView,所以index需要加1
-    NSInteger realIndex= index + 1;
+    NSInteger realIndex= index;
     [self.scrollView.subviews[realIndex] removeFromSuperview];
     //后面的button的x向左移动buuton宽度的距离
     for (NSInteger i = realIndex; i<self.scrollView.subviews.count; i++) {
@@ -200,11 +180,9 @@ static CGFloat buttonWidth = 65;
 - (void)didShowEditChannelView:(BOOL)value {
     if (value == YES) {//显示编辑新闻频道View
         self.addButton.selected = YES;
-        self.indicatorView.hidden = YES;
         self.scrollView.hidden = YES;
     } else {//显示编辑新闻频道View
         self.addButton.selected = NO;
-        self.indicatorView.hidden = NO;
         self.scrollView.hidden = NO;
     }
 }

@@ -11,7 +11,7 @@
 #import "AppDelegate.h"
 #import "TTRegisterViewController.h"
 #import "TTFindPasswordViewController.h"
-#import "TTNetworkManager.h"
+#import "TTNetworkSessionManager.h"
 #import "MBProgressHUD.h"
 #import "NSObject+Extension.h"
 #import "NSString+Extension.h"
@@ -106,42 +106,42 @@
 #pragma mark - NET WORKER
 - (void)loginRequest{
     MBProgressHUD *hud = [self showActivityHud];
-    [[TTNetworkManager shareManager] Get:LOGIN_URL
-                              Parameters:@{@"username":_userNameTextField.text, @"password":_passwordTextField.text}
-                                 Success:^(NSURLSessionDataTask *task, NSDictionary *responseObject) {
-                                     [hud hideAnimated:YES];
-                                     id errors = responseObject[@"errors"];
-                                     if (errors != nil) {
-                                         [self showErrorMessageAlertView:errors];
-                                     } else {
-                                         NSNumber *signalNum = responseObject[@"signal"];
-                                         if (signalNum.integerValue == 1) {
-                                             [self showMessage:@"登录成功!"];
-                                             NSDictionary *dateDic = responseObject[@"data"];
-                                             if (dateDic) {
-                                                 _uid = dateDic[@"uid"];
-                                                 _token = dateDic[@"token"];
-                                                 self.loginBlock(_uid,_token);
-                                                 dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                                                     [self.navigationController popViewControllerAnimated:YES];
-                                                 });
-//                                                 [self showMessage:@"正在获取用户信息"];
-//                                                 [self userInfoRequest];
-                                             }
-                                         } else {
-                                             [self showMessage:responseObject[@"msg"]];
-                                         }
-                                     }
-                                 }
-                                 Failure:^(NSError *error) {
-                                     [hud hideAnimated:YES];
-                                     [self showMessage:error.description];
-                                 }];
+    [[TTNetworkSessionManager shareManager] Get:LOGIN_URL
+                                     Parameters:@{@"username":_userNameTextField.text, @"password":_passwordTextField.text}
+                                        Success:^(NSURLSessionDataTask *task, NSDictionary *responseObject) {
+                                            [hud hideAnimated:YES];
+                                            id errors = responseObject[@"errors"];
+                                            if (errors != nil) {
+                                                [self showErrorMessageAlertView:errors];
+                                            } else {
+                                                NSNumber *signalNum = responseObject[@"signal"];
+                                                if (signalNum.integerValue == 1) {
+                                                    [self showMessage:@"登录成功!"];
+                                                    NSDictionary *dateDic = responseObject[@"data"];
+                                                    if (dateDic) {
+                                                        _uid = dateDic[@"uid"];
+                                                        _token = dateDic[@"token"];
+                                                        self.loginBlock(_uid,_token);
+                                                        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                                                            [self.navigationController popViewControllerAnimated:YES];
+                                                        });
+                                                        //                                                 [self showMessage:@"正在获取用户信息"];
+                                                        //                                                 [self userInfoRequest];
+                                                    }
+                                                } else {
+                                                    [self showMessage:responseObject[@"msg"]];
+                                                }
+                                            }
+                                        }
+                                        Failure:^(NSError *error) {
+                                            [hud hideAnimated:YES];
+                                            [self showMessage:error.description];
+                                        }];
 }
 
 - (void)userInfoRequest {
     MBProgressHUD *hud = [self showActivityHud];
-    [[TTNetworkManager shareManager] Get:USER_INFO_URL
+    [[TTNetworkSessionManager shareManager] Get:USER_INFO_URL
                               Parameters:@{@"uid":_uid, @"token":_token}
                                  Success:^(NSURLSessionDataTask *task, NSDictionary *responseObject) {
                                      [hud hideAnimated:YES];

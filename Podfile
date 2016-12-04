@@ -17,7 +17,6 @@ pod 'DKNightVersion'
 pod 'AFNetworking'
 pod 'MBProgressHUD'
 pod 'Masonry'
-pod 'iRate'
 pod 'UIColor-HexString'
 
 end

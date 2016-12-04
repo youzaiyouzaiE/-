@@ -18,7 +18,7 @@
 #import "UIView+Extension.h"
 #import <DKNightVersion.h>
 #import "TTDataTool.h"
-#import "TTNetworkManager.h"
+#import "TTNetworkSessionManager.h"
 
 static NSString * const PictureCommentCellID = @"PictureCommentCell";
 
@@ -155,7 +155,7 @@ static NSString * const PictureCommentCellID = @"PictureCommentCell";
     params[@"lastcid"] = cmt.ID;
     
 //    [TTDataTool PictureCommentsWithParameters:params success:^(NSDictionary *responseObject) {
-    [[TTNetworkManager shareManager] Get:@"http://api.budejie.com/api/api_open.php" Parameters:params Success:^(NSURLSessionDataTask *task, id responseObject) {
+    [[TTNetworkSessionManager shareManager] Get:@"http://api.budejie.com/api/api_open.php" Parameters:params Success:^(NSURLSessionDataTask *task, id responseObject) {
         
         // 最新评论
         NSArray *newComments = [TTPictureComment mj_objectArrayWithKeyValuesArray:responseObject[@"data"]];
@@ -190,7 +190,7 @@ static NSString * const PictureCommentCellID = @"PictureCommentCell";
     params[@"data_id"] = self.picture.ID;
     params[@"hot"] = @"1";
     
-    [[TTNetworkManager shareManager] Get:@"http://api.budejie.com/api/api_open.php" Parameters:params Success:^(NSURLSessionDataTask *task, id responseObject) {
+    [[TTNetworkSessionManager shareManager] Get:@"http://api.budejie.com/api/api_open.php" Parameters:params Success:^(NSURLSessionDataTask *task, id responseObject) {
         
         
         // 最热评论

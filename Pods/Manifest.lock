@@ -31,7 +31,6 @@ PODS:
   - FMDB (2.6.2):
     - FMDB/standard (= 2.6.2)
   - FMDB/standard (2.6.2)
-  - iRate (1.11.6)
   - Masonry (0.6.4)
   - MBProgressHUD (1.0.0)
   - MJExtension (3.0.10)
@@ -53,7 +52,6 @@ DEPENDENCIES:
   - DACircularProgress
   - DKNightVersion
   - FMDB (~> 2.5)
-  - iRate
   - Masonry
   - MBProgressHUD
   - MJExtension
@@ -69,7 +67,6 @@ SPEC CHECKSUMS:
   DACircularProgress: 4dd437c0fc3da5161cb289e07ac449493d41db71
   DKNightVersion: 459438cbfd14edb9e41a777ff14b18e5661b9269
   FMDB: 854a0341b4726e53276f2a8996f06f1b80f9259a
-  iRate: 61e558919c4a7fde63b3c22ebbd6c114a1eee658
   Masonry: 281802d04d787ea2973179ee8bcb50500579ede2
   MBProgressHUD: 4890f671c94e8a0f3cf959aa731e9de2f036d71a
   MJExtension: d86aacb740c87519d20e3cca55b6fa4be6cc7548
@@ -80,6 +77,6 @@ SPEC CHECKSUMS:
   SVProgressHUD: b0830714205bea1317ea1a2ebc71e5633af334d4
   UIColor-HexString: fadc2e1389db19147ac99dee92222d3bd8bfec4a
 
-PODFILE CHECKSUM: 2f6284ecf00ad45706a4b670ca9bd0bc4fb811fc
+PODFILE CHECKSUM: a2236606ccdb0b086a1b38f75b34c58a7733ce80
 
 COCOAPODS: 1.0.1

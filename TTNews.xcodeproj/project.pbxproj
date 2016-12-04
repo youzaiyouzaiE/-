@@ -9,6 +9,26 @@
 /* Begin PBXBuildFile section */
 		5E2DDD507AFC5A2FC706C802 /* libPods-TTNews.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C4C26A241D42CCF389274A89 /* libPods-TTNews.a */; };
 		7D4937D66844CF5F5FCBDB08 /* libPods-TTNewsTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8BA86FD4B9FFE3FDD3FFE7EA /* libPods-TTNewsTests.a */; };
+		DA9316561DF3A6BE007F15B3 /* TTNewsContentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DA9316551DF3A6BE007F15B3 /* TTNewsContentViewController.m */; };
+		DA9316881DF3B214007F15B3 /* Foundation+Log.m in Sources */ = {isa = PBXBuildFile; fileRef = DA9316581DF3B214007F15B3 /* Foundation+Log.m */; };
+		DA9316891DF3B214007F15B3 /* NSDate+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = DA93165A1DF3B214007F15B3 /* NSDate+Extension.m */; };
+		DA93168A1DF3B214007F15B3 /* NSObject+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = DA93165C1DF3B214007F15B3 /* NSObject+Extension.m */; };
+		DA93168B1DF3B214007F15B3 /* NSString+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = DA93165E1DF3B214007F15B3 /* NSString+Extension.m */; };
+		DA93168C1DF3B214007F15B3 /* UIBarButtonItem+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = DA9316601DF3B214007F15B3 /* UIBarButtonItem+Extension.m */; };
+		DA93168D1DF3B214007F15B3 /* UIImage+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = DA9316621DF3B214007F15B3 /* UIImage+Extension.m */; };
+		DA93168E1DF3B214007F15B3 /* UIImageView+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = DA9316641DF3B214007F15B3 /* UIImageView+Extension.m */; };
+		DA93168F1DF3B214007F15B3 /* UIView+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = DA9316661DF3B214007F15B3 /* UIView+Extension.m */; };
+		DA9316901DF3B214007F15B3 /* SXNetworkTools.m in Sources */ = {isa = PBXBuildFile; fileRef = DA9316691DF3B214007F15B3 /* SXNetworkTools.m */; };
+		DA9316911DF3B214007F15B3 /* SXNewsEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = DA93166B1DF3B214007F15B3 /* SXNewsEntity.m */; };
+		DA9316921DF3B214007F15B3 /* TTConst.m in Sources */ = {isa = PBXBuildFile; fileRef = DA93166D1DF3B214007F15B3 /* TTConst.m */; };
+		DA9316931DF3B214007F15B3 /* TTDataTool.m in Sources */ = {isa = PBXBuildFile; fileRef = DA93166F1DF3B214007F15B3 /* TTDataTool.m */; };
+		DA9316941DF3B214007F15B3 /* TTNetworkSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DA9316711DF3B214007F15B3 /* TTNetworkSessionManager.m */; };
+		DA9316951DF3B214007F15B3 /* TTNormalNewsFetchDataParameter.m in Sources */ = {isa = PBXBuildFile; fileRef = DA9316731DF3B214007F15B3 /* TTNormalNewsFetchDataParameter.m */; };
+		DA9316961DF3B214007F15B3 /* TTPictureFetchDataParameter.m in Sources */ = {isa = PBXBuildFile; fileRef = DA9316751DF3B214007F15B3 /* TTPictureFetchDataParameter.m */; };
+		DA9316971DF3B214007F15B3 /* TTVideoFetchDataParameter.m in Sources */ = {isa = PBXBuildFile; fileRef = DA9316771DF3B214007F15B3 /* TTVideoFetchDataParameter.m */; };
+		DA93169C1DF3B214007F15B3 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = DA9316851DF3B214007F15B3 /* Reachability.m */; };
+		DA93169D1DF3B214007F15B3 /* TTJudgeNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = DA9316871DF3B214007F15B3 /* TTJudgeNetworking.m */; };
+		DA93178C1DF3B276007F15B3 /* TTProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = DA93178B1DF3B276007F15B3 /* TTProgressHUD.m */; };
 		DAC65C751DF2D5080090369A /* MHFacebookImageViewer.m in Sources */ = {isa = PBXBuildFile; fileRef = DAC65BBE1DF2D5070090369A /* MHFacebookImageViewer.m */; };
 		DAC65C761DF2D5080090369A /* UIImageView+MHFacebookImageViewer.m in Sources */ = {isa = PBXBuildFile; fileRef = DAC65BC01DF2D5070090369A /* UIImageView+MHFacebookImageViewer.m */; };
 		DAC65C771DF2D5080090369A /* AppInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DAC65BC41DF2D5070090369A /* AppInfoViewController.m */; };
@@ -53,22 +73,6 @@
 		DAC65CA01DF2D5080090369A /* TopTextTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DAC65C0F1DF2D5070090369A /* TopTextTableViewCell.xib */; };
 		DAC65CA11DF2D5080090369A /* TTImageCyclePlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = DAC65C111DF2D5070090369A /* TTImageCyclePlayView.m */; };
 		DAC65CA21DF2D5080090369A /* TTTopChannelContianerView.m in Sources */ = {isa = PBXBuildFile; fileRef = DAC65C131DF2D5070090369A /* TTTopChannelContianerView.m */; };
-		DAC65CA31DF2D5080090369A /* Foundation+Log.m in Sources */ = {isa = PBXBuildFile; fileRef = DAC65C161DF2D5070090369A /* Foundation+Log.m */; };
-		DAC65CA41DF2D5080090369A /* NSDate+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = DAC65C181DF2D5070090369A /* NSDate+Extension.m */; };
-		DAC65CA51DF2D5080090369A /* NSObject+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = DAC65C1A1DF2D5070090369A /* NSObject+Extension.m */; };
-		DAC65CA61DF2D5080090369A /* NSString+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = DAC65C1C1DF2D5070090369A /* NSString+Extension.m */; };
-		DAC65CA71DF2D5080090369A /* UIBarButtonItem+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = DAC65C1E1DF2D5070090369A /* UIBarButtonItem+Extension.m */; };
-		DAC65CA81DF2D5080090369A /* UIImage+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = DAC65C201DF2D5070090369A /* UIImage+Extension.m */; };
-		DAC65CA91DF2D5080090369A /* UIImageView+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = DAC65C221DF2D5070090369A /* UIImageView+Extension.m */; };
-		DAC65CAA1DF2D5080090369A /* UIView+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = DAC65C241DF2D5070090369A /* UIView+Extension.m */; };
-		DAC65CAB1DF2D5080090369A /* TTConst.m in Sources */ = {isa = PBXBuildFile; fileRef = DAC65C271DF2D5070090369A /* TTConst.m */; };
-		DAC65CAC1DF2D5080090369A /* TTDataTool.m in Sources */ = {isa = PBXBuildFile; fileRef = DAC65C291DF2D5070090369A /* TTDataTool.m */; };
-		DAC65CAD1DF2D5080090369A /* TTNetworkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DAC65C2B1DF2D5070090369A /* TTNetworkManager.m */; };
-		DAC65CAE1DF2D5080090369A /* TTNormalNewsFetchDataParameter.m in Sources */ = {isa = PBXBuildFile; fileRef = DAC65C2D1DF2D5070090369A /* TTNormalNewsFetchDataParameter.m */; };
-		DAC65CAF1DF2D5080090369A /* TTPictureFetchDataParameter.m in Sources */ = {isa = PBXBuildFile; fileRef = DAC65C2F1DF2D5070090369A /* TTPictureFetchDataParameter.m */; };
-		DAC65CB01DF2D5080090369A /* TTVideoFetchDataParameter.m in Sources */ = {isa = PBXBuildFile; fileRef = DAC65C311DF2D5070090369A /* TTVideoFetchDataParameter.m */; };
-		DAC65CB61DF2D5080090369A /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = DAC65C3F1DF2D5070090369A /* Reachability.m */; };
-		DAC65CB71DF2D5080090369A /* TTJudgeNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = DAC65C411DF2D5070090369A /* TTJudgeNetworking.m */; };
 		DAC65CB81DF2D5080090369A /* PictureCommentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DAC65C451DF2D5070090369A /* PictureCommentViewController.m */; };
 		DAC65CB91DF2D5080090369A /* PictureCommentViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DAC65C461DF2D5070090369A /* PictureCommentViewController.xib */; };
 		DAC65CBA1DF2D5080090369A /* PictureViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DAC65C481DF2D5070090369A /* PictureViewController.m */; };
@@ -94,8 +98,6 @@
 		DAC65CCE1DF2D5080090369A /* VideoCommentCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DAC65C711DF2D5080090369A /* VideoCommentCell.xib */; };
 		DAC65CCF1DF2D5080090369A /* VideoTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DAC65C731DF2D5080090369A /* VideoTableViewCell.m */; };
 		DAC65CD01DF2D5080090369A /* VideoTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DAC65C741DF2D5080090369A /* VideoTableViewCell.xib */; };
-		DAC65CE91DF307900090369A /* SXNetworkTools.m in Sources */ = {isa = PBXBuildFile; fileRef = DAC65CE61DF307900090369A /* SXNetworkTools.m */; };
-		DAC65CEA1DF307900090369A /* SXNewsEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = DAC65CE81DF307900090369A /* SXNewsEntity.m */; };
 		DAC65CF61DF311430090369A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = DAC65CED1DF311430090369A /* AppDelegate.m */; };
 		DAC65CF71DF311430090369A /* TTBaseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DAC65CEF1DF311430090369A /* TTBaseModel.m */; };
 		DAC65CF81DF311430090369A /* TTBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DAC65CF11DF311430090369A /* TTBaseViewController.m */; };
@@ -138,6 +140,45 @@
 		BD2F2D1CCC7CC93810CE5EB9 /* Pods-TTNewsTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TTNewsTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-TTNewsTests/Pods-TTNewsTests.release.xcconfig"; sourceTree = "<group>"; };
 		C4C26A241D42CCF389274A89 /* libPods-TTNews.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-TTNews.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA2F26D01DDDE495002BD87B /* TTDefines.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TTDefines.h; sourceTree = "<group>"; };
+		DA9316541DF3A6BE007F15B3 /* TTNewsContentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTNewsContentViewController.h; sourceTree = "<group>"; };
+		DA9316551DF3A6BE007F15B3 /* TTNewsContentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTNewsContentViewController.m; sourceTree = "<group>"; };
+		DA9316581DF3B214007F15B3 /* Foundation+Log.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Foundation+Log.m"; sourceTree = "<group>"; };
+		DA9316591DF3B214007F15B3 /* NSDate+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+Extension.h"; sourceTree = "<group>"; };
+		DA93165A1DF3B214007F15B3 /* NSDate+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+Extension.m"; sourceTree = "<group>"; };
+		DA93165B1DF3B214007F15B3 /* NSObject+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+Extension.h"; sourceTree = "<group>"; };
+		DA93165C1DF3B214007F15B3 /* NSObject+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+Extension.m"; sourceTree = "<group>"; };
+		DA93165D1DF3B214007F15B3 /* NSString+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Extension.h"; sourceTree = "<group>"; };
+		DA93165E1DF3B214007F15B3 /* NSString+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Extension.m"; sourceTree = "<group>"; };
+		DA93165F1DF3B214007F15B3 /* UIBarButtonItem+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIBarButtonItem+Extension.h"; sourceTree = "<group>"; };
+		DA9316601DF3B214007F15B3 /* UIBarButtonItem+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIBarButtonItem+Extension.m"; sourceTree = "<group>"; };
+		DA9316611DF3B214007F15B3 /* UIImage+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Extension.h"; sourceTree = "<group>"; };
+		DA9316621DF3B214007F15B3 /* UIImage+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Extension.m"; sourceTree = "<group>"; };
+		DA9316631DF3B214007F15B3 /* UIImageView+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImageView+Extension.h"; sourceTree = "<group>"; };
+		DA9316641DF3B214007F15B3 /* UIImageView+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImageView+Extension.m"; sourceTree = "<group>"; };
+		DA9316651DF3B214007F15B3 /* UIView+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Extension.h"; sourceTree = "<group>"; };
+		DA9316661DF3B214007F15B3 /* UIView+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Extension.m"; sourceTree = "<group>"; };
+		DA9316681DF3B214007F15B3 /* SXNetworkTools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SXNetworkTools.h; sourceTree = "<group>"; };
+		DA9316691DF3B214007F15B3 /* SXNetworkTools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SXNetworkTools.m; sourceTree = "<group>"; };
+		DA93166A1DF3B214007F15B3 /* SXNewsEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SXNewsEntity.h; sourceTree = "<group>"; };
+		DA93166B1DF3B214007F15B3 /* SXNewsEntity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SXNewsEntity.m; sourceTree = "<group>"; };
+		DA93166C1DF3B214007F15B3 /* TTConst.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTConst.h; sourceTree = "<group>"; };
+		DA93166D1DF3B214007F15B3 /* TTConst.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTConst.m; sourceTree = "<group>"; };
+		DA93166E1DF3B214007F15B3 /* TTDataTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTDataTool.h; sourceTree = "<group>"; };
+		DA93166F1DF3B214007F15B3 /* TTDataTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTDataTool.m; sourceTree = "<group>"; };
+		DA9316701DF3B214007F15B3 /* TTNetworkSessionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTNetworkSessionManager.h; sourceTree = "<group>"; };
+		DA9316711DF3B214007F15B3 /* TTNetworkSessionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTNetworkSessionManager.m; sourceTree = "<group>"; };
+		DA9316721DF3B214007F15B3 /* TTNormalNewsFetchDataParameter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTNormalNewsFetchDataParameter.h; sourceTree = "<group>"; };
+		DA9316731DF3B214007F15B3 /* TTNormalNewsFetchDataParameter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTNormalNewsFetchDataParameter.m; sourceTree = "<group>"; };
+		DA9316741DF3B214007F15B3 /* TTPictureFetchDataParameter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTPictureFetchDataParameter.h; sourceTree = "<group>"; };
+		DA9316751DF3B214007F15B3 /* TTPictureFetchDataParameter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTPictureFetchDataParameter.m; sourceTree = "<group>"; };
+		DA9316761DF3B214007F15B3 /* TTVideoFetchDataParameter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTVideoFetchDataParameter.h; sourceTree = "<group>"; };
+		DA9316771DF3B214007F15B3 /* TTVideoFetchDataParameter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTVideoFetchDataParameter.m; sourceTree = "<group>"; };
+		DA9316841DF3B214007F15B3 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
+		DA9316851DF3B214007F15B3 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
+		DA9316861DF3B214007F15B3 /* TTJudgeNetworking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTJudgeNetworking.h; sourceTree = "<group>"; };
+		DA9316871DF3B214007F15B3 /* TTJudgeNetworking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTJudgeNetworking.m; sourceTree = "<group>"; };
+		DA93178A1DF3B276007F15B3 /* TTProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTProgressHUD.h; sourceTree = "<group>"; };
+		DA93178B1DF3B276007F15B3 /* TTProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTProgressHUD.m; sourceTree = "<group>"; };
 		DAAEBD421DF2B054002D82CF /* TTNews.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTNews.pch; sourceTree = "<group>"; };
 		DAC65BBD1DF2D5070090369A /* MHFacebookImageViewer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MHFacebookImageViewer.h; sourceTree = "<group>"; };
 		DAC65BBE1DF2D5070090369A /* MHFacebookImageViewer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MHFacebookImageViewer.m; sourceTree = "<group>"; };
@@ -214,37 +255,6 @@
 		DAC65C111DF2D5070090369A /* TTImageCyclePlayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTImageCyclePlayView.m; sourceTree = "<group>"; };
 		DAC65C121DF2D5070090369A /* TTTopChannelContianerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTTopChannelContianerView.h; sourceTree = "<group>"; };
 		DAC65C131DF2D5070090369A /* TTTopChannelContianerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTTopChannelContianerView.m; sourceTree = "<group>"; };
-		DAC65C161DF2D5070090369A /* Foundation+Log.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Foundation+Log.m"; sourceTree = "<group>"; };
-		DAC65C171DF2D5070090369A /* NSDate+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+Extension.h"; sourceTree = "<group>"; };
-		DAC65C181DF2D5070090369A /* NSDate+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+Extension.m"; sourceTree = "<group>"; };
-		DAC65C191DF2D5070090369A /* NSObject+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+Extension.h"; sourceTree = "<group>"; };
-		DAC65C1A1DF2D5070090369A /* NSObject+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+Extension.m"; sourceTree = "<group>"; };
-		DAC65C1B1DF2D5070090369A /* NSString+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Extension.h"; sourceTree = "<group>"; };
-		DAC65C1C1DF2D5070090369A /* NSString+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Extension.m"; sourceTree = "<group>"; };
-		DAC65C1D1DF2D5070090369A /* UIBarButtonItem+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIBarButtonItem+Extension.h"; sourceTree = "<group>"; };
-		DAC65C1E1DF2D5070090369A /* UIBarButtonItem+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIBarButtonItem+Extension.m"; sourceTree = "<group>"; };
-		DAC65C1F1DF2D5070090369A /* UIImage+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Extension.h"; sourceTree = "<group>"; };
-		DAC65C201DF2D5070090369A /* UIImage+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Extension.m"; sourceTree = "<group>"; };
-		DAC65C211DF2D5070090369A /* UIImageView+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImageView+Extension.h"; sourceTree = "<group>"; };
-		DAC65C221DF2D5070090369A /* UIImageView+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImageView+Extension.m"; sourceTree = "<group>"; };
-		DAC65C231DF2D5070090369A /* UIView+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Extension.h"; sourceTree = "<group>"; };
-		DAC65C241DF2D5070090369A /* UIView+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Extension.m"; sourceTree = "<group>"; };
-		DAC65C261DF2D5070090369A /* TTConst.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTConst.h; sourceTree = "<group>"; };
-		DAC65C271DF2D5070090369A /* TTConst.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTConst.m; sourceTree = "<group>"; };
-		DAC65C281DF2D5070090369A /* TTDataTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTDataTool.h; sourceTree = "<group>"; };
-		DAC65C291DF2D5070090369A /* TTDataTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTDataTool.m; sourceTree = "<group>"; };
-		DAC65C2A1DF2D5070090369A /* TTNetworkManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTNetworkManager.h; sourceTree = "<group>"; };
-		DAC65C2B1DF2D5070090369A /* TTNetworkManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTNetworkManager.m; sourceTree = "<group>"; };
-		DAC65C2C1DF2D5070090369A /* TTNormalNewsFetchDataParameter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTNormalNewsFetchDataParameter.h; sourceTree = "<group>"; };
-		DAC65C2D1DF2D5070090369A /* TTNormalNewsFetchDataParameter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTNormalNewsFetchDataParameter.m; sourceTree = "<group>"; };
-		DAC65C2E1DF2D5070090369A /* TTPictureFetchDataParameter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTPictureFetchDataParameter.h; sourceTree = "<group>"; };
-		DAC65C2F1DF2D5070090369A /* TTPictureFetchDataParameter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTPictureFetchDataParameter.m; sourceTree = "<group>"; };
-		DAC65C301DF2D5070090369A /* TTVideoFetchDataParameter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTVideoFetchDataParameter.h; sourceTree = "<group>"; };
-		DAC65C311DF2D5070090369A /* TTVideoFetchDataParameter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTVideoFetchDataParameter.m; sourceTree = "<group>"; };
-		DAC65C3E1DF2D5070090369A /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
-		DAC65C3F1DF2D5070090369A /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
-		DAC65C401DF2D5070090369A /* TTJudgeNetworking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTJudgeNetworking.h; sourceTree = "<group>"; };
-		DAC65C411DF2D5070090369A /* TTJudgeNetworking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTJudgeNetworking.m; sourceTree = "<group>"; };
 		DAC65C441DF2D5070090369A /* PictureCommentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PictureCommentViewController.h; sourceTree = "<group>"; };
 		DAC65C451DF2D5070090369A /* PictureCommentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PictureCommentViewController.m; sourceTree = "<group>"; };
 		DAC65C461DF2D5070090369A /* PictureCommentViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PictureCommentViewController.xib; sourceTree = "<group>"; };
@@ -287,10 +297,6 @@
 		DAC65C721DF2D5080090369A /* VideoTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoTableViewCell.h; sourceTree = "<group>"; };
 		DAC65C731DF2D5080090369A /* VideoTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VideoTableViewCell.m; sourceTree = "<group>"; };
 		DAC65C741DF2D5080090369A /* VideoTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = VideoTableViewCell.xib; sourceTree = "<group>"; };
-		DAC65CE51DF307900090369A /* SXNetworkTools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SXNetworkTools.h; sourceTree = "<group>"; };
-		DAC65CE61DF307900090369A /* SXNetworkTools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SXNetworkTools.m; sourceTree = "<group>"; };
-		DAC65CE71DF307900090369A /* SXNewsEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SXNewsEntity.h; sourceTree = "<group>"; };
-		DAC65CE81DF307900090369A /* SXNewsEntity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SXNewsEntity.m; sourceTree = "<group>"; };
 		DAC65CEC1DF311430090369A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		DAC65CED1DF311430090369A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		DAC65CEE1DF311430090369A /* TTBaseModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTBaseModel.h; sourceTree = "<group>"; };
@@ -353,6 +359,71 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		DA9316571DF3B214007F15B3 /* Category */ = {
+			isa = PBXGroup;
+			children = (
+				DA9316581DF3B214007F15B3 /* Foundation+Log.m */,
+				DA9316591DF3B214007F15B3 /* NSDate+Extension.h */,
+				DA93165A1DF3B214007F15B3 /* NSDate+Extension.m */,
+				DA93165B1DF3B214007F15B3 /* NSObject+Extension.h */,
+				DA93165C1DF3B214007F15B3 /* NSObject+Extension.m */,
+				DA93165D1DF3B214007F15B3 /* NSString+Extension.h */,
+				DA93165E1DF3B214007F15B3 /* NSString+Extension.m */,
+				DA93165F1DF3B214007F15B3 /* UIBarButtonItem+Extension.h */,
+				DA9316601DF3B214007F15B3 /* UIBarButtonItem+Extension.m */,
+				DA9316611DF3B214007F15B3 /* UIImage+Extension.h */,
+				DA9316621DF3B214007F15B3 /* UIImage+Extension.m */,
+				DA9316631DF3B214007F15B3 /* UIImageView+Extension.h */,
+				DA9316641DF3B214007F15B3 /* UIImageView+Extension.m */,
+				DA9316651DF3B214007F15B3 /* UIView+Extension.h */,
+				DA9316661DF3B214007F15B3 /* UIView+Extension.m */,
+			);
+			path = Category;
+			sourceTree = "<group>";
+		};
+		DA9316671DF3B214007F15B3 /* Http */ = {
+			isa = PBXGroup;
+			children = (
+				DA9316681DF3B214007F15B3 /* SXNetworkTools.h */,
+				DA9316691DF3B214007F15B3 /* SXNetworkTools.m */,
+				DA93166A1DF3B214007F15B3 /* SXNewsEntity.h */,
+				DA93166B1DF3B214007F15B3 /* SXNewsEntity.m */,
+				DA93166C1DF3B214007F15B3 /* TTConst.h */,
+				DA93166D1DF3B214007F15B3 /* TTConst.m */,
+				DA93166E1DF3B214007F15B3 /* TTDataTool.h */,
+				DA93166F1DF3B214007F15B3 /* TTDataTool.m */,
+				DA9316701DF3B214007F15B3 /* TTNetworkSessionManager.h */,
+				DA9316711DF3B214007F15B3 /* TTNetworkSessionManager.m */,
+				DA9316721DF3B214007F15B3 /* TTNormalNewsFetchDataParameter.h */,
+				DA9316731DF3B214007F15B3 /* TTNormalNewsFetchDataParameter.m */,
+				DA9316741DF3B214007F15B3 /* TTPictureFetchDataParameter.h */,
+				DA9316751DF3B214007F15B3 /* TTPictureFetchDataParameter.m */,
+				DA9316761DF3B214007F15B3 /* TTVideoFetchDataParameter.h */,
+				DA9316771DF3B214007F15B3 /* TTVideoFetchDataParameter.m */,
+			);
+			path = Http;
+			sourceTree = "<group>";
+		};
+		DA9316781DF3B214007F15B3 /* HUD */ = {
+			isa = PBXGroup;
+			children = (
+				DA93178A1DF3B276007F15B3 /* TTProgressHUD.h */,
+				DA93178B1DF3B276007F15B3 /* TTProgressHUD.m */,
+			);
+			path = HUD;
+			sourceTree = "<group>";
+		};
+		DA9316831DF3B214007F15B3 /* TTNetWork */ = {
+			isa = PBXGroup;
+			children = (
+				DA9316841DF3B214007F15B3 /* Reachability.h */,
+				DA9316851DF3B214007F15B3 /* Reachability.m */,
+				DA9316861DF3B214007F15B3 /* TTJudgeNetworking.h */,
+				DA9316871DF3B214007F15B3 /* TTJudgeNetworking.m */,
+			);
+			path = TTNetWork;
+			sourceTree = "<group>";
+		};
 		DAC65BB91DF2D5070090369A /* Source */ = {
 			isa = PBXGroup;
 			children = (
@@ -370,6 +441,10 @@
 		DAC65BBA1DF2D5070090369A /* Library */ = {
 			isa = PBXGroup;
 			children = (
+				DA9316571DF3B214007F15B3 /* Category */,
+				DA9316671DF3B214007F15B3 /* Http */,
+				DA9316781DF3B214007F15B3 /* HUD */,
+				DA9316831DF3B214007F15B3 /* TTNetWork */,
 				DAC65BBB1DF2D5070090369A /* 3rd */,
 			);
 			path = Library;
@@ -407,14 +482,14 @@
 		DAC65BC21DF2D5070090369A /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				DAC65BC91DF2D5070090369A /* MeTableViewController.h */,
+				DAC65BCA1DF2D5070090369A /* MeTableViewController.m */,
 				DAC65BC31DF2D5070090369A /* AppInfoViewController.h */,
 				DAC65BC41DF2D5070090369A /* AppInfoViewController.m */,
 				DAC65BC51DF2D5070090369A /* AppInfoViewController.xib */,
 				DAC65BC61DF2D5070090369A /* EditUserInfoViewController.h */,
 				DAC65BC71DF2D5070090369A /* EditUserInfoViewController.m */,
 				DAC65BC81DF2D5070090369A /* EditUserInfoViewController.xib */,
-				DAC65BC91DF2D5070090369A /* MeTableViewController.h */,
-				DAC65BCA1DF2D5070090369A /* MeTableViewController.m */,
 				DAC65BCB1DF2D5070090369A /* SendFeedbackViewController.h */,
 				DAC65BCC1DF2D5070090369A /* SendFeedbackViewController.m */,
 			);
@@ -472,6 +547,8 @@
 				DAC65BEA1DF2D5070090369A /* NewsViewController.m */,
 				DAC65BE51DF2D5070090369A /* ContentTableViewController.h */,
 				DAC65BE61DF2D5070090369A /* ContentTableViewController.m */,
+				DA9316541DF3A6BE007F15B3 /* TTNewsContentViewController.h */,
+				DA9316551DF3A6BE007F15B3 /* TTNewsContentViewController.m */,
 				DAC65BE71DF2D5070090369A /* DetailViewController.h */,
 				DAC65BE81DF2D5070090369A /* DetailViewController.m */,
 				DAC65BEB1DF2D5070090369A /* ShowMultiPictureViewController.h */,
@@ -530,67 +607,8 @@
 		DAC65C141DF2D5070090369A /* Other */ = {
 			isa = PBXGroup;
 			children = (
-				DAC65C151DF2D5070090369A /* Category */,
-				DAC65C251DF2D5070090369A /* Http */,
-				DAC65C3D1DF2D5070090369A /* NetWork */,
 			);
 			path = Other;
-			sourceTree = "<group>";
-		};
-		DAC65C151DF2D5070090369A /* Category */ = {
-			isa = PBXGroup;
-			children = (
-				DAC65C161DF2D5070090369A /* Foundation+Log.m */,
-				DAC65C171DF2D5070090369A /* NSDate+Extension.h */,
-				DAC65C181DF2D5070090369A /* NSDate+Extension.m */,
-				DAC65C191DF2D5070090369A /* NSObject+Extension.h */,
-				DAC65C1A1DF2D5070090369A /* NSObject+Extension.m */,
-				DAC65C1B1DF2D5070090369A /* NSString+Extension.h */,
-				DAC65C1C1DF2D5070090369A /* NSString+Extension.m */,
-				DAC65C1D1DF2D5070090369A /* UIBarButtonItem+Extension.h */,
-				DAC65C1E1DF2D5070090369A /* UIBarButtonItem+Extension.m */,
-				DAC65C1F1DF2D5070090369A /* UIImage+Extension.h */,
-				DAC65C201DF2D5070090369A /* UIImage+Extension.m */,
-				DAC65C211DF2D5070090369A /* UIImageView+Extension.h */,
-				DAC65C221DF2D5070090369A /* UIImageView+Extension.m */,
-				DAC65C231DF2D5070090369A /* UIView+Extension.h */,
-				DAC65C241DF2D5070090369A /* UIView+Extension.m */,
-			);
-			path = Category;
-			sourceTree = "<group>";
-		};
-		DAC65C251DF2D5070090369A /* Http */ = {
-			isa = PBXGroup;
-			children = (
-				DAC65CE51DF307900090369A /* SXNetworkTools.h */,
-				DAC65CE61DF307900090369A /* SXNetworkTools.m */,
-				DAC65CE71DF307900090369A /* SXNewsEntity.h */,
-				DAC65CE81DF307900090369A /* SXNewsEntity.m */,
-				DAC65C261DF2D5070090369A /* TTConst.h */,
-				DAC65C271DF2D5070090369A /* TTConst.m */,
-				DAC65C281DF2D5070090369A /* TTDataTool.h */,
-				DAC65C291DF2D5070090369A /* TTDataTool.m */,
-				DAC65C2A1DF2D5070090369A /* TTNetworkManager.h */,
-				DAC65C2B1DF2D5070090369A /* TTNetworkManager.m */,
-				DAC65C2C1DF2D5070090369A /* TTNormalNewsFetchDataParameter.h */,
-				DAC65C2D1DF2D5070090369A /* TTNormalNewsFetchDataParameter.m */,
-				DAC65C2E1DF2D5070090369A /* TTPictureFetchDataParameter.h */,
-				DAC65C2F1DF2D5070090369A /* TTPictureFetchDataParameter.m */,
-				DAC65C301DF2D5070090369A /* TTVideoFetchDataParameter.h */,
-				DAC65C311DF2D5070090369A /* TTVideoFetchDataParameter.m */,
-			);
-			path = Http;
-			sourceTree = "<group>";
-		};
-		DAC65C3D1DF2D5070090369A /* NetWork */ = {
-			isa = PBXGroup;
-			children = (
-				DAC65C3E1DF2D5070090369A /* Reachability.h */,
-				DAC65C3F1DF2D5070090369A /* Reachability.m */,
-				DAC65C401DF2D5070090369A /* TTJudgeNetworking.h */,
-				DAC65C411DF2D5070090369A /* TTJudgeNetworking.m */,
-			);
-			path = NetWork;
 			sourceTree = "<group>";
 		};
 		DAC65C421DF2D5070090369A /* Picture */ = {
@@ -1084,77 +1102,79 @@
 			buildActionMask = 2147483647;
 			files = (
 				DAC65CC41DF2D5080090369A /* VideoCommentViewController.m in Sources */,
+				DA9316921DF3B214007F15B3 /* TTConst.m in Sources */,
 				DAC65C7F1DF2D5080090369A /* TTLoginViewController.m in Sources */,
-				DAC65CA31DF2D5080090369A /* Foundation+Log.m in Sources */,
 				DAC65C8F1DF2D5080090369A /* TTHeaderNews.m in Sources */,
 				DAC65C751DF2D5080090369A /* MHFacebookImageViewer.m in Sources */,
 				DAC65CC81DF2D5080090369A /* TTVideoComment.m in Sources */,
+				DA93168B1DF3B214007F15B3 /* NSString+Extension.m in Sources */,
 				DAC65C971DF2D5080090369A /* MultiPictureTableViewCell.m in Sources */,
 				DAC65C8A1DF2D5080090369A /* DetailViewController.m in Sources */,
+				DA93168E1DF3B214007F15B3 /* UIImageView+Extension.m in Sources */,
+				DA93169C1DF3B214007F15B3 /* Reachability.m in Sources */,
 				DAC65CCF1DF2D5080090369A /* VideoTableViewCell.m in Sources */,
+				DA9316561DF3A6BE007F15B3 /* TTNewsContentViewController.m in Sources */,
 				DAC65CA11DF2D5080090369A /* TTImageCyclePlayView.m in Sources */,
-				DAC65CA41DF2D5080090369A /* NSDate+Extension.m in Sources */,
+				DA9316911DF3B214007F15B3 /* SXNewsEntity.m in Sources */,
 				DAC65C7B1DF2D5080090369A /* MeTableViewController.m in Sources */,
-				DAC65CAF1DF2D5080090369A /* TTPictureFetchDataParameter.m in Sources */,
 				DAC65C881DF2D5080090369A /* UserInfoCell.m in Sources */,
 				EE4635C81CC72B8900DB248F /* main.m in Sources */,
 				DAC65CFA1DF311430090369A /* TTTabBarController.m in Sources */,
-				DAC65CAD1DF2D5080090369A /* TTNetworkManager.m in Sources */,
 				DAC65CBB1DF2D5080090369A /* TTPicture.m in Sources */,
+				DA9316901DF3B214007F15B3 /* SXNetworkTools.m in Sources */,
+				DA9316931DF3B214007F15B3 /* TTDataTool.m in Sources */,
+				DA9316881DF3B214007F15B3 /* Foundation+Log.m in Sources */,
+				DA93169D1DF3B214007F15B3 /* TTJudgeNetworking.m in Sources */,
 				DAC65C941DF2D5080090369A /* ChannelCollectionViewCell.m in Sources */,
 				DAC65CF71DF311430090369A /* TTBaseModel.m in Sources */,
 				DAC65CC71DF2D5080090369A /* TTVideo.m in Sources */,
+				DA93178C1DF3B276007F15B3 /* TTProgressHUD.m in Sources */,
 				DAC65C861DF2D5080090369A /* SwitchCell.m in Sources */,
+				DA9316951DF3B214007F15B3 /* TTNormalNewsFetchDataParameter.m in Sources */,
 				DAC65C901DF2D5080090369A /* TTNormalNews.m in Sources */,
-				DAC65CA81DF2D5080090369A /* UIImage+Extension.m in Sources */,
 				DAC65C9F1DF2D5080090369A /* TopTextTableViewCell.m in Sources */,
-				DAC65CA51DF2D5080090369A /* NSObject+Extension.m in Sources */,
 				DAC65CBA1DF2D5080090369A /* PictureViewController.m in Sources */,
+				DA93168C1DF3B214007F15B3 /* UIBarButtonItem+Extension.m in Sources */,
 				DAC65CCD1DF2D5080090369A /* VideoCommentCell.m in Sources */,
-				DAC65CE91DF307900090369A /* SXNetworkTools.m in Sources */,
-				DAC65CEA1DF307900090369A /* SXNewsEntity.m in Sources */,
 				DAC65CB81DF2D5080090369A /* PictureCommentViewController.m in Sources */,
-				DAC65CA91DF2D5080090369A /* UIImageView+Extension.m in Sources */,
 				DAC65CC91DF2D5080090369A /* TTVideoUser.m in Sources */,
 				DAC65C7C1DF2D5080090369A /* SendFeedbackViewController.m in Sources */,
 				DAC65C9D1DF2D5080090369A /* TopPictureTableViewCell.m in Sources */,
 				DAC65C7D1DF2D5080090369A /* TTFindPasswordViewController.m in Sources */,
+				DA9316891DF3B214007F15B3 /* NSDate+Extension.m in Sources */,
 				DAC65C771DF2D5080090369A /* AppInfoViewController.m in Sources */,
 				DAC65C891DF2D5080090369A /* ContentTableViewController.m in Sources */,
-				DAC65CB01DF2D5080090369A /* TTVideoFetchDataParameter.m in Sources */,
-				DAC65CAA1DF2D5080090369A /* UIView+Extension.m in Sources */,
-				DAC65CAE1DF2D5080090369A /* TTNormalNewsFetchDataParameter.m in Sources */,
+				DA9316971DF3B214007F15B3 /* TTVideoFetchDataParameter.m in Sources */,
 				DAC65C911DF2D5080090369A /* TWNewsEntity.m in Sources */,
 				DAC65C991DF2D5080090369A /* NoPictureNewsTableViewCell.m in Sources */,
-				DAC65CB71DF2D5080090369A /* TTJudgeNetworking.m in Sources */,
-				DAC65CAC1DF2D5080090369A /* TTDataTool.m in Sources */,
 				DAC65C761DF2D5080090369A /* UIImageView+MHFacebookImageViewer.m in Sources */,
+				DA9316941DF3B214007F15B3 /* TTNetworkSessionManager.m in Sources */,
 				DAC65CCB1DF2D5080090369A /* VideoPlayView.m in Sources */,
 				DAC65CCA1DF2D5080090369A /* FullViewController.m in Sources */,
 				DAC65CF81DF311430090369A /* TTBaseViewController.m in Sources */,
-				DAC65CA61DF2D5080090369A /* NSString+Extension.m in Sources */,
 				DAC65C851DF2D5080090369A /* DisclosureCell.m in Sources */,
 				DAC65CF61DF311430090369A /* AppDelegate.m in Sources */,
 				DAC65C961DF2D5080090369A /* ChannelsSectionHeaderView.m in Sources */,
 				DAC65C921DF2D5080090369A /* BigPictureTableViewCell.m in Sources */,
+				DA93168F1DF3B214007F15B3 /* UIView+Extension.m in Sources */,
 				DAC65C9B1DF2D5080090369A /* SinglePictureNewsTableViewCell.m in Sources */,
+				DA93168A1DF3B214007F15B3 /* NSObject+Extension.m in Sources */,
 				DAC65CC21DF2D5080090369A /* ShowBigPictureViewController.m in Sources */,
 				DAC65C8C1DF2D5080090369A /* ShowMultiPictureViewController.m in Sources */,
 				DAC65CC61DF2D5080090369A /* VideoViewController.m in Sources */,
 				DAC65CBC1DF2D5080090369A /* TTPictureComment.m in Sources */,
 				DAC65C811DF2D5080090369A /* TTMailRegisterViewController.m in Sources */,
 				DAC65CF91DF311430090369A /* TTNavigationController.m in Sources */,
-				DAC65CAB1DF2D5080090369A /* TTConst.m in Sources */,
 				DAC65CA21DF2D5080090369A /* TTTopChannelContianerView.m in Sources */,
 				DAC65CC01DF2D5080090369A /* PictureTableViewCell.m in Sources */,
 				DAC65C871DF2D5080090369A /* TwoLabelCell.m in Sources */,
 				DAC65C8B1DF2D5080090369A /* NewsViewController.m in Sources */,
-				DAC65CA71DF2D5080090369A /* UIBarButtonItem+Extension.m in Sources */,
 				DAC65C831DF2D5080090369A /* TTRegisterViewController.m in Sources */,
+				DA93168D1DF3B214007F15B3 /* UIImage+Extension.m in Sources */,
 				DAC65CBD1DF2D5080090369A /* TTPictureUser.m in Sources */,
 				DAC65CBE1DF2D5080090369A /* PictureCommentCell.m in Sources */,
-				DAC65CB61DF2D5080090369A /* Reachability.m in Sources */,
 				DAC65C791DF2D5080090369A /* EditUserInfoViewController.m in Sources */,
+				DA9316961DF3B214007F15B3 /* TTPictureFetchDataParameter.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

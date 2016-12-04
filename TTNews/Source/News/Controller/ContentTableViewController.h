@@ -7,11 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
-@class TTNormalNews;
+
+//@class TTNormalNews;
 
 @interface ContentTableViewController : UITableViewController
 
-@property(nonatomic, strong) TTNormalNews *news;
+//@property(nonatomic, strong) TTNormalNews *news;
 @property (nonatomic, copy) NSString *channelId;
 @property (nonatomic, copy) NSString *channelName;
 @property(nonatomic,copy) NSString *urlString;

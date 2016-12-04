@@ -9,7 +9,7 @@
 #import "AppDelegate.h"
 #import "TTTabBarController.h"
 #import "TTConst.h"
-#import "TTNetworkManager.H"
+#import "TTNetworkSessionManager.H"
 
 
 @interface AppDelegate ()
@@ -31,7 +31,7 @@
 
 #pragma mark - netWork request
 - (void)initializeNetRequest {
-    [[TTNetworkManager shareManager] Get:INITIALIZE_URL
+    [[TTNetworkSessionManager shareManager] Get:INITIALIZE_URL
                               Parameters:nil
                                  Success:^(NSURLSessionDataTask *task, NSDictionary *responseObject) {
         NSNumber *signalNum = responseObject[@"signal"];

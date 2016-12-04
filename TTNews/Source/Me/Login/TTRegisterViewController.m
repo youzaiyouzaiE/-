@@ -11,7 +11,7 @@
 #import "AppDelegate.h"
 #import "TTMailRegisterViewController.h"
 #import "MBProgressHUD.h"
-#import "TTNetworkManager.h"
+#import "TTNetworkSessionManager.h"
 #import "NSString+Extension.h"
 #import <SDWebImage/UIImageView+WebCache.h>
 #import "NSObject+Extension.h"
@@ -131,7 +131,7 @@
 #pragma mark - NET WORKER 
 - (void)checkUserNameOrMailUsed {
     _isCheckingMail = YES;
-    [[TTNetworkManager shareManager] Get:CHECK_EMAIL_URL
+    [[TTNetworkSessionManager shareManager] Get:CHECK_EMAIL_URL
                               Parameters:@{@"email":_textFieldMailAddress.text, @"username":_textFieldNickname.text}
                                  Success:^(NSURLSessionDataTask *task, NSDictionary *responseObject) {
                                      _isCheckingMail = NO;
@@ -169,7 +169,7 @@
 }
 
 - (void)initializeNetRequest {
-    [[TTNetworkManager shareManager] Get:INITIALIZE_URL Parameters:nil Success:^(NSURLSessionDataTask *task, NSDictionary *responseObject) {
+    [[TTNetworkSessionManager shareManager] Get:INITIALIZE_URL Parameters:nil Success:^(NSURLSessionDataTask *task, NSDictionary *responseObject) {
         NSNumber *signalNum = responseObject[@"signal"];
         if (signalNum.integerValue == 1) {
             _imageGuid = responseObject[@"data"][@"GUID"];
@@ -196,7 +196,7 @@
 
 - (void)sendEmailRequest {
     MBProgressHUD *hud = [self showActivityHud];
-    [[TTNetworkManager shareManager] Get:SEND_EMAIL_URL
+    [[TTNetworkSessionManager shareManager] Get:SEND_EMAIL_URL
                               Parameters:@{@"email":_textFieldMailAddress.text, @"username":_textFieldNickname.text, @"rndUid":_imageGuid, @"picVerifyCode":_textFieldIdentifyCode.text}
                                  Success:^(NSURLSessionDataTask *task, NSDictionary *responseObject) {
                                      [hud hideAnimated:YES];

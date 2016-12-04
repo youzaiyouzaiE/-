@@ -8,7 +8,7 @@
 
 #import "TTMailRegisterViewController.h"
 #import "MBProgressHUD.h"
-#import "TTNetworkManager.h"
+#import "TTNetworkSessionManager.h"
 #import "NSObject+Extension.h"
 #import <DKNightVersion.h>
 @interface TTMailRegisterViewController ()<UITextFieldDelegate> {
@@ -90,7 +90,7 @@
 #pragma mark - NET WORKER
 - (void)registerNetRequest{
     MBProgressHUD *hud = [self showActivityHud];
-    [[TTNetworkManager shareManager] Get:REGISTER_URL
+    [[TTNetworkSessionManager shareManager] Get:REGISTER_URL
                               Parameters:@{@"email":_mailStr, @"emailVerifyCode":_textFieldMailCode.text,@"username":_nickNameStr, @"password":_textFieldPassword.text}
                                  Success:^(NSURLSessionDataTask *task, NSDictionary *responseObject) {
                                      [hud hideAnimated:YES];
