@@ -91,7 +91,6 @@ static NSString * const collectionViewSectionHeaderID = @"ChannelCollectionHeade
         vc.view.frame = CGRectMake(index * Screen_Width, 0, Screen_Width, _contentScrollView.height);
         index ++;
     }
-   
 }
 
 - (void)setupTopContianerView{

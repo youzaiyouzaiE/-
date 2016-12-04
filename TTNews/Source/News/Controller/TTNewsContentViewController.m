@@ -29,12 +29,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-//    self.view.backgroundColor = [UIColor redColor];
-    
     if (_hasCycleImage) {
         [self addCycleScrollView];
     }
-//    [self addTabelView];
+    [self addTabelView];
     
 }
 
@@ -51,7 +49,7 @@
     [self.view addSubview:_cycleScrollView];
     [_cycleScrollView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.left.right.mas_equalTo(0);
-        make.height.mas_equalTo(90);
+        make.height.mas_equalTo(120);
     }];
 }
 
@@ -62,15 +60,15 @@
     _tableView.dataSource = self;
     [self.view addSubview:_tableView];
     [_tableView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(_cycleScrollView.mas_bottom);
+        if (_hasCycleImage) {
+            make.top.mas_equalTo(_cycleScrollView.mas_bottom);
+        } else
+            make.top.mas_equalTo(0);
         make.left.right.bottom.mas_equalTo(0);
     }];
-    
-//    [self.tableView registerNib:[UINib nibWithNibName:NSStringFromClass([TopPictureTableViewCell class]) bundle:nil] forCellReuseIdentifier:topPictureCell];
-//    [self.tableView registerNib:[UINib nibWithNibName:NSStringFromClass([TopTextTableViewCell class]) bundle:nil] forCellReuseIdentifier:topTextPictureCell];
-//    [self.tableView registerNib:[UINib nibWithNibName:NSStringFromClass([BigPictureTableViewCell class]) bundle:nil] forCellReuseIdentifier:bigPictureCell];
-    [self.tableView registerNib:[UINib nibWithNibName:NSStringFromClass([SinglePictureNewsTableViewCell class]) bundle:nil] forCellReuseIdentifier:@"SinglePictureNewsTableViewCell"];
-//    [self.tableView registerNib:[UINib nibWithNibName:NSStringFromClass([MultiPictureTableViewCell class]) bundle:nil] forCellReuseIdentifier:multiPictureCell];
+    self.tableView.dk_backgroundColorPicker = DKColorPickerWithRGB(0xf0f0f0, 0x000000, 0xfafafa);
+    self.automaticallyAdjustsScrollViewInsets = NO;
+    [self.tableView registerNib:[UINib nibWithNibName:NSStringFromClass([SinglePictureNewsTableViewCell class]) bundle:nil] forCellReuseIdentifier:@"SinglePictureCell"];
 }
 
 #pragma mark - SDCycleScrollViewDelegate 
@@ -98,7 +96,7 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    SinglePictureNewsTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"SinglePictureNewsTableViewCell"];
+    SinglePictureNewsTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"SinglePictureCell"];
     
     return cell;
    
