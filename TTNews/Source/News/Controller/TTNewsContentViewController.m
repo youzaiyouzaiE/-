@@ -8,16 +8,18 @@
 
 #import "TTNewsContentViewController.h"
 #import "SDCycleScrollView.h"
-
-#import "TopTextTableViewCell.h"
-#import "TopPictureTableViewCell.h"
-#import "BigPictureTableViewCell.h"
 #import "SinglePictureNewsTableViewCell.h"
 #import "MultiPictureTableViewCell.h"
 #import <SDWebImage/UIImageView+WebCache.h>
+#import <MJRefresh.h>
+#import "AFNetworking.h"
 
 @interface TTNewsContentViewController () <SDCycleScrollViewDelegate,UITableViewDelegate,UITableViewDataSource> {
     SDCycleScrollView *_cycleScrollView;
+    NSInteger _currentPage;
+    
+    
+    NSMutableArray *_arrayList;
 }
 
 @property (nonatomic, strong) UITableView *tableView;
@@ -29,11 +31,12 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    if (_hasCycleImage) {
+    _arrayList = [NSMutableArray array];
+    _currentPage = 1;
+    if (_isFristNews) {
         [self addCycleScrollView];
     }
     [self addTabelView];
-    
 }
 
 - (void)addCycleScrollView {
@@ -60,7 +63,7 @@
     _tableView.dataSource = self;
     [self.view addSubview:_tableView];
     [_tableView mas_makeConstraints:^(MASConstraintMaker *make) {
-        if (_hasCycleImage) {
+        if (_isFristNews) {
             make.top.mas_equalTo(_cycleScrollView.mas_bottom);
         } else
             make.top.mas_equalTo(0);
@@ -69,6 +72,62 @@
     self.tableView.dk_backgroundColorPicker = DKColorPickerWithRGB(0xf0f0f0, 0x000000, 0xfafafa);
     self.automaticallyAdjustsScrollViewInsets = NO;
     [self.tableView registerNib:[UINib nibWithNibName:NSStringFromClass([SinglePictureNewsTableViewCell class]) bundle:nil] forCellReuseIdentifier:@"SinglePictureCell"];
+    [self setupRefresh];
+}
+
+-(void)setupRefresh {
+    self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadData)];
+    self.tableView.mj_header.automaticallyChangeAlpha = YES;
+    [self.tableView.mj_header beginRefreshing];
+    self.tableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];
+}
+
+- (void)loadData {
+    [self loadListForPage:_currentPage andIsRefresh:YES];
+}
+
+- (void)loadMoreData {
+    [self loadListForPage:_currentPage andIsRefresh:NO];
+}
+
+- (void)loadListForPage:(NSInteger)page andIsRefresh:(BOOL)isRefresh {
+    [TTProgressHUD show];
+    NSDictionary *parameterDic = nil;
+    NSString *urlStr = TT_OTHER_News_LIST;
+    if (_isFristNews) {
+        urlStr = TT_FRIST_NEWS_List;
+        parameterDic = @{@"page":@(page)};
+    }
+    __weak __typeof(self)weakSelf = self;
+    [[AFHTTPSessionManager manager] GET:urlStr
+                             parameters:parameterDic
+                               progress:^(NSProgress * _Nonnull downloadProgress) {}
+                                success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+                                    [TTProgressHUD dismiss];
+                                    if (isRefresh) {
+                                        [_arrayList removeAllObjects];
+                                    }
+                                    for (NSDictionary *dic in responseObject) {
+                                        
+                                    }
+                                
+                                    [weakSelf setMJHeaderOrFooterStatusWithIsUpload:isRefresh];
+                                }
+                                failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+                                    [TTProgressHUD dismiss];
+                                    [TTProgressHUD showMsg:@"服务器繁忙！请求出错"];
+                                    [weakSelf setMJHeaderOrFooterStatusWithIsUpload:isRefresh];
+                                }];
+}
+
+- (void)setMJHeaderOrFooterStatusWithIsUpload:(BOOL)isRefresh {
+    if (isRefresh) {
+        [_tableView.mj_header endRefreshing];
+        [_tableView.mj_footer resetNoMoreData];
+        self.tableView.mj_footer.hidden = NO;
+    } else {
+        [_tableView.mj_footer resetNoMoreData];
+    }
 }
 
 #pragma mark - SDCycleScrollViewDelegate 

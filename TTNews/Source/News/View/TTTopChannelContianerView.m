@@ -42,7 +42,7 @@ static CGFloat buttonWidth = 65;
     if (channelNameArray.count < 5) {
         buttonWidth = self.scrollView.frame.size.width / channelNameArray.count;
     }
-    self.scrollView.contentSize = CGSizeMake(buttonWidth * channelNameArray.count + 20, 0);
+    self.scrollView.contentSize = CGSizeMake(buttonWidth * channelNameArray.count, 0);
     for (NSInteger i = 0; i < channelNameArray.count; i++) {
         UIButton *button = [self createChannelButton];
         button.frame = CGRectMake(i*buttonWidth, 0, buttonWidth, self.frame.size.height);
@@ -75,7 +75,7 @@ static CGFloat buttonWidth = 65;
 - (UIScrollView *)createScrollView {
     UIScrollView *scrollView = [[UIScrollView alloc] init];
     self.scrollView = scrollView;
-    scrollView.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width - kAddChannelWidth, self.frame.size.height);
+    scrollView.frame = CGRectMake(0, 0, self.width, self.frame.size.height);
     scrollView.showsHorizontalScrollIndicator = NO;
     scrollView.showsVerticalScrollIndicator = NO;
     return scrollView;

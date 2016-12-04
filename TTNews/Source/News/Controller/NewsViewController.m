@@ -7,16 +7,9 @@
 //
 
 #import "NewsViewController.h"
-#import <SVProgressHUD.h>
-#import <SDImageCache.h>
 #import "TTNewsContentViewController.h"
 #import "TTTopChannelContianerView.h"
-#import "ChannelsSectionHeaderView.h"
-#import "TTNormalNews.h"
-#import <DKNightVersion.h>
-#import "TTNetworkSessionManager.h"
 #import "TTChannelModel.h"
-//#import <AFNetworking/AFNetworking.h>
 #import "AFNetworking.h"
 
 @interface NewsViewController()<UIScrollViewDelegate,TTTopChannelContianerViewDelegate> {
@@ -39,10 +32,7 @@ static NSString * const collectionViewSectionHeaderID = @"ChannelCollectionHeade
     self.automaticallyAdjustsScrollViewInsets = NO;
     self.view.dk_backgroundColorPicker = DKColorPickerWithRGB(0xf0f0f0, 0x000000, 0xfafafa);
     self.navigationController.navigationBar.dk_barTintColorPicker = DKColorPickerWithRGB(0xfa5054,0x444444,0xfa5054);
-    _arrayChannels = [NSMutableArray array];
-//    _titleArray = [NSMutableArray arrayWithObject:@"头条"];
-    _titleArray = [NSMutableArray array];
-//    [self setupCollectionView];
+    _titleArray = [NSMutableArray arrayWithObject:@"头条"];
     [self newsChannelsRequest];
 }
 
@@ -78,18 +68,17 @@ static NSString * const collectionViewSectionHeaderID = @"ChannelCollectionHeade
 }
 
 #pragma mark --private Method--初始化子控制器
--(void)setupChildController {
-    NSInteger index = 0;
-    for (TTChannelModel *channel in _titleArray) {
+- (void)setupChildController {
+    for (NSInteger index = 0; index < _titleArray.count; index++) {
         TTNewsContentViewController *vc = [[TTNewsContentViewController alloc] init];
-        vc.channel = channel;
         if (index == 0) {
-            vc.hasCycleImage = YES;
-        }
+            vc.isFristNews = YES;
+        } else
+            vc.channel = _arrayChannels[index -1];
+        
         [self addChildViewController:vc];
         [_contentScrollView addSubview:vc.view];
         vc.view.frame = CGRectMake(index * Screen_Width, 0, Screen_Width, _contentScrollView.height);
-        index ++;
     }
 }
 
@@ -106,23 +95,15 @@ static NSString * const collectionViewSectionHeaderID = @"ChannelCollectionHeade
     _contentScrollView.frame = CGRectMake(0, _titleView.height, self.view.width, self.view.height - _titleView.height);
     _contentScrollView.contentSize = CGSizeMake(_contentScrollView.frame.size.width * _titleArray.count, 0);
     _contentScrollView.pagingEnabled = YES;
-//    _contentScrollView.backgroundColor = [UIColor yellowColor];
+    _contentScrollView.delegate = self;
     [self.view addSubview:_contentScrollView];
 }
 
 -(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
-    if (scrollView == self.contentScrollView) {
-        [self scrollViewDidEndScrollingAnimation:scrollView];
-        NSInteger index = scrollView.contentOffset.x/self.contentScrollView.frame.size.width;
+    if (scrollView == _contentScrollView) {
+        NSInteger index = scrollView.contentOffset.x/_contentScrollView.frame.size.width;
         [_titleView selectChannelButtonWithIndex:index];
     }
-}
-
-#pragma mark --UICollectionViewDataSource-- 返回每个UICollectionViewCell发Size
-- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-    CGFloat kDeviceWidth = [UIScreen mainScreen].bounds.size.width;
-    CGFloat kMargin = 10;
-    return CGSizeMake((kDeviceWidth - 5*kMargin)/4, 40);
 }
 
 #pragma mark --TTTopChannelContianerViewDelegate

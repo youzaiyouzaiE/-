@@ -12,6 +12,6 @@
 @interface TTNewsContentViewController : TTBaseViewController
 
 @property (nonatomic, strong) TTChannelModel *channel;
-@property (nonatomic, assign) BOOL hasCycleImage;
+@property (nonatomic, assign) BOOL isFristNews;
 
 @end

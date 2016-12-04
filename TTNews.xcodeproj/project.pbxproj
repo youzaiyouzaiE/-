@@ -738,12 +738,12 @@
 			children = (
 				DAC65CEC1DF311430090369A /* AppDelegate.h */,
 				DAC65CED1DF311430090369A /* AppDelegate.m */,
-				DAC65CF01DF311430090369A /* TTBaseViewController.h */,
-				DAC65CF11DF311430090369A /* TTBaseViewController.m */,
 				DAC65CF21DF311430090369A /* TTNavigationController.h */,
 				DAC65CF31DF311430090369A /* TTNavigationController.m */,
 				DAC65CF41DF311430090369A /* TTTabBarController.h */,
 				DAC65CF51DF311430090369A /* TTTabBarController.m */,
+				DAC65CF01DF311430090369A /* TTBaseViewController.h */,
+				DAC65CF11DF311430090369A /* TTBaseViewController.m */,
 				DAC65CEE1DF311430090369A /* TTBaseModel.h */,
 				DAC65CEF1DF311430090369A /* TTBaseModel.m */,
 			);

@@ -21,8 +21,8 @@
 
 ///news
 #define TT_NEWS_CHANNELS            @"http://59.110.23.172/api/channels"
-
-
+#define TT_FRIST_NEWS_List          @"http://59.110.23.172/api/sort_links/with_photos"
+#define TT_OTHER_News_LIST        @"http://59.110.23.172/api/articles/channel/1"
 
 
 #define     Screen_Width        [UIScreen mainScreen].bounds.size.width
