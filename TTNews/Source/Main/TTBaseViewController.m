@@ -21,6 +21,8 @@
         self.navigationController.interactivePopGestureRecognizer.enabled = YES;
         self.navigationController.interactivePopGestureRecognizer.delegate = self;
     }
+    if ([self respondsToSelector:@selector(edgesForExtendedLayout)])
+        self.edgesForExtendedLayout = UIRectEdgeNone;
     
 }
 

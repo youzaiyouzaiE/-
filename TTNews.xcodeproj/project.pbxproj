@@ -22,13 +22,15 @@
 		DA9316911DF3B214007F15B3 /* SXNewsEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = DA93166B1DF3B214007F15B3 /* SXNewsEntity.m */; };
 		DA9316921DF3B214007F15B3 /* TTConst.m in Sources */ = {isa = PBXBuildFile; fileRef = DA93166D1DF3B214007F15B3 /* TTConst.m */; };
 		DA9316931DF3B214007F15B3 /* TTDataTool.m in Sources */ = {isa = PBXBuildFile; fileRef = DA93166F1DF3B214007F15B3 /* TTDataTool.m */; };
-		DA9316941DF3B214007F15B3 /* TTNetworkSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DA9316711DF3B214007F15B3 /* TTNetworkSessionManager.m */; };
 		DA9316951DF3B214007F15B3 /* TTNormalNewsFetchDataParameter.m in Sources */ = {isa = PBXBuildFile; fileRef = DA9316731DF3B214007F15B3 /* TTNormalNewsFetchDataParameter.m */; };
 		DA9316961DF3B214007F15B3 /* TTPictureFetchDataParameter.m in Sources */ = {isa = PBXBuildFile; fileRef = DA9316751DF3B214007F15B3 /* TTPictureFetchDataParameter.m */; };
 		DA9316971DF3B214007F15B3 /* TTVideoFetchDataParameter.m in Sources */ = {isa = PBXBuildFile; fileRef = DA9316771DF3B214007F15B3 /* TTVideoFetchDataParameter.m */; };
 		DA93169C1DF3B214007F15B3 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = DA9316851DF3B214007F15B3 /* Reachability.m */; };
 		DA93169D1DF3B214007F15B3 /* TTJudgeNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = DA9316871DF3B214007F15B3 /* TTJudgeNetworking.m */; };
 		DA93178C1DF3B276007F15B3 /* TTProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = DA93178B1DF3B276007F15B3 /* TTProgressHUD.m */; };
+		DA9317AF1DF3FBE1007F15B3 /* TTChannelModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DA9317AE1DF3FBE1007F15B3 /* TTChannelModel.m */; };
+		DA9317B51DF410DC007F15B3 /* TTNetworkSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DA9317B31DF410DC007F15B3 /* TTNetworkSessionManager.m */; };
+		DA931A371DF41910007F15B3 /* TTRequestManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DA931A361DF41910007F15B3 /* TTRequestManager.m */; };
 		DAC65C751DF2D5080090369A /* MHFacebookImageViewer.m in Sources */ = {isa = PBXBuildFile; fileRef = DAC65BBE1DF2D5070090369A /* MHFacebookImageViewer.m */; };
 		DAC65C761DF2D5080090369A /* UIImageView+MHFacebookImageViewer.m in Sources */ = {isa = PBXBuildFile; fileRef = DAC65BC01DF2D5070090369A /* UIImageView+MHFacebookImageViewer.m */; };
 		DAC65C771DF2D5080090369A /* AppInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DAC65BC41DF2D5070090369A /* AppInfoViewController.m */; };
@@ -165,8 +167,6 @@
 		DA93166D1DF3B214007F15B3 /* TTConst.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTConst.m; sourceTree = "<group>"; };
 		DA93166E1DF3B214007F15B3 /* TTDataTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTDataTool.h; sourceTree = "<group>"; };
 		DA93166F1DF3B214007F15B3 /* TTDataTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTDataTool.m; sourceTree = "<group>"; };
-		DA9316701DF3B214007F15B3 /* TTNetworkSessionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTNetworkSessionManager.h; sourceTree = "<group>"; };
-		DA9316711DF3B214007F15B3 /* TTNetworkSessionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTNetworkSessionManager.m; sourceTree = "<group>"; };
 		DA9316721DF3B214007F15B3 /* TTNormalNewsFetchDataParameter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTNormalNewsFetchDataParameter.h; sourceTree = "<group>"; };
 		DA9316731DF3B214007F15B3 /* TTNormalNewsFetchDataParameter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTNormalNewsFetchDataParameter.m; sourceTree = "<group>"; };
 		DA9316741DF3B214007F15B3 /* TTPictureFetchDataParameter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTPictureFetchDataParameter.h; sourceTree = "<group>"; };
@@ -179,6 +179,12 @@
 		DA9316871DF3B214007F15B3 /* TTJudgeNetworking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTJudgeNetworking.m; sourceTree = "<group>"; };
 		DA93178A1DF3B276007F15B3 /* TTProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTProgressHUD.h; sourceTree = "<group>"; };
 		DA93178B1DF3B276007F15B3 /* TTProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTProgressHUD.m; sourceTree = "<group>"; };
+		DA9317AD1DF3FBE1007F15B3 /* TTChannelModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTChannelModel.h; sourceTree = "<group>"; };
+		DA9317AE1DF3FBE1007F15B3 /* TTChannelModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTChannelModel.m; sourceTree = "<group>"; };
+		DA9317B21DF410DC007F15B3 /* TTNetworkSessionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTNetworkSessionManager.h; sourceTree = "<group>"; };
+		DA9317B31DF410DC007F15B3 /* TTNetworkSessionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTNetworkSessionManager.m; sourceTree = "<group>"; };
+		DA931A351DF41910007F15B3 /* TTRequestManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTRequestManager.h; sourceTree = "<group>"; };
+		DA931A361DF41910007F15B3 /* TTRequestManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTRequestManager.m; sourceTree = "<group>"; };
 		DAAEBD421DF2B054002D82CF /* TTNews.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTNews.pch; sourceTree = "<group>"; };
 		DAC65BBD1DF2D5070090369A /* MHFacebookImageViewer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MHFacebookImageViewer.h; sourceTree = "<group>"; };
 		DAC65BBE1DF2D5070090369A /* MHFacebookImageViewer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MHFacebookImageViewer.m; sourceTree = "<group>"; };
@@ -392,8 +398,6 @@
 				DA93166D1DF3B214007F15B3 /* TTConst.m */,
 				DA93166E1DF3B214007F15B3 /* TTDataTool.h */,
 				DA93166F1DF3B214007F15B3 /* TTDataTool.m */,
-				DA9316701DF3B214007F15B3 /* TTNetworkSessionManager.h */,
-				DA9316711DF3B214007F15B3 /* TTNetworkSessionManager.m */,
 				DA9316721DF3B214007F15B3 /* TTNormalNewsFetchDataParameter.h */,
 				DA9316731DF3B214007F15B3 /* TTNormalNewsFetchDataParameter.m */,
 				DA9316741DF3B214007F15B3 /* TTPictureFetchDataParameter.h */,
@@ -416,12 +420,25 @@
 		DA9316831DF3B214007F15B3 /* TTNetWork */ = {
 			isa = PBXGroup;
 			children = (
+				DA9317B21DF410DC007F15B3 /* TTNetworkSessionManager.h */,
+				DA9317B31DF410DC007F15B3 /* TTNetworkSessionManager.m */,
 				DA9316841DF3B214007F15B3 /* Reachability.h */,
 				DA9316851DF3B214007F15B3 /* Reachability.m */,
 				DA9316861DF3B214007F15B3 /* TTJudgeNetworking.h */,
 				DA9316871DF3B214007F15B3 /* TTJudgeNetworking.m */,
+				DA931A351DF41910007F15B3 /* TTRequestManager.h */,
+				DA931A361DF41910007F15B3 /* TTRequestManager.m */,
 			);
 			path = TTNetWork;
+			sourceTree = "<group>";
+		};
+		DA9317AC1DF3FBE1007F15B3 /* NewsModel */ = {
+			isa = PBXGroup;
+			children = (
+				DA9317AD1DF3FBE1007F15B3 /* TTChannelModel.h */,
+				DA9317AE1DF3FBE1007F15B3 /* TTChannelModel.m */,
+			);
+			path = NewsModel;
 			sourceTree = "<group>";
 		};
 		DAC65BB91DF2D5070090369A /* Source */ = {
@@ -432,7 +449,6 @@
 				DAC65C421DF2D5070090369A /* Picture */,
 				DAC65C5A1DF2D5080090369A /* Video */,
 				DAC65BC11DF2D5070090369A /* Me */,
-				DAC65C141DF2D5070090369A /* Other */,
 				DAC65BBA1DF2D5070090369A /* Library */,
 			);
 			path = Source;
@@ -560,6 +576,7 @@
 		DAC65BF11DF2D5070090369A /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				DA9317AC1DF3FBE1007F15B3 /* NewsModel */,
 				DAC65BF21DF2D5070090369A /* TTHeaderNews.h */,
 				DAC65BF31DF2D5070090369A /* TTHeaderNews.m */,
 				DAC65BF41DF2D5070090369A /* TTNormalNews.h */,
@@ -602,13 +619,6 @@
 				DAC65C131DF2D5070090369A /* TTTopChannelContianerView.m */,
 			);
 			path = View;
-			sourceTree = "<group>";
-		};
-		DAC65C141DF2D5070090369A /* Other */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Other;
 			sourceTree = "<group>";
 		};
 		DAC65C421DF2D5070090369A /* Picture */ = {
@@ -1102,6 +1112,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				DAC65CC41DF2D5080090369A /* VideoCommentViewController.m in Sources */,
+				DA931A371DF41910007F15B3 /* TTRequestManager.m in Sources */,
+				DA9317B51DF410DC007F15B3 /* TTNetworkSessionManager.m in Sources */,
 				DA9316921DF3B214007F15B3 /* TTConst.m in Sources */,
 				DAC65C7F1DF2D5080090369A /* TTLoginViewController.m in Sources */,
 				DAC65C8F1DF2D5080090369A /* TTHeaderNews.m in Sources */,
@@ -1124,6 +1136,7 @@
 				DA9316901DF3B214007F15B3 /* SXNetworkTools.m in Sources */,
 				DA9316931DF3B214007F15B3 /* TTDataTool.m in Sources */,
 				DA9316881DF3B214007F15B3 /* Foundation+Log.m in Sources */,
+				DA9317AF1DF3FBE1007F15B3 /* TTChannelModel.m in Sources */,
 				DA93169D1DF3B214007F15B3 /* TTJudgeNetworking.m in Sources */,
 				DAC65C941DF2D5080090369A /* ChannelCollectionViewCell.m in Sources */,
 				DAC65CF71DF311430090369A /* TTBaseModel.m in Sources */,
@@ -1148,7 +1161,6 @@
 				DAC65C911DF2D5080090369A /* TWNewsEntity.m in Sources */,
 				DAC65C991DF2D5080090369A /* NoPictureNewsTableViewCell.m in Sources */,
 				DAC65C761DF2D5080090369A /* UIImageView+MHFacebookImageViewer.m in Sources */,
-				DA9316941DF3B214007F15B3 /* TTNetworkSessionManager.m in Sources */,
 				DAC65CCB1DF2D5080090369A /* VideoPlayView.m in Sources */,
 				DAC65CCA1DF2D5080090369A /* FullViewController.m in Sources */,
 				DAC65CF81DF311430090369A /* TTBaseViewController.m in Sources */,

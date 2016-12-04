@@ -64,6 +64,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>SDCycleScrollView.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>SDWebImage.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -87,7 +92,7 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>005E193F9F449FF0D829440049D78015</key>
+		<key>0F7807C83656B9744787F7FC77B1F9D3</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -97,12 +102,37 @@
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>1AB7384CFCD21E393D8C2F7F4FC94D0D</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>33A4E968A524C42E79CBEA0D509C95A5</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>53480ED0BE09FF49E34B1702D485CAAB</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>5E314F70B673CB3CA90D757AE38D46AB</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>6F72FA5AE74576D4E570DB37CDEF4AE6</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>70BC44266C6FFE30D2C57129458E070B</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>76C3BB363D9025D39568923F9443F8BD</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -117,22 +147,12 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>9CC40C65522A05614642AA4D2A3D5EE3</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
 		<key>9EAB3E42EF957541E6C3C76D35FD008E</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
 		<key>9F12FB4A63E20F601CFB2E64A65B57C1</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>9FCE8E9F09095C884ECA0922240CCC70</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -147,22 +167,12 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>D0464DCB3BE5FD5F52FCF4C19C370AD5</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
 		<key>D058B89EB3B3DF45457A2DCD3971AFFE</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
 		<key>E96531D2698B334C4DEC89A22248E32D</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>FDB1F70FB92EDEA0804C76B121F4A7C1</key>
 		<dict>
 			<key>primary</key>
 			<true/>

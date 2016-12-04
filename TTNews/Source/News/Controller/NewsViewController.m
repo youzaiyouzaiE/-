@@ -10,23 +10,22 @@
 #import <SVProgressHUD.h>
 #import <SDImageCache.h>
 #import "TTNewsContentViewController.h"
-#import "TTConst.h"
 #import "TTTopChannelContianerView.h"
 #import "ChannelsSectionHeaderView.h"
 #import "TTNormalNews.h"
 #import <DKNightVersion.h>
 #import "TTNetworkSessionManager.h"
-
-
+#import "TTChannelModel.h"
+//#import <AFNetworking/AFNetworking.h>
+#import "AFNetworking.h"
 
 @interface NewsViewController()<UIScrollViewDelegate,TTTopChannelContianerViewDelegate> {
-    
+    TTTopChannelContianerView *_titleView;
+    NSMutableArray *_titleArray;
 }
 
-@property (nonatomic, strong) NSMutableArray *currentChannelsArray;
-@property (nonatomic, weak) TTTopChannelContianerView *topContianerView;
-@property (nonatomic, weak) UIScrollView *contentScrollView;
-@property (nonatomic, strong) NSArray *arrayLists;
+@property (nonatomic, strong) NSMutableArray *arrayChannels;
+@property (nonatomic, strong) UIScrollView *contentScrollView;
 
 @end
 
@@ -34,23 +33,15 @@ static NSString * const collectionCellID = @"ChannelCollectionCell";
 static NSString * const collectionViewSectionHeaderID = @"ChannelCollectionHeader";
 
 @implementation NewsViewController
-- (NSArray *)arrayLists {
-    if (_arrayLists == nil) {
-        _arrayLists = [NSArray arrayWithContentsOfFile:[[NSBundle mainBundle]pathForResource:@"NewsURLs.plist" ofType:nil]];
-    }
-    return _arrayLists;
-}
 
 -(void)viewDidLoad {
     [super viewDidLoad];
     self.automaticallyAdjustsScrollViewInsets = NO;
-//    self.isCellShouldShake = NO;
     self.view.dk_backgroundColorPicker = DKColorPickerWithRGB(0xf0f0f0, 0x000000, 0xfafafa);
     self.navigationController.navigationBar.dk_barTintColorPicker = DKColorPickerWithRGB(0xfa5054,0x444444,0xfa5054);
-    
-    [self setupTopContianerView];
-    [self setupChildController];
-    [self setupContentScrollView];
+    _arrayChannels = [NSMutableArray array];
+//    _titleArray = [NSMutableArray arrayWithObject:@"头条"];
+    _titleArray = [NSMutableArray array];
 //    [self setupCollectionView];
     [self newsChannelsRequest];
 }
@@ -66,78 +57,65 @@ static NSString * const collectionViewSectionHeaderID = @"ChannelCollectionHeade
 
 - (void)newsChannelsRequest {
     [TTProgressHUD show];
-    [[TTNetworkSessionManager shareManager] Get:TT_NEWS_CHANNELS
-                                     Parameters:nil
-                                        Success:^(NSURLSessionDataTask *task, NSDictionary *responseObject) {
-                                            [TTProgressHUD dismiss];
+    [[AFHTTPSessionManager manager] GET:TT_NEWS_CHANNELS
+                             parameters:nil
+                               progress:^(NSProgress * _Nonnull downloadProgress) {}
+                                success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+                                    [TTProgressHUD dismiss];
+                                    for (NSDictionary *dic in responseObject) {
+                                        TTChannelModel *channel = [[TTChannelModel alloc] initWithDictionary:dic];
+                                        [_arrayChannels addObject:channel];
+                                        [_titleArray addObject:channel.name];
+                                    }
+                                    [self setupTopContianerView];
+                                    [self setupContentScrollView];
+                                    [self setupChildController];
     }
-                                        Failure:^(NSError *error) {
-                                            [TTProgressHUD dismiss];
+                                failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+                                    [TTProgressHUD dismiss];
+                                    [TTProgressHUD showMsg:@"服务器繁忙！请求出错"];
     }];
-    
 }
 
 #pragma mark --private Method--初始化子控制器
 -(void)setupChildController {
-    for (NSInteger i = 0; i<self.currentChannelsArray.count; i++) {
-        TTNewsContentViewController *viewController = [[TTNewsContentViewController alloc] init];
-        viewController.title = self.arrayLists[i][@"title"];
-        
-        [self addChildViewController:viewController];
+    NSInteger index = 0;
+    for (TTChannelModel *channel in _titleArray) {
+        TTNewsContentViewController *vc = [[TTNewsContentViewController alloc] init];
+        vc.channel = channel;
+        if (index == 0) {
+            vc.hasCycleImage = YES;
+        }
+        [self addChildViewController:vc];
+        [_contentScrollView addSubview:vc.view];
+        vc.view.frame = CGRectMake(index * Screen_Width, 0, Screen_Width, _contentScrollView.height);
+        index ++;
     }
+   
 }
 
-#pragma mark --private Method--初始化上方的新闻频道选择的View
 - (void)setupTopContianerView{
-    CGFloat top = CGRectGetMaxY(self.navigationController.navigationBar.frame);
-    TTTopChannelContianerView *topContianerView = [[TTTopChannelContianerView alloc] initWithFrame:CGRectMake(0, top, [UIScreen mainScreen].bounds.size.width, 30)];
-    topContianerView.channelNameArray = self.currentChannelsArray;
-    self.topContianerView  = topContianerView;
-    self.topContianerView.delegate = self;
-    [self.view addSubview:topContianerView];
+    _titleView = [[TTTopChannelContianerView alloc] initWithFrame:CGRectMake(0, 0, Screen_Width, 30)];
+    _titleView.channelNameArray = _titleArray;
+    _titleView.delegate = self;
+    [self.view addSubview:_titleView];
 }
 
 #pragma mark --private Method--初始化相信新闻内容的scrollView
 - (void)setupContentScrollView {
-    UIScrollView *contentScrollView = [[UIScrollView alloc] init];
-    self.contentScrollView = contentScrollView;
-    contentScrollView.frame = self.view.bounds;
-    contentScrollView.contentSize = CGSizeMake(contentScrollView.frame.size.width* self.currentChannelsArray.count, 0);
-    contentScrollView.pagingEnabled = YES;
-    contentScrollView.delegate = self;
-    [self.view insertSubview:contentScrollView atIndex:0];
-    [self scrollViewDidEndScrollingAnimation:contentScrollView];
-}
-
-- (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView {
-    if (scrollView == self.contentScrollView) {
-        NSInteger index = scrollView.contentOffset.x/self.contentScrollView.frame.size.width;
-        TTNewsContentViewController *vc = self.childViewControllers[index];
-        vc.view.frame = CGRectMake(scrollView.contentOffset.x, 0, self.contentScrollView.frame.size.width, self.contentScrollView.frame.size.height);
-//        vc.tableView.contentInset = UIEdgeInsetsMake(CGRectGetMaxY(self.navigationController.navigationBar.frame)+self.topContianerView.scrollView.frame.size.height, 0, self.tabBarController.tabBar.frame.size.height, 0);
-        [scrollView addSubview:vc.view];
-//        for (int i = 0; i<self.contentScrollView.subviews.count; i++) {
-//            NSInteger currentIndex = vc.view.frame.origin.x/self.contentScrollView.frame.size.width;
-//            if ([self.contentScrollView.subviews[i] isKindOfClass:[UITableView class]]) {
-//                UITableView *theTableView = self.contentScrollView.subviews[i];
-//                NSInteger theIndex = theTableView.frame.origin.x/self.contentScrollView.frame.size.width;
-//                NSInteger gap = theIndex - currentIndex;
-//                if (gap<=2&&gap>=-2) {
-//                    continue;
-//                } else {
-//                    [theTableView removeFromSuperview];
-//                }
-//            }
-//            
-//        }
-    }
+    _contentScrollView = [[UIScrollView alloc] init];
+    _contentScrollView.frame = CGRectMake(0, _titleView.height, self.view.width, self.view.height - _titleView.height);
+    _contentScrollView.contentSize = CGSizeMake(_contentScrollView.frame.size.width * _titleArray.count, 0);
+    _contentScrollView.pagingEnabled = YES;
+//    _contentScrollView.backgroundColor = [UIColor yellowColor];
+    [self.view addSubview:_contentScrollView];
 }
 
 -(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
     if (scrollView == self.contentScrollView) {
         [self scrollViewDidEndScrollingAnimation:scrollView];
         NSInteger index = scrollView.contentOffset.x/self.contentScrollView.frame.size.width;
-        [self.topContianerView selectChannelButtonWithIndex:index];
+        [_titleView selectChannelButtonWithIndex:index];
     }
 }
 
@@ -157,15 +135,6 @@ static NSString * const collectionViewSectionHeaderID = @"ChannelCollectionHeade
     [self.contentScrollView setContentOffset:CGPointMake(self.contentScrollView.frame.size.width * index, 0) animated:YES];
 }
 
-#pragma mark --private Method--存储更新后的currentChannelsArray到偏好设置中
--(NSMutableArray *)currentChannelsArray {
-    if (!_currentChannelsArray) {
-        if (!_currentChannelsArray) {
-            _currentChannelsArray = [NSMutableArray arrayWithObjects:@"头条",@"NBA",@"手机",@"移动互联",@"娱乐",@"时尚",@"电影",@"科技", nil];
-        }
-    }
-    return _currentChannelsArray;
-}
 
 @end
 

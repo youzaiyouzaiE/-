@@ -41,9 +41,9 @@
                                                                         });
                                                                         return ;
                                                                     }
-                                                                    NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
+                                                                    id responseObject = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
                                                                     dispatch_async(dispatch_get_main_queue(), ^{
-                                                                        success(task,dict);
+                                                                        success(task,responseObject);
                                                                     });
                                                                     
                                                                 }];

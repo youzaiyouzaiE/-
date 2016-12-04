@@ -9,8 +9,8 @@
 #import <Foundation/Foundation.h>
 
 
-typedef void (^Completion)(NSURLSessionDataTask *task ,NSDictionary *responseObject);
-typedef void (^Failure)(NSError *error);
+typedef void (^Completion)(NSURLSessionDataTask *task ,id  responseObject);
+typedef void (^Failure)(NSError *  error);
 
 @interface TTNetworkSessionManager : NSObject
 

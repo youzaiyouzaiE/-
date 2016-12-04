@@ -16,6 +16,7 @@
     #import <DKNightVersion.h>
     #import "TTDefines.h"
     #import "TTProgressHUD.h"
+    #import "UIView+Extension.h"
 #endif
 
 #ifdef DEBUG

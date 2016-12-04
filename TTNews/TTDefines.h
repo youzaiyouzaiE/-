@@ -23,4 +23,9 @@
 #define TT_NEWS_CHANNELS            @"http://59.110.23.172/api/channels"
 
 
+
+
+#define     Screen_Width        [UIScreen mainScreen].bounds.size.width
+#define     Screen_Height        [UIScreen mainScreen].bounds.size.height
+
 #endif /* TTDefines_h */

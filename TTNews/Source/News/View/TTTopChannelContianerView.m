@@ -9,7 +9,9 @@
 #import "TTTopChannelContianerView.h"
 #import <DKNightVersion.h>
 
-@interface TTTopChannelContianerView()
+@interface TTTopChannelContianerView() {
+    CGFloat _buttonWidth;
+}
 
 @property (nonatomic, weak) UIButton *lastSelectedButton;
 
@@ -18,7 +20,7 @@
 
 static CGFloat kTitleLabelNorimalFont = 13;
 static CGFloat kTitleLabelSelectedFont = 16;
-static CGFloat kAddChannelWidth = 30;
+static CGFloat kAddChannelWidth = 0;
 static CGFloat kSliderViewWidth = 20;
 static CGFloat buttonWidth = 65;
 
@@ -28,6 +30,7 @@ static CGFloat buttonWidth = 65;
 - (instancetype)initWithFrame:(CGRect)frame {
     if (self= [super initWithFrame:frame]) {
         [self initialization];
+        self.backgroundColor = [UIColor whiteColor];
     }
     return self;
 }
@@ -35,7 +38,10 @@ static CGFloat buttonWidth = 65;
 #pragma mark channelNameArray的setter方法，channelNameArray
 - (void)setChannelNameArray:(NSArray *)channelNameArray {
     _channelNameArray = channelNameArray;
-    CGFloat buttonWidth = self.scrollView.frame.size.width/5;
+    _buttonWidth = self.scrollView.frame.size.width / 5;
+    if (channelNameArray.count < 5) {
+        buttonWidth = self.scrollView.frame.size.width / channelNameArray.count;
+    }
     self.scrollView.contentSize = CGSizeMake(buttonWidth * channelNameArray.count + 20, 0);
     for (NSInteger i = 0; i < channelNameArray.count; i++) {
         UIButton *button = [self createChannelButton];
@@ -43,7 +49,6 @@ static CGFloat buttonWidth = 65;
         [button setTitle:channelNameArray[i] forState:UIControlStateNormal];
         [self.scrollView addSubview:button];
     }
-    
     [self clickChannelButton:self.scrollView.subviews[0]];
 }
 
@@ -60,9 +65,9 @@ static CGFloat buttonWidth = 65;
     [self addSubview:[self createSliderView]];
     
     //初始化右侧的加号button
-    UIButton *button = [self createTheAddButton];
-    self.addButton = button;
-    [self addSubview:self.addButton];
+//    UIButton *button = [self createTheAddButton];
+//    self.addButton = button;
+//    [self addSubview:self.addButton];
     
 }
 
