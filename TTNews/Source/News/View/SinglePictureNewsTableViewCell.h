@@ -10,7 +10,6 @@
 #import "SXNewsEntity.h"
 @interface SinglePictureNewsTableViewCell : UITableViewCell
 
-@property (nonatomic, strong) NSArray *pictureArray;
 @property (nonatomic, copy) NSString *imageUrl;
 @property (nonatomic, copy) NSString *contentTittle;
 @property (nonatomic, copy) NSString *desc;

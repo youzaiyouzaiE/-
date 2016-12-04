@@ -13,11 +13,13 @@
 #import <SDWebImage/UIImageView+WebCache.h>
 #import <MJRefresh.h>
 #import "AFNetworking.h"
+#import "TTNewListModel.h"
+#import "TTNewListPageInfoModel.h"
 
 @interface TTNewsContentViewController () <SDCycleScrollViewDelegate,UITableViewDelegate,UITableViewDataSource> {
     SDCycleScrollView *_cycleScrollView;
     NSInteger _currentPage;
-    
+    TTNewListPageInfoModel *_pagInfo;
     
     NSMutableArray *_arrayList;
 }
@@ -107,10 +109,14 @@
                                     if (isRefresh) {
                                         [_arrayList removeAllObjects];
                                     }
-                                    for (NSDictionary *dic in responseObject) {
-                                        
+                                    NSDictionary *pageInfoDic = responseObject[@"meta"][@"pagination"];
+                                    _pagInfo = [[TTNewListPageInfoModel alloc] initWithDictionary:pageInfoDic];
+                                    
+                                    NSArray *dataArray = responseObject[@"data"];
+                                    for (NSDictionary *dic in dataArray) {
+                                        TTNewListModel *model = [[TTNewListModel alloc] initWithDictionary:dic];
+                                        [_arrayList addObject:model];
                                     }
-                                
                                     [weakSelf setMJHeaderOrFooterStatusWithIsUpload:isRefresh];
                                 }
                                 failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
@@ -128,6 +134,7 @@
     } else {
         [_tableView.mj_footer resetNoMoreData];
     }
+    [_tableView reloadData];
 }
 
 #pragma mark - SDCycleScrollViewDelegate 
@@ -147,16 +154,19 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 10;
+    return _arrayList.count;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 130;
+    return 100;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     SinglePictureNewsTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"SinglePictureCell"];
-    
+    TTNewListModel *listInfo = _arrayList[indexPath.row];
+    cell.imageUrl = listInfo.cover_pic;
+    cell.contentTittle = listInfo.title;
+    cell.desc = listInfo.desc;
     return cell;
    
 }

@@ -31,6 +31,8 @@
 		DA9317AF1DF3FBE1007F15B3 /* TTChannelModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DA9317AE1DF3FBE1007F15B3 /* TTChannelModel.m */; };
 		DA9317B51DF410DC007F15B3 /* TTNetworkSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DA9317B31DF410DC007F15B3 /* TTNetworkSessionManager.m */; };
 		DA931A371DF41910007F15B3 /* TTRequestManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DA931A361DF41910007F15B3 /* TTRequestManager.m */; };
+		DA931A3A1DF45918007F15B3 /* TTNewListModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DA931A391DF45918007F15B3 /* TTNewListModel.m */; };
+		DA931A3D1DF45E89007F15B3 /* TTNewListPageInfoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DA931A3C1DF45E89007F15B3 /* TTNewListPageInfoModel.m */; };
 		DAC65C751DF2D5080090369A /* MHFacebookImageViewer.m in Sources */ = {isa = PBXBuildFile; fileRef = DAC65BBE1DF2D5070090369A /* MHFacebookImageViewer.m */; };
 		DAC65C761DF2D5080090369A /* UIImageView+MHFacebookImageViewer.m in Sources */ = {isa = PBXBuildFile; fileRef = DAC65BC01DF2D5070090369A /* UIImageView+MHFacebookImageViewer.m */; };
 		DAC65C771DF2D5080090369A /* AppInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DAC65BC41DF2D5070090369A /* AppInfoViewController.m */; };
@@ -185,6 +187,10 @@
 		DA9317B31DF410DC007F15B3 /* TTNetworkSessionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTNetworkSessionManager.m; sourceTree = "<group>"; };
 		DA931A351DF41910007F15B3 /* TTRequestManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTRequestManager.h; sourceTree = "<group>"; };
 		DA931A361DF41910007F15B3 /* TTRequestManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTRequestManager.m; sourceTree = "<group>"; };
+		DA931A381DF45918007F15B3 /* TTNewListModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTNewListModel.h; sourceTree = "<group>"; };
+		DA931A391DF45918007F15B3 /* TTNewListModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTNewListModel.m; sourceTree = "<group>"; };
+		DA931A3B1DF45E89007F15B3 /* TTNewListPageInfoModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTNewListPageInfoModel.h; sourceTree = "<group>"; };
+		DA931A3C1DF45E89007F15B3 /* TTNewListPageInfoModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTNewListPageInfoModel.m; sourceTree = "<group>"; };
 		DAAEBD421DF2B054002D82CF /* TTNews.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTNews.pch; sourceTree = "<group>"; };
 		DAC65BBD1DF2D5070090369A /* MHFacebookImageViewer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MHFacebookImageViewer.h; sourceTree = "<group>"; };
 		DAC65BBE1DF2D5070090369A /* MHFacebookImageViewer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MHFacebookImageViewer.m; sourceTree = "<group>"; };
@@ -437,6 +443,10 @@
 			children = (
 				DA9317AD1DF3FBE1007F15B3 /* TTChannelModel.h */,
 				DA9317AE1DF3FBE1007F15B3 /* TTChannelModel.m */,
+				DA931A381DF45918007F15B3 /* TTNewListModel.h */,
+				DA931A391DF45918007F15B3 /* TTNewListModel.m */,
+				DA931A3B1DF45E89007F15B3 /* TTNewListPageInfoModel.h */,
+				DA931A3C1DF45E89007F15B3 /* TTNewListPageInfoModel.m */,
 			);
 			path = NewsModel;
 			sourceTree = "<group>";
@@ -1160,6 +1170,7 @@
 				DA9316971DF3B214007F15B3 /* TTVideoFetchDataParameter.m in Sources */,
 				DAC65C911DF2D5080090369A /* TWNewsEntity.m in Sources */,
 				DAC65C991DF2D5080090369A /* NoPictureNewsTableViewCell.m in Sources */,
+				DA931A3A1DF45918007F15B3 /* TTNewListModel.m in Sources */,
 				DAC65C761DF2D5080090369A /* UIImageView+MHFacebookImageViewer.m in Sources */,
 				DAC65CCB1DF2D5080090369A /* VideoPlayView.m in Sources */,
 				DAC65CCA1DF2D5080090369A /* FullViewController.m in Sources */,
@@ -1167,6 +1178,7 @@
 				DAC65C851DF2D5080090369A /* DisclosureCell.m in Sources */,
 				DAC65CF61DF311430090369A /* AppDelegate.m in Sources */,
 				DAC65C961DF2D5080090369A /* ChannelsSectionHeaderView.m in Sources */,
+				DA931A3D1DF45E89007F15B3 /* TTNewListPageInfoModel.m in Sources */,
 				DAC65C921DF2D5080090369A /* BigPictureTableViewCell.m in Sources */,
 				DA93168F1DF3B214007F15B3 /* UIView+Extension.m in Sources */,
 				DAC65C9B1DF2D5080090369A /* SinglePictureNewsTableViewCell.m in Sources */,
