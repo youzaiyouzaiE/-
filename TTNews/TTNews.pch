@@ -17,6 +17,7 @@
     #import "TTDefines.h"
     #import "TTProgressHUD.h"
     #import "UIView+Extension.h"
+    #import <SVProgressHUD.h>
 #endif
 
 #ifdef DEBUG

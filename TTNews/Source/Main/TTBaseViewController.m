@@ -7,6 +7,7 @@
 //
 
 #import "TTBaseViewController.h"
+#import "TTJudgeNetworking.h"
 
 @interface TTBaseViewController () <UINavigationControllerDelegate,UIGestureRecognizerDelegate>
 
@@ -17,14 +18,30 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    if (self.navigationController.viewControllers.count >1) {
+        UIBarButtonItem * item = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"navigationbar_pic_back_icon"]
+                                                                  style:UIBarButtonItemStylePlain
+                                                                 target:self
+                                                                 action:@selector(backAction)];
+        self.navigationItem.leftBarButtonItem = item;
+    }
+    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
+    [self.navigationItem.leftBarButtonItem setTintColor:[UIColor whiteColor]];
+    
     if (self.navigationController.interactivePopGestureRecognizer) {
-        self.navigationController.interactivePopGestureRecognizer.enabled = YES;
         self.navigationController.interactivePopGestureRecognizer.delegate = self;
     }
+    
     if ([self respondsToSelector:@selector(edgesForExtendedLayout)])
         self.edgesForExtendedLayout = UIRectEdgeNone;
     self.view.dk_backgroundColorPicker = DKColorPickerWithRGB(0xf0f0f0, 0x000000, 0xfafafa);
     self.navigationController.navigationBar.dk_barTintColorPicker = DKColorPickerWithRGB(0xfa5054,0x444444,0xfa5054);
+
+    if([TTJudgeNetworking judge] == NO) {
+        [SVProgressHUD showErrorWithStatus:@"无网络连接"];
+    }
+    
+    self.hidesBottomBarWhenPushed = YES;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -41,12 +58,7 @@
     [self.view endEditing:YES];
 }
 
-- (void)naviBackAction {
-     NSLog(@"SubClass: ACTION");
-}
-
 - (void)backAction {
-    [self naviBackAction];
     if (self.navigationController) {
         [self.navigationController popViewControllerAnimated:YES];
     }
@@ -73,7 +85,7 @@
 
 - (void)controllerDismissedByPopGesture:(NSNumber*)isCancel {
     if (![isCancel intValue]) {
-        [self naviBackAction];
+        [self.navigationController popViewControllerAnimated:YES];
     }
 }
 

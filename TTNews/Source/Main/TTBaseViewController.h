@@ -10,7 +10,6 @@
 
 @interface TTBaseViewController : UIViewController 
 
-- (void)naviBackAction;
 - (void)backAction;
 - (void)addTapViewResignKeyboard;
 

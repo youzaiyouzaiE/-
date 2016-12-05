@@ -101,14 +101,12 @@
 		DAC65CF61DF311430090369A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = DAC65CED1DF311430090369A /* AppDelegate.m */; };
 		DAC65CF71DF311430090369A /* TTBaseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DAC65CEF1DF311430090369A /* TTBaseModel.m */; };
 		DAC65CF81DF311430090369A /* TTBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DAC65CF11DF311430090369A /* TTBaseViewController.m */; };
-		DAC65CF91DF311430090369A /* TTNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = DAC65CF31DF311430090369A /* TTNavigationController.m */; };
 		DAC65CFA1DF311430090369A /* TTTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = DAC65CF51DF311430090369A /* TTTabBarController.m */; };
 		E0C9598EA91F8C8BFE604B7B /* libPods-TTNewsUITests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D813C1B45D80A6E775754DA /* libPods-TTNewsUITests.a */; };
 		EE4635C81CC72B8900DB248F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = EE4635C71CC72B8900DB248F /* main.m */; };
 		EE4635D31CC72B8900DB248F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EE4635D21CC72B8900DB248F /* Assets.xcassets */; };
 		EE4635E11CC72B8A00DB248F /* TTNewsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = EE4635E01CC72B8A00DB248F /* TTNewsTests.m */; };
 		EE4635EC1CC72B8A00DB248F /* TTNewsUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = EE4635EB1CC72B8A00DB248F /* TTNewsUITests.m */; };
-		EE4636B81CC7499D00DB248F /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = EE4636B71CC7499D00DB248F /* LaunchScreen.xib */; };
 		EE4BEB5D1D5480E400B4A035 /* NewsURLs.plist in Resources */ = {isa = PBXBuildFile; fileRef = EE4BEB5C1D5480E400B4A035 /* NewsURLs.plist */; };
 /* End PBXBuildFile section */
 
@@ -303,8 +301,6 @@
 		DAC65CEF1DF311430090369A /* TTBaseModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTBaseModel.m; sourceTree = "<group>"; };
 		DAC65CF01DF311430090369A /* TTBaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTBaseViewController.h; sourceTree = "<group>"; };
 		DAC65CF11DF311430090369A /* TTBaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTBaseViewController.m; sourceTree = "<group>"; };
-		DAC65CF21DF311430090369A /* TTNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTNavigationController.h; sourceTree = "<group>"; };
-		DAC65CF31DF311430090369A /* TTNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTNavigationController.m; sourceTree = "<group>"; };
 		DAC65CF41DF311430090369A /* TTTabBarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTTabBarController.h; sourceTree = "<group>"; };
 		DAC65CF51DF311430090369A /* TTTabBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTTabBarController.m; sourceTree = "<group>"; };
 		EE4635C31CC72B8900DB248F /* TTNews.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TTNews.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -317,7 +313,6 @@
 		EE4635E71CC72B8A00DB248F /* TTNewsUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TTNewsUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		EE4635EB1CC72B8A00DB248F /* TTNewsUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TTNewsUITests.m; sourceTree = "<group>"; };
 		EE4635ED1CC72B8A00DB248F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		EE4636B71CC7499D00DB248F /* LaunchScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LaunchScreen.xib; sourceTree = "<group>"; };
 		EE4BEB5C1D5480E400B4A035 /* NewsURLs.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = NewsURLs.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -728,8 +723,6 @@
 			children = (
 				DAC65CEC1DF311430090369A /* AppDelegate.h */,
 				DAC65CED1DF311430090369A /* AppDelegate.m */,
-				DAC65CF21DF311430090369A /* TTNavigationController.h */,
-				DAC65CF31DF311430090369A /* TTNavigationController.m */,
 				DAC65CF41DF311430090369A /* TTTabBarController.h */,
 				DAC65CF51DF311430090369A /* TTTabBarController.m */,
 				DAC65CF01DF311430090369A /* TTBaseViewController.h */,
@@ -774,7 +767,6 @@
 		EE4635C61CC72B8900DB248F /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				EE4636B71CC7499D00DB248F /* LaunchScreen.xib */,
 				EE4635D21CC72B8900DB248F /* Assets.xcassets */,
 				EE4635D71CC72B8900DB248F /* Info.plist */,
 				EE4635C71CC72B8900DB248F /* main.m */,
@@ -935,7 +927,6 @@
 				DAC65C7A1DF2D5080090369A /* EditUserInfoViewController.xib in Resources */,
 				EE4635D31CC72B8900DB248F /* Assets.xcassets in Resources */,
 				DAC65CC51DF2D5080090369A /* VideoCommentViewController.xib in Resources */,
-				EE4636B81CC7499D00DB248F /* LaunchScreen.xib in Resources */,
 				DAC65CA01DF2D5080090369A /* TopTextTableViewCell.xib in Resources */,
 				DAC65CCE1DF2D5080090369A /* VideoCommentCell.xib in Resources */,
 				DAC65C981DF2D5080090369A /* MultiPictureTableViewCell.xib in Resources */,
@@ -1164,7 +1155,6 @@
 				DAC65CC61DF2D5080090369A /* VideoViewController.m in Sources */,
 				DAC65CBC1DF2D5080090369A /* TTPictureComment.m in Sources */,
 				DAC65C811DF2D5080090369A /* TTMailRegisterViewController.m in Sources */,
-				DAC65CF91DF311430090369A /* TTNavigationController.m in Sources */,
 				DAC65CA21DF2D5080090369A /* TTTopChannelContianerView.m in Sources */,
 				DAC65CC01DF2D5080090369A /* PictureTableViewCell.m in Sources */,
 				DAC65C871DF2D5080090369A /* TwoLabelCell.m in Sources */,
@@ -1301,6 +1291,7 @@
 			baseConfigurationReference = 96E44656E97FFEA8726671D5 /* Pods-TTNews.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = GW7ZRB8ABG;
@@ -1312,6 +1303,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.news.tanwei;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -1320,6 +1312,7 @@
 			baseConfigurationReference = 132552EF2D80D2E4365ED3F2 /* Pods-TTNews.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = GW7ZRB8ABG;
@@ -1331,6 +1324,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.news.tanwei;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

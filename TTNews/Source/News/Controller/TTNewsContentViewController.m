@@ -55,7 +55,7 @@
     [self.view addSubview:_cycleScrollView];
     [_cycleScrollView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.left.right.mas_equalTo(0);
-        make.height.mas_equalTo(120);
+        make.height.mas_equalTo(Screen_Height/4);
     }];
 }
 
@@ -80,7 +80,6 @@
 
 -(void)setupRefresh {
     self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadData)];
-    self.tableView.mj_header.automaticallyChangeAlpha = YES;
     [self.tableView.mj_header beginRefreshing];
     self.tableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];
 }

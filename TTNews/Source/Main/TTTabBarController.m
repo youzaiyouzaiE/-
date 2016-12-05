@@ -7,7 +7,7 @@
 //
 
 #import "TTTabBarController.h"
-#import "TTNavigationController.h"
+//#import "TTNavigationController.h"
 #import "NewsViewController.h"
 #import "PictureViewController.h"
 #import "VideoViewController.h"
@@ -30,7 +30,10 @@
     [super viewDidLoad];
     
     NewsViewController *vc1 = [[NewsViewController alloc] init];
-    [self addChildViewController:vc1 withImage:[UIImage imageNamed:@"tabbar_news"] selectedImage:[UIImage imageNamed:@"tabbar_news_hl"] withTittle:@"新闻"];
+    [self addChildViewController:vc1
+                       withImage:[UIImage imageNamed:@"tabbar_news"]
+                   selectedImage:[UIImage imageNamed:@"tabbar_news_hl"]
+                      withTittle:@"新闻"];
     
 //    PictureViewController *vc2 = [[PictureViewController alloc] init];
 //    [self addChildViewController:vc2 withImage:[UIImage imageNamed:@"tabbar_picture"] selectedImage:[UIImage imageNamed:@"tabbar_picture_hl"] withTittle:@"图片"];
@@ -46,24 +49,20 @@
     [self setupBasic];
 }
 
--(void)setupBasic {
+- (void)setupBasic {
     if ([self.dk_manager.themeVersion isEqualToString:DKThemeVersionNormal]) {
         self.tabBar.barTintColor = [UIColor whiteColor];
     } else {
         self.tabBar.barTintColor = [UIColor colorWithRed:34/255.0 green:34/255.0 blue:34/255.0 alpha:1.0];
     }
-
-    [UIApplication sharedApplication].applicationSupportsShakeToEdit = YES;
-    [self becomeFirstResponder];
-    self.isShakeCanChangeSkin = [[NSUserDefaults standardUserDefaults] boolForKey:IsShakeCanChangeSkinKey];
-
     
+    [UIApplication sharedApplication].applicationSupportsShakeToEdit = YES;
+    self.isShakeCanChangeSkin = [[NSUserDefaults standardUserDefaults] boolForKey:IsShakeCanChangeSkinKey];
 }
 
 -(void)dealloc {
     
 }
-
 
 -(void)motionBegan:(UIEventSubtype)motion withEvent:(UIEvent *)event {
     if (motion == UIEventSubtypeMotionShake) {
@@ -81,14 +80,14 @@
     }
 }
 
-- (void)addChildViewController:(UIViewController *)controller withImage:(UIImage *)image selectedImage:(UIImage *)selectImage withTittle:(NSString *)tittle{
-    TTNavigationController *nav = [[TTNavigationController alloc] initWithRootViewController:controller];
-    
+- (void)addChildViewController:(UIViewController *)controller
+                     withImage:(UIImage *)image
+                 selectedImage:(UIImage *)selectImage
+                    withTittle:(NSString *)tittle {
+    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:controller];
     [nav.tabBarItem setImage:image];
     [nav.tabBarItem setSelectedImage:selectImage];
-//    nav.tabBarItem.title = tittle;
-//    controller.navigationItem.title = tittle;
-    controller.title = tittle;//这句代码相当于上面两句代码
+    controller.title = tittle;
     [nav.tabBarItem setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor redColor]} forState:UIControlStateSelected];
     nav.tabBarItem.titlePositionAdjustment = UIOffsetMake(0, -3);
     [self addChildViewController:nav];
