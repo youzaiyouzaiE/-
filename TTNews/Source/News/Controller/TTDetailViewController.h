@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "TTBaseViewController.h"
 
-@interface DetailViewController : UIViewController
+@interface TTDetailViewController : TTBaseViewController
 
 @property (nonatomic, copy) NSString *url;
 

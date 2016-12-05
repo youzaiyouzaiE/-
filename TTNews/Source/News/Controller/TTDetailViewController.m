@@ -6,14 +6,13 @@
 //  Copyright © 2016年 瑞文戴尔. All rights reserved.
 //
 
-#import "DetailViewController.h"
+#import "TTDetailViewController.h"
 #import <SDImageCache.h>
 #import <SVProgressHUD.h>
-#import "TTConst.h"
 #import "TTJudgeNetworking.h"
 #import <DKNightVersion.h>
 
-@interface DetailViewController ()<UIWebViewDelegate>
+@interface TTDetailViewController ()<UIWebViewDelegate>
 
 @property (nonatomic, weak) UIView *shadeView;//(页面模式时，用来使页面变暗)
 
@@ -26,7 +25,7 @@
 
 @end
 
-@implementation DetailViewController
+@implementation TTDetailViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];

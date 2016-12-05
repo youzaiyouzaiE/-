@@ -15,6 +15,7 @@
 #import "AFNetworking.h"
 #import "TTNewListModel.h"
 #import "TTNewListPageInfoModel.h"
+#import "TTDetailViewController.h"
 
 @interface TTNewsContentViewController () <SDCycleScrollViewDelegate,UITableViewDelegate,UITableViewDataSource> {
     SDCycleScrollView *_cycleScrollView;
@@ -137,7 +138,7 @@
     [_tableView reloadData];
 }
 
-#pragma mark - SDCycleScrollViewDelegate 
+#pragma mark - SDCycleScrollViewDelegate
 /** 点击图片回调 */
 - (void)cycleScrollView:(SDCycleScrollView *)cycleScrollView didSelectItemAtIndex:(NSInteger)index {
     
@@ -173,6 +174,10 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    TTNewListModel *listInfo = _arrayList[indexPath.row];
+    TTDetailViewController *detailVC = [[TTDetailViewController alloc] init];
+    detailVC.url = listInfo.url;
+    [self.navigationController pushViewController:detailVC animated:YES];
 }
 
 - (void)didReceiveMemoryWarning {

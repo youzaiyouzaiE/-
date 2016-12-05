@@ -157,28 +157,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TTNews/Source/Library/Http/TTDataTool.m"
-            timestampString = "502512144.863366"
+            timestampString = "502598499.129033"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "91"
-            endingLineNumber = "91"
+            startingLineNumber = "88"
+            endingLineNumber = "88"
             landmarkName = "+selectDataFromCacheWithVideoParameters:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "TTNews/Source/Library/Http/TTDataTool.m"
-            timestampString = "502512149.729011"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "129"
-            endingLineNumber = "129"
-            landmarkName = "+addVideo:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -189,11 +173,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TTNews/Source/Library/Http/TTDataTool.m"
-            timestampString = "502512312.052382"
+            timestampString = "502598499.129033"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "148"
-            endingLineNumber = "148"
+            startingLineNumber = "145"
+            endingLineNumber = "145"
             landmarkName = "+pictureWithParameters:success:failure:"
             landmarkType = "7">
          </BreakpointContent>
@@ -205,11 +189,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TTNews/Source/Library/Http/TTDataTool.m"
-            timestampString = "502513838.875903"
+            timestampString = "502598499.129033"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "40"
-            endingLineNumber = "40"
+            startingLineNumber = "37"
+            endingLineNumber = "37"
             landmarkName = "+initialize"
             landmarkType = "7">
          </BreakpointContent>

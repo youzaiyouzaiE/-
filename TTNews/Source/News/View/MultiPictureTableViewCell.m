@@ -7,7 +7,6 @@
 //
 
 #import "MultiPictureTableViewCell.h"
-#import "TTNormalNews.h"
 #import <UIImageView+WebCache.h>
 #import <DKNightVersion.h>
 
@@ -26,6 +25,7 @@
 @implementation MultiPictureTableViewCell
 
 - (void)awakeFromNib {
+    [super awakeFromNib];
     self.selectionStyle = UITableViewCellSelectionStyleNone;
     self.dk_backgroundColorPicker = DKColorPickerWithRGB(0xffffff, 0x343434, 0xfafafa);
 
