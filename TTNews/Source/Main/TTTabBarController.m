@@ -7,8 +7,7 @@
 //
 
 #import "TTTabBarController.h"
-//#import "TTNavigationController.h"
-#import "NewsViewController.h"
+#import "TTNewsViewController.h"
 #import "PictureViewController.h"
 #import "VideoViewController.h"
 #import "MeTableViewController.h"
@@ -29,7 +28,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    NewsViewController *vc1 = [[NewsViewController alloc] init];
+    TTNewsViewController *vc1 = [[TTNewsViewController alloc] init];
     [self addChildViewController:vc1
                        withImage:[UIImage imageNamed:@"tabbar_news"]
                    selectedImage:[UIImage imageNamed:@"tabbar_news_hl"]

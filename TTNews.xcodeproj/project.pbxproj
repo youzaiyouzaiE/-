@@ -54,7 +54,7 @@
 		DAC65C871DF2D5080090369A /* TwoLabelCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DAC65BE01DF2D5070090369A /* TwoLabelCell.m */; };
 		DAC65C881DF2D5080090369A /* UserInfoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DAC65BE21DF2D5070090369A /* UserInfoCell.m */; };
 		DAC65C8A1DF2D5080090369A /* TTDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DAC65BE81DF2D5070090369A /* TTDetailViewController.m */; };
-		DAC65C8B1DF2D5080090369A /* NewsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DAC65BEA1DF2D5070090369A /* NewsViewController.m */; };
+		DAC65C8B1DF2D5080090369A /* TTNewsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DAC65BEA1DF2D5070090369A /* TTNewsViewController.m */; };
 		DAC65C8C1DF2D5080090369A /* ShowMultiPictureViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DAC65BEC1DF2D5070090369A /* ShowMultiPictureViewController.m */; };
 		DAC65C921DF2D5080090369A /* BigPictureTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DAC65BFA1DF2D5070090369A /* BigPictureTableViewCell.m */; };
 		DAC65C931DF2D5080090369A /* BigPictureTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DAC65BFB1DF2D5070090369A /* BigPictureTableViewCell.xib */; };
@@ -221,8 +221,8 @@
 		DAC65BE21DF2D5070090369A /* UserInfoCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserInfoCell.m; sourceTree = "<group>"; };
 		DAC65BE71DF2D5070090369A /* TTDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTDetailViewController.h; sourceTree = "<group>"; };
 		DAC65BE81DF2D5070090369A /* TTDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTDetailViewController.m; sourceTree = "<group>"; };
-		DAC65BE91DF2D5070090369A /* NewsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewsViewController.h; sourceTree = "<group>"; };
-		DAC65BEA1DF2D5070090369A /* NewsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewsViewController.m; sourceTree = "<group>"; };
+		DAC65BE91DF2D5070090369A /* TTNewsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTNewsViewController.h; sourceTree = "<group>"; };
+		DAC65BEA1DF2D5070090369A /* TTNewsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTNewsViewController.m; sourceTree = "<group>"; };
 		DAC65BEB1DF2D5070090369A /* ShowMultiPictureViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShowMultiPictureViewController.h; sourceTree = "<group>"; };
 		DAC65BEC1DF2D5070090369A /* ShowMultiPictureViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShowMultiPictureViewController.m; sourceTree = "<group>"; };
 		DAC65BF91DF2D5070090369A /* BigPictureTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BigPictureTableViewCell.h; sourceTree = "<group>"; };
@@ -549,8 +549,8 @@
 		DAC65BE41DF2D5070090369A /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				DAC65BE91DF2D5070090369A /* NewsViewController.h */,
-				DAC65BEA1DF2D5070090369A /* NewsViewController.m */,
+				DAC65BE91DF2D5070090369A /* TTNewsViewController.h */,
+				DAC65BEA1DF2D5070090369A /* TTNewsViewController.m */,
 				DA9316541DF3A6BE007F15B3 /* TTNewsContentViewController.h */,
 				DA9316551DF3A6BE007F15B3 /* TTNewsContentViewController.m */,
 				DAC65BE71DF2D5070090369A /* TTDetailViewController.h */,
@@ -1152,7 +1152,7 @@
 				DAC65C811DF2D5080090369A /* TTMailRegisterViewController.m in Sources */,
 				DAC65CC01DF2D5080090369A /* PictureTableViewCell.m in Sources */,
 				DAC65C871DF2D5080090369A /* TwoLabelCell.m in Sources */,
-				DAC65C8B1DF2D5080090369A /* NewsViewController.m in Sources */,
+				DAC65C8B1DF2D5080090369A /* TTNewsViewController.m in Sources */,
 				DAC65C831DF2D5080090369A /* TTRegisterViewController.m in Sources */,
 				DA93168D1DF3B214007F15B3 /* UIImage+Extension.m in Sources */,
 				DAC65CBD1DF2D5080090369A /* TTPictureUser.m in Sources */,

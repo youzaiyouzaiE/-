@@ -2,17 +2,17 @@
 //  NewsViewController.m
 //  TTNews
 //
-//  Created by 瑞文戴尔 on 16/3/24.
-//  Copyright © 2016年 瑞文戴尔. All rights reserved.
+//  Created by jiaHui on 16/3/24.
+//  Copyright © 2016年 Home. All rights reserved.
 //
 
-#import "NewsViewController.h"
+#import "TTNewsViewController.h"
 #import "TTNewsContentViewController.h"
 #import <HMSegmentedControl/HMSegmentedControl.h>
 #import "TTChannelModel.h"
 #import "AFNetworking.h"
 
-@interface NewsViewController()<UIScrollViewDelegate> {
+@interface TTNewsViewController()<UIScrollViewDelegate> {
     HMSegmentedControl *_topTitleView;
     NSMutableArray *_titleArray;
 }
@@ -25,7 +25,7 @@
 static NSString * const collectionCellID = @"ChannelCollectionCell";
 static NSString * const collectionViewSectionHeaderID = @"ChannelCollectionHeader";
 
-@implementation NewsViewController
+@implementation TTNewsViewController
 
 -(void)viewDidLoad {
     [super viewDidLoad];
