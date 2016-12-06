@@ -60,10 +60,6 @@
     self.isShakeCanChangeSkin = [[NSUserDefaults standardUserDefaults] boolForKey:IsShakeCanChangeSkinKey];
 }
 
--(void)dealloc {
-    
-}
-
 -(void)motionBegan:(UIEventSubtype)motion withEvent:(UIEvent *)event {
     if (motion == UIEventSubtypeMotionShake) {
         if (self.isShakeCanChangeSkin == NO) return;
@@ -99,6 +95,10 @@
 
 -(void)didReceiveMemoryWarning {
     [[SDImageCache sharedImageCache] clearDisk];
-
 }
+
+-(void)dealloc {
+    
+}
+
 @end

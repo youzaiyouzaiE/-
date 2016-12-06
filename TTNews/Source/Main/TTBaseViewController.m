@@ -3,7 +3,7 @@
 //  TTNews
 //
 //  Created by jiahui on 2016/12/3.
-//  Copyright © 2016年 瑞文戴尔. All rights reserved.
+//  Copyright © 2016年 HOME. All rights reserved.
 //
 
 #import "TTBaseViewController.h"
