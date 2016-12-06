@@ -72,7 +72,6 @@
 		DAC65C9F1DF2D5080090369A /* TopTextTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DAC65C0E1DF2D5070090369A /* TopTextTableViewCell.m */; };
 		DAC65CA01DF2D5080090369A /* TopTextTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DAC65C0F1DF2D5070090369A /* TopTextTableViewCell.xib */; };
 		DAC65CA11DF2D5080090369A /* TTImageCyclePlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = DAC65C111DF2D5070090369A /* TTImageCyclePlayView.m */; };
-		DAC65CA21DF2D5080090369A /* TTTopChannelContianerView.m in Sources */ = {isa = PBXBuildFile; fileRef = DAC65C131DF2D5070090369A /* TTTopChannelContianerView.m */; };
 		DAC65CB81DF2D5080090369A /* PictureCommentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DAC65C451DF2D5070090369A /* PictureCommentViewController.m */; };
 		DAC65CB91DF2D5080090369A /* PictureCommentViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DAC65C461DF2D5070090369A /* PictureCommentViewController.xib */; };
 		DAC65CBA1DF2D5080090369A /* PictureViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DAC65C481DF2D5070090369A /* PictureViewController.m */; };
@@ -251,8 +250,6 @@
 		DAC65C0F1DF2D5070090369A /* TopTextTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TopTextTableViewCell.xib; sourceTree = "<group>"; };
 		DAC65C101DF2D5070090369A /* TTImageCyclePlayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTImageCyclePlayView.h; sourceTree = "<group>"; };
 		DAC65C111DF2D5070090369A /* TTImageCyclePlayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTImageCyclePlayView.m; sourceTree = "<group>"; };
-		DAC65C121DF2D5070090369A /* TTTopChannelContianerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTTopChannelContianerView.h; sourceTree = "<group>"; };
-		DAC65C131DF2D5070090369A /* TTTopChannelContianerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTTopChannelContianerView.m; sourceTree = "<group>"; };
 		DAC65C441DF2D5070090369A /* PictureCommentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PictureCommentViewController.h; sourceTree = "<group>"; };
 		DAC65C451DF2D5070090369A /* PictureCommentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PictureCommentViewController.m; sourceTree = "<group>"; };
 		DAC65C461DF2D5070090369A /* PictureCommentViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PictureCommentViewController.xib; sourceTree = "<group>"; };
@@ -600,8 +597,6 @@
 				DAC65C0F1DF2D5070090369A /* TopTextTableViewCell.xib */,
 				DAC65C101DF2D5070090369A /* TTImageCyclePlayView.h */,
 				DAC65C111DF2D5070090369A /* TTImageCyclePlayView.m */,
-				DAC65C121DF2D5070090369A /* TTTopChannelContianerView.h */,
-				DAC65C131DF2D5070090369A /* TTTopChannelContianerView.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1155,7 +1150,6 @@
 				DAC65CC61DF2D5080090369A /* VideoViewController.m in Sources */,
 				DAC65CBC1DF2D5080090369A /* TTPictureComment.m in Sources */,
 				DAC65C811DF2D5080090369A /* TTMailRegisterViewController.m in Sources */,
-				DAC65CA21DF2D5080090369A /* TTTopChannelContianerView.m in Sources */,
 				DAC65CC01DF2D5080090369A /* PictureTableViewCell.m in Sources */,
 				DAC65C871DF2D5080090369A /* TwoLabelCell.m in Sources */,
 				DAC65C8B1DF2D5080090369A /* NewsViewController.m in Sources */,

@@ -19,7 +19,7 @@ pod 'MBProgressHUD'
 pod 'Masonry'
 pod 'UIColor-HexString'
 pod 'SDCycleScrollView'
-
+pod 'HMSegmentedControl'
 
 end
 

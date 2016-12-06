@@ -8,12 +8,12 @@
 
 #import "NewsViewController.h"
 #import "TTNewsContentViewController.h"
-#import "TTTopChannelContianerView.h"
+#import <HMSegmentedControl/HMSegmentedControl.h>
 #import "TTChannelModel.h"
 #import "AFNetworking.h"
 
-@interface NewsViewController()<UIScrollViewDelegate,TTTopChannelContianerViewDelegate> {
-    TTTopChannelContianerView *_titleView;
+@interface NewsViewController()<UIScrollViewDelegate> {
+    HMSegmentedControl *_topTitleView;
     NSMutableArray *_titleArray;
 }
 
@@ -82,17 +82,30 @@ static NSString * const collectionViewSectionHeaderID = @"ChannelCollectionHeade
     }
 }
 
-- (void)setupTopContianerView{
-    _titleView = [[TTTopChannelContianerView alloc] initWithFrame:CGRectMake(0, 0, Screen_Width, 30)];
-    _titleView.channelNameArray = _titleArray;
-    _titleView.delegate = self;
-    [self.view addSubview:_titleView];
+- (void)setupTopContianerView {
+    _topTitleView = [[HMSegmentedControl alloc] initWithSectionTitles:_titleArray];
+    _topTitleView.selectionStyle = HMSegmentedControlSelectionStyleFullWidthStripe;
+    _topTitleView.selectionIndicatorLocation = HMSegmentedControlSelectionIndicatorLocationDown;
+    _topTitleView.verticalDividerEnabled = NO;
+    _topTitleView.titleTextAttributes = @{NSForegroundColorAttributeName : [UIColor blackColor],NSFontAttributeName:[UIFont systemFontOfSize:15]};
+    _topTitleView.selectedTitleTextAttributes = @{NSForegroundColorAttributeName : [UIColor colorWithHexString:@"fa5054"]};
+    _topTitleView.selectionIndicatorColor = [UIColor colorWithHexString:@"fa5054"];
+    _topTitleView.selectionIndicatorHeight = 2.0;
+    _topTitleView.borderType = HMSegmentedControlBorderTypeBottom;
+    _topTitleView.borderColor = [UIColor colorWithHexString:@"dadadf"];
+    [_topTitleView addTarget:self action:@selector(switchSection:) forControlEvents:UIControlEventValueChanged];
+    [self.view addSubview:_topTitleView];
+    [_topTitleView setFrame:CGRectMake(0, 0, Screen_Width, 30)];
+}
+
+- (void)switchSection:(HMSegmentedControl *)segment {
+    [self.contentScrollView setContentOffset:CGPointMake(_contentScrollView.width * segment.selectedSegmentIndex, 0) animated:YES];
 }
 
 #pragma mark --private Method--初始化相信新闻内容的scrollView
 - (void)setupContentScrollView {
     _contentScrollView = [[UIScrollView alloc] init];
-    _contentScrollView.frame = CGRectMake(0, _titleView.height, self.view.width, self.view.height - _titleView.height);
+    _contentScrollView.frame = CGRectMake(0, _topTitleView.height, self.view.width, self.view.height - _topTitleView.height);
     _contentScrollView.contentSize = CGSizeMake(_contentScrollView.frame.size.width * _titleArray.count, 0);
     _contentScrollView.pagingEnabled = YES;
     _contentScrollView.delegate = self;
@@ -102,19 +115,9 @@ static NSString * const collectionViewSectionHeaderID = @"ChannelCollectionHeade
 -(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
     if (scrollView == _contentScrollView) {
         NSInteger index = scrollView.contentOffset.x/_contentScrollView.frame.size.width;
-        [_titleView selectChannelButtonWithIndex:index];
+        [_topTitleView setSelectedSegmentIndex:index animated:YES];
     }
 }
-
-#pragma mark --TTTopChannelContianerViewDelegate
-- (void)topChannelView:(TTTopChannelContianerView *)chnnelView addActionWithButton:(UIButton *)button {
-    
-}
-
-- (void)topChannelView:(TTTopChannelContianerView *)chnnelView chooseChannelWithIndex:(NSInteger)index {
-    [self.contentScrollView setContentOffset:CGPointMake(self.contentScrollView.frame.size.width * index, 0) animated:YES];
-}
-
 
 @end
 
