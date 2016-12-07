@@ -74,6 +74,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>SDVersion.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>SDWebImage.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -102,17 +107,17 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>203BE40CBA7446DEA976A7734E744CEF</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
 		<key>2AB49797D14D57FA43A345254AFB9F18</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>3C9E4635C521B3F44EBF5323A11B95DE</key>
+		<key>3C93EE3C7F9A558D07B23231582E0E14</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>4CE426E15FE17BE6C0B1F2E664C68C44</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -122,7 +127,17 @@
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>5619D6325552AED0F04309DD29B53A56</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>70BC44266C6FFE30D2C57129458E070B</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>80EFDF129332EBF07082B3C56C145C2E</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -133,6 +148,11 @@
 			<true/>
 		</dict>
 		<key>9775596B3CA16905FC8F66DA8E2A3C67</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>9D8C6E7C2C48EFC3DD3784BDFD42EFED</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -152,22 +172,7 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>B22D85DD0586935C3364F3AB90BF8C1E</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
 		<key>B4A3E08D49931371F7247521A50EAF79</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>B70C0A38E5CEF4B432C6449FC5E3B9CE</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>CA98A454E5BE49B90985B87AC75B0ADC</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -177,12 +182,17 @@
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>E52D12668E007E8FDB3017856998D737</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>E96531D2698B334C4DEC89A22248E32D</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>FC7246DD5D9EAC9CB63D883A7EB97807</key>
+		<key>EFA7CE69C86677AC71C6157F9986D66E</key>
 		<dict>
 			<key>primary</key>
 			<true/>

@@ -44,6 +44,7 @@ PODS:
   - pop (1.0.9)
   - SDCycleScrollView (1.65):
     - SDWebImage (~> 3.7)
+  - SDVersion (3.6)
   - SDWebImage (3.7.5):
     - SDWebImage/Core (= 3.7.5)
   - SDWebImage/Core (3.7.5)
@@ -63,6 +64,7 @@ DEPENDENCIES:
   - NJKWebViewProgress
   - pop
   - SDCycleScrollView
+  - SDVersion
   - SDWebImage
   - SVProgressHUD
   - UIColor-HexString
@@ -80,10 +82,11 @@ SPEC CHECKSUMS:
   NJKWebViewProgress: f481fd424cb5ecc27eacae11b5397db92fba9a4d
   pop: f667631a5108a2e60d9e8797c9b32ddaf2080bce
   SDCycleScrollView: f72904c77698a7f93a41bcbbc2d78b073bf7326c
+  SDVersion: 43383b6ac05462c973c3fd92d9748c74e360aba5
   SDWebImage: 69c6303e3348fba97e03f65d65d4fbc26740f461
   SVProgressHUD: b0830714205bea1317ea1a2ebc71e5633af334d4
   UIColor-HexString: fadc2e1389db19147ac99dee92222d3bd8bfec4a
 
-PODFILE CHECKSUM: ea27fad4bc11cb06eaa7e490d611dad32b244b08
+PODFILE CHECKSUM: adfecedff40b37643b2c868ea24f69b416658049
 
 COCOAPODS: 1.0.1
