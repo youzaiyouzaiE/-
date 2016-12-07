@@ -10,7 +10,8 @@
 #import "TTTabBarController.h"
 #import "TTConst.h"
 #import "TTNetworkSessionManager.H"
-
+#import "MeTableViewController.h"
+#import "TTNewsViewController.h"
 
 @interface AppDelegate ()
 
@@ -22,11 +23,41 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     [self setupUserDefaults];
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
+    
+//    TTNewsViewController *vc1 = [[TTNewsViewController alloc] init];
+//    UINavigationController *navVC1 = [self addChildViewController:vc1
+//                                                        withImage:[UIImage imageNamed:@"tabbar_news"]
+//                                                    selectedImage:[UIImage imageNamed:@"tabbar_news_hl"]
+//                                                       withTittle:@"新闻"];
+//    
+//    MeTableViewController *vc4 = [[MeTableViewController alloc] init];
+//    UINavigationController *navVC4 = [self addChildViewController:vc4
+//                                                        withImage:[UIImage imageNamed:@"tabbar_setting"] selectedImage:[UIImage imageNamed:@"tabbar_setting_hl"]
+//                                                       withTittle:@"我的"];
+//    
+//    UITabBarController *barController = [[UITabBarController alloc] init];
+//    barController.viewControllers = @[navVC1,navVC4];
+    
     self.window.rootViewController = [[TTTabBarController alloc] init];
     [self.window makeKeyAndVisible];
-    
     [self initializeNetRequest];
     return YES;
+}
+
+- (UINavigationController * )addChildViewController:(UIViewController *)controller
+                     withImage:(UIImage *)image
+                 selectedImage:(UIImage *)selectImage
+                    withTittle:(NSString *)tittle {
+    UITabBarItem *item = [[UITabBarItem alloc] initWithTitle:tittle image:image selectedImage:selectImage];
+    controller.tabBarItem = item;
+    [controller.tabBarItem setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor redColor]} forState:UIControlStateSelected];
+    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:controller];
+    //    [nav.tabBarItem setImage:image];
+    //    [nav.tabBarItem setSelectedImage:selectImage];
+    controller.title = tittle;
+    //    nav.tabBarItem.titlePositionAdjustment = UIOffsetMake(0, -3);
+//    [self addChildViewController:nav];
+    return nav;
 }
 
 #pragma mark - netWork request

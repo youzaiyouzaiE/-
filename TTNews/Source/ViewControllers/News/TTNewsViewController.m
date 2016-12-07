@@ -34,6 +34,7 @@ static NSString * const collectionViewSectionHeaderID = @"ChannelCollectionHeade
     self.navigationController.navigationBar.dk_barTintColorPicker = DKColorPickerWithRGB(0xfa5054,0x444444,0xfa5054);
     _titleArray = [NSMutableArray arrayWithObject:@"头条"];
     [self newsChannelsRequest];
+    self.hidesBottomBarWhenPushed = YES;
 }
 
 -(void)viewWillAppear:(BOOL)animated {

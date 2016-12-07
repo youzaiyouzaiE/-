@@ -44,8 +44,8 @@
     _MeController = vc4;
     [self addChildViewController:vc4 withImage:[UIImage imageNamed:@"tabbar_setting"] selectedImage:[UIImage imageNamed:@"tabbar_setting_hl"] withTittle:@"我的"];
     vc4.delegate = self;
-    
     [self setupBasic];
+    self.hidesBottomBarWhenPushed = YES;
 }
 
 - (void)setupBasic {
@@ -54,37 +54,22 @@
     } else {
         self.tabBar.barTintColor = [UIColor colorWithRed:34/255.0 green:34/255.0 blue:34/255.0 alpha:1.0];
     }
-    
     [UIApplication sharedApplication].applicationSupportsShakeToEdit = YES;
     self.isShakeCanChangeSkin = [[NSUserDefaults standardUserDefaults] boolForKey:IsShakeCanChangeSkinKey];
-}
-
--(void)motionBegan:(UIEventSubtype)motion withEvent:(UIEvent *)event {
-    if (motion == UIEventSubtypeMotionShake) {
-        if (self.isShakeCanChangeSkin == NO) return;
-        if ([self.dk_manager.themeVersion isEqualToString:DKThemeVersionNormal]) {//将要切换至夜间模式
-            self.dk_manager.themeVersion = DKThemeVersionNight;
-            self.tabBar.barTintColor = [UIColor colorWithRed:34/255.0 green:34/255.0 blue:34/255.0 alpha:1.0];
-            _MeController.changeSkinSwitch.on = YES;
-        } else {
-            self.dk_manager.themeVersion = DKThemeVersionNormal;
-            self.tabBar.barTintColor = [UIColor whiteColor];
-            _MeController.changeSkinSwitch.on = NO;
-
-        }
-    }
 }
 
 - (void)addChildViewController:(UIViewController *)controller
                      withImage:(UIImage *)image
                  selectedImage:(UIImage *)selectImage
                     withTittle:(NSString *)tittle {
+    UITabBarItem *item = [[UITabBarItem alloc] initWithTitle:tittle image:image selectedImage:selectImage];
+    controller.tabBarItem = item;
+    [controller.tabBarItem setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor redColor]} forState:UIControlStateSelected];
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:controller];
-    [nav.tabBarItem setImage:image];
-    [nav.tabBarItem setSelectedImage:selectImage];
+//    [nav.tabBarItem setImage:image];
+//    [nav.tabBarItem setSelectedImage:selectImage];
     controller.title = tittle;
-    [nav.tabBarItem setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor redColor]} forState:UIControlStateSelected];
-    nav.tabBarItem.titlePositionAdjustment = UIOffsetMake(0, -3);
+//    nav.tabBarItem.titlePositionAdjustment = UIOffsetMake(0, -3);
     [self addChildViewController:nav];
 }
 
