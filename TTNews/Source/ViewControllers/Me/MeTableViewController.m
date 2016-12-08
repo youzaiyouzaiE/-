@@ -18,7 +18,6 @@
 #import "UIImage+Extension.h"
 #import "UserInfoCell.h"
 #import "SwitchCell.h"
-#import <DKNightVersion.h>
 #import "TwoLabelCell.h"
 #import "DisclosureCell.h"
 #import "TTLoginViewController.h"
@@ -33,7 +32,7 @@ static NSString *const SwitchCellIdentifier = @"SwitchCell";
 static NSString *const TwoLabelCellIdentifier = @"TwoLabelCell";
 static NSString *const DisclosureCellIdentifier = @"DisclosureCell";
 
-@interface MeTableViewController ()<UIAlertViewDelegate> {
+@interface MeTableViewController ()<UIAlertViewDelegate,UITableViewDelegate, UITableViewDataSource> {
     BOOL _isLoginSuccess;
     NSNumber *_uid;
     NSString *_token;
@@ -42,6 +41,7 @@ static NSString *const DisclosureCellIdentifier = @"DisclosureCell";
     NSString *_signature;
 }
 
+@property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, copy) NSString *userName;
 @property (nonatomic, weak) UISwitch *shakeCanChangeSkinSwitch;
 @property (nonatomic, weak) UISwitch *imageDownLoadModeSwitch;
@@ -59,7 +59,6 @@ CGFloat const footViewHeight = 30;
     [super viewDidLoad];
     [self caculateCacheSize];
     [self setupBasic];
-
 }
 
 -(void)viewWillAppear:(BOOL)animated {
@@ -75,11 +74,21 @@ CGFloat const footViewHeight = 30;
 }
 
 -(void)setupBasic{
-    self.automaticallyAdjustsScrollViewInsets = NO;
-    self.tableView.contentInset = UIEdgeInsetsMake(CGRectGetMaxY(self.navigationController.navigationBar.frame) + 30, 0, 0, 0);
+//    self.navigationController.navigationBar.dk_barTintColorPicker = DKColorPickerWithRGB(0xfa5054,0x444444,0xfa5054);
+    self.title = @"我的";
+    
+    self.tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStyleGrouped];
+    _tableView.delegate = self;
+    _tableView.dataSource = self;
+    [self.view addSubview:_tableView];
+    [_tableView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.left.right.mas_equalTo(0);
+        make.bottom.mas_equalTo(self.view.mas_bottom);
+    }];
+    
     self.tableView.dk_backgroundColorPicker = DKColorPickerWithRGB(0xf0f0f0, 0x000000, 0xfafafa);
     self.tableView.dk_separatorColorPicker = DKColorPickerWithKey(SEP);
-    self.navigationController.navigationBar.dk_barTintColorPicker = DKColorPickerWithRGB(0xfa5054,0x444444,0xfa5054);
+//    self.navigationController.navigationBar.dk_barTintColorPicker = DKColorPickerWithRGB(0xfa5054,0x444444,0xfa5054);
     [self.tableView registerClass:[UserInfoCell class] forCellReuseIdentifier:UserInfoCellIdentifier];
     [self.tableView registerClass:[SwitchCell class] forCellReuseIdentifier:SwitchCellIdentifier];
     [self.tableView registerClass:[TwoLabelCell class] forCellReuseIdentifier:TwoLabelCellIdentifier];
@@ -300,9 +309,9 @@ CGFloat const footViewHeight = 30;
         BOOL status = self.shakeCanChangeSkinSwitch.on;
         [[NSUserDefaults standardUserDefaults] setObject:@(status) forKey:IsShakeCanChangeSkinKey];
         [[NSUserDefaults standardUserDefaults] synchronize];
-        if([self.delegate respondsToSelector:@selector(shakeCanChangeSkin:)]) {
-            [self.delegate shakeCanChangeSkin:status];
-        }
+//        if([self.delegate respondsToSelector:@selector(shakeCanChangeSkin:)]) {
+//            [self.delegate shakeCanChangeSkin:status];
+//        }
    }
 }
 

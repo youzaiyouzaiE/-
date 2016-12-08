@@ -18,16 +18,13 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-//    if (self.navigationController.viewControllers.count >1) {
+    if (self.navigationController.viewControllers.count >1) {
         UIBarButtonItem * item = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"navigationbar_pic_back_icon"]
                                                                   style:UIBarButtonItemStylePlain
                                                                  target:self
                                                                  action:@selector(backAction)];
         self.navigationItem.leftBarButtonItem = item;
-//    }
-    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
-    [self.navigationItem.leftBarButtonItem setTintColor:[UIColor whiteColor]];
-    self.navigationController.delegate = self;
+    }
     
     if (self.navigationController.interactivePopGestureRecognizer) {
         self.navigationController.interactivePopGestureRecognizer.delegate = self;
@@ -37,16 +34,13 @@
         self.edgesForExtendedLayout = UIRectEdgeNone;
     
     self.view.dk_backgroundColorPicker = DKColorPickerWithRGB(0xf0f0f0, 0x000000, 0xfafafa);
-//    self.navigationController.navigationBar.dk_barTintColorPicker = DKColorPickerWithRGB(0xfa5054,0x444444,0xfa5054);
     if([TTJudgeNetworking judge] == NO) {
         [SVProgressHUD showErrorWithStatus:@"无网络连接"];
     }
-//    self.hidesBottomBarWhenPushed = YES;
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 - (void)addTapViewResignKeyboard {

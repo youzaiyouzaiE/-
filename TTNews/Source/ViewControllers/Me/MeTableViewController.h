@@ -7,16 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "TTBaseViewController.h"
 
-@protocol MeTableViewControllerDelegate <NSObject>
-@optional
-- (void)shakeCanChangeSkin:(BOOL)status;
+@interface MeTableViewController : TTBaseViewController
 
-@end
-
-@interface MeTableViewController : UITableViewController
-
-@property(nonatomic, weak) id<MeTableViewControllerDelegate> delegate;
+//@property(nonatomic, weak) id<MeTableViewControllerDelegate> delegate;
 @property (nonatomic, weak) UISwitch *changeSkinSwitch;
 
 @end

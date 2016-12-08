@@ -38,8 +38,9 @@ static NSString * const collectionViewSectionHeaderID = @"ChannelCollectionHeade
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.automaticallyAdjustsScrollViewInsets = NO;
-    self.view.dk_backgroundColorPicker = DKColorPickerWithRGB(0xf0f0f0, 0x000000, 0xfafafa);
-    self.navigationController.navigationBar.dk_barTintColorPicker = DKColorPickerWithRGB(0xfa5054,0x444444,0xfa5054);
+//    self.view.dk_backgroundColorPicker = DKColorPickerWithRGB(0xf0f0f0, 0x000000, 0xfafafa);
+//    self.navigationController.navigationBar.dk_barTintColorPicker = DKColorPickerWithRGB(0xfa5054,0x444444,0xfa5054);
+    self.title = @"新闻";
     _titleArray = [NSMutableArray arrayWithObject:@"头条"];
     [self newsChannelsRequest];
     if ([self respondsToSelector:@selector(edgesForExtendedLayout)])

@@ -7,6 +7,6 @@
 //
 #import "TTBaseViewController.h"
 
-@interface TTNewsViewController : UIViewController
+@interface TTNewsViewController : TTBaseViewController
 
 @end

@@ -34,24 +34,16 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [[UITabBar appearance] setTintColor:[UIColor whiteColor]];
+    [[UITabBar appearance] setTintColor:[UIColor colorWithHexString:@"fa5054"]];
+    [[UITabBar appearance] setBarTintColor:[UIColor whiteColor]];
 //    self.delegate = self;
     [self setupViewControllers];
-    
-    if ([self respondsToSelector:@selector(edgesForExtendedLayout)])
-        self.edgesForExtendedLayout = UIRectEdgeNone;
 }
 
 - (void)setupViewControllers {
     TTNewsViewController *news = [[TTNewsViewController alloc] init];
     TTNavigationController *firstNavigationController = [[TTNavigationController alloc]
                                                          initWithRootViewController:news];
-    
-//    PictureViewController *vc2 = [[PictureViewController alloc] init];
-//    [self addChildViewController:vc2 withImage:[UIImage imageNamed:@"tabbar_picture"] selectedImage:[UIImage imageNamed:@"tabbar_picture_hl"] withTittle:@"图片"];
-//    
-//    VideoViewController *vc3 = [[VideoViewController alloc] init];
-//    [self addChildViewController:vc3 withImage:[UIImage imageNamed:@"tabbar_video"] selectedImage:[UIImage imageNamed:@"tabbar_video_hl"] withTittle:@"视频"];
     
     MeTableViewController *meVC = [[MeTableViewController alloc] init];
     TTNavigationController *secondNavigationController = [[TTNavigationController alloc]

@@ -19,10 +19,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    
-    [self.navigationBar setTintColor:[UIColor colorWithHexString:@"f0f0f0"]];
-
-//    [UINavigationBar appearance].dk_tintColorPicker = DKColorPickerWithRGB(0xf0f0f0, 0x000000, 0xfafafa);
+    [[UINavigationBar appearance] setBarTintColor:[UIColor colorWithHexString:@"fa5054"]];
+    [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
+    [self.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
 }
 
 
