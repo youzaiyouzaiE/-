@@ -21,6 +21,7 @@ pod 'UIColor-HexString'
 pod 'SDCycleScrollView'
 pod 'HMSegmentedControl'
 pod 'SDVersion'
+pod 'CYLTabBarController'
 
 end
 

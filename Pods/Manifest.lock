@@ -14,6 +14,7 @@ PODS:
   - AFNetworking/Serialization (3.1.0)
   - AFNetworking/UIKit (3.1.0):
     - AFNetworking/NSURLSession
+  - CYLTabBarController (1.6.0)
   - DACircularProgress (2.3.1)
   - DKNightVersion (2.3.0):
     - DKNightVersion/Core (= 2.3.0)
@@ -53,6 +54,7 @@ PODS:
 
 DEPENDENCIES:
   - AFNetworking
+  - CYLTabBarController
   - DACircularProgress
   - DKNightVersion
   - FMDB (~> 2.5)
@@ -71,6 +73,7 @@ DEPENDENCIES:
 
 SPEC CHECKSUMS:
   AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
+  CYLTabBarController: efbdd574772be17f17965acd7ee993f5972ff02f
   DACircularProgress: 4dd437c0fc3da5161cb289e07ac449493d41db71
   DKNightVersion: 459438cbfd14edb9e41a777ff14b18e5661b9269
   FMDB: 854a0341b4726e53276f2a8996f06f1b80f9259a
@@ -87,6 +90,6 @@ SPEC CHECKSUMS:
   SVProgressHUD: b0830714205bea1317ea1a2ebc71e5633af334d4
   UIColor-HexString: fadc2e1389db19147ac99dee92222d3bd8bfec4a
 
-PODFILE CHECKSUM: adfecedff40b37643b2c868ea24f69b416658049
+PODFILE CHECKSUM: 156b61efc12a90e7fe0cae482f1423279e7e7f8a
 
 COCOAPODS: 1.0.1

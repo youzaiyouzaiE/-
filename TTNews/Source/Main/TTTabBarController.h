@@ -7,7 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <CYLTabBarController.h>
 
-@interface TTTabBarController : UITabBarController
+@interface TTTabBarController : CYLTabBarController
+
++ (instancetype)shareInstance;
+
 
 @end

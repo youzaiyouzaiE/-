@@ -75,6 +75,7 @@
 		DA62CA371DF7BDB100AD3928 /* PictureViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DA62CA311DF7BDB100AD3928 /* PictureViewController.m */; };
 		DA62CA381DF7BDB100AD3928 /* ShowBigPictureViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DA62CA331DF7BDB100AD3928 /* ShowBigPictureViewController.m */; };
 		DA62CA391DF7BDB100AD3928 /* ShowBigPictureViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA62CA341DF7BDB100AD3928 /* ShowBigPictureViewController.xib */; };
+		DA62CA681DF8F37600AD3928 /* TTNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = DA62CA671DF8F37600AD3928 /* TTNavigationController.m */; };
 		DA9316881DF3B214007F15B3 /* Foundation+Log.m in Sources */ = {isa = PBXBuildFile; fileRef = DA9316581DF3B214007F15B3 /* Foundation+Log.m */; };
 		DA9316891DF3B214007F15B3 /* NSDate+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = DA93165A1DF3B214007F15B3 /* NSDate+Extension.m */; };
 		DA93168A1DF3B214007F15B3 /* NSObject+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = DA93165C1DF3B214007F15B3 /* NSObject+Extension.m */; };
@@ -248,6 +249,8 @@
 		DA62CA321DF7BDB100AD3928 /* ShowBigPictureViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShowBigPictureViewController.h; sourceTree = "<group>"; };
 		DA62CA331DF7BDB100AD3928 /* ShowBigPictureViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShowBigPictureViewController.m; sourceTree = "<group>"; };
 		DA62CA341DF7BDB100AD3928 /* ShowBigPictureViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ShowBigPictureViewController.xib; sourceTree = "<group>"; };
+		DA62CA661DF8F37600AD3928 /* TTNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTNavigationController.h; sourceTree = "<group>"; };
+		DA62CA671DF8F37600AD3928 /* TTNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTNavigationController.m; sourceTree = "<group>"; };
 		DA9316581DF3B214007F15B3 /* Foundation+Log.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Foundation+Log.m"; sourceTree = "<group>"; };
 		DA9316591DF3B214007F15B3 /* NSDate+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+Extension.h"; sourceTree = "<group>"; };
 		DA93165A1DF3B214007F15B3 /* NSDate+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+Extension.m"; sourceTree = "<group>"; };
@@ -354,8 +357,8 @@
 		DA62C95F1DF7BCAB00AD3928 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				DA62C9601DF7BCAB00AD3928 /* Me */,
 				DA62C9611DF7BCAB00AD3928 /* News */,
+				DA62C9601DF7BCAB00AD3928 /* Me */,
 				DA62C9681DF7BCAB00AD3928 /* Picture */,
 				DA62C96F1DF7BCAB00AD3928 /* Video */,
 			);
@@ -713,6 +716,8 @@
 				DAC65CED1DF311430090369A /* AppDelegate.m */,
 				DAC65CF41DF311430090369A /* TTTabBarController.h */,
 				DAC65CF51DF311430090369A /* TTTabBarController.m */,
+				DA62CA661DF8F37600AD3928 /* TTNavigationController.h */,
+				DA62CA671DF8F37600AD3928 /* TTNavigationController.m */,
 				DAC65CF01DF311430090369A /* TTBaseViewController.h */,
 				DAC65CF11DF311430090369A /* TTBaseViewController.m */,
 				DAC65CEE1DF311430090369A /* TTBaseModel.h */,
@@ -1102,6 +1107,7 @@
 				DA62C9E11DF7BCAB00AD3928 /* TTNewListModel.m in Sources */,
 				DA62C9FA1DF7BCAB00AD3928 /* TopTextTableViewCell.m in Sources */,
 				DA93168E1DF3B214007F15B3 /* UIImageView+Extension.m in Sources */,
+				DA62CA681DF8F37600AD3928 /* TTNavigationController.m in Sources */,
 				DA62C9E71DF7BCAB00AD3928 /* TTVideoComment.m in Sources */,
 				DA93169C1DF3B214007F15B3 /* Reachability.m in Sources */,
 				DA9316911DF3B214007F15B3 /* SXNewsEntity.m in Sources */,

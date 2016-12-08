@@ -27,23 +27,32 @@ static NSString * const collectionViewSectionHeaderID = @"ChannelCollectionHeade
 
 @implementation TTNewsViewController
 
--(void)viewDidLoad {
+- (instancetype)init {
+    self = [super init];
+    if (self) {
+        
+    }
+    return self;
+}
+
+- (void)viewDidLoad {
     [super viewDidLoad];
     self.automaticallyAdjustsScrollViewInsets = NO;
     self.view.dk_backgroundColorPicker = DKColorPickerWithRGB(0xf0f0f0, 0x000000, 0xfafafa);
     self.navigationController.navigationBar.dk_barTintColorPicker = DKColorPickerWithRGB(0xfa5054,0x444444,0xfa5054);
     _titleArray = [NSMutableArray arrayWithObject:@"头条"];
     [self newsChannelsRequest];
-    self.hidesBottomBarWhenPushed = YES;
+    if ([self respondsToSelector:@selector(edgesForExtendedLayout)])
+        self.edgesForExtendedLayout = UIRectEdgeNone;
 }
 
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-   
 }
 
 -(void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
+    
 }
 
 - (void)newsChannelsRequest {

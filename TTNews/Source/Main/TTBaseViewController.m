@@ -27,6 +27,7 @@
 //    }
     [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
     [self.navigationItem.leftBarButtonItem setTintColor:[UIColor whiteColor]];
+    self.navigationController.delegate = self;
     
     if (self.navigationController.interactivePopGestureRecognizer) {
         self.navigationController.interactivePopGestureRecognizer.delegate = self;
@@ -34,8 +35,9 @@
     
     if ([self respondsToSelector:@selector(edgesForExtendedLayout)])
         self.edgesForExtendedLayout = UIRectEdgeNone;
+    
     self.view.dk_backgroundColorPicker = DKColorPickerWithRGB(0xf0f0f0, 0x000000, 0xfafafa);
-    self.navigationController.navigationBar.dk_barTintColorPicker = DKColorPickerWithRGB(0xfa5054,0x444444,0xfa5054);
+//    self.navigationController.navigationBar.dk_barTintColorPicker = DKColorPickerWithRGB(0xfa5054,0x444444,0xfa5054);
     if([TTJudgeNetworking judge] == NO) {
         [SVProgressHUD showErrorWithStatus:@"无网络连接"];
     }
@@ -79,6 +81,11 @@
         if([topController respondsToSelector:@selector(controllerDismissedByPopGesture:)]) {
             [topController performSelector:@selector(controllerDismissedByPopGesture:) withObject:@([context isCancelled])];
         } }];
+}
+
+- (void)navigationController:(UINavigationController *)navigationController didShowViewController:(UIViewController *)viewController animated:(BOOL)animated {
+
+    
 }
 
 - (void)controllerDismissedByPopGesture:(NSNumber*)isCancel {

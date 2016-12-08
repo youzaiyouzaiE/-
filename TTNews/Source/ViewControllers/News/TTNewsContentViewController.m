@@ -31,6 +31,15 @@
 
 @implementation TTNewsContentViewController
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+}
+
+-(void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
@@ -176,7 +185,6 @@
     TTNewListModel *listInfo = _arrayList[indexPath.row];
     TTDetailViewController *detailVC = [[TTDetailViewController alloc] init];
     detailVC.url = listInfo.url;
-    self.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:detailVC animated:YES];
 }
 
