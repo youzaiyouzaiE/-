@@ -11,7 +11,6 @@
 
 @interface TTNavigationController ()
 
-
 @end
 
 @implementation TTNavigationController
@@ -23,8 +22,6 @@
     [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
     [self.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
 }
-
-
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
