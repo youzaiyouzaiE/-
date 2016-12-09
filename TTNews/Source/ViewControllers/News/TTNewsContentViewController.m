@@ -59,26 +59,18 @@
     _cycleScrollView.imageURLStringsGroup = @[@"http://59.110.23.172/upload/cover_pic/cover_583aa10295b68.jpeg",
                                              @"http://59.110.23.172/upload/cover_pic/cover_583d1b400be13.jpeg",
                                              @"http://59.110.23.172/upload/cover_pic/cover_583f8fdc038ce.png"];
-//    _cycleScrollView.localizationImageNamesGroup = @[];
     _cycleScrollView.pageControlAliment = SDCycleScrollViewPageContolAlimentRight;
-    [self.view addSubview:_cycleScrollView];
-    [_cycleScrollView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.left.right.mas_equalTo(0);
-        make.height.mas_equalTo(Screen_Height/4);
-    }];
 }
 
 -(void)addTabelView {
-    _tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
+    _tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStyleGrouped];
     _tableView.backgroundColor = [UIColor whiteColor];
     _tableView.delegate = self;
     _tableView.dataSource = self;
+    _tableView.rowHeight = 100;
     [self.view addSubview:_tableView];
     [_tableView mas_makeConstraints:^(MASConstraintMaker *make) {
-        if (_isFristNews) {
-            make.top.mas_equalTo(_cycleScrollView.mas_bottom);
-        } else
-            make.top.mas_equalTo(0);
+        make.top.mas_equalTo(0);
         make.left.right.bottom.mas_equalTo(0);
     }];
     self.tableView.dk_backgroundColorPicker = DKColorPickerWithRGB(0xf0f0f0, 0x000000, 0xfafafa);
@@ -166,8 +158,19 @@
     return _arrayList.count;
 }
 
--(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 100;
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    if (_isFristNews) {
+        return Screen_Height/4;
+    } else
+        return 1;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    return 1;
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+    return _cycleScrollView;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -177,7 +180,6 @@
     cell.contentTittle = listInfo.title;
     cell.desc = listInfo.desc;
     return cell;
-   
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {

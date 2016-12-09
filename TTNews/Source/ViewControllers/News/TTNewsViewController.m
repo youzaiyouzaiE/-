@@ -11,6 +11,7 @@
 #import <HMSegmentedControl/HMSegmentedControl.h>
 #import "TTChannelModel.h"
 #import "AFNetworking.h"
+#import "SDiOSVersion.h"
 
 @interface TTNewsViewController()<UIScrollViewDelegate> {
     HMSegmentedControl *_topTitleView;
@@ -94,19 +95,29 @@ static NSString * const collectionViewSectionHeaderID = @"ChannelCollectionHeade
 }
 
 - (void)setupTopContianerView {
+    CGFloat height = 30.0f;
+    CGFloat fontSize = 15.0f;
+    DeviceSize size = [SDiOSVersion deviceSize];
+    if ( size == Screen4Dot7inch) {
+        height = 35.0f;
+        fontSize = 16.0f;
+    } else if (size == Screen4inch) {
+        height = 38.0f;
+        fontSize = 16.0f;
+    }
     _topTitleView = [[HMSegmentedControl alloc] initWithSectionTitles:_titleArray];
     _topTitleView.selectionStyle = HMSegmentedControlSelectionStyleFullWidthStripe;
     _topTitleView.selectionIndicatorLocation = HMSegmentedControlSelectionIndicatorLocationDown;
     _topTitleView.verticalDividerEnabled = NO;
-    _topTitleView.titleTextAttributes = @{NSForegroundColorAttributeName : [UIColor blackColor],NSFontAttributeName:[UIFont systemFontOfSize:15]};
-    _topTitleView.selectedTitleTextAttributes = @{NSForegroundColorAttributeName : [UIColor colorWithHexString:@"fa5054"]};
+    _topTitleView.titleTextAttributes = @{NSForegroundColorAttributeName : [UIColor blackColor],NSFontAttributeName:[UIFont systemFontOfSize:fontSize]};
+    _topTitleView.selectedTitleTextAttributes = @{NSForegroundColorAttributeName : [UIColor colorWithHexString:@"fa5054"],NSFontAttributeName:[UIFont systemFontOfSize:fontSize+2]};
     _topTitleView.selectionIndicatorColor = [UIColor colorWithHexString:@"fa5054"];
     _topTitleView.selectionIndicatorHeight = 2.0;
     _topTitleView.borderType = HMSegmentedControlBorderTypeBottom;
     _topTitleView.borderColor = [UIColor colorWithHexString:@"dadadf"];
     [_topTitleView addTarget:self action:@selector(switchSection:) forControlEvents:UIControlEventValueChanged];
     [self.view addSubview:_topTitleView];
-    [_topTitleView setFrame:CGRectMake(0, 0, Screen_Width, 30)];
+    [_topTitleView setFrame:CGRectMake(0, 0, Screen_Width, height)];
 }
 
 - (void)switchSection:(HMSegmentedControl *)segment {

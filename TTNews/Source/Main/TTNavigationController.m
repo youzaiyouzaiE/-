@@ -20,7 +20,8 @@
     // Do any additional setup after loading the view.
     [[UINavigationBar appearance] setBarTintColor:[UIColor colorWithHexString:@"fa5054"]];
     [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
-    [self.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
+    [[UINavigationBar appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
+
 }
 
 - (void)didReceiveMemoryWarning {
