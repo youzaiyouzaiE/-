@@ -140,24 +140,24 @@
                                     _pagInfo = [[TTNewListPageInfoModel alloc] initWithDictionary:pageInfoDic];
                                     NSArray *dataArray = responseObject[@"data"];
                                     if (dataArray.count < 1) {
-                                        [weakSelf setMJHeaderOrFooterStatusWithIsUpload:isRefresh footHaveMoreData:NO];
+                                        [weakSelf updateMJViewStatusWithIsUpload:isRefresh footHaveMoreData:NO];
                                     } else {
                                         for (NSDictionary *dic in dataArray) {
                                             TTNewListModel *model = [[TTNewListModel alloc] initWithDictionary:dic];
                                             [_arrayList addObject:model];
                                         }
-                                        [weakSelf setMJHeaderOrFooterStatusWithIsUpload:isRefresh footHaveMoreData:YES];
+                                        [weakSelf updateMJViewStatusWithIsUpload:isRefresh footHaveMoreData:YES];
                                     }
                                 }
                                 failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
                                     [TTProgressHUD dismiss];
                                     [TTProgressHUD showMsg:@"服务器繁忙！请求出错"];
                                     [_tableView.mj_header endRefreshing];
-                                    self.tableView.mj_footer.hidden = NO;
+                                    self.tableView.mj_footer.hidden = YES;
                                 }];
 }
 
-- (void)setMJHeaderOrFooterStatusWithIsUpload:(BOOL)isRefresh footHaveMoreData:(BOOL)haveData{
+- (void)updateMJViewStatusWithIsUpload:(BOOL)isRefresh footHaveMoreData:(BOOL)haveData{
     if (isRefresh) {
         [_tableView.mj_header endRefreshing];
         [_tableView.mj_footer resetNoMoreData];
