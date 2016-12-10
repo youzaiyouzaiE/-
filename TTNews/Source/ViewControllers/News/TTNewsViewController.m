@@ -20,6 +20,8 @@
 
 @property (nonatomic, strong) NSMutableArray *arrayChannels;
 @property (nonatomic, strong) UIScrollView *contentScrollView;
+@property (nonatomic, strong) NSMutableArray *arraySubControllers;/////所有栏目的子controller
+@property (nonatomic, strong) NSMutableArray *arrayAddedControllers;////已经添加过的controller
 
 @end
 
@@ -28,14 +30,6 @@ static NSString * const collectionViewSectionHeaderID = @"ChannelCollectionHeade
 
 @implementation TTNewsViewController
 
-- (instancetype)init {
-    self = [super init];
-    if (self) {
-        
-    }
-    return self;
-}
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.automaticallyAdjustsScrollViewInsets = NO;
@@ -43,6 +37,8 @@ static NSString * const collectionViewSectionHeaderID = @"ChannelCollectionHeade
 //    self.navigationController.navigationBar.dk_barTintColorPicker = DKColorPickerWithRGB(0xfa5054,0x444444,0xfa5054);
     self.title = @"新闻";
     _titleArray = [NSMutableArray arrayWithObject:@"头条"];
+    _arraySubControllers = [NSMutableArray array];
+    _arrayAddedControllers = [NSMutableArray array];
     [self newsChannelsRequest];
     if ([self respondsToSelector:@selector(edgesForExtendedLayout)])
         self.edgesForExtendedLayout = UIRectEdgeNone;
@@ -85,12 +81,14 @@ static NSString * const collectionViewSectionHeaderID = @"ChannelCollectionHeade
         TTNewsContentViewController *vc = [[TTNewsContentViewController alloc] init];
         if (index == 0) {
             vc.isFristNews = YES;
+            [_contentScrollView addSubview:vc.view];
+            [_arrayAddedControllers addObject:vc];
         } else
             vc.channel = _arrayChannels[index -1];
         
         [self addChildViewController:vc];
-        [_contentScrollView addSubview:vc.view];
         vc.view.frame = CGRectMake(index * Screen_Width, 0, Screen_Width, _contentScrollView.height);
+        [_arraySubControllers addObject:vc];
     }
 }
 
@@ -137,6 +135,11 @@ static NSString * const collectionViewSectionHeaderID = @"ChannelCollectionHeade
 -(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
     if (scrollView == _contentScrollView) {
         NSInteger index = scrollView.contentOffset.x/_contentScrollView.frame.size.width;
+        TTNewsContentViewController *vc = _arraySubControllers[index];
+        if (![_arrayAddedControllers containsObject:vc]) {
+            [_contentScrollView addSubview:vc.view];
+            [_arrayAddedControllers addObject:vc];
+        }
         [_topTitleView setSelectedSegmentIndex:index animated:YES];
     }
 }

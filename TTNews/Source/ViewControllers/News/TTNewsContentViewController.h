@@ -11,7 +11,7 @@
 
 @interface TTNewsContentViewController : TTBaseViewController
 
-@property (nonatomic, strong) TTChannelModel *channel;
+@property (nonatomic, strong) TTChannelModel *channel;///频道用于拉取数据，头条为单独的接口获取数据
 @property (nonatomic, assign) BOOL isFristNews;
 
 @end
