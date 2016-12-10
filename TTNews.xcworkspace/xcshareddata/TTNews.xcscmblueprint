@@ -1,0 +1,32 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "44D43F6F232D15E5E667A91D1A4D4721D3F98356",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+    "f5669b4d-816e-4587-9240-72dba0e9fed3++5022" : {
+
+    }
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "f5669b4d-816e-4587-9240-72dba0e9fed3++5022" : 9223372036854775807,
+    "44D43F6F232D15E5E667A91D1A4D4721D3F98356" : 9223372036854775807
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "A85D0776-E69A-4109-98AA-0ED0FD5AD6AB",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "f5669b4d-816e-4587-9240-72dba0e9fed3++5022" : "..\/Documents\/My%20Project\/Dian%20wang\/SmartLife_iphone6.0.0",
+    "44D43F6F232D15E5E667A91D1A4D4721D3F98356" : "TTNews\/"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "TTNews",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "TTNews.xcworkspace",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:youzaiyouzaiE\/-.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "44D43F6F232D15E5E667A91D1A4D4721D3F98356"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "http:\/\/192.168.1.201\/svn\/xianglong",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Subversion",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "f5669b4d-816e-4587-9240-72dba0e9fed3++5022"
+    }
+  ]
+}

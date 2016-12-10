@@ -12,8 +12,9 @@
 #import "TTJudgeNetworking.h"
 #import <DKNightVersion.h>
 #import <WebKit/WebKit.h>
+#import "LXActivity.h"
 
-@interface TTDetailViewController () <WKNavigationDelegate>
+@interface TTDetailViewController () <WKNavigationDelegate,LXActivityDelegate>
 
 
 @property (nonatomic, strong) UIButton *ButtonShare;
@@ -26,12 +27,17 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    UIBarButtonItem * item = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"share"]
+                                                              style:UIBarButtonItemStylePlain
+                                                             target:self
+                                                             action:@selector(shareNews)];
+    self.navigationItem.rightBarButtonItem = item;
+    
     if([TTJudgeNetworking judge] == NO) {
         [SVProgressHUD showErrorWithStatus:@"无网络连接"];
-//        [self.navigationControlle r popViewControllerAnimated:YES];
+//        [self.navigationController popViewControllerAnimated:YES];
     }
     self.view.dk_backgroundColorPicker = DKColorPickerWithRGB(0xf0f0f0, 0x343434, 0xfafafa);
-    
     self.view.backgroundColor = [UIColor yellowColor];
     [self setupWebView];
 }
@@ -56,17 +62,19 @@
     }];
 }
 
--(void)setupNaigationBar {
-    _ButtonShare = [UIButton buttonWithType:UIButtonTypeCustom];
-    _ButtonShare.frame =CGRectMake(0, 0, 30, 30);
-//    [_ButtonShare setImage:[UIImage imageNamed:@"navigationBarItem_favorite_normal"] forState:UIControlStateNormal];
-    [_ButtonShare setTitle:@"分享" forState:UIControlStateNormal];
-    [_ButtonShare addTarget:self action:@selector(shareNews) forControlEvents:UIControlEventTouchUpInside];
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:_ButtonShare];
-}
-
 #pragma mark --private Method--收藏这条新闻
 -(void)shareNews {
+    NSArray *shareButtonTitleArray = @[@"微信",@"微信朋友圈",@"QQ",@"QQ空间"];//@[@"腾讯微博",@"微信",@"微信朋友圈",@"QQ",@"QQ空间",@"新浪微博",@"腾讯微博"];
+    NSArray *shareButtonImageNameArray =@[@"sns_icon_22",@"sns_icon_23",@"sns_icon_24",@"sns_icon_6"];
+    //    @[@"sns_icon_2",@"sns_icon_22",@"sns_icon_23",@"sns_icon_24",@"sns_icon_6",@"sns_icon_1",@"sns_icon_2"];
+    
+    LXActivity *lxActivity = [[LXActivity alloc] initWithTitle:@"分享到社交平台" delegate:self cancelButtonTitle:@"取消" ShareButtonTitles:shareButtonTitleArray withShareButtonImagesName:shareButtonImageNameArray];
+    [lxActivity showInView:self.view];
+}
+
+#pragma mark - LXActivityDelegate
+
+- (void)didClickOnImageIndex:(NSInteger )imageIndex {
     
 }
 //#pragma mark --private Method--初始化toolBar
