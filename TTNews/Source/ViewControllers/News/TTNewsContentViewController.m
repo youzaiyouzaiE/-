@@ -23,9 +23,11 @@
     TTNewListPageInfoModel *_pagInfo;
     
     NSMutableArray *_arrayList;
+    
 }
 
 @property (nonatomic, strong) UITableView *tableView;
+@property (nonatomic, strong) NSMutableArray *arrayCycleImages;
 
 @end
 
@@ -47,6 +49,7 @@
     _currentPage = 1;
     if (_isFristNews) {
         [self addCycleScrollView];
+        _arrayCycleImages = [NSMutableArray array];
     }
     [self addTabelView];
 }
@@ -56,9 +59,7 @@
                                                            delegate:self
                                                    placeholderImage:[UIImage imageNamed:@"night_photoset_list_cell_icon"]];
     _cycleScrollView.backgroundColor = [UIColor whiteColor];
-    _cycleScrollView.imageURLStringsGroup = @[@"http://59.110.23.172/upload/cover_pic/cover_583aa10295b68.jpeg",
-                                             @"http://59.110.23.172/upload/cover_pic/cover_583d1b400be13.jpeg",
-                                             @"http://59.110.23.172/upload/cover_pic/cover_583f8fdc038ce.png"];
+    _cycleScrollView.autoScrollTimeInterval = 4;
     _cycleScrollView.pageControlAliment = SDCycleScrollViewPageContolAlimentRight;
 }
 
@@ -87,10 +88,35 @@
 
 - (void)loadData {
     [self loadListForPage:_currentPage andIsRefresh:YES];
+    if (_isFristNews) {
+        [self loadCycleImages];
+    }
 }
 
 - (void)loadMoreData {
+    _currentPage ++;
     [self loadListForPage:_currentPage andIsRefresh:NO];
+}
+
+#pragma mark - netWork
+- (void)loadCycleImages {
+    [TTProgressHUD show];
+//    __weak __typeof(self)weakSelf = self;
+    [[AFHTTPSessionManager manager] GET:TT_FRIST_CYCLE_LIST
+                             parameters:nil
+                               progress:^(NSProgress * _Nonnull downloadProgress) { }
+                                success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+                                    [TTProgressHUD dismiss];
+                                    [_arrayCycleImages removeAllObjects];
+                                    for (NSDictionary *imageDic in responseObject[@"data"]) {
+                                        [_arrayCycleImages addObject:imageDic[@"path"]];
+                                    }
+                                    _cycleScrollView.imageURLStringsGroup = _arrayCycleImages;
+                                } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+                                    [TTProgressHUD dismiss];
+                                    [TTProgressHUD showMsg:@"服务器繁忙！请求出错"];
+                                }];
+    
 }
 
 - (void)loadListForPage:(NSInteger)page andIsRefresh:(BOOL)isRefresh {
@@ -112,28 +138,35 @@
                                     }
                                     NSDictionary *pageInfoDic = responseObject[@"meta"][@"pagination"];
                                     _pagInfo = [[TTNewListPageInfoModel alloc] initWithDictionary:pageInfoDic];
-                                    
                                     NSArray *dataArray = responseObject[@"data"];
-                                    for (NSDictionary *dic in dataArray) {
-                                        TTNewListModel *model = [[TTNewListModel alloc] initWithDictionary:dic];
-                                        [_arrayList addObject:model];
+                                    if (dataArray.count < 1) {
+                                        [weakSelf setMJHeaderOrFooterStatusWithIsUpload:isRefresh footHaveMoreData:NO];
+                                    } else {
+                                        for (NSDictionary *dic in dataArray) {
+                                            TTNewListModel *model = [[TTNewListModel alloc] initWithDictionary:dic];
+                                            [_arrayList addObject:model];
+                                        }
+                                        [weakSelf setMJHeaderOrFooterStatusWithIsUpload:isRefresh footHaveMoreData:YES];
                                     }
-                                    [weakSelf setMJHeaderOrFooterStatusWithIsUpload:isRefresh];
                                 }
                                 failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
                                     [TTProgressHUD dismiss];
                                     [TTProgressHUD showMsg:@"服务器繁忙！请求出错"];
-                                    [weakSelf setMJHeaderOrFooterStatusWithIsUpload:isRefresh];
+                                    [_tableView.mj_header endRefreshing];
+                                    self.tableView.mj_footer.hidden = NO;
                                 }];
 }
 
-- (void)setMJHeaderOrFooterStatusWithIsUpload:(BOOL)isRefresh {
+- (void)setMJHeaderOrFooterStatusWithIsUpload:(BOOL)isRefresh footHaveMoreData:(BOOL)haveData{
     if (isRefresh) {
         [_tableView.mj_header endRefreshing];
         [_tableView.mj_footer resetNoMoreData];
         self.tableView.mj_footer.hidden = NO;
     } else {
-        [_tableView.mj_footer resetNoMoreData];
+        if (haveData) {
+            [_tableView.mj_footer resetNoMoreData];
+        } else
+            [_tableView.mj_footer endRefreshingWithNoMoreData];
     }
     [_tableView reloadData];
 }

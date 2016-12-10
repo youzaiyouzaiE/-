@@ -18,9 +18,10 @@
 #define LOGIN_URL                           @"https://passportforapp.skykiwi.com/v2/login/logging.do"
 #define USER_INFO_URL                       @"https://passportforapp.skykiwi.com/v2/member/self.do"
 ///news
-#define TT_NEWS_CHANNELS                    @"http://59.110.23.172/api/channels"
-#define TT_FRIST_NEWS_List                  @"http://59.110.23.172/api/sort_links/with_photos"
-#define TT_OTHER_News_LIST                  @"http://59.110.23.172/api/articles/channel/1"
+#define TT_NEWS_CHANNELS                    @"http://59.110.23.172/api/channels"    ////频道列表
+#define TT_FRIST_CYCLE_LIST                 @"http://59.110.23.172/api/app_photos"  ////头条循环图
+#define TT_FRIST_NEWS_List                  @"http://59.110.23.172/api/sort_links/with_photos"///头条列表
+#define TT_OTHER_News_LIST                  @"http://59.110.23.172/api/articles/channel/1"///其它频道列表
 
 
 

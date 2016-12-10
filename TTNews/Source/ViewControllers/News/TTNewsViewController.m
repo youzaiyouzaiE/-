@@ -119,6 +119,11 @@ static NSString * const collectionViewSectionHeaderID = @"ChannelCollectionHeade
 }
 
 - (void)switchSection:(HMSegmentedControl *)segment {
+    TTNewsContentViewController *vc = _arraySubControllers[segment.selectedSegmentIndex];
+    if (![_arrayAddedControllers containsObject:vc]) {
+        [_contentScrollView addSubview:vc.view];
+        [_arrayAddedControllers addObject:vc];
+    }
     [self.contentScrollView setContentOffset:CGPointMake(_contentScrollView.width * segment.selectedSegmentIndex, 0) animated:YES];
 }
 
