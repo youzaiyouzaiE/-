@@ -14,9 +14,10 @@
 #import <WebKit/WebKit.h>
 
 #import "JHShareSheetView.h"
-#import "LXActivity.h"
 
-@interface TTDetailViewController () <WKNavigationDelegate,LXActivityDelegate>
+@interface TTDetailViewController () <WKNavigationDelegate,JHShareSheetViewDelegate> {
+    JHShareSheetView *_sheetView;
+}
 
 
 @property (nonatomic, strong) UIButton *ButtonShare;
@@ -64,42 +65,35 @@
     }];
 }
 
-#pragma mark --private Method--收藏这条新闻
+#pragma mark - WKNavigationDelegate 
+- (void)webView:(WKWebView *)webView didStartProvisionalNavigation:(null_unspecified WKNavigation *)navigation {
+    [SVProgressHUD show];
+}
+
+- (void)webView:(WKWebView *)webView didFinishNavigation:(null_unspecified WKNavigation *)navigation {
+    [SVProgressHUD dismiss];
+}
+
+- (void)webView:(WKWebView *)webView didFailProvisionalNavigation:(null_unspecified WKNavigation *)navigation withError:(NSError *)error {
+     [SVProgressHUD dismiss];
+}
+
+#pragma mark - Action perform
 -(void)shareNews {
     NSArray *titleArray = @[@"微信",@"微信朋友圈",@"QQ好友",@"QQ空间"];//@[@"腾讯微博",@"微信",@"微信朋友圈",@"QQ",@"QQ空间",@"新浪微博",@"腾讯微博"];
     NSArray *imageNameArray =@[@"sns_icon_22",@"sns_icon_23",@"sns_icon_24",@"sns_icon_6"];
     //    @[@"sns_icon_2",@"sns_icon_22",@"sns_icon_23",@"sns_icon_24",@"sns_icon_6",@"sns_icon_1",@"sns_icon_2"];
-    
-    JHShareSheetView *sheetView = [JHShareSheetView sheetViewGreatWithTitles:titleArray shareImagesName:imageNameArray];
-    [sheetView show];
+    if (!_sheetView) {
+        _sheetView = [JHShareSheetView sheetViewGreatWithTitles:titleArray shareImagesName:imageNameArray delegate:self];
+    }
+    [_sheetView show];
 }
 
-#pragma mark - LXActivityDelegate
-
-- (void)didClickOnImageIndex:(NSInteger )imageIndex {
+#pragma mark - JHShareSheetViewDelegate
+- (void)sheetViewdidSelectItemAtIndex:(NSInteger)index {
     
 }
-//#pragma mark --private Method--初始化toolBar
-//- (void)setupToolBars{
-//    UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithImage:[[UIImage imageNamed:@"toolbar_back_icon"] imageWithRenderingMode:UIImageRenderingModeAutomatic] style:UIBarButtonItemStylePlain target:self action:@selector(goBack)];
-//    backItem.enabled = NO;
-//    self.backItem = backItem;
-//    
-//    UIBarButtonItem *forwardItem = [[UIBarButtonItem alloc] initWithImage:[[UIImage imageNamed:@"toolbar_forward_icon"] imageWithRenderingMode:UIImageRenderingModeAutomatic]  style:UIBarButtonItemStylePlain target:self action:@selector(goForward)];
-//    forwardItem.enabled = NO;
-//    self.forwardItem = forwardItem;
-//    
-//    UIBarButtonItem *flexibleItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
-//    
-//    UIBarButtonItem *refreshItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(refresh)];
-//    self.refreshItem = refreshItem;
-//    
-//    self.toolbarItems = @[backItem,forwardItem,flexibleItem,refreshItem];
-//    backItem.dk_tintColorPicker = DKColorPickerWithKey(TINT);
-//    forwardItem.dk_tintColorPicker = DKColorPickerWithKey(TINT);
-//    refreshItem.dk_tintColorPicker = DKColorPickerWithKey(TINT);
-//    self.navigationController.toolbar.dk_tintColorPicker =  DKColorPickerWithRGB(0xffffff, 0x343434, 0xfafafa);
-//}
+
 
 
 

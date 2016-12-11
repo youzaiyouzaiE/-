@@ -43,7 +43,7 @@
 //    _iconName.backgroundColor = [UIColor redColor];
     _iconName.textAlignment = NSTextAlignmentCenter;
     _iconName.font = [UIFont systemFontOfSize:13];
-    _iconName.textColor = [UIColor whiteColor];
+//    _iconName.textColor = [UIColor whiteColor];
     [self.contentView addSubview:_iconName];
     [_iconName mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(_iconImage.mas_bottom).offset(5);
@@ -65,7 +65,7 @@
 
 @interface JHShareSheetView () <UICollectionViewDelegate,UICollectionViewDataSource,JHCollectionViewDelegateQuaternionLayout>{
     UICollectionView *_collectionView;
-    
+    UIView *_bottomView;
     
 }
 
@@ -94,7 +94,7 @@
     return self;
 }
 
-+ (instancetype)sheetViewGreatWithTitles:(NSArray *)titles shareImagesName:(NSArray *)images {
++ (instancetype)sheetViewGreatWithTitles:(NSArray *)titles shareImagesName:(NSArray *)images delegate:(id <JHShareSheetViewDelegate>)delegate {
     JHShareSheetView *sheetView = [[JHShareSheetView alloc] initWithFrame:CGRectMake(0, 0, Screen_Width, Screen_Height)];
     sheetView.arrayImages = images;
     sheetView.arrayTitles = titles;
@@ -103,6 +103,18 @@
 
 - (void)setupViews {
     self.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.2];
+    
+    _bottomView = [[UIView alloc] init];
+//    _bottomView.dk_backgroundColorPicker = DKColorPickerWithRGB(0xffffff, 0x000000, 0xfafafa);
+    _bottomView.backgroundColor = [[UIColor lightGrayColor] colorWithAlphaComponent:0.8];
+    [self addSubview:_bottomView];
+    _bottomView.frame = CGRectMake(0, Screen_Height, Screen_Width, 130);
+//    [_bottomView mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.top.mas_equalTo(self.mas_top).offset(Screen_Height);
+//        make.right.left.mas_equalTo(0);
+////        make.bottom.mas_equalTo(self.mas_bottom).offset(130);
+//        make.height.mas_equalTo(130);
+//    }];
     
     JHCollectionViewQuaternionLayout *layout = [[JHCollectionViewQuaternionLayout alloc] init];
     layout.delegate = self;
@@ -113,13 +125,25 @@
     _collectionView.dataSource = self;
     _collectionView.scrollEnabled = NO;
     [_collectionView registerClass:[JHCollectionViewCell class] forCellWithReuseIdentifier:@"JHCollectionViewCell"];
-    [self addSubview:_collectionView];
+    [_bottomView addSubview:_collectionView];
     [_collectionView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.mas_equalTo(self.mas_bottom).offset(-50);
+        make.top.mas_equalTo(15);
         make.right.left.mas_equalTo(0);
         make.height.mas_equalTo([JHCollectionViewCell itemHeight]);
     }];
     
+    UIButton *cancelButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    cancelButton.backgroundColor = [UIColor whiteColor];
+    [cancelButton setTitle:@"取消" forState:UIControlStateNormal];
+    [cancelButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [cancelButton addTarget:self action:@selector(tappedCancel) forControlEvents:UIControlEventTouchUpInside];
+    [_bottomView addSubview:cancelButton];
+    [cancelButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(_bottomView.mas_left).offset(-1);
+        make.right.mas_equalTo(_bottomView.mas_right).offset(1);
+        make.bottom.mas_equalTo(_bottomView.mas_bottom).offset(1);
+        make.height.mas_equalTo(40);
+    }];
     
     UIView *topGestureView = [[UIView alloc] init];
     topGestureView.backgroundColor = [UIColor clearColor];
@@ -128,14 +152,13 @@
     [topGestureView addGestureRecognizer:tapGesture];
     [topGestureView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.right.left.mas_equalTo(0);
-        make.bottom.mas_equalTo(_collectionView.mas_top);
+        make.bottom.mas_equalTo(Screen_Height - 130);
     }];
 }
 
 - (void)tappedCancel {
     [UIView animateWithDuration:0.3 animations:^{
-        [self setFrame:CGRectMake(0, [UIScreen mainScreen].bounds.size.height, [UIScreen mainScreen].bounds.size.width, 0)];
-        self.alpha = 0;
+      _bottomView.frame = CGRectMake(0, Screen_Height, Screen_Width, 130);
     } completion:^(BOOL finished) {
         if (finished) {
             [self removeFromSuperview];
@@ -145,6 +168,11 @@
 
 - (void)show {
     [[UIApplication sharedApplication].delegate.window.rootViewController.view addSubview:self];
+    [UIView animateWithDuration:0.3 animations:^{
+       _bottomView.frame = CGRectMake(0, Screen_Height-130 , Screen_Width, 130);
+    } completion:^(BOOL finished) {
+        
+    }];
 }
 
 #pragma mark - JHCollectionViewDelegateTripletLayout
@@ -178,7 +206,10 @@
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-     NSLog(@"select items is :%@",@(indexPath.row));
+//     NSLog(@"select items is :%@",@(indexPath.row));
+    if ([_delegate respondsToSelector:@selector(sheetViewdidSelectItemAtIndex:)]) {
+        [_delegate sheetViewdidSelectItemAtIndex:indexPath.row];
+    }
 }
 
 @end

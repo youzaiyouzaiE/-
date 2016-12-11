@@ -8,9 +8,18 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol JHShareSheetViewDelegate <NSObject>
+
+@optional
+- (void)sheetViewdidSelectItemAtIndex:(NSInteger)index;
+
+@end
+
 @interface JHShareSheetView : UIView
 
-+ (instancetype)sheetViewGreatWithTitles:(NSArray *)titles shareImagesName:(NSArray *)images;
+@property (nonatomic, weak) id<JHShareSheetViewDelegate> delegate;
+
++ (instancetype)sheetViewGreatWithTitles:(NSArray *)titles shareImagesName:(NSArray *)images delegate:(id <JHShareSheetViewDelegate>)delegate ;
 - (void)show;
 
 @end
