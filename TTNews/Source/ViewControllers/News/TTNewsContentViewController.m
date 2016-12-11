@@ -220,6 +220,7 @@
     TTNewListModel *listInfo = _arrayList[indexPath.row];
     TTDetailViewController *detailVC = [[TTDetailViewController alloc] init];
     detailVC.url = listInfo.url;
+    detailVC.shareTitle = listInfo.title;
     [self.navigationController pushViewController:detailVC animated:YES];
 }
 

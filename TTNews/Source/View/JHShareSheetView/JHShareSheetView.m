@@ -98,6 +98,7 @@
     JHShareSheetView *sheetView = [[JHShareSheetView alloc] initWithFrame:CGRectMake(0, 0, Screen_Width, Screen_Height)];
     sheetView.arrayImages = images;
     sheetView.arrayTitles = titles;
+    sheetView.delegate = delegate;
     return sheetView;
 }
 
@@ -152,7 +153,7 @@
     [topGestureView addGestureRecognizer:tapGesture];
     [topGestureView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.right.left.mas_equalTo(0);
-        make.bottom.mas_equalTo(Screen_Height - 130);
+        make.bottom.mas_equalTo(self.mas_bottom).offset(-130);
     }];
 }
 

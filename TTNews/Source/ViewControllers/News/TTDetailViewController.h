@@ -12,5 +12,6 @@
 @interface TTDetailViewController : TTBaseViewController
 
 @property (nonatomic, copy) NSString *url;
+@property (nonatomic, copy) NSString *shareTitle;
 
 @end

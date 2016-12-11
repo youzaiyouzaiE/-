@@ -12,11 +12,19 @@
 #import "TTJudgeNetworking.h"
 #import <DKNightVersion.h>
 #import <WebKit/WebKit.h>
-
 #import "JHShareSheetView.h"
+#import "WXApi.h"
+
+#define WECHAT_SCENE            0
+#define WECHATTIME_SCENT        1
+#define QQ_SCENE                2
+#define QQZONE_SCENE            3
+#define WEIBO_SCENE             4
+#define TENCENTWEIBO_SCENE      5
 
 @interface TTDetailViewController () <WKNavigationDelegate,JHShareSheetViewDelegate> {
     JHShareSheetView *_sheetView;
+    NSInteger _selectedIndex;
 }
 
 
@@ -91,10 +99,53 @@
 
 #pragma mark - JHShareSheetViewDelegate
 - (void)sheetViewdidSelectItemAtIndex:(NSInteger)index {
-    
+    if (index == WECHAT_SCENE) {
+//        if ([self checkAppActionInsall:index]) {
+            [self sendLinkContentWihtScene:WXSceneSession];
+//        }
+    } else if (index == WECHATTIME_SCENT) {
+//        if ([self checkAppActionInsall:index]) {
+            [self sendLinkContentWihtScene:WXSceneTimeline];
+//        }
+    }
 }
 
+- (BOOL)checkAppActionInsall:(NSInteger) index {
+    if (index == WECHAT_SCENE || index == WECHATTIME_SCENT) {
+        if ([WXApi isWXAppInstalled] && [WXApi isWXAppSupportApi]){
+            return YES;
+        }
+        else {
+            [self showMindAlertView];
+            return NO;
+        }
+    }
+//    [self showMindAlertView];
+    return NO;
+}
 
+- (void)showMindAlertView {
+    UIAlertView *installAlert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"未找到微信应用，请先安装微信" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+    [installAlert show];
+    //弹出alreat 跳到安装面 - 》微信
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[WXApi getWXAppInstallUrl]]];
+}
 
-
+#pragma mark - WXApiDelegate
+-(void) sendLinkContentWihtScene:(int)scene{
+    WXMediaMessage *message = [WXMediaMessage message];
+    message.title = _shareTitle;
+//    message.description = MESSAGECONTENT;
+    [message setThumbImage:[UIImage imageNamed:@"AppIcon"]];
+    
+    WXWebpageObject *ext = [WXWebpageObject object];
+    ext.webpageUrl = _url;
+    message.mediaObject = ext;
+    
+    SendMessageToWXReq* req = [[SendMessageToWXReq alloc] init];
+    req.bText = NO;
+    req.message = message;
+    req.scene = scene;
+    [WXApi sendReq:req];
+}
 @end
