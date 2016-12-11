@@ -12,6 +12,8 @@
 #import "TTJudgeNetworking.h"
 #import <DKNightVersion.h>
 #import <WebKit/WebKit.h>
+
+#import "JHShareSheetView.h"
 #import "LXActivity.h"
 
 @interface TTDetailViewController () <WKNavigationDelegate,LXActivityDelegate>
@@ -64,12 +66,12 @@
 
 #pragma mark --private Method--收藏这条新闻
 -(void)shareNews {
-    NSArray *shareButtonTitleArray = @[@"微信",@"微信朋友圈",@"QQ",@"QQ空间"];//@[@"腾讯微博",@"微信",@"微信朋友圈",@"QQ",@"QQ空间",@"新浪微博",@"腾讯微博"];
-    NSArray *shareButtonImageNameArray =@[@"sns_icon_22",@"sns_icon_23",@"sns_icon_24",@"sns_icon_6"];
+    NSArray *titleArray = @[@"微信",@"微信朋友圈",@"QQ好友",@"QQ空间"];//@[@"腾讯微博",@"微信",@"微信朋友圈",@"QQ",@"QQ空间",@"新浪微博",@"腾讯微博"];
+    NSArray *imageNameArray =@[@"sns_icon_22",@"sns_icon_23",@"sns_icon_24",@"sns_icon_6"];
     //    @[@"sns_icon_2",@"sns_icon_22",@"sns_icon_23",@"sns_icon_24",@"sns_icon_6",@"sns_icon_1",@"sns_icon_2"];
     
-    LXActivity *lxActivity = [[LXActivity alloc] initWithTitle:@"分享到社交平台" delegate:self cancelButtonTitle:@"取消" ShareButtonTitles:shareButtonTitleArray withShareButtonImagesName:shareButtonImageNameArray];
-    [lxActivity showInView:self.view];
+    JHShareSheetView *sheetView = [JHShareSheetView sheetViewGreatWithTitles:titleArray shareImagesName:imageNameArray];
+    [sheetView show];
 }
 
 #pragma mark - LXActivityDelegate
