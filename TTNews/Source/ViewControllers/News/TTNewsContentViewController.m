@@ -195,11 +195,11 @@
     if (_isFristNews) {
         return Screen_Height/4;
     } else
-        return 1;
+        return 0.1;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
-    return 1;
+    return 0.1;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {

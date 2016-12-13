@@ -2,8 +2,8 @@
 //  DetailViewController.m
 //  TTNews
 //
-//  Created by 瑞文戴尔 on 16/3/29.
-//  Copyright © 2016年 瑞文戴尔. All rights reserved.
+//  Created by jiahui on 16/3/29.
+//  Copyright © 2016年 Home. All rights reserved.
 //
 
 #import "TTDetailViewController.h"
@@ -15,6 +15,11 @@
 #import "JHShareSheetView.h"
 #import "WXApi.h"
 
+#import "TTLoginViewController.h"
+
+//#import "WebViewJavascriptBridge.h"
+#import "WKWebViewJavascriptBridge.h"
+
 #define WECHAT_SCENE            0
 #define WECHATTIME_SCENT        1
 #define QQ_SCENE                2
@@ -23,6 +28,7 @@
 #define TENCENTWEIBO_SCENE      5
 
 @interface TTDetailViewController () <WKNavigationDelegate,JHShareSheetViewDelegate> {
+    
     JHShareSheetView *_sheetView;
     NSInteger _selectedIndex;
 }
@@ -30,6 +36,7 @@
 
 @property (nonatomic, strong) UIButton *ButtonShare;
 @property (nonatomic, strong) WKWebView *webView;
+@property (nonatomic, strong) WKWebViewJavascriptBridge *bridge;
 
 
 @end
@@ -51,6 +58,20 @@
     self.view.dk_backgroundColorPicker = DKColorPickerWithRGB(0xf0f0f0, 0x343434, 0xfafafa);
     self.view.backgroundColor = [UIColor yellowColor];
     [self setupWebView];
+    
+    self.bridge = [WKWebViewJavascriptBridge bridgeForWebView:_webView];
+    
+    [self.bridge registerHandler:@"getScreenHeight" handler:^(id data, WVJBResponseCallback responseCallback) {
+        responseCallback([NSNumber numberWithInt:[UIScreen mainScreen].bounds.size.height]);
+    }];
+    [self.bridge registerHandler:@"log" handler:^(id data, WVJBResponseCallback responseCallback) {
+        NSLog(@"Log: %@", data);
+    }];
+    
+    [self.bridge callHandler:@"showAlert" data:@"Hi from ObjC to JS!"];
+    [self.bridge callHandler:@"getCurrentPageUrl" data:nil responseCallback:^(id responseData) {
+        NSLog(@"Current UIWebView page URL is: %@", responseData);
+    }];
 }
 
 -(void)viewWillAppear:(BOOL)animated {
@@ -71,6 +92,38 @@
         make.top.left.right.mas_equalTo(0);
         make.bottom.mas_equalTo(self.view.mas_bottom);
     }];
+    [self.webView addObserver:self forKeyPath:NSStringFromSelector(@selector(estimatedProgress)) options:NSKeyValueObservingOptionNew context:NULL];
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
+    if ([keyPath isEqualToString:NSStringFromSelector(@selector(estimatedProgress))] && object == self.webView) {
+        NSLog(@"%f", self.webView.estimatedProgress);
+        // estimatedProgress is a value from 0.0 to 1.0
+        // Update your UI here accordingly
+//        [self.progressView setAlpha:1.0f];
+//        [self.progressView setProgress:self.wkWebView.estimatedProgress animated:YES];
+        
+//        if(self.webView.estimatedProgress >= 1.0f) {
+//            [UIView animateWithDuration:0.3 delay:0.3 options:UIViewAnimationOptionCurveEaseOut animations:^{
+//                [self.progressView setAlpha:0.0f];
+//            } completion:^(BOOL finished) {
+//                [self.progressView setProgress:0.0f animated:NO];
+//            }];
+//        }
+    }
+    else {
+        // Make sure to call the superclass's implementation in the else block in case it is also implementing KVO
+        [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
+    }
+}
+
+- (void)dealloc {
+    if ([self isViewLoaded]) {
+        [self.webView removeObserver:self forKeyPath:NSStringFromSelector(@selector(estimatedProgress))];
+    }
+    
+    // if you have set either WKWebView delegate also set these to nil here
+    [self.webView setNavigationDelegate:nil];
 }
 
 #pragma mark - WKNavigationDelegate 

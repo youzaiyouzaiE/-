@@ -22,6 +22,8 @@ pod 'SDCycleScrollView'
 pod 'HMSegmentedControl'
 pod 'SDVersion'
 pod 'CYLTabBarController'
+pod 'M13ProgressSuite'
+pod 'WebViewJavascriptBridge'
 
 end
 

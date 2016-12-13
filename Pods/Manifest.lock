@@ -33,6 +33,7 @@ PODS:
     - FMDB/standard (= 2.6.2)
   - FMDB/standard (2.6.2)
   - HMSegmentedControl (1.5.3)
+  - M13ProgressSuite (1.2.9)
   - Masonry (0.6.4)
   - MBProgressHUD (1.0.0)
   - MJExtension (3.0.10)
@@ -51,6 +52,7 @@ PODS:
   - SDWebImage/Core (3.7.5)
   - SVProgressHUD (2.0.3)
   - UIColor-HexString (1.3.0)
+  - WebViewJavascriptBridge (5.0.5)
 
 DEPENDENCIES:
   - AFNetworking
@@ -59,6 +61,7 @@ DEPENDENCIES:
   - DKNightVersion
   - FMDB (~> 2.5)
   - HMSegmentedControl
+  - M13ProgressSuite
   - Masonry
   - MBProgressHUD
   - MJExtension
@@ -70,6 +73,7 @@ DEPENDENCIES:
   - SDWebImage
   - SVProgressHUD
   - UIColor-HexString
+  - WebViewJavascriptBridge
 
 SPEC CHECKSUMS:
   AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
@@ -78,6 +82,7 @@ SPEC CHECKSUMS:
   DKNightVersion: 459438cbfd14edb9e41a777ff14b18e5661b9269
   FMDB: 854a0341b4726e53276f2a8996f06f1b80f9259a
   HMSegmentedControl: 7c6145afb50f26cec5f3243082f6f12b9f41318f
+  M13ProgressSuite: ea9f7263e73e9215e6849dfa54e29ee0ad6a145c
   Masonry: 281802d04d787ea2973179ee8bcb50500579ede2
   MBProgressHUD: 4890f671c94e8a0f3cf959aa731e9de2f036d71a
   MJExtension: d86aacb740c87519d20e3cca55b6fa4be6cc7548
@@ -89,7 +94,8 @@ SPEC CHECKSUMS:
   SDWebImage: 69c6303e3348fba97e03f65d65d4fbc26740f461
   SVProgressHUD: b0830714205bea1317ea1a2ebc71e5633af334d4
   UIColor-HexString: fadc2e1389db19147ac99dee92222d3bd8bfec4a
+  WebViewJavascriptBridge: a4d502315f1b8d9a51cd6a9174147ed567ec3bc5
 
-PODFILE CHECKSUM: 156b61efc12a90e7fe0cae482f1423279e7e7f8a
+PODFILE CHECKSUM: 3cd21aed14651464fb9221ff431451a90d216822
 
 COCOAPODS: 1.0.1
