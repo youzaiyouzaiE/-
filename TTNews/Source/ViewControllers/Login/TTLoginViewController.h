@@ -12,7 +12,7 @@
 typedef void(^loginSuccessBlock)(NSNumber *, NSString *);
 
 @interface TTLoginViewController : TTBaseViewController
-
+@property (nonatomic, assign) BOOL isPresentInto;
 @property (nonatomic, copy) loginSuccessBlock loginBlock;
 
 @end

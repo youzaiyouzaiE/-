@@ -18,23 +18,21 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    if (self.navigationController.viewControllers.count >1) {
-        UIImage *backImage = [UIImage imageNamed:@"navigationbar_pic_back_icon"];
-        self.navigationController.navigationBar.backIndicatorImage = backImage;
-        self.navigationController.navigationBar.backIndicatorTransitionMaskImage = backImage;
-        self.navigationController.navigationBar.translucent = NO;
-        
-        self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@""
-                                                                                 style:UIBarButtonItemStylePlain
-                                                                                target:nil
-                                                                                action:nil];
-        
-//        UIBarButtonItem * item = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"navigationbar_pic_back_icon"]
-//                                                                  style:UIBarButtonItemStylePlain
-//                                                                 target:self
-//                                                                 action:@selector(backAction)];
-//        self.navigationItem.leftBarButtonItem = item;
-    }
+    UIImage *backImage = [UIImage imageNamed:@"navigationbar_pic_back_icon"];
+    self.navigationController.navigationBar.backIndicatorImage = backImage;
+    self.navigationController.navigationBar.backIndicatorTransitionMaskImage = backImage;
+    self.navigationController.navigationBar.translucent = NO;
+    
+    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@""
+                                                                             style:UIBarButtonItemStylePlain
+                                                                            target:nil
+                                                                            action:nil];
+    
+//    UIBarButtonItem * item = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"navigationbar_pic_back_icon"]
+//                                                              style:UIBarButtonItemStylePlain
+//                                                             target:self
+//                                                             action:@selector(backAction)];
+//    self.navigationItem.leftBarButtonItem = item;
     
 //    if (self.navigationController.interactivePopGestureRecognizer) {
 //        self.navigationController.interactivePopGestureRecognizer.delegate = self;

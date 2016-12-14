@@ -27,7 +27,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RSI-gw-tr6">
-                    <rect key="frame" x="0.0" y="88" width="375" height="137"/>
+                    <rect key="frame" x="0.0" y="60" width="375" height="137"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8az-LA-axt">
                             <rect key="frame" x="15" y="45" width="360" height="1"/>
@@ -216,7 +216,7 @@
                     </constraints>
                 </view>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="SFh-0H-2XB">
-                    <rect key="frame" x="16" y="275" width="343" height="45"/>
+                    <rect key="frame" x="16" y="247" width="343" height="45"/>
                     <color key="backgroundColor" red="0.88235294119999996" green="0.2666666667" blue="0.13725490200000001" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="45" id="HsP-iw-vPw"/>
@@ -243,7 +243,7 @@
                 <constraint firstItem="SFh-0H-2XB" firstAttribute="top" secondItem="RSI-gw-tr6" secondAttribute="bottom" constant="50" id="E3c-Sk-fgr"/>
                 <constraint firstAttribute="trailing" secondItem="SFh-0H-2XB" secondAttribute="trailing" constant="16" id="FjF-l3-Dig"/>
                 <constraint firstItem="SFh-0H-2XB" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="RJn-ZV-wqX"/>
-                <constraint firstItem="RSI-gw-tr6" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="88" id="cS5-1i-Cvf"/>
+                <constraint firstItem="RSI-gw-tr6" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="60" id="cS5-1i-Cvf"/>
                 <constraint firstItem="SFh-0H-2XB" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="16" id="dmU-Nf-YAV"/>
                 <constraint firstAttribute="trailing" secondItem="RSI-gw-tr6" secondAttribute="trailing" id="g9m-lq-hwI"/>
             </constraints>

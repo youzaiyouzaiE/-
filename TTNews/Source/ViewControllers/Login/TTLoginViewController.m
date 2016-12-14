@@ -37,6 +37,24 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.navigationItem.title = @"登录天维新闻";
+    if (_isPresentInto) {
+//        UIImage *backImage = [UIImage imageNamed:@"navigationbar_pic_back_icon"];
+//        self.navigationController.navigationBar.backIndicatorImage = backImage;
+//        self.navigationController.navigationBar.backIndicatorTransitionMaskImage = backImage;
+//        self.navigationController.navigationBar.translucent = NO;
+//        self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@""
+//                                                                                 style:UIBarButtonItemStylePlain
+//                                                                                target:self
+//                                                                                action:@selector(dismiss)];
+        UIBarButtonItem * item = [[UIBarButtonItem alloc] initWithTitle:@"取消"
+                                                                  style:UIBarButtonItemStylePlain
+                                                                 target:self
+                                                                 action:@selector(backAction)];
+        self.navigationItem.leftBarButtonItem = item;
+
+        self.navigationController.interactivePopGestureRecognizer.enabled = YES;
+    }
+    
     self.view.dk_backgroundColorPicker = DKColorPickerWithRGB(0xf0f0f0, 0x000000, 0xfafafa);
     _itemsBackgroundView.dk_backgroundColorPicker = DKColorPickerWithRGB(0xffffff, 0x444444, 0xfafafa);
     
@@ -46,14 +64,12 @@
 //    [self initializeNetRequest];
 }
 
-- (void)updateViewConstraints {
-    [super updateViewConstraints];
+- (void)backAction {
+    [self dismissViewControllerAnimated:YES completion:^{
+        
+    }];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
 
 #pragma mark - UITextFieldDelegate
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {

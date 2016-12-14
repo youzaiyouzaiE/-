@@ -61,17 +61,14 @@
     
     self.bridge = [WKWebViewJavascriptBridge bridgeForWebView:_webView];
     
-    [self.bridge registerHandler:@"getScreenHeight" handler:^(id data, WVJBResponseCallback responseCallback) {
-        responseCallback([NSNumber numberWithInt:[UIScreen mainScreen].bounds.size.height]);
+    [self.bridge registerHandler:@"presentLoginView" handler:^(id data, WVJBResponseCallback responseCallback) {
+        [self presentLoginView];
     }];
-    [self.bridge registerHandler:@"log" handler:^(id data, WVJBResponseCallback responseCallback) {
+    
+    [self.bridge registerHandler:@"loginData" handler:^(id data, WVJBResponseCallback responseCallback) {
         NSLog(@"Log: %@", data);
     }];
     
-    [self.bridge callHandler:@"showAlert" data:@"Hi from ObjC to JS!"];
-    [self.bridge callHandler:@"getCurrentPageUrl" data:nil responseCallback:^(id responseData) {
-        NSLog(@"Current UIWebView page URL is: %@", responseData);
-    }];
 }
 
 -(void)viewWillAppear:(BOOL)animated {
@@ -86,6 +83,7 @@
     _webView = [[WKWebView alloc] init];
     _webView.navigationDelegate = self;
     [self.view addSubview:_webView];
+//    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:self.url] cachePolicy:<#(NSURLRequestCachePolicy)#> timeoutInterval:<#(NSTimeInterval)#>];
     [_webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:self.url]]];
 //    _webView.frame = self.view.bounds;
     [_webView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -139,15 +137,29 @@
      [SVProgressHUD dismiss];
 }
 
+#pragma mark - longin View
+- (void)presentLoginView {
+    TTLoginViewController *loginVC = [[TTLoginViewController alloc] init];
+    loginVC.isPresentInto = YES;
+    loginVC.loginBlock = ^(NSNumber *uid, NSString *token) {
+        
+    };
+    UINavigationController *navitagtionVC = [[UINavigationController alloc] initWithRootViewController:loginVC];
+    [self presentViewController:navitagtionVC animated:YES completion:^{
+        
+    }];
+}
+
 #pragma mark - Action perform
 -(void)shareNews {
-    NSArray *titleArray = @[@"微信",@"微信朋友圈",@"QQ好友",@"QQ空间"];//@[@"腾讯微博",@"微信",@"微信朋友圈",@"QQ",@"QQ空间",@"新浪微博",@"腾讯微博"];
-    NSArray *imageNameArray =@[@"sns_icon_22",@"sns_icon_23",@"sns_icon_24",@"sns_icon_6"];
-    //    @[@"sns_icon_2",@"sns_icon_22",@"sns_icon_23",@"sns_icon_24",@"sns_icon_6",@"sns_icon_1",@"sns_icon_2"];
-    if (!_sheetView) {
-        _sheetView = [JHShareSheetView sheetViewGreatWithTitles:titleArray shareImagesName:imageNameArray delegate:self];
-    }
-    [_sheetView show];
+    [self presentLoginView];
+//    NSArray *titleArray = @[@"微信",@"微信朋友圈",@"QQ好友",@"QQ空间"];//@[@"腾讯微博",@"微信",@"微信朋友圈",@"QQ",@"QQ空间",@"新浪微博",@"腾讯微博"];
+//    NSArray *imageNameArray =@[@"sns_icon_22",@"sns_icon_23",@"sns_icon_24",@"sns_icon_6"];
+//    //    @[@"sns_icon_2",@"sns_icon_22",@"sns_icon_23",@"sns_icon_24",@"sns_icon_6",@"sns_icon_1",@"sns_icon_2"];
+//    if (!_sheetView) {
+//        _sheetView = [JHShareSheetView sheetViewGreatWithTitles:titleArray shareImagesName:imageNameArray delegate:self];
+//    }
+//    [_sheetView show];
 }
 
 #pragma mark - JHShareSheetViewDelegate
