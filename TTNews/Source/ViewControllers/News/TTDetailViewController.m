@@ -53,8 +53,8 @@
     
     if([TTJudgeNetworking judge] == NO) {
         [SVProgressHUD showErrorWithStatus:@"无网络连接"];
-//        [self.navigationController popViewControllerAnimated:YES];
     }
+    
     self.view.dk_backgroundColorPicker = DKColorPickerWithRGB(0xf0f0f0, 0x343434, 0xfafafa);
     self.view.backgroundColor = [UIColor yellowColor];
     [self setupWebView];
@@ -65,9 +65,7 @@
         [self presentLoginView];
     }];
     
-    [self.bridge registerHandler:@"loginData" handler:^(id data, WVJBResponseCallback responseCallback) {
-        NSLog(@"Log: %@", data);
-    }];
+
     
 }
 
@@ -84,13 +82,19 @@
     _webView.navigationDelegate = self;
     [self.view addSubview:_webView];
 //    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:self.url] cachePolicy:<#(NSURLRequestCachePolicy)#> timeoutInterval:<#(NSTimeInterval)#>];
-    [_webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:self.url]]];
-//    _webView.frame = self.view.bounds;
+//    [_webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:self.url]]];
     [_webView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.left.right.mas_equalTo(0);
         make.bottom.mas_equalTo(self.view.mas_bottom);
     }];
     [self.webView addObserver:self forKeyPath:NSStringFromSelector(@selector(estimatedProgress)) options:NSKeyValueObservingOptionNew context:NULL];
+    
+    
+    /////test
+    NSString* htmlPath = [[NSBundle mainBundle] pathForResource:@"ExampleApp" ofType:@"html"];
+    NSString* appHtml = [NSString stringWithContentsOfFile:htmlPath encoding:NSUTF8StringEncoding error:nil];
+    NSURL *baseURL = [NSURL fileURLWithPath:htmlPath];
+    [_webView loadHTMLString:appHtml baseURL:baseURL];
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
@@ -152,7 +156,7 @@
 
 #pragma mark - Action perform
 -(void)shareNews {
-    [self presentLoginView];
+        [_bridge callHandler:@"getUserLoginInfo" data:@{ @"uid":@"123456789",@"uname":@"youzaiyouzai",@"seckey":@"k_MD5_encode"}];
 //    NSArray *titleArray = @[@"微信",@"微信朋友圈",@"QQ好友",@"QQ空间"];//@[@"腾讯微博",@"微信",@"微信朋友圈",@"QQ",@"QQ空间",@"新浪微博",@"腾讯微博"];
 //    NSArray *imageNameArray =@[@"sns_icon_22",@"sns_icon_23",@"sns_icon_24",@"sns_icon_6"];
 //    //    @[@"sns_icon_2",@"sns_icon_22",@"sns_icon_23",@"sns_icon_24",@"sns_icon_6",@"sns_icon_1",@"sns_icon_2"];
