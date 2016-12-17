@@ -54,12 +54,22 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>MWPhotoBrowser.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Masonry.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 		</dict>
 		<key>NJKWebViewProgress.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>PSTCollectionView.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
@@ -132,12 +142,17 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>323433633A5523B86F4C03088DB267B9</key>
+		<key>2C614E577D61E0EFAEDEEA79B5167EB2</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>3423594160ABA552CDDF6C105D1D38AB</key>
+		<key>3062D92E8ADE18D4DDBDC70D0C2B8A0E</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>33F411FA0F1E7FEB9A1AE50D6674ED0B</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -147,12 +162,22 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>6E30D2364FFA1486A70AC29BA404691D</key>
+		<key>5CCD283B00E63C0A95DB99D126C222D1</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>625225DB194C2C53ADE11A7065063055</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
 		<key>70BC44266C6FFE30D2C57129458E070B</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>786CB916BBC48FEC4ABD8CBDAAE686BC</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -163,6 +188,11 @@
 			<true/>
 		</dict>
 		<key>9775596B3CA16905FC8F66DA8E2A3C67</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>99345F511B2CB49490B4A0A22E0B786F</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -182,17 +212,7 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>A765C061FAA026F0EF0345B4DD1E8B70</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>AB8ED5AB9BD9F9AC56AC3FDCB81BB939</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>B3CE6C82F6E2B4708DC799B85266620F</key>
+		<key>A6800ADF0204FFC356B8D2EB86F59036</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -202,7 +222,7 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>CA27E980C86556173ECA96BBF2A30962</key>
+		<key>C5B49272FC9E8FA74FDDF02623FC080B</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -212,12 +232,12 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>E96531D2698B334C4DEC89A22248E32D</key>
+		<key>D93DABB096D92E4D19FDA337A1F5C2E7</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>EC5E32CCD6EE65A7C068D3356A0ED1FE</key>
+		<key>E96531D2698B334C4DEC89A22248E32D</key>
 		<dict>
 			<key>primary</key>
 			<true/>

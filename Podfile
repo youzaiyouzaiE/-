@@ -24,6 +24,7 @@ pod 'SDVersion'
 pod 'CYLTabBarController'
 pod 'M13ProgressSuite'
 pod 'WebViewJavascriptBridge'
+pod 'MWPhotoBrowser'
 
 end
 

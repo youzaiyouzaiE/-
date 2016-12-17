@@ -21,6 +21,7 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
+//        self.backgroundColor = [UIColor yellowColor];
         [self greateUIs];
     }
     return self;
@@ -29,6 +30,7 @@
 #define FONT_SIZE   16
 - (void)greateUIs {
     self.titleLabel = [[UILabel alloc] init];
+//    _titleLabel.backgroundColor = [UIColor redColor];
     _titleLabel.font = [UIFont systemFontOfSize:FONT_SIZE];
     [self addSubview:_titleLabel];
     [_titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {

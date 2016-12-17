@@ -9,16 +9,22 @@
 #import "TTExposuresNewsViewController.h"
 #import "UITextView+Placeholder.h"
 #import "TTLableAndTextFieldView.h"
+#import <MobileCoreServices/MobileCoreServices.h>
+#import "UIImageView+MHFacebookImageViewer.h"
 
-@interface TTExposuresNewsViewController () <TTLabelAndTextFieldViewDelegate>{
+@interface TTExposuresNewsViewController () <TTLabelAndTextFieldViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate>{
     UIBarButtonItem *_rightItem;
+    
+    UIView *_backGroundView;
+    UIButton *_addImageBtn;
     
     TTLableAndTextFieldView *_linkView;
     TTLableAndTextFieldView *_phoneNumView;
     TTLableAndTextFieldView *_nameView;
     TTLableAndTextFieldView *_weChatNumView;
     
-    
+    NSInteger _imageIndex;
+    NSMutableArray *_arraySelectImages;
 }
 
 @end
@@ -34,24 +40,25 @@
                                                  target:self
                                                  action:@selector(send)];
     self.navigationItem.rightBarButtonItem = _rightItem;
-    
     [self addTapViewResignKeyboard];
+    _arraySelectImages = [NSMutableArray array];
+    _imageIndex = 0;
     
     [self initComponents];
     // Do any additional setup after loading the view from its nib.
 }
 
 - (void)initComponents {
-    UIView *backGroundView = [[UIView alloc] init];
-    backGroundView.backgroundColor = [UIColor whiteColor];
-    [self.view addSubview:backGroundView];
-    [backGroundView mas_makeConstraints:^(MASConstraintMaker *make) {
+    _backGroundView = [[UIView alloc] init];
+    _backGroundView.backgroundColor = [UIColor whiteColor];
+    [self.view addSubview:_backGroundView];
+    [_backGroundView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.left.right.mas_equalTo(0);
-        make.height.mas_equalTo(233);
+        make.height.mas_equalTo(10 + 30 + 1 + 5+ 80 + ((Screen_Width - 30) - 5*3)/4 + 8 + 1 + [TTLableAndTextFieldView height] );
     }];
     
     UITextField *titleTextField = [[UITextField alloc] init];
-    [backGroundView addSubview:titleTextField];
+    [_backGroundView addSubview:titleTextField];
     titleTextField.placeholder = @"标题";
     titleTextField.font = [UIFont systemFontOfSize:18];
     [titleTextField mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -61,13 +68,13 @@
         make.height.mas_equalTo(30);
     }];
     
-    AddLineViewInView(backGroundView, titleTextField,1);
+    AddLineViewInView(_backGroundView, titleTextField,1);
     
     UITextView *contentTextView = [[UITextView alloc] init];
     contentTextView.backgroundColor = [UIColor clearColor];
     contentTextView.font = [UIFont systemFontOfSize:16];
     contentTextView.placeholder = @"描述一下，你要爆料的内容";
-    [backGroundView addSubview:contentTextView];
+    [_backGroundView addSubview:contentTextView];
     [contentTextView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(titleTextField.mas_bottom).offset(5);
         make.left.mas_equalTo(13);
@@ -75,34 +82,36 @@
         make.height.mas_equalTo(80);
     }];
     
-    UIButton *addImageBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [addImageBtn setImage:[UIImage imageNamed:@"AlbumAddBtn"] forState:UIControlStateNormal];
-    [addImageBtn setImage:[UIImage imageNamed:@"AlbumAddBtnHL"] forState:UIControlStateHighlighted];
-    [addImageBtn addTarget:self action:@selector(addPhotoAction) forControlEvents:UIControlEventTouchUpInside];
-    [backGroundView addSubview:addImageBtn];
-    [addImageBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+    _addImageBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [_addImageBtn setImage:[UIImage imageNamed:@"AlbumAddBtn"] forState:UIControlStateNormal];
+    [_addImageBtn setImage:[UIImage imageNamed:@"AlbumAddBtnHL"] forState:UIControlStateHighlighted];
+    [_addImageBtn addTarget:self action:@selector(addPhotoAction) forControlEvents:UIControlEventTouchUpInside];
+    [_backGroundView addSubview:_addImageBtn];
+    [_addImageBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        NSInteger image_W = ((Screen_Width - 30) - 5*3)/4;
         make.top.mas_equalTo(contentTextView.mas_bottom).offset(3);
         make.left.mas_equalTo(15);
-        make.size.mas_equalTo([UIImage imageNamed:@"AlbumAddBtn"].size);
+        make.size.mas_equalTo(CGSizeMake(image_W,image_W - 3));
     }];
     
-     AddLineViewInView(backGroundView, addImageBtn,5);
+     AddLineViewInView(_backGroundView, _addImageBtn,8);
     
     _linkView = [[TTLableAndTextFieldView alloc] init];
     _linkView.delegate = self;
     _linkView.titleLabel.text = @"原文链接";
-    [backGroundView addSubview:_linkView];
+    [_backGroundView addSubview:_linkView];
     [_linkView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.mas_equalTo(0);
-        make.top.mas_equalTo(addImageBtn.mas_bottom).offset(3);
+        make.top.mas_equalTo(_addImageBtn.mas_bottom).offset(8 + 1);
         make.height.mas_equalTo([TTLableAndTextFieldView height]);
     }];
     
+//    UIView *
     UIView *bottomBGView = [[UIView alloc] init];
     bottomBGView.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:bottomBGView];
     [bottomBGView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(backGroundView.mas_bottom).offset(10);
+        make.top.mas_equalTo(_backGroundView.mas_bottom).offset(10);
         make.left.right.mas_equalTo(0);
         make.height.mas_equalTo([TTLableAndTextFieldView height] *3);
     }];
@@ -124,7 +133,7 @@
     [bottomBGView addSubview:_nameView];
     [_nameView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.mas_equalTo(0);
-        make.top.mas_equalTo(_phoneNumView.mas_bottom).offset(0);
+        make.top.mas_equalTo(_phoneNumView.mas_bottom).offset(2);
         make.height.mas_equalTo([TTLableAndTextFieldView height]);
     }];
     AddLineViewInView(bottomBGView, _nameView,1);
@@ -135,13 +144,12 @@
     [bottomBGView addSubview:_weChatNumView];
     [_weChatNumView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.mas_equalTo(0);
-        make.top.mas_equalTo(_nameView.mas_bottom).offset(0);
+        make.top.mas_equalTo(_nameView.mas_bottom).offset(2);
         make.height.mas_equalTo([TTLableAndTextFieldView height]);
     }];
 }
 
-
-void AddLineViewInView(UIView *superView ,UIView *underView, NSInteger underViewGap) {
+UIView* AddLineViewInView(UIView *superView ,UIView *underView, NSInteger underViewGap) {
     UIView *lineView = [[UIView alloc] init];
     lineView.backgroundColor = [UIColor colorWithHexString:@"E5E5E5"];
     [superView addSubview:lineView];
@@ -151,6 +159,29 @@ void AddLineViewInView(UIView *superView ,UIView *underView, NSInteger underView
         make.right.mas_equalTo(-5);
         make.height.mas_equalTo(1);
     }];
+    return lineView;
+}
+
+- (void)addImageViewWithImage:(UIImage *)image inLocation:(NSInteger )index {
+    NSInteger image_W = ((Screen_Width - 30) - 5*3)/4;
+    UIImageView *imageView = [[UIImageView alloc] initWithImage:image];
+    [_backGroundView addSubview:imageView];
+    [imageView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(_addImageBtn.mas_top);
+        make.left.mas_equalTo(15 + (image_W +5) *index);
+        make.size.mas_equalTo(CGSizeMake(image_W,image_W - 3));
+    }];
+    [imageView setupImageViewer];
+    
+    [_addImageBtn mas_updateConstraints:^(MASConstraintMaker *make) {
+        if (index == 3) {
+             make.left.mas_equalTo(15 + (image_W + 5) * (index + 1) + 15);
+        } else
+            make.left.mas_equalTo(15 + (image_W + 5) * (index + 1));
+    }];
+    [self.view setNeedsLayout];
+    _imageIndex ++;
+    [_arraySelectImages addObject:image];
 }
 
 #pragma mark - ActionPerform
@@ -159,17 +190,56 @@ void AddLineViewInView(UIView *superView ,UIView *underView, NSInteger underView
 }
 
 - (void)addPhotoAction {
+    UIAlertController *alertControl = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+    [alertControl addAction:[UIAlertAction actionWithTitle:@"拍照" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        UIImagePickerController *imagePickerController = [[UIImagePickerController alloc] init];
+        imagePickerController.delegate = self;
+        imagePickerController.allowsEditing = YES;
+        imagePickerController.navigationBar.tintColor = self.navigationController.navigationBar.tintColor;
+        imagePickerController.navigationBar.barTintColor = self.navigationController.navigationBar.barTintColor;
+        imagePickerController.navigationBar.titleTextAttributes = self.navigationController.navigationBar.titleTextAttributes;
+        imagePickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
+        [self.navigationController presentViewController:imagePickerController animated:YES completion:nil];
+
+    }]];
+    [alertControl addAction:[UIAlertAction actionWithTitle:@"从相册选择" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        UIImagePickerController *imagePickerController = [[UIImagePickerController alloc] init];
+        imagePickerController.delegate = self;
+        imagePickerController.allowsEditing = YES;
+        imagePickerController.navigationBar.tintColor = self.navigationController.navigationBar.tintColor;
+        imagePickerController.navigationBar.barTintColor = self.navigationController.navigationBar.barTintColor;
+        imagePickerController.navigationBar.titleTextAttributes = self.navigationController.navigationBar.titleTextAttributes;
+        imagePickerController.sourceType = UIImagePickerControllerSourceTypeSavedPhotosAlbum;
+        imagePickerController.mediaTypes = [[NSArray alloc] initWithObjects:(NSString *)kUTTypeImage, nil];
+        [self.navigationController presentViewController:imagePickerController animated:YES completion:nil];
+    }]];
     
+    [alertControl addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) { }]];
+    [self presentViewController:alertControl animated:YES completion:^{ }];
+}
+
+#pragma mark - UIImagePickerControllerDelegate
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info {
+    UIImage *image = [info valueForKey:UIImagePickerControllerOriginalImage];
+    [self addImageViewWithImage:image inLocation:_imageIndex];
+    [self.navigationController dismissViewControllerAnimated: YES completion:^{
+    
+    }];
+}
+
+- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
+    [self.navigationController dismissViewControllerAnimated: YES completion: nil];
 }
 
 #pragma mark - TTLabelAndTextFieldViewDelegate
-- (void)labeAndTextFieldDidBeginEditing:(TTLableAndTextFieldView *)textField {
-    CGRect frame = textField.frame;
-    int offset = frame.origin.y + frame.size.height - (self.view.frame.size.height - 225.0);
+- (void)labeAndTextFieldDidBeginEditing:(TTLableAndTextFieldView *)view {
+    CGRect frame = view.textField.frame;
+    CGRect realRect = [view.textField convertRect:frame toView:self.view];
+    int offset = realRect.origin.y + realRect.size.height - (self.view.frame.size.height - 230.0);
     NSTimeInterval animationDuration = 0.30f;
     [UIView beginAnimations:@"ResizeForKeyboard" context:nil];
     [UIView setAnimationDuration:animationDuration];
-    if (offset > 0) {
+    if (offset >= 0) {
         self.view.frame = CGRectMake(0.0f, -offset, self.view.frame.size.width, self.view.frame.size.height);
     }
     [UIView commitAnimations];

@@ -38,12 +38,18 @@ PODS:
   - MBProgressHUD (1.0.0)
   - MJExtension (3.0.10)
   - MJRefresh (3.1.0)
+  - MWPhotoBrowser (1.2.1):
+    - DACircularProgress
+    - MBProgressHUD
+    - PSTCollectionView (~> 1.2)
+    - SDWebImage (~> 3.5)
   - NJKWebViewProgress (0.2.3):
     - NJKWebViewProgress/Core (= 0.2.3)
     - NJKWebViewProgress/ProgressView (= 0.2.3)
   - NJKWebViewProgress/Core (0.2.3)
   - NJKWebViewProgress/ProgressView (0.2.3)
   - pop (1.0.9)
+  - PSTCollectionView (1.2.3)
   - SDCycleScrollView (1.65):
     - SDWebImage (~> 3.7)
   - SDVersion (3.6)
@@ -66,6 +72,7 @@ DEPENDENCIES:
   - MBProgressHUD
   - MJExtension
   - MJRefresh
+  - MWPhotoBrowser
   - NJKWebViewProgress
   - pop
   - SDCycleScrollView
@@ -87,8 +94,10 @@ SPEC CHECKSUMS:
   MBProgressHUD: 4890f671c94e8a0f3cf959aa731e9de2f036d71a
   MJExtension: d86aacb740c87519d20e3cca55b6fa4be6cc7548
   MJRefresh: 743e6404967d1c2c688472ea3ecfde247d872db4
+  MWPhotoBrowser: 7087b4c828297ef34ff2b0892c8e967034a86842
   NJKWebViewProgress: f481fd424cb5ecc27eacae11b5397db92fba9a4d
   pop: f667631a5108a2e60d9e8797c9b32ddaf2080bce
+  PSTCollectionView: 6749df92885353521f55279a7ce2b293762e2be4
   SDCycleScrollView: f72904c77698a7f93a41bcbbc2d78b073bf7326c
   SDVersion: 43383b6ac05462c973c3fd92d9748c74e360aba5
   SDWebImage: 69c6303e3348fba97e03f65d65d4fbc26740f461
@@ -96,6 +105,6 @@ SPEC CHECKSUMS:
   UIColor-HexString: fadc2e1389db19147ac99dee92222d3bd8bfec4a
   WebViewJavascriptBridge: a4d502315f1b8d9a51cd6a9174147ed567ec3bc5
 
-PODFILE CHECKSUM: 3cd21aed14651464fb9221ff431451a90d216822
+PODFILE CHECKSUM: 6e1269acd4c26924f6391aac7146a52b219824c0
 
 COCOAPODS: 1.0.1

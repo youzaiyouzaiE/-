@@ -37,11 +37,44 @@
 	<string>1</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+    <key>LSApplicationQueriesSchemes</key>
+    <array>
+        <string>wechat</string>
+        <string>weixin</string>
+        <string>mqzoneopensdk</string>
+        <string>mqzoneopensdkapi</string>
+        <string>mqzoneopensdkapi19</string>
+        <string>mqzoneopensdkapiV2</string>
+        <string>mqqOpensdkSSoLogin</string>
+        <string>mqqopensdkapiV2</string>
+        <string>mqqopensdkapiV3</string>
+        <string>wtloginmqq2</string>
+        <string>mqqapi</string>
+        <string>mqqwpa</string>
+        <string>mqzone</string>
+        <string>mqq</string>
+        <string>ucar2015</string>
+        <string>iosamap</string>
+        <string>baidumap</string>
+        <string>alipay</string>
+        <string>sinaweibohd</string>
+        <string>sinaweibo</string>
+        <string>weibosdk</string>
+        <string>weibosdk2.5</string>
+    </array>
+
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
+	<key>NSCameraUsageDescription</key>
+	<string>App需要访问您的相机</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>
+        根据位置信息为您推荐附近门店</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>App需要访问您的相册</string>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
 		<string>armv7</string>
