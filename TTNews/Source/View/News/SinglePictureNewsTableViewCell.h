@@ -12,9 +12,11 @@
 
 @property (nonatomic, copy) NSString *imageUrl;
 @property (nonatomic, copy) NSString *contentTittle;
-@property (nonatomic, copy) NSString *desc;
-@property (weak, nonatomic) IBOutlet UIImageView *iconImage;
-@property (weak, nonatomic) IBOutlet UILabel *LblTitleLabel;
-@property (weak, nonatomic) IBOutlet UILabel *subTitleLabel;
+@property (weak, nonatomic) IBOutlet UIImageView *typeImageView;
+@property (weak, nonatomic) IBOutlet UILabel *dateLabel;
+@property (weak, nonatomic) IBOutlet UILabel *sourceLabel;
+
+
++ (CGFloat)height;
 
 @end

@@ -32,10 +32,17 @@ static NSString * const collectionViewSectionHeaderID = @"ChannelCollectionHeade
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    UIBarButtonItem * item = [[UIBarButtonItem alloc] initWithTitle:@"爆料"
+                                                              style:UIBarButtonItemStylePlain
+                                                             target:self
+                                                             action:@selector(offerNews)];
+    self.navigationItem.rightBarButtonItem = item;
+    
     self.automaticallyAdjustsScrollViewInsets = NO;
 //    self.view.dk_backgroundColorPicker = DKColorPickerWithRGB(0xf0f0f0, 0x000000, 0xfafafa);
 //    self.navigationController.navigationBar.dk_barTintColorPicker = DKColorPickerWithRGB(0xfa5054,0x444444,0xfa5054);
-    self.title = @"新闻";
+    self.title = @"天维新闻";
     _titleArray = [NSMutableArray arrayWithObject:@"头条"];
     _arraySubControllers = [NSMutableArray array];
     _arrayAddedControllers = [NSMutableArray array];
@@ -73,6 +80,10 @@ static NSString * const collectionViewSectionHeaderID = @"ChannelCollectionHeade
                                     [TTProgressHUD dismiss];
                                     [TTProgressHUD showMsg:@"服务器繁忙！请求出错"];
     }];
+}
+
+- (void)offerNews {
+    
 }
 
 #pragma mark --private Method--初始化子控制器

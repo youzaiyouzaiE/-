@@ -18,10 +18,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    UIImage *backImage = [UIImage imageNamed:@"navigationbar_pic_back_icon"];
-    self.navigationController.navigationBar.backIndicatorImage = backImage;
-    self.navigationController.navigationBar.backIndicatorTransitionMaskImage = backImage;
-    self.navigationController.navigationBar.translucent = NO;
+//    UIImage *backImage = [UIImage imageNamed:@"navigationbar_pic_back_icon"];
+//    self.navigationController.navigationBar.backIndicatorImage = backImage;
+//    self.navigationController.navigationBar.backIndicatorTransitionMaskImage = backImage;
+//    self.navigationController.navigationBar.translucent = NO;
     
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@""
                                                                              style:UIBarButtonItemStylePlain

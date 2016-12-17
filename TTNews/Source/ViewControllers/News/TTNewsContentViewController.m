@@ -9,8 +9,6 @@
 #import "TTNewsContentViewController.h"
 #import "SDCycleScrollView.h"
 #import "SinglePictureNewsTableViewCell.h"
-#import "MultiPictureTableViewCell.h"
-#import <SDWebImage/UIImageView+WebCache.h>
 #import <MJRefresh.h>
 #import "AFNetworking.h"
 #import "TTNewListModel.h"
@@ -68,7 +66,7 @@
     _tableView.backgroundColor = [UIColor whiteColor];
     _tableView.delegate = self;
     _tableView.dataSource = self;
-    _tableView.rowHeight = 100;
+    _tableView.rowHeight = [SinglePictureNewsTableViewCell height];
     [self.view addSubview:_tableView];
     [_tableView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(0);
@@ -211,7 +209,8 @@
     TTNewListModel *listInfo = _arrayList[indexPath.row];
     cell.imageUrl = listInfo.cover_pic;
     cell.contentTittle = listInfo.title;
-    cell.desc = listInfo.desc;
+    cell.dateLabel.text = listInfo.published_at;
+    cell.sourceLabel.text = listInfo.source;
     return cell;
 }
 

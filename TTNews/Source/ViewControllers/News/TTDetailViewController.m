@@ -17,8 +17,6 @@
 
 #import "TTLoginViewController.h"
 
-//#import "WebViewJavascriptBridge.h"
-#import "WKWebViewJavascriptBridge.h"
 
 #define WECHAT_SCENE            0
 #define WECHATTIME_SCENT        1
@@ -36,7 +34,7 @@
 
 @property (nonatomic, strong) UIButton *ButtonShare;
 @property (nonatomic, strong) WKWebView *webView;
-@property (nonatomic, strong) WKWebViewJavascriptBridge *bridge;
+
 
 
 @end
@@ -59,14 +57,6 @@
     self.view.backgroundColor = [UIColor yellowColor];
     [self setupWebView];
     
-    self.bridge = [WKWebViewJavascriptBridge bridgeForWebView:_webView];
-    
-    [self.bridge registerHandler:@"presentLoginView" handler:^(id data, WVJBResponseCallback responseCallback) {
-        [self presentLoginView];
-    }];
-    
-
-    
 }
 
 -(void)viewWillAppear:(BOOL)animated {
@@ -81,20 +71,14 @@
     _webView = [[WKWebView alloc] init];
     _webView.navigationDelegate = self;
     [self.view addSubview:_webView];
-//    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:self.url] cachePolicy:<#(NSURLRequestCachePolicy)#> timeoutInterval:<#(NSTimeInterval)#>];
-//    [_webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:self.url]]];
+//    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:self.url] cachePolicy:(NSURLRequestCachePolicy) timeoutInterval:50];
+    [_webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:self.url]]];
     [_webView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.left.right.mas_equalTo(0);
         make.bottom.mas_equalTo(self.view.mas_bottom);
     }];
     [self.webView addObserver:self forKeyPath:NSStringFromSelector(@selector(estimatedProgress)) options:NSKeyValueObservingOptionNew context:NULL];
     
-    
-    /////test
-    NSString* htmlPath = [[NSBundle mainBundle] pathForResource:@"ExampleApp" ofType:@"html"];
-    NSString* appHtml = [NSString stringWithContentsOfFile:htmlPath encoding:NSUTF8StringEncoding error:nil];
-    NSURL *baseURL = [NSURL fileURLWithPath:htmlPath];
-    [_webView loadHTMLString:appHtml baseURL:baseURL];
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
@@ -156,14 +140,14 @@
 
 #pragma mark - Action perform
 -(void)shareNews {
-        [_bridge callHandler:@"getUserLoginInfo" data:@{ @"uid":@"123456789",@"uname":@"youzaiyouzai",@"seckey":@"k_MD5_encode"}];
-//    NSArray *titleArray = @[@"微信",@"微信朋友圈",@"QQ好友",@"QQ空间"];//@[@"腾讯微博",@"微信",@"微信朋友圈",@"QQ",@"QQ空间",@"新浪微博",@"腾讯微博"];
-//    NSArray *imageNameArray =@[@"sns_icon_22",@"sns_icon_23",@"sns_icon_24",@"sns_icon_6"];
-//    //    @[@"sns_icon_2",@"sns_icon_22",@"sns_icon_23",@"sns_icon_24",@"sns_icon_6",@"sns_icon_1",@"sns_icon_2"];
-//    if (!_sheetView) {
-//        _sheetView = [JHShareSheetView sheetViewGreatWithTitles:titleArray shareImagesName:imageNameArray delegate:self];
-//    }
-//    [_sheetView show];
+//        [_bridge callHandler:@"getUserLoginInfo" data:@{ @"uid":@"123456789",@"uname":@"youzaiyouzai",@"seckey":@"k_MD5_encode"}];
+    NSArray *titleArray = @[@"微信",@"微信朋友圈",@"QQ好友",@"QQ空间"];//@[@"腾讯微博",@"微信",@"微信朋友圈",@"QQ",@"QQ空间",@"新浪微博",@"腾讯微博"];
+    NSArray *imageNameArray =@[@"sns_icon_22",@"sns_icon_23",@"sns_icon_24",@"sns_icon_6"];
+    //    @[@"sns_icon_2",@"sns_icon_22",@"sns_icon_23",@"sns_icon_24",@"sns_icon_6",@"sns_icon_1",@"sns_icon_2"];
+    if (!_sheetView) {
+        _sheetView = [JHShareSheetView sheetViewGreatWithTitles:titleArray shareImagesName:imageNameArray delegate:self];
+    }
+    [_sheetView show];
 }
 
 #pragma mark - JHShareSheetViewDelegate
