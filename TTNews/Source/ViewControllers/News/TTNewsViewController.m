@@ -12,6 +12,7 @@
 #import "TTChannelModel.h"
 #import "AFNetworking.h"
 #import "SDiOSVersion.h"
+#import "TTExposuresNewsViewController.h"
 
 @interface TTNewsViewController()<UIScrollViewDelegate> {
     HMSegmentedControl *_topTitleView;
@@ -83,7 +84,8 @@ static NSString * const collectionViewSectionHeaderID = @"ChannelCollectionHeade
 }
 
 - (void)offerNews {
-    
+    TTExposuresNewsViewController *exposuresVC = [[TTExposuresNewsViewController alloc] init];
+    [self.navigationController pushViewController:exposuresVC animated:YES];
 }
 
 #pragma mark --private Method--初始化子控制器
@@ -116,10 +118,10 @@ static NSString * const collectionViewSectionHeaderID = @"ChannelCollectionHeade
     }
     _topTitleView = [[HMSegmentedControl alloc] initWithSectionTitles:_titleArray];
     _topTitleView.selectionStyle = HMSegmentedControlSelectionStyleFullWidthStripe;
-    _topTitleView.selectionIndicatorLocation = HMSegmentedControlSelectionIndicatorLocationDown;
+    _topTitleView.selectionIndicatorLocation = HMSegmentedControlSelectionIndicatorLocationNone;
     _topTitleView.verticalDividerEnabled = NO;
     _topTitleView.titleTextAttributes = @{NSForegroundColorAttributeName : [UIColor blackColor],NSFontAttributeName:[UIFont systemFontOfSize:fontSize]};
-    _topTitleView.selectedTitleTextAttributes = @{NSForegroundColorAttributeName : [UIColor colorWithHexString:@"fa5054"],NSFontAttributeName:[UIFont systemFontOfSize:fontSize+2]};
+    _topTitleView.selectedTitleTextAttributes = @{NSForegroundColorAttributeName : [UIColor colorWithHexString:@"fa5054"],NSFontAttributeName:[UIFont systemFontOfSize:fontSize+3]};
     _topTitleView.selectionIndicatorColor = [UIColor colorWithHexString:@"fa5054"];
     _topTitleView.selectionIndicatorHeight = 2.0;
     _topTitleView.borderType = HMSegmentedControlBorderTypeBottom;

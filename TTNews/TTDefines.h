@@ -33,4 +33,8 @@
 #define IOS_7LAST                           ([[[UIDevice currentDevice] systemVersion] floatValue]>=7.0)?1:0
 #define IOS_8LAST                           ([[[UIDevice currentDevice] systemVersion] floatValue]>=8.0)?1:0
 
+
+
+
+
 #endif /* TTDefines_h */

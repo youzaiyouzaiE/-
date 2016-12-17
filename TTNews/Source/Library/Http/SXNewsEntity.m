@@ -8,7 +8,7 @@
 #import "SXNewsEntity.h"
 #import <MJExtension.h>
 #import "SinglePictureNewsTableViewCell.h"
-#import "MultiPictureTableViewCell.h"
+//#import "MultiPictureTableViewCell.h"
 
 @implementation SXNewsEntity
 

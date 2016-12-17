@@ -26,6 +26,8 @@
     [self setupScrollView];
     [self setupTextView];
     [self setupBackButton];
+    
+
 }
 
 -(void)viewWillAppear:(BOOL)animated {
