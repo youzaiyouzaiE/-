@@ -14,6 +14,8 @@
 #import "TTNewListModel.h"
 #import "TTNewListPageInfoModel.h"
 #import "TTDetailViewController.h"
+#import "TTNetworkSessionManager.h"
+
 
 @interface TTNewsContentViewController () <SDCycleScrollViewDelegate,UITableViewDelegate,UITableViewDataSource> {
     SDCycleScrollView *_cycleScrollView;
@@ -21,7 +23,9 @@
     TTNewListPageInfoModel *_pagInfo;
     
     NSMutableArray *_arrayList;
-    
+    UIView *_headerView;
+    UILabel *_labelLife;
+    UILabel *_labelRate;
 }
 
 @property (nonatomic, strong) UITableView *tableView;
@@ -53,12 +57,45 @@
 }
 
 - (void)addCycleScrollView {
-     _cycleScrollView = [SDCycleScrollView cycleScrollViewWithFrame:CGRectZero
+    _headerView = [[UIView alloc] init];
+    _cycleScrollView = [SDCycleScrollView cycleScrollViewWithFrame:CGRectZero
                                                            delegate:self
                                                    placeholderImage:[UIImage imageNamed:@"night_photoset_list_cell_icon"]];
     _cycleScrollView.backgroundColor = [UIColor whiteColor];
     _cycleScrollView.autoScrollTimeInterval = 4;
     _cycleScrollView.pageControlAliment = SDCycleScrollViewPageContolAlimentRight;
+    [_headerView addSubview:_cycleScrollView];
+    [_cycleScrollView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.left.right.mas_equalTo(0);
+        make.height.mas_equalTo(Screen_Height/4);
+    }];
+    
+    _labelRate = [[UILabel alloc] init];
+    _labelRate.font = [UIFont systemFontOfSize:15];
+    _labelRate.textAlignment = NSTextAlignmentRight;
+//    _labelRate.backgroundColor = [UIColor yellowColor];
+    [_headerView addSubview:_labelRate];
+    [_labelRate mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(_cycleScrollView.mas_bottom);
+        make.right.mas_equalTo(-5);
+        make.width.mas_equalTo(160);
+        make.height.mas_equalTo(22);
+    }];
+    
+    _labelLife = [[UILabel alloc] init];
+    _labelLife.font = [UIFont systemFontOfSize:15];
+    _labelLife.text = @"获取城市失败，请稍后再试";
+    [_headerView addSubview:_labelLife];
+    [_labelLife mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(_cycleScrollView.mas_bottom);
+        make.left.mas_equalTo(10);
+        make.right.mas_equalTo(_labelRate.mas_left);
+        make.height.mas_equalTo(22);
+    }];
+    
+
+
+    
 }
 
 -(void)addTabelView {
@@ -88,6 +125,7 @@
     [self loadListForPage:_currentPage andIsRefresh:YES];
     if (_isFristNews) {
         [self loadCycleImages];
+        [self loadLifeInfoDataWithDic:@{@"lng":@"38.983424" , @"lat" :@"116.5320"}];
     }
 }
 
@@ -99,7 +137,6 @@
 #pragma mark - netWork
 - (void)loadCycleImages {
     [TTProgressHUD show];
-//    __weak __typeof(self)weakSelf = self;
     [[AFHTTPSessionManager manager] GET:TT_FRIST_CYCLE_LIST
                              parameters:nil
                                progress:^(NSProgress * _Nonnull downloadProgress) { }
@@ -114,7 +151,32 @@
                                     [TTProgressHUD dismiss];
                                     [TTProgressHUD showMsg:@"服务器繁忙！请求出错"];
                                 }];
+}
+
+- (void)loadLifeInfoDataWithDic:(NSDictionary *)dic {
+//    [[AFHTTPSessionManager manager] GET:TT_FRIST_LIFE_CITY
+//                             parameters:dic
+//                               progress:^(NSProgress * _Nonnull downloadProgress) { }
+//                                success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+//                                    if (responseObject) {
+//                                        _labelLife.text = [NSString stringWithFormat:@"%@    %@: %@   ",responseObject[@"date"],responseObject[@"city"],responseObject[@"tmp"]];
+//                                        _labelRate.text = responseObject[@"rate"];
+//                                    }
+//                                    
+//                                } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+//                                    [TTProgressHUD showMsg:@"服务器繁忙！请求出错"];
+//                                }];
     
+    [[TTNetworkSessionManager shareManager] Get:TT_FRIST_LIFE_CITY
+                                     Parameters:nil
+                                        Success:^(NSURLSessionDataTask *task, id responseObject) {
+        _labelLife.text = [NSString stringWithFormat:@"%@    %@: %@   ",responseObject[@"date"],responseObject[@"city"],responseObject[@"tmp"]];
+        _labelRate.text = responseObject[@"rate"];
+
+    } Failure:^(NSError *error) {
+        NSLog(@"error %@",error.description);
+        [TTProgressHUD showMsg:@"服务器繁忙！请求出错"];
+    }];
 }
 
 - (void)loadListForPage:(NSInteger)page andIsRefresh:(BOOL)isRefresh {
@@ -191,7 +253,7 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     if (_isFristNews) {
-        return Screen_Height/4;
+        return Screen_Height/4 + 23;
     } else
         return 0.1;
 }
@@ -201,7 +263,7 @@
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-    return _cycleScrollView;
+    return _headerView;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {

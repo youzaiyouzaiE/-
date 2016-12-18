@@ -11,6 +11,7 @@
 #import "TTLableAndTextFieldView.h"
 #import <MobileCoreServices/MobileCoreServices.h>
 #import "UIImageView+MHFacebookImageViewer.h"
+#import "MWPhotoBrowser.h"
 
 @interface TTExposuresNewsViewController () <TTLabelAndTextFieldViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate>{
     UIBarButtonItem *_rightItem;
