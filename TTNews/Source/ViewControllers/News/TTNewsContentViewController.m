@@ -154,19 +154,6 @@
 }
 
 - (void)loadLifeInfoDataWithDic:(NSDictionary *)dic {
-//    [[AFHTTPSessionManager manager] GET:TT_FRIST_LIFE_CITY
-//                             parameters:dic
-//                               progress:^(NSProgress * _Nonnull downloadProgress) { }
-//                                success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-//                                    if (responseObject) {
-//                                        _labelLife.text = [NSString stringWithFormat:@"%@    %@: %@   ",responseObject[@"date"],responseObject[@"city"],responseObject[@"tmp"]];
-//                                        _labelRate.text = responseObject[@"rate"];
-//                                    }
-//                                    
-//                                } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-//                                    [TTProgressHUD showMsg:@"服务器繁忙！请求出错"];
-//                                }];
-    
     [[TTNetworkSessionManager shareManager] Get:TT_FRIST_LIFE_CITY
                                      Parameters:nil
                                         Success:^(NSURLSessionDataTask *task, id responseObject) {

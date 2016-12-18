@@ -25,10 +25,17 @@
 #define WEIBO_SCENE             4
 #define TENCENTWEIBO_SCENE      5
 
-@interface TTDetailViewController () <WKNavigationDelegate,JHShareSheetViewDelegate> {
+@interface TTDetailViewController () <WKNavigationDelegate,JHShareSheetViewDelegate,UIGestureRecognizerDelegate> {
     
     JHShareSheetView *_sheetView;
     NSInteger _selectedIndex;
+    
+    UIView *_bottomView;
+    
+    /////写评论
+    UIView *_coverView;
+    UIView *_writerView;
+    UITextView *_textView;
 }
 
 
@@ -55,8 +62,10 @@
     
     self.view.dk_backgroundColorPicker = DKColorPickerWithRGB(0xf0f0f0, 0x343434, 0xfafafa);
     self.view.backgroundColor = [UIColor yellowColor];
-    [self setupWebView];
     
+    [self setupView];
+    [self setupBottomView];
+    [self createWriteCommentsView];
 }
 
 -(void)viewWillAppear:(BOOL)animated {
@@ -67,18 +76,16 @@
     [super viewWillDisappear:animated];
 }
 
-- (void)setupWebView {
+- (void)setupView {
     _webView = [[WKWebView alloc] init];
     _webView.navigationDelegate = self;
     [self.view addSubview:_webView];
-//    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:self.url] cachePolicy:(NSURLRequestCachePolicy) timeoutInterval:50];
     [_webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:self.url]]];
     [_webView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.left.right.mas_equalTo(0);
-        make.bottom.mas_equalTo(self.view.mas_bottom);
+        make.bottom.mas_equalTo(self.view.mas_bottom).offset(-44);
     }];
     [self.webView addObserver:self forKeyPath:NSStringFromSelector(@selector(estimatedProgress)) options:NSKeyValueObservingOptionNew context:NULL];
-    
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
@@ -86,16 +93,16 @@
         NSLog(@"%f", self.webView.estimatedProgress);
         // estimatedProgress is a value from 0.0 to 1.0
         // Update your UI here accordingly
-//        [self.progressView setAlpha:1.0f];
-//        [self.progressView setProgress:self.wkWebView.estimatedProgress animated:YES];
+        //        [self.progressView setAlpha:1.0f];
+        //        [self.progressView setProgress:self.wkWebView.estimatedProgress animated:YES];
         
-//        if(self.webView.estimatedProgress >= 1.0f) {
-//            [UIView animateWithDuration:0.3 delay:0.3 options:UIViewAnimationOptionCurveEaseOut animations:^{
-//                [self.progressView setAlpha:0.0f];
-//            } completion:^(BOOL finished) {
-//                [self.progressView setProgress:0.0f animated:NO];
-//            }];
-//        }
+        //        if(self.webView.estimatedProgress >= 1.0f) {
+        //            [UIView animateWithDuration:0.3 delay:0.3 options:UIViewAnimationOptionCurveEaseOut animations:^{
+        //                [self.progressView setAlpha:0.0f];
+        //            } completion:^(BOOL finished) {
+        //                [self.progressView setProgress:0.0f animated:NO];
+        //            }];
+        //        }
     }
     else {
         // Make sure to call the superclass's implementation in the else block in case it is also implementing KVO
@@ -103,13 +110,161 @@
     }
 }
 
+#define itemButt_W         40
+
+- (void)setupBottomView {
+    UIView *bottomView = [[UIView alloc] init];
+    bottomView.backgroundColor = [UIColor colorWithHexString:@"f0f0f0"];
+    [self.view addSubview:bottomView];
+    [bottomView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.bottom.mas_equalTo(self.view.mas_bottom);
+        make.left.right.mas_equalTo(0);
+        make.height.mas_equalTo(44);
+    }];
+    
+    UIButton *writeButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [writeButton addTarget:self action:@selector(writeComment:) forControlEvents:UIControlEventTouchUpInside];
+    [writeButton setTitle:@"发表评论" forState:UIControlStateNormal];
+    [writeButton setTitleColor:[UIColor colorWithHexString:@"E5E5E5"] forState:UIControlStateNormal];
+    writeButton.backgroundColor = [UIColor whiteColor];
+    writeButton.layer.masksToBounds = YES;
+    writeButton.layer.borderColor = [UIColor colorWithHexString:@"E5E5E5"].CGColor;
+    writeButton.layer.cornerRadius = 3;
+    writeButton.layer.borderWidth = 0.5;
+    [bottomView addSubview:writeButton];
+    [writeButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(15);
+        make.centerY.mas_equalTo(bottomView.mas_centerY);
+        make.height.mas_equalTo(34);
+        make.width.mas_equalTo(Screen_Width*2/3 - 15);
+    }];
+    
+    CGFloat buttonMarger =  (Screen_Width/3 - (itemButt_W * 2))/3;
+    
+    UIButton *checkCommentsBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+//    checkCommentsBtn.backgroundColor = [UIColor yellowColor];
+    [checkCommentsBtn setTitle:@"评论" forState:UIControlStateNormal];
+    [checkCommentsBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [checkCommentsBtn addTarget:self action:@selector(checkComments:) forControlEvents:UIControlEventTouchUpInside];
+    [bottomView addSubview:checkCommentsBtn];
+    [checkCommentsBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(writeButton.mas_right).offset(buttonMarger);
+        make.centerY.mas_equalTo(bottomView.mas_centerY);
+        make.height.mas_equalTo(itemButt_W);
+        make.width.mas_equalTo(itemButt_W);
+    }];
+    
+    UIButton *storeBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+//    storeBtn.backgroundColor = [UIColor redColor];
+    [storeBtn setTitle:@"收藏" forState:UIControlStateNormal];
+    [storeBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [storeBtn addTarget:self action:@selector(storeAction:) forControlEvents:UIControlEventTouchUpInside];
+    [bottomView addSubview:storeBtn];
+    [storeBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.mas_equalTo(bottomView.mas_right).offset(-buttonMarger);
+        make.centerY.mas_equalTo(bottomView.mas_centerY);
+        make.height.mas_equalTo(itemButt_W);
+        make.width.mas_equalTo(itemButt_W);
+    }];
+}
+
+#define  TEXTVIEW_H     90
+- (void)createWriteCommentsView {
+    
+//    CGFloat textViewH = 90;
+    
+    _coverView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, Screen_Width, Screen_Height)];
+    _coverView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.4];
+    _coverView.hidden = YES;
+    [[UIApplication sharedApplication].keyWindow addSubview:_coverView];
+    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGestureAction)];
+    tapGesture.delegate = self;
+    [_coverView addGestureRecognizer:tapGesture];
+    
+    _writerView = [[UIView alloc] initWithFrame:CGRectMake(0, Screen_Height, Screen_Width, TEXTVIEW_H + 60 + 10)];
+    _writerView.backgroundColor = [[UIColor whiteColor] colorWithAlphaComponent:1];
+    _writerView.alpha = 1;
+    [_coverView addSubview:_writerView];
+    
+    UIButton *cancelBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [cancelBtn setTitle:@"取消" forState:UIControlStateNormal];
+    [cancelBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    cancelBtn.titleLabel.font = [UIFont systemFontOfSize:15];
+    [cancelBtn addTarget:self action:@selector(cancelAction:) forControlEvents:UIControlEventTouchUpInside];
+    [_writerView addSubview:cancelBtn];
+    [cancelBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo (10);
+        make.left.mas_equalTo (15);
+        make.size.mas_equalTo(CGSizeMake(50, 30));
+    }];
+    
+    UILabel *writerLabel = [[UILabel alloc] init];
+    writerLabel.textAlignment = NSTextAlignmentCenter;
+    writerLabel.font = [UIFont systemFontOfSize:18];
+    writerLabel.text = @"写跟帖";
+    [_writerView addSubview:writerLabel];
+    [writerLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo (10);
+        make.centerX.mas_equalTo (_writerView.mas_centerX);
+        make.size.mas_equalTo(CGSizeMake(60, 30));
+    }];
+    
+    UIButton *sendBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [sendBtn setTitle:@"发送" forState:UIControlStateNormal];
+    [sendBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    sendBtn.titleLabel.font = [UIFont systemFontOfSize:15];
+    [sendBtn addTarget:self action:@selector(sendAction:) forControlEvents:UIControlEventTouchUpInside];
+    [_writerView addSubview:sendBtn];
+    [sendBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo (10);
+        make.right.mas_equalTo (-15);
+        make.size.mas_equalTo(CGSizeMake(50, 30));
+    }];
+    
+    _textView = [[UITextView alloc] init];
+    _textView.backgroundColor = [UIColor colorWithHexString:@"f0f0f0"];
+    _textView.font = [UIFont systemFontOfSize:16];
+     [_writerView addSubview:_textView];
+    [_textView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(50);
+        make.left.mas_equalTo(15);
+        make.right.mas_equalTo(-15);
+        make.bottom.mas_equalTo(_writerView.mas_bottom).offset(-15);
+    }];
+}
+
+- (void)showWriteView {
+    _coverView.hidden = NO;
+     [_textView becomeFirstResponder];
+    [UIView animateWithDuration:0.5 animations:^{
+        _writerView.frame = CGRectMake(0, Screen_Height - TEXTVIEW_H - 60 - 10 - 250 , Screen_Width, TEXTVIEW_H + 60 + 10);
+    } completion:^(BOOL finished) {
+    }];
+}
+
+- (void)dismissWriterView {
+    [_textView resignFirstResponder];
+    [UIView animateWithDuration:0.5 animations:^{
+        _writerView.frame = CGRectMake(0, Screen_Height, Screen_Width, TEXTVIEW_H + 60 + 10);
+    } completion:^(BOOL finished) {
+        _coverView.hidden = YES;
+    }];
+}
+
 - (void)dealloc {
     if ([self isViewLoaded]) {
         [self.webView removeObserver:self forKeyPath:NSStringFromSelector(@selector(estimatedProgress))];
     }
-    
-    // if you have set either WKWebView delegate also set these to nil here
     [self.webView setNavigationDelegate:nil];
+}
+
+#pragma mark - UIGestureRecognizerDelegate
+- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer {
+    CGPoint point = [gestureRecognizer locationInView:_writerView];
+    if (point.y > 0) {
+        return NO;
+    } else
+        return YES;
 }
 
 #pragma mark - WKNavigationDelegate 
@@ -148,6 +303,30 @@
         _sheetView = [JHShareSheetView sheetViewGreatWithTitles:titleArray shareImagesName:imageNameArray delegate:self];
     }
     [_sheetView show];
+}
+
+- (void)writeComment:(UIButton *)sender {
+    [self showWriteView];
+}
+
+- (void)checkComments:(UIButton *)sender {
+    
+}
+
+- (void)storeAction:(UIButton *)sender {
+    
+}
+
+- (void)tapGestureAction {
+    [self dismissWriterView];
+}
+
+- (void)cancelAction:(UIButton *)button {
+    [self dismissWriterView];
+}
+
+- (void)sendAction:(UIButton *)button {
+    
 }
 
 #pragma mark - JHShareSheetViewDelegate
