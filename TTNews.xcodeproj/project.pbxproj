@@ -82,6 +82,8 @@
 		DA2C956A1E0529E500A43E9B /* TTExposuresNewsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DA2C95681E0529E500A43E9B /* TTExposuresNewsViewController.m */; };
 		DA2C956E1E0530E700A43E9B /* UITextView+Placeholder.m in Sources */ = {isa = PBXBuildFile; fileRef = DA2C956D1E0530E700A43E9B /* UITextView+Placeholder.m */; };
 		DA2C95711E05417600A43E9B /* TTLableAndTextFieldView.m in Sources */ = {isa = PBXBuildFile; fileRef = DA2C95701E05417600A43E9B /* TTLableAndTextFieldView.m */; };
+		DA2C95741E06885300A43E9B /* TTCommentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DA2C95731E06885300A43E9B /* TTCommentViewController.m */; };
+		DA2C95771E06977000A43E9B /* TTCommentTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DA2C95761E06977000A43E9B /* TTCommentTableViewCell.m */; };
 		DA5B0B801DFD8D51001067B8 /* libWeChatSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DA5B0B7B1DFD8D51001067B8 /* libWeChatSDK.a */; };
 		DA5B0B811DFD8D51001067B8 /* README.txt in Resources */ = {isa = PBXBuildFile; fileRef = DA5B0B7C1DFD8D51001067B8 /* README.txt */; };
 		DA5B0B8D1DFD940B001067B8 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA5B0B8C1DFD940B001067B8 /* CFNetwork.framework */; };
@@ -123,7 +125,6 @@
 		DA62CA151DF7BCAB00AD3928 /* EditUserInfoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA62C9C51DF7BCAB00AD3928 /* EditUserInfoViewController.xib */; };
 		DA62CA161DF7BCAB00AD3928 /* MeTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DA62C9C71DF7BCAB00AD3928 /* MeTableViewController.m */; };
 		DA62CA171DF7BCAB00AD3928 /* SendFeedbackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DA62C9C91DF7BCAB00AD3928 /* SendFeedbackViewController.m */; };
-		DA62CA181DF7BCAB00AD3928 /* ShowMultiPictureViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DA62C9CC1DF7BCAB00AD3928 /* ShowMultiPictureViewController.m */; };
 		DA62CA191DF7BCAB00AD3928 /* TTDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DA62C9CE1DF7BCAB00AD3928 /* TTDetailViewController.m */; };
 		DA62CA1A1DF7BCAB00AD3928 /* TTNewsContentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DA62C9D01DF7BCAB00AD3928 /* TTNewsContentViewController.m */; };
 		DA62CA1B1DF7BCAB00AD3928 /* TTNewsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DA62C9D21DF7BCAB00AD3928 /* TTNewsViewController.m */; };
@@ -283,6 +284,10 @@
 		DA2C956D1E0530E700A43E9B /* UITextView+Placeholder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITextView+Placeholder.m"; sourceTree = "<group>"; };
 		DA2C956F1E05417600A43E9B /* TTLableAndTextFieldView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTLableAndTextFieldView.h; sourceTree = "<group>"; };
 		DA2C95701E05417600A43E9B /* TTLableAndTextFieldView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTLableAndTextFieldView.m; sourceTree = "<group>"; };
+		DA2C95721E06885300A43E9B /* TTCommentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTCommentViewController.h; sourceTree = "<group>"; };
+		DA2C95731E06885300A43E9B /* TTCommentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTCommentViewController.m; sourceTree = "<group>"; };
+		DA2C95751E06977000A43E9B /* TTCommentTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTCommentTableViewCell.h; sourceTree = "<group>"; };
+		DA2C95761E06977000A43E9B /* TTCommentTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTCommentTableViewCell.m; sourceTree = "<group>"; };
 		DA2F26D01DDDE495002BD87B /* TTDefines.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TTDefines.h; sourceTree = "<group>"; };
 		DA5B0B7B1DFD8D51001067B8 /* libWeChatSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libWeChatSDK.a; sourceTree = "<group>"; };
 		DA5B0B7C1DFD8D51001067B8 /* README.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.txt; sourceTree = "<group>"; };
@@ -353,8 +358,6 @@
 		DA62C9C71DF7BCAB00AD3928 /* MeTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MeTableViewController.m; sourceTree = "<group>"; };
 		DA62C9C81DF7BCAB00AD3928 /* SendFeedbackViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SendFeedbackViewController.h; sourceTree = "<group>"; };
 		DA62C9C91DF7BCAB00AD3928 /* SendFeedbackViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SendFeedbackViewController.m; sourceTree = "<group>"; };
-		DA62C9CB1DF7BCAB00AD3928 /* ShowMultiPictureViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShowMultiPictureViewController.h; sourceTree = "<group>"; };
-		DA62C9CC1DF7BCAB00AD3928 /* ShowMultiPictureViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShowMultiPictureViewController.m; sourceTree = "<group>"; };
 		DA62C9CD1DF7BCAB00AD3928 /* TTDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTDetailViewController.h; sourceTree = "<group>"; };
 		DA62C9CE1DF7BCAB00AD3928 /* TTDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTDetailViewController.m; sourceTree = "<group>"; };
 		DA62C9CF1DF7BCAB00AD3928 /* TTNewsContentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTNewsContentViewController.h; sourceTree = "<group>"; };
@@ -698,6 +701,8 @@
 				DA62C9911DF7BCAB00AD3928 /* SinglePictureNewsTableViewCell.xib */,
 				DA2C956F1E05417600A43E9B /* TTLableAndTextFieldView.h */,
 				DA2C95701E05417600A43E9B /* TTLableAndTextFieldView.m */,
+				DA2C95751E06977000A43E9B /* TTCommentTableViewCell.h */,
+				DA2C95761E06977000A43E9B /* TTCommentTableViewCell.m */,
 			);
 			path = News;
 			sourceTree = "<group>";
@@ -774,8 +779,8 @@
 				DA62C9D01DF7BCAB00AD3928 /* TTNewsContentViewController.m */,
 				DA62C9CD1DF7BCAB00AD3928 /* TTDetailViewController.h */,
 				DA62C9CE1DF7BCAB00AD3928 /* TTDetailViewController.m */,
-				DA62C9CB1DF7BCAB00AD3928 /* ShowMultiPictureViewController.h */,
-				DA62C9CC1DF7BCAB00AD3928 /* ShowMultiPictureViewController.m */,
+				DA2C95721E06885300A43E9B /* TTCommentViewController.h */,
+				DA2C95731E06885300A43E9B /* TTCommentViewController.m */,
 			);
 			path = News;
 			sourceTree = "<group>";
@@ -1438,6 +1443,7 @@
 				DA62CA211DF7BCAB00AD3928 /* VideoViewController.m in Sources */,
 				DA93168C1DF3B214007F15B3 /* UIBarButtonItem+Extension.m in Sources */,
 				DA62CA1E1DF7BCAB00AD3928 /* FullViewController.m in Sources */,
+				DA2C95741E06885300A43E9B /* TTCommentViewController.m in Sources */,
 				DA62C9E81DF7BCAB00AD3928 /* TTVideoUser.m in Sources */,
 				DA62C9E51DF7BCAB00AD3928 /* TTPictureUser.m in Sources */,
 				DA9316891DF3B214007F15B3 /* NSDate+Extension.m in Sources */,
@@ -1453,6 +1459,7 @@
 				DA62CA2B1DF7BD9E00AD3928 /* PictureTableViewCell.m in Sources */,
 				DAC65CF61DF311430090369A /* AppDelegate.m in Sources */,
 				DA62C9F61DF7BCAB00AD3928 /* SinglePictureNewsTableViewCell.m in Sources */,
+				DA2C95771E06977000A43E9B /* TTCommentTableViewCell.m in Sources */,
 				DA93168F1DF3B214007F15B3 /* UIView+Extension.m in Sources */,
 				DA62C9E91DF7BCAB00AD3928 /* DisclosureCell.m in Sources */,
 				DA62CA081DF7BCAB00AD3928 /* VideoTableViewCell.m in Sources */,
@@ -1464,7 +1471,6 @@
 				DA62CA1C1DF7BCAB00AD3928 /* VideoCommentViewController.m in Sources */,
 				DA62CA291DF7BD9E00AD3928 /* PictureCommentCell.m in Sources */,
 				DA62C9EA1DF7BCAB00AD3928 /* SwitchCell.m in Sources */,
-				DA62CA181DF7BCAB00AD3928 /* ShowMultiPictureViewController.m in Sources */,
 				DA62CA101DF7BCAB00AD3928 /* TTRegisterViewController.m in Sources */,
 				DA62CA161DF7BCAB00AD3928 /* MeTableViewController.m in Sources */,
 				DA62CA0E1DF7BCAB00AD3928 /* TTMailRegisterViewController.m in Sources */,

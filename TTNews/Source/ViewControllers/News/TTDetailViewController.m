@@ -16,7 +16,7 @@
 #import "WXApi.h"
 
 #import "TTLoginViewController.h"
-
+#import "TTCommentViewController.h"
 
 #define WECHAT_SCENE            0
 #define WECHATTIME_SCENT        1
@@ -310,7 +310,8 @@
 }
 
 - (void)checkComments:(UIButton *)sender {
-    
+    TTCommentViewController *commentVC = [[TTCommentViewController alloc] init];
+    [self.navigationController pushViewController:commentVC animated:YES];
 }
 
 - (void)storeAction:(UIButton *)sender {
