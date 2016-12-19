@@ -14,6 +14,8 @@
 #import "SDiOSVersion.h"
 #import "TTExposuresNewsViewController.h"
 
+//#import "TTCommentViewController.h"
+
 @interface TTNewsViewController()<UIScrollViewDelegate> {
     HMSegmentedControl *_topTitleView;
     NSMutableArray *_titleArray;
@@ -84,8 +86,13 @@ static NSString * const collectionViewSectionHeaderID = @"ChannelCollectionHeade
 }
 
 - (void)offerNews {
+    
     TTExposuresNewsViewController *exposuresVC = [[TTExposuresNewsViewController alloc] init];
     [self.navigationController pushViewController:exposuresVC animated:YES];
+    
+//    TTCommentViewController *commentVC = [[TTCommentViewController alloc] init];
+//    commentVC.article_id = [NSNumber numberWithInt:13];
+//    [self.navigationController pushViewController:commentVC animated:YES];    
 }
 
 #pragma mark --private Method--初始化子控制器

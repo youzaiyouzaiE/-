@@ -36,7 +36,7 @@
 
 
 #define IMAGE_W         30
-#define COMMENT_FONT    [UIFont systemFontOfSize:12]
+#define COMMENT_FONT    [UIFont systemFontOfSize:14]
 
 
 - (void)initComponents {
@@ -55,7 +55,7 @@
     _labelName = [[UILabel alloc] init];
     _labelName.text = @"name";
     _labelName.textColor = [UIColor colorWithHexString:@"E5E5E5"];
-    _labelName.font = COMMENT_FONT;
+    _labelName.font = [UIFont systemFontOfSize:12];
     [self.contentView addSubview:_labelName];
     [_labelName mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(_imageViewPortrait.mas_right).offset(10);
@@ -67,7 +67,7 @@
     _labelComment = [[UILabel alloc] init];
     _labelComment.textColor = [UIColor blackColor];
     _labelComment.numberOfLines = 0;
-    _labelComment.font = [UIFont systemFontOfSize:16];
+    _labelComment.font = COMMENT_FONT;
     [self.contentView addSubview:_labelComment];
     [_labelComment mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(_imageViewPortrait.mas_bottom);
