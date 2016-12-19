@@ -7,8 +7,9 @@
 //
 
 #import "TTBaseModel.h"
+#import "TTNewsArticleInfo.h"
 
-@interface TTNewListModel : TTBaseModel
+@interface TTNewListModel : TTBaseModel ////新闻列表
 
 @property (nonatomic, strong) NSNumber *id_list;//文章编号
 @property (nonatomic, strong) NSNumber *state;             //状态 2：已发布
@@ -36,6 +37,7 @@
 @property (nonatomic, copy) NSString *deleted_at;//删除时间
 @property (nonatomic, copy) NSString *url;//文章详情链接
 @property (nonatomic, strong) NSNumber *comment_num;///评论数
+@property (nonatomic, strong) TTNewsArticleInfo *articleInfo;
 
 
 @end

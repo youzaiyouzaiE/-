@@ -12,7 +12,7 @@
 
 //- (void)setValue:(id)value forKey:(NSString *)key {
 //    if ([key isEqualToString:@"links"]) {
-//        _links = [NSDictionary dictionaryWithDictionary:value];
+//        _links = [NSArray arrayWithArray:value];
 //    } else
 //        [super setValue:value forKey:key];
 //}

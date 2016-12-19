@@ -10,4 +10,6 @@
 
 @interface TTCommentViewController : TTBaseViewController
 
+@property (nonatomic, copy) NSString *article_id;
+
 @end

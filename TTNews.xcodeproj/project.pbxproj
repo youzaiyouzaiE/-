@@ -84,6 +84,7 @@
 		DA2C95711E05417600A43E9B /* TTLableAndTextFieldView.m in Sources */ = {isa = PBXBuildFile; fileRef = DA2C95701E05417600A43E9B /* TTLableAndTextFieldView.m */; };
 		DA2C95741E06885300A43E9B /* TTCommentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DA2C95731E06885300A43E9B /* TTCommentViewController.m */; };
 		DA2C95771E06977000A43E9B /* TTCommentTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DA2C95761E06977000A43E9B /* TTCommentTableViewCell.m */; };
+		DA544A261E078BE000EC6A10 /* TTNewsArticleInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = DA544A251E078BE000EC6A10 /* TTNewsArticleInfo.m */; };
 		DA5B0B801DFD8D51001067B8 /* libWeChatSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DA5B0B7B1DFD8D51001067B8 /* libWeChatSDK.a */; };
 		DA5B0B811DFD8D51001067B8 /* README.txt in Resources */ = {isa = PBXBuildFile; fileRef = DA5B0B7C1DFD8D51001067B8 /* README.txt */; };
 		DA5B0B8D1DFD940B001067B8 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA5B0B8C1DFD940B001067B8 /* CFNetwork.framework */; };
@@ -144,6 +145,7 @@
 		DA62CA381DF7BDB100AD3928 /* ShowBigPictureViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DA62CA331DF7BDB100AD3928 /* ShowBigPictureViewController.m */; };
 		DA62CA391DF7BDB100AD3928 /* ShowBigPictureViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA62CA341DF7BDB100AD3928 /* ShowBigPictureViewController.xib */; };
 		DA62CA681DF8F37600AD3928 /* TTNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = DA62CA671DF8F37600AD3928 /* TTNavigationController.m */; };
+		DA7F3CBE1E07B1300070B4EC /* TTCommentsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DA7F3CBD1E07B1300070B4EC /* TTCommentsModel.m */; };
 		DA9316891DF3B214007F15B3 /* NSDate+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = DA93165A1DF3B214007F15B3 /* NSDate+Extension.m */; };
 		DA93168A1DF3B214007F15B3 /* NSObject+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = DA93165C1DF3B214007F15B3 /* NSObject+Extension.m */; };
 		DA93168B1DF3B214007F15B3 /* NSString+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = DA93165E1DF3B214007F15B3 /* NSString+Extension.m */; };
@@ -289,6 +291,8 @@
 		DA2C95751E06977000A43E9B /* TTCommentTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTCommentTableViewCell.h; sourceTree = "<group>"; };
 		DA2C95761E06977000A43E9B /* TTCommentTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTCommentTableViewCell.m; sourceTree = "<group>"; };
 		DA2F26D01DDDE495002BD87B /* TTDefines.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TTDefines.h; sourceTree = "<group>"; };
+		DA544A241E078BE000EC6A10 /* TTNewsArticleInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTNewsArticleInfo.h; sourceTree = "<group>"; };
+		DA544A251E078BE000EC6A10 /* TTNewsArticleInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTNewsArticleInfo.m; sourceTree = "<group>"; };
 		DA5B0B7B1DFD8D51001067B8 /* libWeChatSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libWeChatSDK.a; sourceTree = "<group>"; };
 		DA5B0B7C1DFD8D51001067B8 /* README.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.txt; sourceTree = "<group>"; };
 		DA5B0B7D1DFD8D51001067B8 /* WechatAuthSDK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WechatAuthSDK.h; sourceTree = "<group>"; };
@@ -390,6 +394,8 @@
 		DA62CA341DF7BDB100AD3928 /* ShowBigPictureViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ShowBigPictureViewController.xib; sourceTree = "<group>"; };
 		DA62CA661DF8F37600AD3928 /* TTNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTNavigationController.h; sourceTree = "<group>"; };
 		DA62CA671DF8F37600AD3928 /* TTNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTNavigationController.m; sourceTree = "<group>"; };
+		DA7F3CBC1E07B1300070B4EC /* TTCommentsModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTCommentsModel.h; sourceTree = "<group>"; };
+		DA7F3CBD1E07B1300070B4EC /* TTCommentsModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTCommentsModel.m; sourceTree = "<group>"; };
 		DA9316591DF3B214007F15B3 /* NSDate+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+Extension.h"; sourceTree = "<group>"; };
 		DA93165A1DF3B214007F15B3 /* NSDate+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+Extension.m"; sourceTree = "<group>"; };
 		DA93165B1DF3B214007F15B3 /* NSObject+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+Extension.h"; sourceTree = "<group>"; };
@@ -630,6 +636,10 @@
 				DA62C9631DF7BCAB00AD3928 /* TTChannelModel.m */,
 				DA62C9641DF7BCAB00AD3928 /* TTNewListModel.h */,
 				DA62C9651DF7BCAB00AD3928 /* TTNewListModel.m */,
+				DA544A241E078BE000EC6A10 /* TTNewsArticleInfo.h */,
+				DA544A251E078BE000EC6A10 /* TTNewsArticleInfo.m */,
+				DA7F3CBC1E07B1300070B4EC /* TTCommentsModel.h */,
+				DA7F3CBD1E07B1300070B4EC /* TTCommentsModel.m */,
 				DA62C9661DF7BCAB00AD3928 /* TTNewListPageInfoModel.h */,
 				DA62C9671DF7BCAB00AD3928 /* TTNewListPageInfoModel.m */,
 			);
@@ -1432,6 +1442,8 @@
 				DA9316901DF3B214007F15B3 /* SXNetworkTools.m in Sources */,
 				DA9316931DF3B214007F15B3 /* TTDataTool.m in Sources */,
 				DA62CA0A1DF7BCAB00AD3928 /* TTFindPasswordViewController.m in Sources */,
+				DA544A261E078BE000EC6A10 /* TTNewsArticleInfo.m in Sources */,
+				DA7F3CBE1E07B1300070B4EC /* TTCommentsModel.m in Sources */,
 				DA93169D1DF3B214007F15B3 /* TTJudgeNetworking.m in Sources */,
 				DA23E9641DFD234A0087B232 /* UISheetView.m in Sources */,
 				DAC65CF71DF311430090369A /* TTBaseModel.m in Sources */,

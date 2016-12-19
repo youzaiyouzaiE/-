@@ -15,7 +15,10 @@
         _id_list = value;
     } else if([key isEqualToString:@"description"]) {
         _desc = value;
-    } else
+    } else if ([key isEqualToString:@"article_info"]) {
+        _articleInfo = [[TTNewsArticleInfo alloc] initWithDictionary:value];
+    }
+    else
         [super setValue:value forKey:key];
     
 }
