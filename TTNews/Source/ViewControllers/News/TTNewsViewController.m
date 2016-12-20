@@ -124,7 +124,7 @@ static NSString * const collectionViewSectionHeaderID = @"ChannelCollectionHeade
         fontSize = 16.0f;
     }
     _topTitleView = [[HMSegmentedControl alloc] initWithSectionTitles:_titleArray];
-    _topTitleView.selectionStyle = HMSegmentedControlSelectionStyleFullWidthStripe;
+    _topTitleView.selectionStyle = HMSegmentedControlSelectionStyleArrow;
     _topTitleView.selectionIndicatorLocation = HMSegmentedControlSelectionIndicatorLocationNone;
     _topTitleView.verticalDividerEnabled = NO;
     _topTitleView.titleTextAttributes = @{NSForegroundColorAttributeName : [UIColor blackColor],NSFontAttributeName:[UIFont systemFontOfSize:fontSize]};

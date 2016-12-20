@@ -14,7 +14,7 @@
 #import <WebKit/WebKit.h>
 #import "JHShareSheetView.h"
 #import "WXApi.h"
-
+#import "SDiOSVersion.h"
 #import "TTLoginViewController.h"
 #import "TTCommentViewController.h"
 
@@ -237,7 +237,11 @@
     _coverView.hidden = NO;
      [_textView becomeFirstResponder];
     [UIView animateWithDuration:0.5 animations:^{
-        _writerView.frame = CGRectMake(0, Screen_Height - TEXTVIEW_H - 60 - 10 - 250 , Screen_Width, TEXTVIEW_H + 60 + 10);
+        DeviceSize size = [SDiOSVersion deviceSize];
+        if ( size == Screen5Dot5inch) {
+            _writerView.frame = CGRectMake(0, Screen_Height - TEXTVIEW_H - 60 - 30 - 250 , Screen_Width, TEXTVIEW_H + 60 + 10);
+        } else
+            _writerView.frame = CGRectMake(0, Screen_Height - TEXTVIEW_H - 60 - 10 - 250 , Screen_Width, TEXTVIEW_H + 60 + 10);
     } completion:^(BOOL finished) {
     }];
 }
@@ -311,6 +315,7 @@
 
 - (void)checkComments:(UIButton *)sender {
     TTCommentViewController *commentVC = [[TTCommentViewController alloc] init];
+    commentVC.article_id = _article_id;
     [self.navigationController pushViewController:commentVC animated:YES];
 }
 
