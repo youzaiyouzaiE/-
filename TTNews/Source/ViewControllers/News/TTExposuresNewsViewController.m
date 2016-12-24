@@ -16,11 +16,16 @@
 #import "TTLabelAndTextFieldCell.h"
 
 
-@interface TTExposuresNewsViewController () <ExposuresContentViewDelegate,MWPhotoBrowserDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,UITableViewDelegate,UITableViewDataSource>{
+@interface TTExposuresNewsViewController () <ExposuresContentViewDelegate,TTLabelAndTextFieldViewDelegate,MWPhotoBrowserDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,UITableViewDelegate,UITableViewDataSource>{
     UIBarButtonItem *_rightItem;
     
+    NSArray *_sectionTitleArray;
     NSMutableArray *_arraySelectImages;
     NSMutableArray *_arrayWMPhotos;
+    
+    CGRect _tableViewFrame;
+    NSIndexPath *_editingIndexPath;
+    BOOL _keyboardShowed;
 }
 
 @property (nonatomic, strong) UITableView *tableView;
@@ -40,8 +45,10 @@
     self.navigationItem.rightBarButtonItem = _rightItem;
     _arraySelectImages = [NSMutableArray array];
     _arrayWMPhotos = [NSMutableArray array];
-    
+    _sectionTitleArray = @[@"联系方式",@"你的名字",@"你的微信"];
     [self initTableView];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShowNotification:) name:UIKeyboardWillShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHideNotification:) name:UIKeyboardWillHideNotification object:nil];
 }
 
 - (void)initTableView {
@@ -67,7 +74,7 @@
     if (section == 0) {
         return  2;
     } else {
-        return 3;
+        return _sectionTitleArray.count;
     }
 }
 
@@ -98,12 +105,52 @@
         return cell;
     } else {
         TTLabelAndTextFieldCell *cell = [tableView dequeueReusableCellWithIdentifier:@"TTLabelAndTextFieldCell" forIndexPath:indexPath];
-        cell.labelTextFieldView.titleLabel.text = @"你的微信号";
+        if (indexPath.section == 0) {
+            cell.labelTextFieldView.titleLabel.text = @"原文链接";
+        } else
+            cell.labelTextFieldView.titleLabel.text = _sectionTitleArray[indexPath.row];
+        cell.labelTextFieldView.delegate = self;
+        cell.labelTextFieldView.indexPath = indexPath;
         return cell;
     }
 }
 
-#pragma mark - ExposuresContentViewDelegate 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    _editingIndexPath = indexPath;
+}
+
+#pragma mark - MWPhotoBrowserDelegate
+- (NSUInteger)numberOfPhotosInPhotoBrowser:(MWPhotoBrowser *)photoBrowser {
+    return _arraySelectImages.count;
+}
+- (id <MWPhoto>)photoBrowser:(MWPhotoBrowser *)photoBrowser photoAtIndex:(NSUInteger)index {
+    if (index < _arrayWMPhotos.count) {
+        return [_arrayWMPhotos objectAtIndex:index];
+    }
+    return nil;
+}
+
+#pragma mark - keyboard 
+- (void)keyboardWillShowNotification:(NSNotification *)notification {
+    if (_keyboardShowed) {
+        return;
+    }
+    CGSize keyboardSize = [[[notification userInfo] objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
+    _tableViewFrame = _tableView.frame;
+    _tableView.frame = CGRectMake(_tableViewFrame.origin.x, _tableViewFrame.origin.y, _tableViewFrame.size.width, _tableViewFrame.size.height - keyboardSize.height);
+    [self.tableView scrollToRowAtIndexPath:_editingIndexPath atScrollPosition:UITableViewScrollPositionBottom animated:YES];
+    _keyboardShowed = YES;
+}
+
+- (void)keyboardWillHideNotification:(NSNotification *)notification {
+    if (!_keyboardShowed) {
+        return ;
+    }
+   _tableView.frame = _tableViewFrame;
+    _keyboardShowed = NO;
+}
+
+#pragma mark - ExposuresContentViewDelegate
 - (void)exposuresView:(TTExposuresContentView *)exposureView collectionViewDidSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.row == _arraySelectImages.count) {
         [self addPhotoAction];
@@ -127,16 +174,8 @@
     [_tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
 }
 
-#pragma mark - MWPhotoBrowserDelegate
-- (NSUInteger)numberOfPhotosInPhotoBrowser:(MWPhotoBrowser *)photoBrowser {
-    return _arraySelectImages.count;
-}
-- (id <MWPhoto>)photoBrowser:(MWPhotoBrowser *)photoBrowser photoAtIndex:(NSUInteger)index {
-    if (index < _arrayWMPhotos.count) {
-        return [_arrayWMPhotos objectAtIndex:index];
-    }
-    return nil;
-}
+#pragma mark - TTLabelAndTextFieldViewDelegate 
+
 
 #pragma mark - ActionPerform
 - (void)send{

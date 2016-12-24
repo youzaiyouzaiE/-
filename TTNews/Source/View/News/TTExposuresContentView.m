@@ -12,7 +12,7 @@
 #import "SDiOSVersion.h"
 #import "TTImagesCollectionViewCell.h"
 
-@interface TTExposuresContentView () <UICollectionViewDataSource, UICollectionViewDelegate,JHCollectionViewDelegateQuaternionLayout> {
+@interface TTExposuresContentView () <UITextFieldDelegate, UITextViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate,JHCollectionViewDelegateQuaternionLayout> {
     
 }
 
@@ -34,9 +34,10 @@
 
 - (void)initComponents {
     _titleTextField = [[UITextField alloc] init];
+    _titleTextField.keyboardType = UIReturnKeyDone;
+    _titleTextField.delegate = self;
     [self addSubview:_titleTextField];
     _titleTextField.placeholder = @"标题";
-//    _titleTextField.backgroundColor = [UIColor redColor];
     _titleTextField.font = [UIFont systemFontOfSize:18];
     [_titleTextField mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(10);
@@ -47,6 +48,7 @@
     AddLineViewInView(self, _titleTextField,1);
     
     _contentTextView = [[UITextView alloc] init];
+    _contentTextView.delegate = self;
     _contentTextView.backgroundColor = [UIColor whiteColor];
 //    _contentTextView.backgroundColor = [UIColor redColor];
     _contentTextView.font = [UIFont systemFontOfSize:16];
@@ -150,10 +152,6 @@ UIView* AddLineViewInView(UIView *superView ,UIView *underView, NSInteger underV
     return UIEdgeInsetsMake(5, 15, 20, 15);
 }
 
-//- (CGFloat)sectionSpacingForCollectionView:(UICollectionView *)collectionView {
-//    
-//}
-
 - (CGFloat)minimumInteritemSpacingForCollectionView:(UICollectionView *)collectionView {
     CGFloat spacing = 5;
     DeviceSize size = [SDiOSVersion deviceSize];
@@ -169,5 +167,41 @@ UIView* AddLineViewInView(UIView *superView ,UIView *underView, NSInteger underV
 - (CGFloat)minimumLineSpacingForCollectionView:(UICollectionView *)collectionView {
     return 5.0f;
 }
+
+#pragma mark - UITextFieldDelegate
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+    [textField resignFirstResponder];
+    return YES;
+}
+
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+    if (textField.text.length >= 50 && ![string isEqualToString:@""]) {
+        UIAlertController *alertControl = [UIAlertController alertControllerWithTitle:@"" message:@"主题最多输入50个字符" preferredStyle:UIAlertControllerStyleAlert];
+        [alertControl addAction:[UIAlertAction actionWithTitle:@"知道了" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {}]];
+        if ([self.delegate isKindOfClass:[UIViewController class]]) {
+            UIViewController *delegateVC = (UIViewController *)self.delegate;
+            [delegateVC.navigationController presentViewController:alertControl animated:YES completion:^{ }];
+            return NO;
+        }
+        return NO;
+    }
+    return YES;
+}
+
+#pragma mark - UITextViewDelegate 
+- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
+    if (textView.text.length >= 1000 && ![text isEqualToString:@""]) {
+        UIAlertController *alertControl = [UIAlertController alertControllerWithTitle:@"" message:@"内容最多输入1000个字符" preferredStyle:UIAlertControllerStyleAlert];
+        [alertControl addAction:[UIAlertAction actionWithTitle:@"知道了" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {}]];
+        if ([self.delegate isKindOfClass:[UIViewController class]]) {
+            UIViewController *delegateVC = (UIViewController *)self.delegate;
+            [delegateVC.navigationController presentViewController:alertControl animated:YES completion:^{ }];
+            return NO;
+        }
+        return NO;
+    }
+    return YES;
+}
+
 
 @end

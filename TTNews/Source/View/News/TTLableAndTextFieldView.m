@@ -31,7 +31,7 @@
 - (void)greateUIs {
     self.titleLabel = [[UILabel alloc] init];
 //    _titleLabel.backgroundColor = [UIColor redColor];
-    _titleLabel.font = [UIFont systemFontOfSize:FONT_SIZE];
+    _titleLabel.font = [UIFont systemFontOfSize:FONT_SIZE -1];
     [self addSubview:_titleLabel];
     [_titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.mas_equalTo(self.mas_centerY);
@@ -41,6 +41,7 @@
     }];
     
     _textField = [[UITextField alloc] init];
+    _textField.returnKeyType = UIReturnKeyDone;
     _textField.delegate = self;
     _textField.font = [UIFont systemFontOfSize:FONT_SIZE];
     _textField.borderStyle = UITextBorderStyleNone;
@@ -83,6 +84,10 @@
     }
 }
 
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+    [textField resignFirstResponder];
+    return YES;
+}
 /*
 // Only override drawRect: if you perform custom drawing.
 // An empty implementation adversely affects performance during animation.
