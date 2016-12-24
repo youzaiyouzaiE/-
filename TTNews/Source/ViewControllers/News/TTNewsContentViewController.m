@@ -258,7 +258,11 @@
     TTNewListModel *listInfo = _arrayList[indexPath.row];
     cell.imageUrl = listInfo.cover_pic;
     cell.contentTittle = listInfo.title;
-    cell.dateLabel.text = listInfo.published_at;
+    NSString *publishedDate = listInfo.published_at;
+    if (publishedDate.length > 10) {
+        publishedDate = [publishedDate substringWithRange:NSMakeRange(0, 10)];
+    }
+    cell.dateLabel.text = publishedDate;
     cell.sourceLabel.text = listInfo.source;
     return cell;
 }

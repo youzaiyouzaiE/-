@@ -29,7 +29,7 @@
 @interface JHCollectionViewQuaternionLayout : UICollectionViewFlowLayout
 
 @property (nonatomic, assign) id<JHCollectionViewDelegateQuaternionLayout> delegate;
-@property (nonatomic, assign) id<JHCollectionViewQuaternionLayoutDatasource> datasource;
+//@property (nonatomic, assign) id<JHCollectionViewQuaternionLayoutDatasource> datasource;
 @property (nonatomic, assign, readonly) CGSize largeCellSize;
 
 - (BOOL)shouldUpdateAttributesArray; //needs override

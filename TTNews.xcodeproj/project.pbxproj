@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		5E2DDD507AFC5A2FC706C802 /* libPods-TTNews.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C4C26A241D42CCF389274A89 /* libPods-TTNews.a */; };
 		7D4937D66844CF5F5FCBDB08 /* libPods-TTNewsTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8BA86FD4B9FFE3FDD3FFE7EA /* libPods-TTNewsTests.a */; };
+		DA16CA5D1E0ACDBD00F2F75A /* TTImagesCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DA16CA5C1E0ACDBD00F2F75A /* TTImagesCollectionViewCell.m */; };
 		DA23E9151DFC4D2D0087B232 /* sns_icon_1.png in Resources */ = {isa = PBXBuildFile; fileRef = DA23E8D11DFC4D2D0087B232 /* sns_icon_1.png */; };
 		DA23E9161DFC4D2D0087B232 /* sns_icon_10.png in Resources */ = {isa = PBXBuildFile; fileRef = DA23E8D21DFC4D2D0087B232 /* sns_icon_10.png */; };
 		DA23E9171DFC4D2D0087B232 /* sns_icon_10@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DA23E8D31DFC4D2D0087B232 /* sns_icon_10@2x.png */; };
@@ -165,6 +166,8 @@
 		DA93178C1DF3B276007F15B3 /* TTProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = DA93178B1DF3B276007F15B3 /* TTProgressHUD.m */; };
 		DA9317B51DF410DC007F15B3 /* TTNetworkSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DA9317B31DF410DC007F15B3 /* TTNetworkSessionManager.m */; };
 		DA931A371DF41910007F15B3 /* TTRequestManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DA931A361DF41910007F15B3 /* TTRequestManager.m */; };
+		DABDD2D21E09714E00F3AE49 /* TTLabelAndTextFieldCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DABDD2D11E09714E00F3AE49 /* TTLabelAndTextFieldCell.m */; };
+		DABDD2D51E097BA400F3AE49 /* TTExposuresContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = DABDD2D41E097BA400F3AE49 /* TTExposuresContentView.m */; };
 		DAC17BDB1DFD5F8F005674CD /* JHCollectionViewQuaternionLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = DAC17BD81DFD5F8F005674CD /* JHCollectionViewQuaternionLayout.m */; };
 		DAC17BDC1DFD5F8F005674CD /* JHShareSheetView.m in Sources */ = {isa = PBXBuildFile; fileRef = DAC17BDA1DFD5F8F005674CD /* JHShareSheetView.m */; };
 		DAC65C751DF2D5080090369A /* MHFacebookImageViewer.m in Sources */ = {isa = PBXBuildFile; fileRef = DAC65BBE1DF2D5070090369A /* MHFacebookImageViewer.m */; };
@@ -173,6 +176,7 @@
 		DAC65CF71DF311430090369A /* TTBaseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DAC65CEF1DF311430090369A /* TTBaseModel.m */; };
 		DAC65CF81DF311430090369A /* TTBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DAC65CF11DF311430090369A /* TTBaseViewController.m */; };
 		DAC65CFA1DF311430090369A /* TTTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = DAC65CF51DF311430090369A /* TTTabBarController.m */; };
+		DAE42AE01E0E1510007C8404 /* TTExposuresContentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DAE42ADF1E0E1510007C8404 /* TTExposuresContentCell.m */; };
 		E0C9598EA91F8C8BFE604B7B /* libPods-TTNewsUITests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D813C1B45D80A6E775754DA /* libPods-TTNewsUITests.a */; };
 		EE4635C81CC72B8900DB248F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = EE4635C71CC72B8900DB248F /* main.m */; };
 		EE4635D31CC72B8900DB248F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EE4635D21CC72B8900DB248F /* Assets.xcassets */; };
@@ -208,6 +212,8 @@
 		96E44656E97FFEA8726671D5 /* Pods-TTNews.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TTNews.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TTNews/Pods-TTNews.debug.xcconfig"; sourceTree = "<group>"; };
 		BD2F2D1CCC7CC93810CE5EB9 /* Pods-TTNewsTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TTNewsTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-TTNewsTests/Pods-TTNewsTests.release.xcconfig"; sourceTree = "<group>"; };
 		C4C26A241D42CCF389274A89 /* libPods-TTNews.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-TTNews.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		DA16CA5B1E0ACDBD00F2F75A /* TTImagesCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTImagesCollectionViewCell.h; sourceTree = "<group>"; };
+		DA16CA5C1E0ACDBD00F2F75A /* TTImagesCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTImagesCollectionViewCell.m; sourceTree = "<group>"; };
 		DA23E8D11DFC4D2D0087B232 /* sns_icon_1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sns_icon_1.png; sourceTree = "<group>"; };
 		DA23E8D21DFC4D2D0087B232 /* sns_icon_10.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sns_icon_10.png; sourceTree = "<group>"; };
 		DA23E8D31DFC4D2D0087B232 /* sns_icon_10@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sns_icon_10@2x.png"; sourceTree = "<group>"; };
@@ -435,6 +441,10 @@
 		DA931A351DF41910007F15B3 /* TTRequestManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTRequestManager.h; sourceTree = "<group>"; };
 		DA931A361DF41910007F15B3 /* TTRequestManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTRequestManager.m; sourceTree = "<group>"; };
 		DAAEBD421DF2B054002D82CF /* TTNews.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTNews.pch; sourceTree = "<group>"; };
+		DABDD2D01E09714E00F3AE49 /* TTLabelAndTextFieldCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTLabelAndTextFieldCell.h; sourceTree = "<group>"; };
+		DABDD2D11E09714E00F3AE49 /* TTLabelAndTextFieldCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTLabelAndTextFieldCell.m; sourceTree = "<group>"; };
+		DABDD2D31E097BA400F3AE49 /* TTExposuresContentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTExposuresContentView.h; sourceTree = "<group>"; };
+		DABDD2D41E097BA400F3AE49 /* TTExposuresContentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTExposuresContentView.m; sourceTree = "<group>"; };
 		DAC17BD71DFD5F8F005674CD /* JHCollectionViewQuaternionLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JHCollectionViewQuaternionLayout.h; sourceTree = "<group>"; };
 		DAC17BD81DFD5F8F005674CD /* JHCollectionViewQuaternionLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JHCollectionViewQuaternionLayout.m; sourceTree = "<group>"; };
 		DAC17BD91DFD5F8F005674CD /* JHShareSheetView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JHShareSheetView.h; sourceTree = "<group>"; };
@@ -451,6 +461,8 @@
 		DAC65CF11DF311430090369A /* TTBaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTBaseViewController.m; sourceTree = "<group>"; };
 		DAC65CF41DF311430090369A /* TTTabBarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTTabBarController.h; sourceTree = "<group>"; };
 		DAC65CF51DF311430090369A /* TTTabBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTTabBarController.m; sourceTree = "<group>"; };
+		DAE42ADE1E0E1510007C8404 /* TTExposuresContentCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTExposuresContentCell.h; sourceTree = "<group>"; };
+		DAE42ADF1E0E1510007C8404 /* TTExposuresContentCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTExposuresContentCell.m; sourceTree = "<group>"; };
 		EE4635C31CC72B8900DB248F /* TTNews.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TTNews.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EE4635C71CC72B8900DB248F /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		EE4635D21CC72B8900DB248F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -709,10 +721,18 @@
 				DA62C98F1DF7BCAB00AD3928 /* SinglePictureNewsTableViewCell.h */,
 				DA62C9901DF7BCAB00AD3928 /* SinglePictureNewsTableViewCell.m */,
 				DA62C9911DF7BCAB00AD3928 /* SinglePictureNewsTableViewCell.xib */,
-				DA2C956F1E05417600A43E9B /* TTLableAndTextFieldView.h */,
-				DA2C95701E05417600A43E9B /* TTLableAndTextFieldView.m */,
 				DA2C95751E06977000A43E9B /* TTCommentTableViewCell.h */,
 				DA2C95761E06977000A43E9B /* TTCommentTableViewCell.m */,
+				DA2C956F1E05417600A43E9B /* TTLableAndTextFieldView.h */,
+				DA2C95701E05417600A43E9B /* TTLableAndTextFieldView.m */,
+				DABDD2D01E09714E00F3AE49 /* TTLabelAndTextFieldCell.h */,
+				DABDD2D11E09714E00F3AE49 /* TTLabelAndTextFieldCell.m */,
+				DA16CA5B1E0ACDBD00F2F75A /* TTImagesCollectionViewCell.h */,
+				DA16CA5C1E0ACDBD00F2F75A /* TTImagesCollectionViewCell.m */,
+				DABDD2D31E097BA400F3AE49 /* TTExposuresContentView.h */,
+				DABDD2D41E097BA400F3AE49 /* TTExposuresContentView.m */,
+				DAE42ADE1E0E1510007C8404 /* TTExposuresContentCell.h */,
+				DAE42ADF1E0E1510007C8404 /* TTExposuresContentCell.m */,
 			);
 			path = News;
 			sourceTree = "<group>";
@@ -1422,6 +1442,7 @@
 				DA62CA371DF7BDB100AD3928 /* PictureViewController.m in Sources */,
 				DA62C9E41DF7BCAB00AD3928 /* TTPictureComment.m in Sources */,
 				DA62CA351DF7BDB100AD3928 /* PictureCommentViewController.m in Sources */,
+				DAE42AE01E0E1510007C8404 /* TTExposuresContentCell.m in Sources */,
 				DA93168B1DF3B214007F15B3 /* NSString+Extension.m in Sources */,
 				DA2C956E1E0530E700A43E9B /* UITextView+Placeholder.m in Sources */,
 				DA62C9E01DF7BCAB00AD3928 /* TTChannelModel.m in Sources */,
@@ -1453,6 +1474,7 @@
 				DA62CA061DF7BCAB00AD3928 /* VideoCommentCell.m in Sources */,
 				DA2C95711E05417600A43E9B /* TTLableAndTextFieldView.m in Sources */,
 				DA62CA211DF7BCAB00AD3928 /* VideoViewController.m in Sources */,
+				DABDD2D21E09714E00F3AE49 /* TTLabelAndTextFieldCell.m in Sources */,
 				DA93168C1DF3B214007F15B3 /* UIBarButtonItem+Extension.m in Sources */,
 				DA62CA1E1DF7BCAB00AD3928 /* FullViewController.m in Sources */,
 				DA2C95741E06885300A43E9B /* TTCommentViewController.m in Sources */,
@@ -1466,6 +1488,7 @@
 				DA62CA381DF7BDB100AD3928 /* ShowBigPictureViewController.m in Sources */,
 				DA62C9EC1DF7BCAB00AD3928 /* UserInfoCell.m in Sources */,
 				DAC65C761DF2D5080090369A /* UIImageView+MHFacebookImageViewer.m in Sources */,
+				DABDD2D51E097BA400F3AE49 /* TTExposuresContentView.m in Sources */,
 				DAC65CF81DF311430090369A /* TTBaseViewController.m in Sources */,
 				DA62C9E61DF7BCAB00AD3928 /* TTVideo.m in Sources */,
 				DA62CA2B1DF7BD9E00AD3928 /* PictureTableViewCell.m in Sources */,
@@ -1473,6 +1496,7 @@
 				DA62C9F61DF7BCAB00AD3928 /* SinglePictureNewsTableViewCell.m in Sources */,
 				DA2C95771E06977000A43E9B /* TTCommentTableViewCell.m in Sources */,
 				DA93168F1DF3B214007F15B3 /* UIView+Extension.m in Sources */,
+				DA16CA5D1E0ACDBD00F2F75A /* TTImagesCollectionViewCell.m in Sources */,
 				DA62C9E91DF7BCAB00AD3928 /* DisclosureCell.m in Sources */,
 				DA62CA081DF7BCAB00AD3928 /* VideoTableViewCell.m in Sources */,
 				DA62CA1A1DF7BCAB00AD3928 /* TTNewsContentViewController.m in Sources */,

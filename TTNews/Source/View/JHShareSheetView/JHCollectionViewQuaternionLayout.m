@@ -56,8 +56,7 @@
     }
 }
 
-- (CGFloat)contentHeight
-{
+- (CGFloat)contentHeight {
     CGFloat contentHeight = 0;
     NSInteger numberOfSections = self.collectionView.numberOfSections;
     CGSize collectionViewSize = self.collectionView.bounds.size;

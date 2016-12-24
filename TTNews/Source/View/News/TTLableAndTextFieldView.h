@@ -25,5 +25,8 @@
 @property (nonatomic, strong) UITextField *textField;
 @property (nonatomic, weak) id<TTLabelAndTextFieldViewDelegate> delegate;
 
+@property (nonatomic, strong) NSIndexPath *indexPath;////For tableView Cell
+
 + (CGFloat)height;
+
 @end

@@ -28,6 +28,8 @@
     NSMutableArray *_arraySelectImages;
 }
 
+@property (nonatomic, strong) UITableView *tableView;
+
 @end
 
 @implementation TTExposuresNewsViewController
@@ -47,6 +49,13 @@
     
     [self initComponents];
     // Do any additional setup after loading the view from its nib.
+}
+
+- (void)initTableView {
+    _tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStyleGrouped];
+    [self.view addSubview:_tableView];
+    
+    
 }
 
 - (void)initComponents {
