@@ -14,4 +14,6 @@
 
 @property (nonatomic, strong) TTExposuresContentView *exposureView;
 
++ (CGFloat)cellHeightWithImages:(NSInteger)count;
+
 @end

@@ -93,9 +93,6 @@
         make.height.mas_equalTo(22);
     }];
     
-
-
-    
 }
 
 -(void)addTabelView {

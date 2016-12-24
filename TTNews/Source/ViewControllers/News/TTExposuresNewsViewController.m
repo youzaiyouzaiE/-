@@ -12,20 +12,15 @@
 #import <MobileCoreServices/MobileCoreServices.h>
 #import "UIImageView+MHFacebookImageViewer.h"
 #import "MWPhotoBrowser.h"
+#import "TTExposuresContentCell.h"
+#import "TTLabelAndTextFieldCell.h"
 
-@interface TTExposuresNewsViewController () <TTLabelAndTextFieldViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate>{
+
+@interface TTExposuresNewsViewController () <ExposuresContentViewDelegate,MWPhotoBrowserDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,UITableViewDelegate,UITableViewDataSource>{
     UIBarButtonItem *_rightItem;
     
-    UIView *_backGroundView;
-    UIButton *_addImageBtn;
-    
-    TTLableAndTextFieldView *_linkView;
-    TTLableAndTextFieldView *_phoneNumView;
-    TTLableAndTextFieldView *_nameView;
-    TTLableAndTextFieldView *_weChatNumView;
-    
-    NSInteger _imageIndex;
     NSMutableArray *_arraySelectImages;
+    NSMutableArray *_arrayWMPhotos;
 }
 
 @property (nonatomic, strong) UITableView *tableView;
@@ -43,155 +38,104 @@
                                                  target:self
                                                  action:@selector(send)];
     self.navigationItem.rightBarButtonItem = _rightItem;
-    [self addTapViewResignKeyboard];
     _arraySelectImages = [NSMutableArray array];
-    _imageIndex = 0;
+    _arrayWMPhotos = [NSMutableArray array];
     
-    [self initComponents];
-    // Do any additional setup after loading the view from its nib.
+    [self initTableView];
 }
 
 - (void)initTableView {
     _tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStyleGrouped];
     [self.view addSubview:_tableView];
+    _tableView.delegate = self;
+    _tableView.dataSource = self;
+    [_tableView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.right.left.mas_equalTo(0);
+        make.bottom.mas_equalTo(self.view.mas_bottom);
+    }];
     
-    
+    [_tableView registerClass:[TTExposuresContentCell class] forCellReuseIdentifier:@"TTExposuresContentCell"];
+    [_tableView registerClass:[TTLabelAndTextFieldCell class] forCellReuseIdentifier:@"TTLabelAndTextFieldCell"];
 }
 
-- (void)initComponents {
-    _backGroundView = [[UIView alloc] init];
-    _backGroundView.backgroundColor = [UIColor whiteColor];
-    [self.view addSubview:_backGroundView];
-    [_backGroundView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.left.right.mas_equalTo(0);
-        make.height.mas_equalTo(10 + 30 + 1 + 5+ 80 + ((Screen_Width - 30) - 5*3)/4 + 8 + 1 + [TTLableAndTextFieldView height] );
-    }];
-    
-    UITextField *titleTextField = [[UITextField alloc] init];
-    [_backGroundView addSubview:titleTextField];
-    titleTextField.placeholder = @"标题";
-    titleTextField.font = [UIFont systemFontOfSize:18];
-    [titleTextField mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(10);
-        make.left.mas_equalTo(15);
-        make.right.mas_equalTo(-15);
-        make.height.mas_equalTo(30);
-    }];
-    
-    AddLineViewInView(_backGroundView, titleTextField,1);
-    
-    UITextView *contentTextView = [[UITextView alloc] init];
-    contentTextView.backgroundColor = [UIColor clearColor];
-    contentTextView.font = [UIFont systemFontOfSize:16];
-    contentTextView.placeholder = @"描述一下，你要爆料的内容";
-    [_backGroundView addSubview:contentTextView];
-    [contentTextView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(titleTextField.mas_bottom).offset(5);
-        make.left.mas_equalTo(13);
-        make.right.mas_equalTo(-15);
-        make.height.mas_equalTo(80);
-    }];
-    
-    _addImageBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [_addImageBtn setImage:[UIImage imageNamed:@"AlbumAddBtn"] forState:UIControlStateNormal];
-    [_addImageBtn setImage:[UIImage imageNamed:@"AlbumAddBtnHL"] forState:UIControlStateHighlighted];
-    [_addImageBtn addTarget:self action:@selector(addPhotoAction) forControlEvents:UIControlEventTouchUpInside];
-    [_backGroundView addSubview:_addImageBtn];
-    [_addImageBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        NSInteger image_W = ((Screen_Width - 30) - 5*3)/4;
-        make.top.mas_equalTo(contentTextView.mas_bottom).offset(3);
-        make.left.mas_equalTo(15);
-        make.size.mas_equalTo(CGSizeMake(image_W,image_W - 3));
-    }];
-    
-     AddLineViewInView(_backGroundView, _addImageBtn,8);
-    
-    _linkView = [[TTLableAndTextFieldView alloc] init];
-    _linkView.delegate = self;
-    _linkView.titleLabel.text = @"原文链接";
-    [_backGroundView addSubview:_linkView];
-    [_linkView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.right.mas_equalTo(0);
-        make.top.mas_equalTo(_addImageBtn.mas_bottom).offset(8 + 1);
-        make.height.mas_equalTo([TTLableAndTextFieldView height]);
-    }];
-    
-//    UIView *
-    UIView *bottomBGView = [[UIView alloc] init];
-    bottomBGView.backgroundColor = [UIColor whiteColor];
-    [self.view addSubview:bottomBGView];
-    [bottomBGView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(_backGroundView.mas_bottom).offset(10);
-        make.left.right.mas_equalTo(0);
-        make.height.mas_equalTo([TTLableAndTextFieldView height] *3);
-    }];
-    
-    _phoneNumView = [[TTLableAndTextFieldView alloc] init];
-    _phoneNumView.delegate = self;
-    _phoneNumView.titleLabel.text = @"联系方式";
-    [bottomBGView addSubview:_phoneNumView];
-    [_phoneNumView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(0);
-        make.left.right.mas_equalTo(0);
-        make.height.mas_equalTo([TTLableAndTextFieldView height]);
-    }];
-    AddLineViewInView(bottomBGView, _phoneNumView,1);
-    
-    _nameView = [[TTLableAndTextFieldView alloc] init];
-    _nameView.delegate = self;
-    _nameView.titleLabel.text = @"你的名字";
-    [bottomBGView addSubview:_nameView];
-    [_nameView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.right.mas_equalTo(0);
-        make.top.mas_equalTo(_phoneNumView.mas_bottom).offset(2);
-        make.height.mas_equalTo([TTLableAndTextFieldView height]);
-    }];
-    AddLineViewInView(bottomBGView, _nameView,1);
-    
-    _weChatNumView = [[TTLableAndTextFieldView alloc] init];
-    _weChatNumView.delegate = self;
-    _weChatNumView.titleLabel.text = @"你的微信";
-    [bottomBGView addSubview:_weChatNumView];
-    [_weChatNumView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.right.mas_equalTo(0);
-        make.top.mas_equalTo(_nameView.mas_bottom).offset(2);
-        make.height.mas_equalTo([TTLableAndTextFieldView height]);
-    }];
+#pragma mark -- UITableView
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return 2;
 }
 
-UIView* AddLineViewInView(UIView *superView ,UIView *underView, NSInteger underViewGap) {
-    UIView *lineView = [[UIView alloc] init];
-    lineView.backgroundColor = [UIColor colorWithHexString:@"E5E5E5"];
-    [superView addSubview:lineView];
-    [lineView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(underView.mas_bottom).offset(underViewGap);
-        make.left.mas_equalTo(15);
-        make.right.mas_equalTo(-5);
-        make.height.mas_equalTo(1);
-    }];
-    return lineView;
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    if (section == 0) {
+        return  2;
+    } else {
+        return 3;
+    }
 }
 
-- (void)addImageViewWithImage:(UIImage *)image inLocation:(NSInteger )index {
-    NSInteger image_W = ((Screen_Width - 30) - 5*3)/4;
-    UIImageView *imageView = [[UIImageView alloc] initWithImage:image];
-    [_backGroundView addSubview:imageView];
-    [imageView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(_addImageBtn.mas_top);
-        make.left.mas_equalTo(15 + (image_W +5) *index);
-        make.size.mas_equalTo(CGSizeMake(image_W,image_W - 3));
-    }];
-    [imageView setupImageViewer];
-    
-    [_addImageBtn mas_updateConstraints:^(MASConstraintMaker *make) {
-        if (index == 3) {
-             make.left.mas_equalTo(15 + (image_W + 5) * (index + 1) + 15);
-        } else
-            make.left.mas_equalTo(15 + (image_W + 5) * (index + 1));
-    }];
-    [self.view setNeedsLayout];
-    _imageIndex ++;
-    [_arraySelectImages addObject:image];
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    if (section == 1) {
+        return  20;
+    } else
+        return 0.1;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    return 0.1;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
+    if (indexPath.section == 0 && indexPath.row == 0) {
+        return [TTExposuresContentCell cellHeightWithImages:_arraySelectImages.count +1];
+    } else
+        return  44;
+}
+
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.row == 0 && indexPath.section == 0) {
+        TTExposuresContentCell *cell = [tableView dequeueReusableCellWithIdentifier:@"TTExposuresContentCell" forIndexPath:indexPath];
+        cell.exposureView.delegate = self;
+        cell.exposureView.arrayImages = _arraySelectImages;
+        return cell;
+    } else {
+        TTLabelAndTextFieldCell *cell = [tableView dequeueReusableCellWithIdentifier:@"TTLabelAndTextFieldCell" forIndexPath:indexPath];
+        cell.labelTextFieldView.titleLabel.text = @"你的微信号";
+        return cell;
+    }
+}
+
+#pragma mark - ExposuresContentViewDelegate 
+- (void)exposuresView:(TTExposuresContentView *)exposureView collectionViewDidSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.row == _arraySelectImages.count) {
+        [self addPhotoAction];
+    } else {
+        MWPhotoBrowser *browser = [[MWPhotoBrowser alloc] initWithDelegate:self];
+        browser.displayActionButton = NO; // Show action button to allow sharing, copying, etc (defaults to YES)
+        browser.displayNavArrows = NO; // Whether to display left and right nav arrows on toolbar (defaults to NO)
+        browser.displaySelectionButtons = NO; // Whether selection buttons are shown on each image (defaults to NO)
+        browser.zoomPhotosToFill = YES; // Images that almost fill the screen will be initially zoomed to fill (defaults to YES)
+        browser.alwaysShowControls = NO; //
+        browser.enableGrid = NO; // Whether to allow the viewing of all the photo thumbnails on a grid (defaults to YES)
+        browser.startOnGrid = NO; // Whether to start on the grid of thumbnails instead of the first photo (defaults to NO)
+        [browser setCurrentPhotoIndex:indexPath.row];
+        [self.navigationController pushViewController:browser animated:YES];
+    }
+}
+
+- (void)exposuresView:(TTExposuresContentView *)exposureView collectionItemDeleteBtuActionAtIndexPath:(NSIndexPath *)indexPath {
+    [_arraySelectImages removeObjectAtIndex:indexPath.row];
+    [_arrayWMPhotos removeObjectAtIndex:indexPath.row];
+    [_tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
+}
+
+#pragma mark - MWPhotoBrowserDelegate
+- (NSUInteger)numberOfPhotosInPhotoBrowser:(MWPhotoBrowser *)photoBrowser {
+    return _arraySelectImages.count;
+}
+- (id <MWPhoto>)photoBrowser:(MWPhotoBrowser *)photoBrowser photoAtIndex:(NSUInteger)index {
+    if (index < _arrayWMPhotos.count) {
+        return [_arrayWMPhotos objectAtIndex:index];
+    }
+    return nil;
 }
 
 #pragma mark - ActionPerform
@@ -231,9 +175,11 @@ UIView* AddLineViewInView(UIView *superView ,UIView *underView, NSInteger underV
 #pragma mark - UIImagePickerControllerDelegate
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info {
     UIImage *image = [info valueForKey:UIImagePickerControllerOriginalImage];
-    [self addImageViewWithImage:image inLocation:_imageIndex];
+    [_arraySelectImages addObject:image];
+    MWPhoto *photo = [MWPhoto photoWithImage:image];
+    [_arrayWMPhotos addObject:photo];
     [self.navigationController dismissViewControllerAnimated: YES completion:^{
-    
+        [_tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
     }];
 }
 
@@ -241,27 +187,6 @@ UIView* AddLineViewInView(UIView *superView ,UIView *underView, NSInteger underV
     [self.navigationController dismissViewControllerAnimated: YES completion: nil];
 }
 
-#pragma mark - TTLabelAndTextFieldViewDelegate
-- (void)labeAndTextFieldDidBeginEditing:(TTLableAndTextFieldView *)view {
-    CGRect frame = view.textField.frame;
-    CGRect realRect = [view.textField convertRect:frame toView:self.view];
-    int offset = realRect.origin.y + realRect.size.height - (self.view.frame.size.height - 230.0);
-    NSTimeInterval animationDuration = 0.30f;
-    [UIView beginAnimations:@"ResizeForKeyboard" context:nil];
-    [UIView setAnimationDuration:animationDuration];
-    if (offset >= 0) {
-        self.view.frame = CGRectMake(0.0f, -offset, self.view.frame.size.width, self.view.frame.size.height);
-    }
-    [UIView commitAnimations];
-}
-
-- (void)labeAndTextFieldDidEndEditing:(TTLableAndTextFieldView *)textField {
-    NSTimeInterval animationDuration = 0.30f;
-    [UIView beginAnimations:@"ResizeForKeyboard" context:nil];
-    [UIView setAnimationDuration:animationDuration];
-    self.view.frame =CGRectMake(0, 64, self.view.frame.size.width, self.view.frame.size.height);
-    [UIView commitAnimations];
-}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

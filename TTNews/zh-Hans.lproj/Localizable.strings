@@ -1,0 +1,13 @@
+/* 
+  Localizable.strings
+  TTNews
+
+  Created by jiahui on 2016/12/24.
+  Copyright © 2016年 TTNews. All rights reserved.
+*/
+"of" = "/";
+"Done" = "完成";
+"Home" = "首页";
+"Cancel" = "取消";
+"Moments" = "时刻";
+"Cannot Download photo" = "无法下载图片";

@@ -8,8 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
+typedef void(^ButtonActionBlock)(void);
+
 @interface TTImagesCollectionViewCell : UICollectionViewCell
 
 @property (nonatomic, strong) UIImageView *imageView;
+@property (nonatomic, strong) UIButton *deleteButton;
+@property (nonatomic, copy) ButtonActionBlock blockButtonAction;
+
 
 @end

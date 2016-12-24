@@ -80,6 +80,7 @@
 		DA23E9581DFC4D2D0087B232 /* sns_icon_9@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DA23E9141DFC4D2D0087B232 /* sns_icon_9@2x.png */; };
 		DA23E9631DFD234A0087B232 /* LXActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = DA23E9601DFD23490087B232 /* LXActivity.m */; };
 		DA23E9641DFD234A0087B232 /* UISheetView.m in Sources */ = {isa = PBXBuildFile; fileRef = DA23E9621DFD234A0087B232 /* UISheetView.m */; };
+		DA27D1301E0EACE100B72657 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = DA27D1321E0EACE100B72657 /* Localizable.strings */; };
 		DA2C956A1E0529E500A43E9B /* TTExposuresNewsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DA2C95681E0529E500A43E9B /* TTExposuresNewsViewController.m */; };
 		DA2C956E1E0530E700A43E9B /* UITextView+Placeholder.m in Sources */ = {isa = PBXBuildFile; fileRef = DA2C956D1E0530E700A43E9B /* UITextView+Placeholder.m */; };
 		DA2C95711E05417600A43E9B /* TTLableAndTextFieldView.m in Sources */ = {isa = PBXBuildFile; fileRef = DA2C95701E05417600A43E9B /* TTLableAndTextFieldView.m */; };
@@ -286,6 +287,8 @@
 		DA23E9601DFD23490087B232 /* LXActivity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LXActivity.m; sourceTree = "<group>"; };
 		DA23E9611DFD23490087B232 /* UISheetView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UISheetView.h; sourceTree = "<group>"; };
 		DA23E9621DFD234A0087B232 /* UISheetView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UISheetView.m; sourceTree = "<group>"; };
+		DA27D1311E0EACE100B72657 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
+		DA27D1331E0EACF100B72657 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		DA2C95671E0529E500A43E9B /* TTExposuresNewsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTExposuresNewsViewController.h; sourceTree = "<group>"; };
 		DA2C95681E0529E500A43E9B /* TTExposuresNewsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTExposuresNewsViewController.m; sourceTree = "<group>"; };
 		DA2C956C1E0530E700A43E9B /* UITextView+Placeholder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITextView+Placeholder.h"; sourceTree = "<group>"; };
@@ -1050,6 +1053,7 @@
 				EE4BEB5C1D5480E400B4A035 /* NewsURLs.plist */,
 				DA2F26D01DDDE495002BD87B /* TTDefines.h */,
 				DAAEBD421DF2B054002D82CF /* TTNews.pch */,
+				DA27D1321E0EACE100B72657 /* Localizable.strings */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -1181,6 +1185,7 @@
 			knownRegions = (
 				en,
 				Base,
+				"zh-Hans",
 			);
 			mainGroup = EE4635BA1CC72B8900DB248F;
 			productRefGroup = EE4635C41CC72B8900DB248F /* Products */;
@@ -1221,6 +1226,7 @@
 				DA62CA201DF7BCAB00AD3928 /* VideoPlayView.xib in Resources */,
 				DA23E9561DFC4D2D0087B232 /* sns_icon_8@2x.png in Resources */,
 				DA23E9491DFC4D2D0087B232 /* sns_icon_38@2x.png in Resources */,
+				DA27D1301E0EACE100B72657 /* Localizable.strings in Resources */,
 				DA23E9251DFC4D2D0087B232 /* sns_icon_18@2x.png in Resources */,
 				DA23E9311DFC4D2D0087B232 /* sns_icon_23@2x.png in Resources */,
 				DA23E9521DFC4D2D0087B232 /* sns_icon_6@2x.png in Resources */,
@@ -1544,11 +1550,24 @@
 		};
 /* End PBXTargetDependency section */
 
+/* Begin PBXVariantGroup section */
+		DA27D1321E0EACE100B72657 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				DA27D1311E0EACE100B72657 /* Base */,
+				DA27D1331E0EACF100B72657 /* zh-Hans */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
 /* Begin XCBuildConfiguration section */
 		EE4635EE1CC72B8A00DB248F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
@@ -1595,6 +1614,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";

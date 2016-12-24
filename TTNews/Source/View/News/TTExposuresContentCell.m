@@ -8,12 +8,16 @@
 
 #import "TTExposuresContentCell.h"
 
-@implementation TTExposuresContentCell
+@interface TTExposuresContentCell () <ExposuresContentViewDelegate>
 
+@end
+
+@implementation TTExposuresContentCell
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
+        self.selectionStyle = UITableViewCellSelectionStyleNone;
         [self initComponents];
     }
     return self;
@@ -28,6 +32,14 @@
     }];
 }
 
++ (CGFloat)cellHeightWithImages:(NSInteger)count {
+    return [TTExposuresContentView contentHeightWithImages:count] + 2;
+}
 
+
+#pragma mark - ExposuresContentViewDelegate
+- (void)exposuresView:(TTExposuresContentView *)exposureView collectionViewDidSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    
+}
 
 @end
