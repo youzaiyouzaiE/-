@@ -20,6 +20,7 @@
 #import "TTRequestManager.h"
 #import <AFNetworking/AFNetworking.h>
 #import "TTAppData.h"
+#import "M13ProgressViewBar.h"
 
 #define WECHAT_SCENE            0
 #define WECHATTIME_SCENT        1
@@ -34,7 +35,7 @@
     NSInteger _selectedIndex;
     
     UIView *_bottomView;
-    
+    M13ProgressView *_progressView;
     /////写评论
     UIView *_coverView;
     UIView *_writerView;
@@ -51,6 +52,13 @@
 
 @implementation TTDetailViewController
 
+- (void)dealloc {
+    if ([self isViewLoaded]) {
+        [self.webView removeObserver:self forKeyPath:NSStringFromSelector(@selector(estimatedProgress))];
+    }
+    [self.webView setNavigationDelegate:nil];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     UIBarButtonItem * item = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"share"]
@@ -65,8 +73,8 @@
     
     self.view.dk_backgroundColorPicker = DKColorPickerWithRGB(0xf0f0f0, 0x343434, 0xfafafa);
     self.view.backgroundColor = [UIColor yellowColor];
-    
     [self setupView];
+    [self setupProgressView];
     [self setupBottomView];
     [self createWriteCommentsView];
 }
@@ -77,6 +85,14 @@
 
 -(void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
+}
+
+- (void)setupProgressView {
+    _progressView = [[M13ProgressViewBar alloc] initWithFrame:CGRectMake(0, 0, self.view.width + 50, 5)];
+    _progressView.primaryColor = NORMAL_COLOR;
+    _progressView.secondaryColor = [UIColor lightGrayColor];
+    [self.view addSubview:_progressView];
+    [self.view bringSubviewToFront:_progressView];
 }
 
 - (void)setupView {
@@ -94,21 +110,17 @@
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
     if ([keyPath isEqualToString:NSStringFromSelector(@selector(estimatedProgress))] && object == self.webView) {
         NSLog(@"%f", self.webView.estimatedProgress);
-        // estimatedProgress is a value from 0.0 to 1.0
-        // Update your UI here accordingly
-        //        [self.progressView setAlpha:1.0f];
-        //        [self.progressView setProgress:self.wkWebView.estimatedProgress animated:YES];
-        
-        //        if(self.webView.estimatedProgress >= 1.0f) {
-        //            [UIView animateWithDuration:0.3 delay:0.3 options:UIViewAnimationOptionCurveEaseOut animations:^{
-        //                [self.progressView setAlpha:0.0f];
-        //            } completion:^(BOOL finished) {
-        //                [self.progressView setProgress:0.0f animated:NO];
-        //            }];
-        //        }
+        [_progressView setAlpha:1.0f];
+        [_progressView setProgress:self.webView.estimatedProgress animated:YES];
+        if(self.webView.estimatedProgress >= 1.0f) {
+            [UIView animateWithDuration:0.3 delay:0.3 options:UIViewAnimationOptionCurveEaseOut animations:^{
+                [_progressView setAlpha:0.0f];
+            } completion:^(BOOL finished) {
+                [_progressView setProgress:0.0f animated:NO];
+            }];
+        }
     }
     else {
-        // Make sure to call the superclass's implementation in the else block in case it is also implementing KVO
         [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
     }
 }
@@ -258,13 +270,6 @@
     }];
 }
 
-- (void)dealloc {
-    if ([self isViewLoaded]) {
-        [self.webView removeObserver:self forKeyPath:NSStringFromSelector(@selector(estimatedProgress))];
-    }
-    [self.webView setNavigationDelegate:nil];
-}
-
 #pragma mark - UIGestureRecognizerDelegate
 - (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer {
     CGPoint point = [gestureRecognizer locationInView:_writerView];
@@ -272,19 +277,6 @@
         return NO;
     } else
         return YES;
-}
-
-#pragma mark - WKNavigationDelegate 
-- (void)webView:(WKWebView *)webView didStartProvisionalNavigation:(null_unspecified WKNavigation *)navigation {
-    [SVProgressHUD show];
-}
-
-- (void)webView:(WKWebView *)webView didFinishNavigation:(null_unspecified WKNavigation *)navigation {
-    [SVProgressHUD dismiss];
-}
-
-- (void)webView:(WKWebView *)webView didFailProvisionalNavigation:(null_unspecified WKNavigation *)navigation withError:(NSError *)error {
-     [SVProgressHUD dismiss];
 }
 
 #pragma mark - longin View
@@ -361,6 +353,7 @@
                                 }
                                  success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
                                      [TTProgressHUD dismiss];
+                                    [SVProgressHUD showSuccessWithStatus:nil];
                                      [self dismissWriterView];
                                  }
                                  failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {

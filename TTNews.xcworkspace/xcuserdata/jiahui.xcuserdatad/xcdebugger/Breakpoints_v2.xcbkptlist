@@ -125,11 +125,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TTNews/Source/ViewControllers/News/TTDetailViewController.m"
-            timestampString = "504367552.780323"
+            timestampString = "504371295.135477"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "375"
-            endingLineNumber = "375"
+            startingLineNumber = "360"
+            endingLineNumber = "360"
             landmarkName = "-sendComment"
             landmarkType = "7">
          </BreakpointContent>
@@ -141,11 +141,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TTNews/Source/ViewControllers/News/TTDetailViewController.m"
-            timestampString = "504367552.780323"
+            timestampString = "504371295.135477"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "378"
-            endingLineNumber = "378"
+            startingLineNumber = "342"
+            endingLineNumber = "342"
             landmarkName = "-sendComment"
             landmarkType = "7">
          </BreakpointContent>
@@ -157,27 +157,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TTNews/Source/ViewControllers/News/TTDetailViewController.m"
-            timestampString = "504367593.531831"
+            timestampString = "504371295.135477"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "350"
-            endingLineNumber = "350"
-            landmarkName = "-sendComment"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "TTNews/Source/ViewControllers/News/TTDetailViewController.m"
-            timestampString = "504367597.199566"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "369"
-            endingLineNumber = "369"
+            startingLineNumber = "349"
+            endingLineNumber = "349"
             landmarkName = "-sendComment"
             landmarkType = "7">
          </BreakpointContent>
