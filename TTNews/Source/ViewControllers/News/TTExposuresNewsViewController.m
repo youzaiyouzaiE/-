@@ -16,12 +16,16 @@
 #import "TTLabelAndTextFieldCell.h"
 
 
-@interface TTExposuresNewsViewController () <ExposuresContentViewDelegate,TTLabelAndTextFieldViewDelegate,MWPhotoBrowserDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,UITableViewDelegate,UITableViewDataSource>{
+#define k_TEXTFIELD     @"textFieldKey"
+#define k_TEXTVIEW      @"textViewKey"
+
+@interface TTExposuresNewsViewController () <UITextFieldDelegate, UITextViewDelegate,ExposuresContentViewDelegate,TTLabelAndTextFieldViewDelegate,MWPhotoBrowserDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,UITableViewDelegate,UITableViewDataSource>{
     UIBarButtonItem *_rightItem;
     
     NSArray *_sectionTitleArray;
     NSMutableArray *_arraySelectImages;
     NSMutableArray *_arrayWMPhotos;
+    NSMutableDictionary *_dicInputContent;
     
     CGRect _tableViewFrame;
     NSIndexPath *_editingIndexPath;
@@ -33,6 +37,10 @@
 @end
 
 @implementation TTExposuresNewsViewController
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -46,6 +54,8 @@
     _arraySelectImages = [NSMutableArray array];
     _arrayWMPhotos = [NSMutableArray array];
     _sectionTitleArray = @[@"联系方式",@"你的名字",@"你的微信"];
+    _dicInputContent = [NSMutableDictionary dictionary];
+    
     [self initTableView];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShowNotification:) name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHideNotification:) name:UIKeyboardWillHideNotification object:nil];
@@ -96,11 +106,14 @@
         return  44;
 }
 
-
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.row == 0 && indexPath.section == 0) {
         TTExposuresContentCell *cell = [tableView dequeueReusableCellWithIdentifier:@"TTExposuresContentCell" forIndexPath:indexPath];
         cell.exposureView.delegate = self;
+        cell.exposureView.titleTextField.delegate = self;
+        cell.exposureView.contentTextView.delegate = self;
+        cell.exposureView.titleTextField.text = _dicInputContent[k_TEXTFIELD];
+        cell.exposureView.contentTextView.text = _dicInputContent[k_TEXTVIEW];
         cell.exposureView.arrayImages = _arraySelectImages;
         return cell;
     } else {
@@ -111,6 +124,7 @@
             cell.labelTextFieldView.titleLabel.text = _sectionTitleArray[indexPath.row];
         cell.labelTextFieldView.delegate = self;
         cell.labelTextFieldView.indexPath = indexPath;
+        cell.labelTextFieldView.textField.text = _dicInputContent[indexPath];
         return cell;
     }
 }
@@ -152,6 +166,7 @@
 
 #pragma mark - ExposuresContentViewDelegate
 - (void)exposuresView:(TTExposuresContentView *)exposureView collectionViewDidSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    [self.view endEditing:YES];
     if (indexPath.row == _arraySelectImages.count) {
         [self addPhotoAction];
     } else {
@@ -169,13 +184,78 @@
 }
 
 - (void)exposuresView:(TTExposuresContentView *)exposureView collectionItemDeleteBtuActionAtIndexPath:(NSIndexPath *)indexPath {
+    [self.view endEditing:YES];
     [_arraySelectImages removeObjectAtIndex:indexPath.row];
     [_arrayWMPhotos removeObjectAtIndex:indexPath.row];
     [_tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
 }
 
-#pragma mark - TTLabelAndTextFieldViewDelegate 
+#pragma mark - UITextFieldDelegate
+- (void)textFieldDidEndEditing:(UITextField *)textField {
+     [_dicInputContent setObject:textField.text forKey:k_TEXTFIELD];
+}
 
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+    [textField resignFirstResponder];
+    return YES;
+}
+
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+    if (textField.text.length >= 50 && ![string isEqualToString:@""]) {
+        [self showAlertControlWithMessage:@"主题最多输入50个字符"];
+        return NO;
+    }
+    return YES;
+}
+
+#pragma mark - UITextViewDelegate
+- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
+    if (textView.text.length >= 1000 && ![text isEqualToString:@""]) {
+        [self showAlertControlWithMessage:@"内容最多输入1000个字符"];
+        return NO;
+    }
+    return YES;
+}
+
+- (void)textViewDidEndEditing:(UITextView *)textView {
+    [_dicInputContent setObject:textView.text forKey:k_TEXTVIEW];
+}
+
+#pragma mark - TTLabelAndTextFieldViewDelegate 
+- (void)labeAndTextFieldDidEndEditing:(TTLableAndTextFieldView *)labelTextField {
+    [_dicInputContent setObject:labelTextField.textField.text forKey:labelTextField.indexPath];
+}
+
+- (BOOL)labeAndTextField:(TTLableAndTextFieldView *)labelTextField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+    NSIndexPath *index = labelTextField.indexPath;
+    if (index.section == 0) {
+        if (labelTextField.textField.text.length >= 225 && ![string isEqualToString:@""]) {
+            return NO;
+        }
+    } else if (index.section == 1 && index.row == 0) {
+        if (labelTextField.textField.text.length >= 50 && ![string isEqualToString:@""]) {
+            [self showAlertControlWithMessage:@"联系方式最多输入50个字符"];
+            return NO;
+        }
+    } else if (index.section == 1 && index.row == 1) {
+        if (labelTextField.textField.text.length >= 30 && ![string isEqualToString:@""]) {
+            [self showAlertControlWithMessage:@"名字最多输入30个字符"];
+            return NO;
+        }
+    } else if (index.section == 1 && index.row == 2) {
+        if (labelTextField.textField.text.length >= 50 && ![string isEqualToString:@""]) {
+            [self showAlertControlWithMessage:@"微信最多输入50个字符"];
+            return NO;
+        }
+    }
+    return YES;
+}
+
+- (void)showAlertControlWithMessage:(NSString *)meg {
+    UIAlertController *alertControl = [UIAlertController alertControllerWithTitle:@"" message:meg preferredStyle:UIAlertControllerStyleAlert];
+    [alertControl addAction:[UIAlertAction actionWithTitle:@"知道了" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {}]];
+    [self.navigationController presentViewController:alertControl animated:YES completion:nil];
+}
 
 #pragma mark - ActionPerform
 - (void)send{

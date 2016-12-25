@@ -12,7 +12,7 @@
 #import "SDiOSVersion.h"
 #import "TTImagesCollectionViewCell.h"
 
-@interface TTExposuresContentView () <UITextFieldDelegate, UITextViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate,JHCollectionViewDelegateQuaternionLayout> {
+@interface TTExposuresContentView () < UICollectionViewDataSource, UICollectionViewDelegate,JHCollectionViewDelegateQuaternionLayout> {
     
 }
 
@@ -34,8 +34,7 @@
 
 - (void)initComponents {
     _titleTextField = [[UITextField alloc] init];
-    _titleTextField.keyboardType = UIReturnKeyDone;
-    _titleTextField.delegate = self;
+    _titleTextField.returnKeyType = UIReturnKeyDone;
     [self addSubview:_titleTextField];
     _titleTextField.placeholder = @"标题";
     _titleTextField.font = [UIFont systemFontOfSize:18];
@@ -48,7 +47,6 @@
     AddLineViewInView(self, _titleTextField,1);
     
     _contentTextView = [[UITextView alloc] init];
-    _contentTextView.delegate = self;
     _contentTextView.backgroundColor = [UIColor whiteColor];
 //    _contentTextView.backgroundColor = [UIColor redColor];
     _contentTextView.font = [UIFont systemFontOfSize:16];
@@ -167,41 +165,5 @@ UIView* AddLineViewInView(UIView *superView ,UIView *underView, NSInteger underV
 - (CGFloat)minimumLineSpacingForCollectionView:(UICollectionView *)collectionView {
     return 5.0f;
 }
-
-#pragma mark - UITextFieldDelegate
-- (BOOL)textFieldShouldReturn:(UITextField *)textField {
-    [textField resignFirstResponder];
-    return YES;
-}
-
-- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
-    if (textField.text.length >= 50 && ![string isEqualToString:@""]) {
-        UIAlertController *alertControl = [UIAlertController alertControllerWithTitle:@"" message:@"主题最多输入50个字符" preferredStyle:UIAlertControllerStyleAlert];
-        [alertControl addAction:[UIAlertAction actionWithTitle:@"知道了" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {}]];
-        if ([self.delegate isKindOfClass:[UIViewController class]]) {
-            UIViewController *delegateVC = (UIViewController *)self.delegate;
-            [delegateVC.navigationController presentViewController:alertControl animated:YES completion:^{ }];
-            return NO;
-        }
-        return NO;
-    }
-    return YES;
-}
-
-#pragma mark - UITextViewDelegate 
-- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
-    if (textView.text.length >= 1000 && ![text isEqualToString:@""]) {
-        UIAlertController *alertControl = [UIAlertController alertControllerWithTitle:@"" message:@"内容最多输入1000个字符" preferredStyle:UIAlertControllerStyleAlert];
-        [alertControl addAction:[UIAlertAction actionWithTitle:@"知道了" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {}]];
-        if ([self.delegate isKindOfClass:[UIViewController class]]) {
-            UIViewController *delegateVC = (UIViewController *)self.delegate;
-            [delegateVC.navigationController presentViewController:alertControl animated:YES completion:^{ }];
-            return NO;
-        }
-        return NO;
-    }
-    return YES;
-}
-
 
 @end

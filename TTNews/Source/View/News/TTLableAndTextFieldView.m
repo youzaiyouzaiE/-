@@ -58,6 +58,7 @@
     return 40;
 }
 
+#pragma mark – UITextFieldDelegate
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField {
     if([_delegate respondsToSelector:@selector(labeAndTextFieldShouldBeginEditing:)]) {
         return [_delegate labeAndTextFieldShouldBeginEditing:self];
@@ -82,6 +83,13 @@
     if([_delegate respondsToSelector:@selector(labeAndTextFieldDidEndEditing:)]) {
         [_delegate labeAndTextFieldDidEndEditing:self];
     }
+}
+
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+    if([_delegate respondsToSelector:@selector(labeAndTextField:shouldChangeCharactersInRange:replacementString:)]) {
+       return [_delegate labeAndTextField:self shouldChangeCharactersInRange:range replacementString:string];
+    }
+    return YES;
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {

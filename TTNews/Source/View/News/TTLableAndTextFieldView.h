@@ -13,10 +13,11 @@
 @protocol TTLabelAndTextFieldViewDelegate <NSObject>
 
 @optional
-- (BOOL)labeAndTextFieldShouldBeginEditing:(TTLableAndTextFieldView *)textField;
-- (void)labeAndTextFieldDidBeginEditing:(TTLableAndTextFieldView *)textField;
-- (BOOL)labeAndTextFieldShouldEndEditing:(TTLableAndTextFieldView *)textField;
-- (void)labeAndTextFieldDidEndEditing:(TTLableAndTextFieldView *)textField;
+- (BOOL)labeAndTextFieldShouldBeginEditing:(TTLableAndTextFieldView *)labelTextField;
+- (void)labeAndTextFieldDidBeginEditing:(TTLableAndTextFieldView *)labelTextField;
+- (BOOL)labeAndTextFieldShouldEndEditing:(TTLableAndTextFieldView *)labelTextField;
+- (void)labeAndTextFieldDidEndEditing:(TTLableAndTextFieldView *)labelTextField;
+- (BOOL)labeAndTextField:(TTLableAndTextFieldView *)labelTextField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string;
 @end
 
 @interface TTLableAndTextFieldView : UIView
