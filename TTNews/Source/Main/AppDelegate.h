@@ -19,7 +19,7 @@
 @property (nonatomic, strong) TTTabBarController *tableBarContrller;
 
 @property (nonatomic, assign) BOOL isLogin;
-@property (nonatomic, copy) NSString *guid;
+@property (nonatomic, copy) NSString *guid;///
 
 - (void)initializeNetRequest;
 

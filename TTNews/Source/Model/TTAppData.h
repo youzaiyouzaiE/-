@@ -15,14 +15,13 @@ extern NSString * const k_UserInfoDic;
 
 @interface TTAppData : NSObject
 
-@property (nonatomic, copy) NSString *guid;
 @property (nonatomic, strong) TTUserInfoModel *currentUser;
 
-@property (nonatomic, assign) BOOL needUpdateUserIcon;//
+@property (nonatomic, assign) BOOL needUpdateUserIcon;//须要更我的界面，当present LoginView 登录后
 
 
 
 + (instancetype)shareInstance;
-
+- (NSString *)currentUserIconURLString;
 
 @end

@@ -23,4 +23,15 @@ NSString * const k_UserLoginType = @"UseLonginType";
     return shareInstance;
 }
 
+- (NSString *)currentUserIconURLString {
+    NSDictionary *avatarDic = _currentUser.avatar;
+    NSString *prefx = avatarDic[@"prefix"];
+    NSString *dir = avatarDic[@"dir"];
+    NSString *name = avatarDic[@"name"];
+    NSString *namePostfix = avatarDic[@"namePostfix"];
+    NSString *ext = avatarDic[@"ext"];
+    NSString *URLStr = [NSString stringWithFormat:@"%@%@%@%@small.%@",prefx,dir,name,namePostfix,ext];
+    return URLStr;
+}
+
 @end

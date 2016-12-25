@@ -23,7 +23,7 @@
 #define TT_FRIST_LIFE_CITY                  @"http://139.196.16.143/city.php"       ////日期，城市天气，等信息
 #define TT_FRIST_NEWS_List                  @"http://59.110.23.172/api/sort_links/with_photos"///头条列表
 #define TT_OTHER_News_LIST                  @"http://59.110.23.172/api/articles/channel/1"///其它频道列表
-#define TT_COMMENT_LIST                     @"http://59.110.23.172/api/comments"    ////评论
+#define TT_COMMENT_URL                     @"http://59.110.23.172/api/comments"    ////评论
 
 #define TT_EXPOSURES_URL                    @"http://59.110.23.172/api/exposures"   ////爆料（post）
 

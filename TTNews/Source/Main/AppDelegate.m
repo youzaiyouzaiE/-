@@ -49,7 +49,7 @@
         NSNumber *signalNum = responseObject[@"signal"];
         if (signalNum.integerValue == 1) {
             _guid = responseObject[@"data"][@"GUID"];
-            [TTAppData shareInstance].guid = _guid;
+           
         }
     } Failure:^(NSError *error) {
         

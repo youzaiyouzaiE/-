@@ -378,6 +378,18 @@
     
 }
 
+- (NSDictionary *)postRequestParameter {
+    NSMutableDictionary *parameterDic = [NSMutableDictionary dictionary];
+    if (!_dicInputContent[k_TEXTFIELD]) {
+        
+    }
+    return parameterDic;
+}
+
+
+
+
+
 /*
 #pragma mark - Navigation
 

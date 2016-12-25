@@ -66,7 +66,7 @@
 //                                            [TTProgressHUD showMsg:@"服务器繁忙！请求出错"];
 //                                        }];
     
-    [[AFHTTPSessionManager manager] GET:TT_COMMENT_LIST
+    [[AFHTTPSessionManager manager] GET:TT_COMMENT_URL
                              parameters:dic
                                progress:^(NSProgress * _Nonnull downloadProgress) {}
                                 success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {

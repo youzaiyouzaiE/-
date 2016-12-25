@@ -17,6 +17,9 @@
 #import "SDiOSVersion.h"
 #import "TTLoginViewController.h"
 #import "TTCommentViewController.h"
+#import "TTRequestManager.h"
+#import <AFNetworking/AFNetworking.h>
+#import "TTAppData.h"
 
 #define WECHAT_SCENE            0
 #define WECHATTIME_SCENT        1
@@ -292,9 +295,7 @@
         
     };
     UINavigationController *navitagtionVC = [[UINavigationController alloc] initWithRootViewController:loginVC];
-    [self presentViewController:navitagtionVC animated:YES completion:^{
-        
-    }];
+    [self presentViewController:navitagtionVC animated:YES completion:nil];
 }
 
 #pragma mark - Action perform
@@ -332,8 +333,43 @@
 }
 
 - (void)sendAction:(UIButton *)button {
+    if (SHARE_APP.isLogin) {
+        [self sendComment];
+    } else {
+        [self presentLoginView];
+    }
+        
     
 }
+
+- (void)sendComment {
+    if (_textView.text.length < 1) {
+        [TTProgressHUD showMsg:@"没有评论内容"];
+        return;
+    }
+    [TTProgressHUD show];
+    NSDictionary *parameterDic = @{@"article_id" : _article_id ,
+                                   @"content":_textView.text ,
+                                   @"user_id":[TTAppData shareInstance].currentUser.memberId ,
+                                   @"user_nick" : [TTAppData shareInstance].currentUser.nickname ,
+                                   @"user_avatar":[[TTAppData shareInstance] currentUserIconURLString]
+                                   };
+    [[AFHTTPSessionManager manager] POST:TT_COMMENT_URL
+                              parameters:parameterDic
+                                progress:^(NSProgress * _Nonnull uploadProgress) {
+                                    
+                                }
+                                 success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+                                     [TTProgressHUD dismiss];
+                                     [self dismissWriterView];
+                                 }
+                                 failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+                                     [TTProgressHUD dismiss];
+                                     [self dismissWriterView];
+                                 }];
+//
+}
+
 
 #pragma mark - JHShareSheetViewDelegate
 - (void)sheetViewdidSelectItemAtIndex:(NSInteger)index {
