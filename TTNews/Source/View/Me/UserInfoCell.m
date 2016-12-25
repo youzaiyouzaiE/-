@@ -11,9 +11,7 @@
 #import <DKNightVersion.h>
 
 @interface UserInfoCell()
-@property (nonatomic, weak) UIImageView *avatarImageView;
-@property (nonatomic, weak) UILabel *nameLabel;
-@property (nonatomic, weak) UILabel *contentLabel;
+
 @end
 @implementation UserInfoCell
 
@@ -58,12 +56,5 @@
 
     }
     return self;
-}
-
-- (void)setAvatarImage:(UIImage *)image Name:(NSString *)name Signature:(NSString *)content {
-    self.avatarImageView.image = image;
-    self.nameLabel.text = name;
-    self.contentLabel.text = content;
-    
 }
 @end

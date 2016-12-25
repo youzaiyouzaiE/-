@@ -12,6 +12,7 @@
 #import "TTConst.h"
 #import "TTNetworkSessionManager.h"
 #import "WXApi.h"
+#import "TTAppData.h"
 
 
 @interface AppDelegate ()<WXApiDelegate>
@@ -28,58 +29,42 @@
                                                              diskPath:nil];
     [NSURLCache setSharedURLCache:URLCache];
     
-    [self setupUserDefaults];
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     self.tableBarContrller = [TTTabBarController shareInstance];
     self.window.rootViewController = self.tableBarContrller;
     
     [self.window makeKeyAndVisible];
     [self initializeNetRequest];
-    
+    [self setupUserDefaults];
     [WXApi registerApp:@"wxc565f6c6475eef2b"];
     return YES;
 }
 
 #pragma mark - netWork request
 - (void)initializeNetRequest {
+    [TTAppData shareInstance];
     [[TTNetworkSessionManager shareManager] Get:INITIALIZE_URL
                               Parameters:nil
                                  Success:^(NSURLSessionDataTask *task, NSDictionary *responseObject) {
         NSNumber *signalNum = responseObject[@"signal"];
         if (signalNum.integerValue == 1) {
             _guid = responseObject[@"data"][@"GUID"];
+            [TTAppData shareInstance].guid = _guid;
         }
-        
     } Failure:^(NSError *error) {
         
     }];
 }
 
--(void)setupUserDefaults {
-    
-    BOOL isShakeCanChangeSkin = [[NSUserDefaults standardUserDefaults] boolForKey:IsShakeCanChangeSkinKey];
-    if (!isShakeCanChangeSkin) {
-        [[NSUserDefaults standardUserDefaults] setObject:@(NO) forKey:IsShakeCanChangeSkinKey];
-        [[NSUserDefaults standardUserDefaults] synchronize];
-    }
-    
-    BOOL isDownLoadNoImageIn3G = [[NSUserDefaults standardUserDefaults] boolForKey:IsDownLoadNoImageIn3GKey];
-    if (!isDownLoadNoImageIn3G) {
-        [[NSUserDefaults standardUserDefaults] setObject:@(NO) forKey:IsDownLoadNoImageIn3GKey];
-        [[NSUserDefaults standardUserDefaults] synchronize];
-    }
-    
-    NSString *userName = [[NSUserDefaults standardUserDefaults] stringForKey:UserNameKey];
-    if (userName == nil || userName.length < 1) {
-        [[NSUserDefaults standardUserDefaults] setObject:@"注册/登录" forKey:UserNameKey];
-        [[NSUserDefaults standardUserDefaults] synchronize];
-    } else {
-        _isLogin = YES;
-    }
-    if ( !_isLogin) {
-        [[NSUserDefaults standardUserDefaults] setObject:@"登录推荐更精准" forKey:UserSignatureKey];
-        [[NSUserDefaults standardUserDefaults] synchronize];
-    }
+- (void)setupUserDefaults {
+    NSNumber *longinType = [[NSUserDefaults standardUserDefaults] objectForKey:k_UserLoginType];
+    if (longinType.boolValue) {
+        NSDictionary *userInfoDic =  [[NSUserDefaults standardUserDefaults] dictionaryForKey:k_UserInfoDic];
+        TTUserInfoModel *userInfo = [[TTUserInfoModel alloc] initWithDictionary:userInfoDic];
+        [TTAppData shareInstance].currentUser = userInfo;
+        self.isLogin = YES;
+    } else
+        self.isLogin = NO;
 }
 
 - (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url  {

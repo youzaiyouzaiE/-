@@ -148,6 +148,8 @@
 		DA62CA391DF7BDB100AD3928 /* ShowBigPictureViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA62CA341DF7BDB100AD3928 /* ShowBigPictureViewController.xib */; };
 		DA62CA681DF8F37600AD3928 /* TTNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = DA62CA671DF8F37600AD3928 /* TTNavigationController.m */; };
 		DA7F3CBE1E07B1300070B4EC /* TTCommentsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DA7F3CBD1E07B1300070B4EC /* TTCommentsModel.m */; };
+		DA8CB1E91E0F92550084DF5D /* TTUserInfoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DA8CB1E81E0F92550084DF5D /* TTUserInfoModel.m */; };
+		DA8CB1EC1E0F960A0084DF5D /* TTAppData.m in Sources */ = {isa = PBXBuildFile; fileRef = DA8CB1EB1E0F960A0084DF5D /* TTAppData.m */; };
 		DA9316891DF3B214007F15B3 /* NSDate+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = DA93165A1DF3B214007F15B3 /* NSDate+Extension.m */; };
 		DA93168A1DF3B214007F15B3 /* NSObject+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = DA93165C1DF3B214007F15B3 /* NSObject+Extension.m */; };
 		DA93168B1DF3B214007F15B3 /* NSString+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = DA93165E1DF3B214007F15B3 /* NSString+Extension.m */; };
@@ -405,6 +407,10 @@
 		DA62CA671DF8F37600AD3928 /* TTNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTNavigationController.m; sourceTree = "<group>"; };
 		DA7F3CBC1E07B1300070B4EC /* TTCommentsModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTCommentsModel.h; sourceTree = "<group>"; };
 		DA7F3CBD1E07B1300070B4EC /* TTCommentsModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTCommentsModel.m; sourceTree = "<group>"; };
+		DA8CB1E71E0F92550084DF5D /* TTUserInfoModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTUserInfoModel.h; sourceTree = "<group>"; };
+		DA8CB1E81E0F92550084DF5D /* TTUserInfoModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTUserInfoModel.m; sourceTree = "<group>"; };
+		DA8CB1EA1E0F960A0084DF5D /* TTAppData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTAppData.h; sourceTree = "<group>"; };
+		DA8CB1EB1E0F960A0084DF5D /* TTAppData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTAppData.m; sourceTree = "<group>"; };
 		DA9316591DF3B214007F15B3 /* NSDate+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+Extension.h"; sourceTree = "<group>"; };
 		DA93165A1DF3B214007F15B3 /* NSDate+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+Extension.m"; sourceTree = "<group>"; };
 		DA93165B1DF3B214007F15B3 /* NSObject+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+Extension.h"; sourceTree = "<group>"; };
@@ -633,6 +639,8 @@
 				DA62C9601DF7BCAB00AD3928 /* Me */,
 				DA62C9681DF7BCAB00AD3928 /* Picture */,
 				DA62C96F1DF7BCAB00AD3928 /* Video */,
+				DA8CB1EA1E0F960A0084DF5D /* TTAppData.h */,
+				DA8CB1EB1E0F960A0084DF5D /* TTAppData.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -640,6 +648,8 @@
 		DA62C9601DF7BCAB00AD3928 /* Me */ = {
 			isa = PBXGroup;
 			children = (
+				DA8CB1E71E0F92550084DF5D /* TTUserInfoModel.h */,
+				DA8CB1E81E0F92550084DF5D /* TTUserInfoModel.m */,
 			);
 			path = Me;
 			sourceTree = "<group>";
@@ -1483,6 +1493,7 @@
 				DABDD2D21E09714E00F3AE49 /* TTLabelAndTextFieldCell.m in Sources */,
 				DA93168C1DF3B214007F15B3 /* UIBarButtonItem+Extension.m in Sources */,
 				DA62CA1E1DF7BCAB00AD3928 /* FullViewController.m in Sources */,
+				DA8CB1E91E0F92550084DF5D /* TTUserInfoModel.m in Sources */,
 				DA2C95741E06885300A43E9B /* TTCommentViewController.m in Sources */,
 				DA62C9E81DF7BCAB00AD3928 /* TTVideoUser.m in Sources */,
 				DA62C9E51DF7BCAB00AD3928 /* TTPictureUser.m in Sources */,
@@ -1510,6 +1521,7 @@
 				DA93168A1DF3B214007F15B3 /* NSObject+Extension.m in Sources */,
 				DA93168D1DF3B214007F15B3 /* UIImage+Extension.m in Sources */,
 				DA9316961DF3B214007F15B3 /* TTPictureFetchDataParameter.m in Sources */,
+				DA8CB1EC1E0F960A0084DF5D /* TTAppData.m in Sources */,
 				DA62CA1C1DF7BCAB00AD3928 /* VideoCommentViewController.m in Sources */,
 				DA62CA291DF7BD9E00AD3928 /* PictureCommentCell.m in Sources */,
 				DA62C9EA1DF7BCAB00AD3928 /* SwitchCell.m in Sources */,

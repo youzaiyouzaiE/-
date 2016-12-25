@@ -9,5 +9,9 @@
 #import <UIKit/UIKit.h>
 
 @interface UserInfoCell : UITableViewCell
--(void)setAvatarImage:(UIImage *)image Name:(NSString *)name Signature:(NSString *)content;
+
+@property (nonatomic, strong) UIImageView *avatarImageView;
+@property (nonatomic, strong) UILabel *nameLabel;
+@property (nonatomic, strong) UILabel *contentLabel;
+
 @end

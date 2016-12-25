@@ -17,7 +17,6 @@
 #import "EditUserInfoViewController.h"
 #import "UIImage+Extension.h"
 #import "UserInfoCell.h"
-#import "SwitchCell.h"
 #import "TwoLabelCell.h"
 #import "DisclosureCell.h"
 #import "TTLoginViewController.h"
@@ -25,7 +24,9 @@
 #import "TTNetworkSessionManager.h"
 #import "MBProgressHUD.h"
 #import "NSObject+Extension.h"
-
+#import "TTUserInfoModel.h"
+#import "TTAppData.h"
+#import "UIImageView+WebCache.h"
 
 static NSString *const UserInfoCellIdentifier = @"UserInfoCell";
 static NSString *const SwitchCellIdentifier = @"SwitchCell";
@@ -33,12 +34,10 @@ static NSString *const TwoLabelCellIdentifier = @"TwoLabelCell";
 static NSString *const DisclosureCellIdentifier = @"DisclosureCell";
 
 @interface MeTableViewController ()<UIAlertViewDelegate,UITableViewDelegate, UITableViewDataSource> {
-    BOOL _isLoginSuccess;
+    BOOL _isGetToken;
     NSNumber *_uid;
     NSString *_token;
-    
-    NSString *_nickName;
-    NSString *_signature;
+    NSString *_userIconURLStr;
 }
 
 @property (nonatomic, strong) UITableView *tableView;
@@ -63,7 +62,7 @@ CGFloat const footViewHeight = 30;
 
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    if (_isLoginSuccess) {
+    if (_isGetToken) {
         [self userInfoRequest];
     }
 }
@@ -88,9 +87,7 @@ CGFloat const footViewHeight = 30;
     
     self.tableView.dk_backgroundColorPicker = DKColorPickerWithRGB(0xf0f0f0, 0x000000, 0xfafafa);
     self.tableView.dk_separatorColorPicker = DKColorPickerWithKey(SEP);
-//    self.navigationController.navigationBar.dk_barTintColorPicker = DKColorPickerWithRGB(0xfa5054,0x444444,0xfa5054);
     [self.tableView registerClass:[UserInfoCell class] forCellReuseIdentifier:UserInfoCellIdentifier];
-    [self.tableView registerClass:[SwitchCell class] forCellReuseIdentifier:SwitchCellIdentifier];
     [self.tableView registerClass:[TwoLabelCell class] forCellReuseIdentifier:TwoLabelCellIdentifier];
     [self.tableView registerClass:[DisclosureCell class] forCellReuseIdentifier:DisclosureCellIdentifier];
 }
@@ -115,19 +112,20 @@ CGFloat const footViewHeight = 30;
                                      } else {
                                          NSNumber *signalNum = responseObject[@"signal"];
                                          if (signalNum.integerValue == 1) {
-                                             _nickName = responseObject[@"data"][@"nickname"];
-                                             _signature = responseObject[@"data"][@"signature"];
-                                             if (_signature.length < 1) {
-                                                 _signature = @"这家伙很懒,什么也没留下";
-                                             }
-                                             [[NSUserDefaults standardUserDefaults] setObject:_nickName forKey:UserNameKey];
-                                             [[NSUserDefaults standardUserDefaults] setObject:_signature forKey:UserSignatureKey];
+                                             TTUserInfoModel *userInfo = [[TTUserInfoModel alloc] initWithDictionary:responseObject[@"data"]];
+                                             NSMutableDictionary *avatarDic = userInfo.avatar;
+                                             [self getUserIconImageWithAvatarDic:avatarDic];
                                              [self.tableView reloadData];
+                                             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                                                 [[NSUserDefaults standardUserDefaults] setObject:responseObject[@"data"] forKey:k_UserInfoDic];
+                                                 [[NSUserDefaults standardUserDefaults] setObject:@1 forKey:k_UserLoginType];
+                                             });
+                                            [TTAppData shareInstance].currentUser = userInfo;
                                          } else {
                                              [self showMessage:responseObject[@"msg"]];
                                          }
                                      }
-                                     _isLoginSuccess = NO;
+                                     _isGetToken = NO;
                                  }
                                  Failure:^(NSError *error) {
                                      [hud hideAnimated:YES];
@@ -135,17 +133,28 @@ CGFloat const footViewHeight = 30;
                                  }];
 }
 
-#pragma mark - Table view data source
+- (NSString *)getUserIconImageWithAvatarDic:(NSDictionary *)avatarDic {
+    NSString *prefx = avatarDic[@"prefix"];
+    NSString *dir = avatarDic[@"dir"];
+    NSString *name = avatarDic[@"name"];
+    NSString *namePostfix = avatarDic[@"namePostfix"];
+    NSString *ext = avatarDic[@"ext"];
+    _userIconURLStr = [NSString stringWithFormat:@"%@%@%@%@small.%@",prefx,dir,name,namePostfix,ext];
+    return _userIconURLStr;
+}
 
-#pragma mark -UITableViewDataSource 返回tableView有多少组
+- (NSString *)userImagePath {
+    return [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject] stringByAppendingPathComponent:@"headerImage"];
+}
+
+#pragma mark - Table view data source
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 2;
 }
 
-#pragma mark -UITableViewDataSource 返回tableView每一组有多少行
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (section == 0) return 1;
-    return 6;
+    return 4;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
@@ -159,74 +168,51 @@ CGFloat const footViewHeight = 30;
     return 44;
 }
 
--(UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
-    UIView *footView = [[UIView alloc] init];
-    footView.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, footViewHeight);
-    UIView *lineView1 = [[UIView alloc] init];
-    lineView1.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 1);
-    [footView addSubview:lineView1];
-    UIView *lineView2 = [[UIView alloc] init];
-    lineView2.frame = CGRectMake(0, footViewHeight - 1, [UIScreen mainScreen].bounds.size.width, 1);
-    [footView addSubview:lineView2];
-    
-    if (section==2) {
-        [lineView2 removeFromSuperview];
-    }
-    return footView;
-}
-
-
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     if(indexPath.section == 0) {
         UserInfoCell *cell = [tableView dequeueReusableCellWithIdentifier:UserInfoCellIdentifier];
         cell.textLabel.dk_textColorPicker = DKColorPickerWithKey(TEXT);
-
-        NSString *path = [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject] stringByAppendingPathComponent:@"headerImage"];
-        UIImage *image = [UIImage imageWithContentsOfFile:path];
-        if (image == nil) {
+        UIImage *image;
+        NSString *name;
+        NSString *content;
+        if (SHARE_APP.isLogin) {
+            NSString *path = [self userImagePath];
+            image = [UIImage imageWithContentsOfFile:path];
+            if (image == nil) {
+                image = [UIImage imageNamed:@"defaultUserIcon"];
+            }
+            name = [TTAppData shareInstance].currentUser.username;
+            content = [TTAppData shareInstance].currentUser.signature;
+        } else {
             image = [UIImage imageNamed:@"defaultUserIcon"];
-            [UIImagePNGRepresentation(image) writeToFile:path atomically:YES];
+            name = @"登录/注册";
+            content = @"登录后更精彩";
         }
-        NSString *name = [[NSUserDefaults standardUserDefaults] stringForKey:UserNameKey];
-        NSString *content = [[NSUserDefaults standardUserDefaults] stringForKey:UserSignatureKey];
-        [cell setAvatarImage:image Name:name Signature:content];
+        if (_userIconURLStr.length > 1) {
+            [cell.avatarImageView sd_setImageWithURL:[NSURL URLWithString:_userIconURLStr] placeholderImage:[UIImage imageNamed:@"defaultUserIcon"] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+                [UIImageJPEGRepresentation(image, 1.0) writeToFile:[self userImagePath] atomically:YES];
+            }];
+        } else {
+            cell.avatarImageView.image = image;
+        }
+        cell.nameLabel.text = name;
+        cell.contentLabel.text = content;
         return cell;
     }
-    
-    if (indexPath.section == 1&&indexPath.row <2) {
-        SwitchCell *cell = [tableView dequeueReusableCellWithIdentifier:SwitchCellIdentifier];
-        cell.dk_backgroundColorPicker = DKColorPickerWithRGB(0xffffff, 0x343434, 0xfafafa);
-        if (indexPath.row == 0) {
-            cell.leftLabel.text = @"摇一摇夜间模式";
-            self.shakeCanChangeSkinSwitch = cell.theSwitch;
-            BOOL status = [[NSUserDefaults standardUserDefaults] boolForKey:IsShakeCanChangeSkinKey];
-            cell.theSwitch.on = status;
-            [cell.theSwitch addTarget:self action:@selector(switchDidChange:) forControlEvents:UIControlEventValueChanged];
-        } else if (indexPath.row == 1) {
-            cell.leftLabel.text = @"夜间模式";
-            cell.theSwitch.on= [self.dk_manager.themeVersion isEqualToString:DKThemeVersionNight]?YES:NO;
-            self.changeSkinSwitch = cell.theSwitch;
-            [cell.theSwitch addTarget:self action:@selector(switchDidChange:) forControlEvents:UIControlEventValueChanged];
-        }
-        return cell;
-        }
-    
-    //第三组cell
-    if (indexPath.section == 1 && indexPath.row == 2) {
+    if (indexPath.section == 1 && indexPath.row == 0) {
         TwoLabelCell *cell = [tableView dequeueReusableCellWithIdentifier:TwoLabelCellIdentifier];
         cell.leftLabel.text = @"清除缓存";
         cell.rightLabel.text = [NSString stringWithFormat:@"%.1f MB",self.cacheSize];
         return cell;
     }
-    
     DisclosureCell *cell = [tableView dequeueReusableCellWithIdentifier:DisclosureCellIdentifier];
-    if (indexPath.row == 3) {
+    if (indexPath.row == 1) {
         cell.leftLabel.text = @"反馈";
          return cell;
-    } else if(indexPath.row == 4) {
+    } else if(indexPath.row == 2) {
         cell.leftLabel.text = @"关于";
          return cell;
-    } else if(indexPath.row == 5) {
+    } else if(indexPath.row == 3) {
         cell.leftLabel.text = @"退出";
          return cell;
     }
@@ -235,20 +221,18 @@ CGFloat const footViewHeight = 30;
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section == 0 && indexPath.row == 0) {
-        AppDelegate *appDelegat = (AppDelegate *)[UIApplication sharedApplication].delegate;
-        if (appDelegat.isLogin) {
+        if (SHARE_APP.isLogin) {
             [self.navigationController pushViewController:[[EditUserInfoViewController alloc] init] animated:YES];
         } else {
             TTLoginViewController *loginVC = [[TTLoginViewController alloc] init];
             loginVC.loginBlock = ^(NSNumber *uid, NSString *token) {
                 _uid = uid;
                 _token = token;
-                _isLoginSuccess = YES;
-                appDelegat.isLogin = YES;
+                _isGetToken = YES;
             };
             [self.navigationController pushViewController:loginVC animated:YES];
         }
-    } else if (indexPath.section == 1 && indexPath.row ==2) {
+    } else if (indexPath.section == 1 && indexPath.row ==0) {
         [SVProgressHUD show];
         [TTDataTool deletePartOfCacheInSqlite];
         [[SDImageCache sharedImageCache] clearDisk];
@@ -256,11 +240,11 @@ CGFloat const footViewHeight = 30;
         [self performSelector:@selector(dismissSvprogressHud) withObject:nil afterDelay:1];
         TwoLabelCell *cell = [tableView cellForRowAtIndexPath:indexPath];
         cell.rightLabel.text = [NSString stringWithFormat:@"0.0MB"];
-    } else if (indexPath.section == 1 && indexPath.row == 3) {
+    } else if (indexPath.section == 1 && indexPath.row == 1) {
         [self.navigationController pushViewController:[[SendFeedbackViewController alloc] init] animated:YES];
-    } else if (indexPath.section == 1 && indexPath.row == 4) {
+    } else if (indexPath.section == 1 && indexPath.row == 2) {
         [self.navigationController pushViewController:[[AppInfoViewController alloc] init] animated:YES];
-    }else if (indexPath.section == 1 && indexPath.row == 5) {
+    } else if (indexPath.section == 1 && indexPath.row == 3) {
         if (SHARE_APP.isLogin) {
             UIAlertView *alerView = [[UIAlertView alloc] initWithTitle:@"提示"
                                                                message:@"退出当前帐号,将不能同步收藏,评论,分享等"
@@ -275,11 +259,9 @@ CGFloat const footViewHeight = 30;
 #pragma mark - UIAlertViewDelegate 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     if (buttonIndex == 1) {
-        [[NSUserDefaults standardUserDefaults] setObject:@"注册/登录" forKey:UserNameKey];
-        [[NSUserDefaults standardUserDefaults] setObject:@"登录推荐更精准" forKey:UserSignatureKey];
         [self.tableView reloadData];
         SHARE_APP.isLogin = NO;
-        
+        [[NSUserDefaults standardUserDefaults] setObject:@0 forKey:k_UserLoginType];
         [SVProgressHUD show];
         [TTDataTool deletePartOfCacheInSqlite];
         [[SDImageCache sharedImageCache] clearDisk];
@@ -292,28 +274,6 @@ CGFloat const footViewHeight = 30;
     [SVProgressHUD dismiss];
 }
 
-
--(void)switchDidChange:(UISwitch *)theSwitch {
-    if (theSwitch == self.changeSkinSwitch) {
-        if (theSwitch.on == YES) {//切换至夜间模式
-            self.dk_manager.themeVersion = DKThemeVersionNight;
-            self.tabBarController.tabBar.barTintColor = [UIColor colorWithRed:34/255.0 green:34/255.0 blue:34/255.0 alpha:1.0];
-
-        } else {
-            self.dk_manager.themeVersion = DKThemeVersionNormal;
-            self.tabBarController.tabBar.barTintColor = [UIColor whiteColor];
-
-        }
-    
-    } else if (theSwitch == self.shakeCanChangeSkinSwitch) {//摇一摇夜间模式
-        BOOL status = self.shakeCanChangeSkinSwitch.on;
-        [[NSUserDefaults standardUserDefaults] setObject:@(status) forKey:IsShakeCanChangeSkinKey];
-        [[NSUserDefaults standardUserDefaults] synchronize];
-//        if([self.delegate respondsToSelector:@selector(shakeCanChangeSkin:)]) {
-//            [self.delegate shakeCanChangeSkin:status];
-//        }
-   }
-}
 
 -(void)didReceiveMemoryWarning {
     [[SDImageCache sharedImageCache] clearDisk];
@@ -347,8 +307,7 @@ CGFloat const footViewHeight = 30;
 }
 
 #pragma mark - HUD view
-- (void)showMessage:(NSString *)message
-{
+- (void)showMessage:(NSString *)message {
     [self showMessageToView:self.view message:message autoHide:YES];
 }
 
