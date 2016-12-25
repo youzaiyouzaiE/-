@@ -104,29 +104,30 @@ CGFloat const footViewHeight = 30;
     MBProgressHUD *hud = [self showActivityHud];
     [[TTNetworkSessionManager shareManager] Get:USER_INFO_URL
                               Parameters:@{@"uid":_uid, @"token":_token}
-                                 Success:^(NSURLSessionDataTask *task, NSDictionary *responseObject) {
-                                     [hud hideAnimated:YES];
-                                     id errors = responseObject[@"errors"];
-                                     if (errors != nil) {
-                                         [self showErrorMessageAlertView:errors];
-                                     } else {
-                                         NSNumber *signalNum = responseObject[@"signal"];
-                                         if (signalNum.integerValue == 1) {
-                                             TTUserInfoModel *userInfo = [[TTUserInfoModel alloc] initWithDictionary:responseObject[@"data"]];
-                                             NSMutableDictionary *avatarDic = userInfo.avatar;
-                                             [self getUserIconImageWithAvatarDic:avatarDic];
-                                             [self.tableView reloadData];
-                                             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-                                                 [[NSUserDefaults standardUserDefaults] setObject:responseObject[@"data"] forKey:k_UserInfoDic];
-                                                 [[NSUserDefaults standardUserDefaults] setObject:@1 forKey:k_UserLoginType];
-                                             });
-                                            [TTAppData shareInstance].currentUser = userInfo;
-                                         } else {
-                                             [self showMessage:responseObject[@"msg"]];
-                                         }
-                                     }
-                                     _isGetToken = NO;
-                                 }
+                                        Success:^(NSURLSessionDataTask *task, NSDictionary *responseObject) {
+                                            [hud hideAnimated:YES];
+                                            id errors = responseObject[@"errors"];
+                                            if (errors != nil) {
+                                                [self showErrorMessageAlertView:errors];
+                                            } else {
+                                                NSNumber *signalNum = responseObject[@"signal"];
+                                                if (signalNum.integerValue == 1) {
+                                                    TTUserInfoModel *userInfo = [[TTUserInfoModel alloc] initWithDictionary:responseObject[@"data"]];
+                                                    NSMutableDictionary *avatarDic = userInfo.avatar;
+                                                    [self getUserIconImageWithAvatarDic:avatarDic];
+                                                    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                                                        [[NSUserDefaults standardUserDefaults] setObject:responseObject[@"data"] forKey:k_UserInfoDic];
+                                                        [[NSUserDefaults standardUserDefaults] setObject:@1 forKey:k_UserLoginType];
+                                                    });
+                                                    [TTAppData shareInstance].currentUser = userInfo;
+                                                    SHARE_APP.isLogin = YES;
+                                                    [self.tableView reloadData];
+                                                } else {
+                                                    [self showMessage:responseObject[@"msg"]];
+                                                }
+                                            }
+                                            _isGetToken = NO;
+                                        }
                                  Failure:^(NSError *error) {
                                      [hud hideAnimated:YES];
                                      [self showMessage:@"获取用户信息失败!"];
@@ -161,10 +162,8 @@ CGFloat const footViewHeight = 30;
     return footViewHeight;
 }
 
-#pragma mark -UITableViewDataSource 返回indexPath对应的cell的高度
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section == 0) return 100;
-    
     return 44;
 }
 
@@ -273,7 +272,6 @@ CGFloat const footViewHeight = 30;
 - (void)dismissSvprogressHud{
     [SVProgressHUD dismiss];
 }
-
 
 -(void)didReceiveMemoryWarning {
     [[SDImageCache sharedImageCache] clearDisk];

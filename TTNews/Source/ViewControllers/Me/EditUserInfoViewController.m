@@ -10,8 +10,11 @@
 #import "UIImage+Extension.h"
 #import "TTConst.h"
 #import <DKNightVersion.h>
+#import "TTAppData.h"
 
 @interface EditUserInfoViewController ()<UINavigationControllerDelegate,UIImagePickerControllerDelegate>
+
+
 @property (weak, nonatomic) IBOutlet UIImageView *headerImageView;
 @property (weak, nonatomic) IBOutlet UITextField *nameTextField;
 @property (weak, nonatomic) IBOutlet UITextView *signatureTextView;
@@ -35,23 +38,21 @@
     [self.headerImageView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(changeHeaderImage)]];
     self.headerImageView.layer.cornerRadius = self.headerImageView.frame.size.width *0.5;
     self.headerImageView.layer.masksToBounds = YES;
-    self.nameTextField.text = [[NSUserDefaults standardUserDefaults] stringForKey:UserNameKey];
-    self.signatureTextView.text = [[NSUserDefaults standardUserDefaults] stringForKey:UserSignatureKey];
+    
+    self.nameTextField.text = [TTAppData shareInstance].currentUser.nickname;
+    
+    self.signatureTextView.text = [TTAppData shareInstance].currentUser.signature;
     self.signatureTextView.layer.cornerRadius = 5;
     self.signatureTextView.layer.masksToBounds = YES;
 }
 
 -(void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
-    [[NSUserDefaults standardUserDefaults] setObject:self.nameTextField.text forKey:UserNameKey];
-    [[NSUserDefaults standardUserDefaults] setObject:self.signatureTextView.text forKey:UserSignatureKey];
 }
 
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-
 }
-
 
 - (void)changeHeaderImage {
     UIImagePickerController *controller = [[UIImagePickerController alloc] init];
@@ -63,16 +64,13 @@
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingImage:(UIImage *)image editingInfo:(nullable NSDictionary<NSString *,id> *)editingInfo  {
     self.headerImageView.image = [image circleImage];
-    NSString *path = [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject] stringByAppendingPathComponent:@"headerImage"];
-    [UIImagePNGRepresentation(self.headerImageView.image) writeToFile:path atomically:YES];
+//    NSString *path = [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject] stringByAppendingPathComponent:@"headerImage"];
+//    [UIImagePNGRepresentation(self.headerImageView.image) writeToFile:path atomically:YES];
     [self dismissViewControllerAnimated:YES completion:nil];
-    
 }
 
 -(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
     [self.view endEditing:YES];
 }
-
-
 
 @end
