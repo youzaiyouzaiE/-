@@ -87,5 +87,10 @@
 }
 
 
+//- (void)postRequetUrlStr:(NSString *)urlStr parameter:(NSDictionary *)parameter successBlock:(Completion)success failureBlock:(Failure)failure {
+//     NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:theUrl]];
+//    NSURLSessionDataTask *task =[[NSURLSession sharedSession] dataTaskWithRequest:<#(nonnull NSURLRequest *)#> completionHandler:<#^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error)completionHandler#>]
+//}
+
 
 @end

@@ -45,12 +45,12 @@ static UIImageView *_loadingImage = nil;
         _hud.margin = 10.0f;
 //        _hud.userInteractionEnabled = YES;
     }
-    
     [_hud showAnimated:YES];
 }
 
 + (void)dismiss {
     [_hud hideAnimated:YES];
+    [_hud removeFromSuperview];
     Window.userInteractionEnabled = YES;
 }
 

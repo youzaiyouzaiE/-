@@ -25,6 +25,7 @@
 #define TT_OTHER_News_LIST                  @"http://59.110.23.172/api/articles/channel/1"///其它频道列表
 #define TT_COMMENT_LIST                     @"http://59.110.23.172/api/comments"    ////评论
 
+#define TT_EXPOSURES_URL                    @"http://59.110.23.172/api/exposures"   ////爆料（post）
 
 
 
