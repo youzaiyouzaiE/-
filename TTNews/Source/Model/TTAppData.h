@@ -18,6 +18,7 @@ extern NSString * const k_UserInfoDic;
 @property (nonatomic, copy) NSString *guid;
 @property (nonatomic, strong) TTUserInfoModel *currentUser;
 
+@property (nonatomic, assign) BOOL needUpdateUserIcon;//
 
 
 

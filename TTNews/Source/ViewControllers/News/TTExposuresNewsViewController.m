@@ -14,7 +14,7 @@
 #import "MWPhotoBrowser.h"
 #import "TTExposuresContentCell.h"
 #import "TTLabelAndTextFieldCell.h"
-
+#import "TTLoginViewController.h"
 
 #define k_TEXTFIELD     @"textFieldKey"
 #define k_TEXTVIEW      @"textViewKey"
@@ -256,7 +256,9 @@
 
 #pragma mark - ActionPerform
 - (void)send{
-    
+    if (!SHARE_APP.isLogin) {
+        [self presentLoginView];
+    }
 }
 
 - (void)addPhotoAction {
@@ -286,6 +288,14 @@
     
     [alertControl addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) { }]];
     [self presentViewController:alertControl animated:YES completion:^{ }];
+}
+
+- (void)presentLoginView {
+    TTLoginViewController *loginVC = [[TTLoginViewController alloc] init];
+    loginVC.isPresentInto = YES;
+    loginVC.loginBlock = ^(NSNumber *uid, NSString *token) { };
+    UINavigationController *navitagtionVC = [[UINavigationController alloc] initWithRootViewController:loginVC];
+    [self presentViewController:navitagtionVC animated:YES completion:^{ }];
 }
 
 #pragma mark - UIImagePickerControllerDelegate

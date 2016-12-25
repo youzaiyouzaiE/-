@@ -14,6 +14,7 @@
 #import "MBProgressHUD.h"
 #import "NSObject+Extension.h"
 #import "NSString+Extension.h"
+#import "TTAppData.h"
 
 @interface TTLoginViewController () <UITextFieldDelegate> {
     
@@ -53,9 +54,7 @@
 }
 
 - (void)backAction {
-    [self dismissViewControllerAnimated:YES completion:^{
-        
-    }];
+    [self dismissViewControllerAnimated:YES completion:^{ }];
 }
 
 
@@ -120,15 +119,18 @@
                                             } else {
                                                 NSNumber *signalNum = responseObject[@"signal"];
                                                 if (signalNum.integerValue == 1) {
-
                                                     NSDictionary *dateDic = responseObject[@"data"];
                                                     if (dateDic) {
                                                         NSNumber *uid = dateDic[@"uid"];
                                                         NSString *token = dateDic[@"token"];
-                                                        self.loginBlock(uid,token);
-                                                        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                                                            [self.navigationController popViewControllerAnimated:YES];
-                                                        });
+                                                        if (_isPresentInto) {
+                                                            [self userInfoRequestWithUid:uid andToken:token];
+                                                        } else {
+                                                            self.loginBlock(uid,token);
+                                                            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                                                                [self.navigationController popViewControllerAnimated:YES];
+                                                            });
+                                                        }
                                                     }
                                                 } else {
                                                     [self showMessage:responseObject[@"msg"]];
@@ -141,6 +143,38 @@
                                         }];
 }
 
+
+- (void)userInfoRequestWithUid:(NSNumber *)uid andToken:(NSString *)token {
+    MBProgressHUD *hud = [self showActivityHud];
+    [[TTNetworkSessionManager shareManager] Get:USER_INFO_URL
+                                     Parameters:@{@"uid":uid, @"token":token}
+                                        Success:^(NSURLSessionDataTask *task, NSDictionary *responseObject) {
+                                            [hud hideAnimated:YES];
+                                            id errors = responseObject[@"errors"];
+                                            if (errors != nil) {
+                                                [self showErrorMessageAlertView:errors];
+                                            } else {
+                                                NSNumber *signalNum = responseObject[@"signal"];
+                                                if (signalNum.integerValue == 1) {
+                                                    TTUserInfoModel *userInfo = [[TTUserInfoModel alloc] initWithDictionary:responseObject[@"data"]];
+                                                    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                                                        [[NSUserDefaults standardUserDefaults] setObject:responseObject[@"data"] forKey:k_UserInfoDic];
+                                                        [[NSUserDefaults standardUserDefaults] setObject:@1 forKey:k_UserLoginType];
+                                                    });
+                                                    [TTAppData shareInstance].currentUser = userInfo;
+                                                    [TTAppData shareInstance].needUpdateUserIcon = YES;
+                                                    SHARE_APP.isLogin = YES;
+                                                    [self backAction];
+                                                } else {
+                                                    [self showMessage:responseObject[@"msg"]];
+                                                }
+                                            }
+                                        }
+                                        Failure:^(NSError *error) {
+                                            [hud hideAnimated:YES];
+                                            [self showMessage:@"获取用户信息失败!请重新登录"];
+                                        }];
+}
 
 #pragma mark - alertView
 - (void)showErrorMessageAlertView:(id)errors {
@@ -168,6 +202,7 @@
         }
     }
 }
+
 
 #pragma mark - HUD view
 - (void)showMessage:(NSString *)message

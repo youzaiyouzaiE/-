@@ -37,7 +37,6 @@ static NSString *const DisclosureCellIdentifier = @"DisclosureCell";
     BOOL _isGetToken;
     NSNumber *_uid;
     NSString *_token;
-    NSString *_userIconURLStr;
 }
 
 @property (nonatomic, strong) UITableView *tableView;
@@ -113,13 +112,13 @@ CGFloat const footViewHeight = 30;
                                                 NSNumber *signalNum = responseObject[@"signal"];
                                                 if (signalNum.integerValue == 1) {
                                                     TTUserInfoModel *userInfo = [[TTUserInfoModel alloc] initWithDictionary:responseObject[@"data"]];
-                                                    NSMutableDictionary *avatarDic = userInfo.avatar;
-                                                    [self getUserIconImageWithAvatarDic:avatarDic];
+                                                    [self getUserIconImageWithUserInfo:userInfo];
                                                     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
                                                         [[NSUserDefaults standardUserDefaults] setObject:responseObject[@"data"] forKey:k_UserInfoDic];
                                                         [[NSUserDefaults standardUserDefaults] setObject:@1 forKey:k_UserLoginType];
                                                     });
                                                     [TTAppData shareInstance].currentUser = userInfo;
+                                                    [TTAppData shareInstance].needUpdateUserIcon = YES;
                                                     SHARE_APP.isLogin = YES;
                                                     [self.tableView reloadData];
                                                 } else {
@@ -134,14 +133,15 @@ CGFloat const footViewHeight = 30;
                                  }];
 }
 
-- (NSString *)getUserIconImageWithAvatarDic:(NSDictionary *)avatarDic {
+- (NSString *)getUserIconImageWithUserInfo:(TTUserInfoModel *)userInfo {
+    NSDictionary *avatarDic = userInfo.avatar;
     NSString *prefx = avatarDic[@"prefix"];
     NSString *dir = avatarDic[@"dir"];
     NSString *name = avatarDic[@"name"];
     NSString *namePostfix = avatarDic[@"namePostfix"];
     NSString *ext = avatarDic[@"ext"];
-    _userIconURLStr = [NSString stringWithFormat:@"%@%@%@%@small.%@",prefx,dir,name,namePostfix,ext];
-    return _userIconURLStr;
+    NSString *URLStr = [NSString stringWithFormat:@"%@%@%@%@small.%@",prefx,dir,name,namePostfix,ext];
+    return URLStr;
 }
 
 - (NSString *)userImagePath {
@@ -187,10 +187,13 @@ CGFloat const footViewHeight = 30;
             name = @"登录/注册";
             content = @"登录后更精彩";
         }
-        if (_userIconURLStr.length > 1) {
-            [cell.avatarImageView sd_setImageWithURL:[NSURL URLWithString:_userIconURLStr] placeholderImage:[UIImage imageNamed:@"defaultUserIcon"] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
-                [UIImageJPEGRepresentation(image, 1.0) writeToFile:[self userImagePath] atomically:YES];
-            }];
+        if ([TTAppData shareInstance].needUpdateUserIcon) {
+            NSString *urlStr = [self getUserIconImageWithUserInfo:[TTAppData shareInstance].currentUser];
+            [cell.avatarImageView sd_setImageWithURL:[NSURL URLWithString:urlStr]
+                                    placeholderImage:[UIImage imageNamed:@"defaultUserIcon"]
+                                           completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+                                               [UIImageJPEGRepresentation(image, 1.0) writeToFile:[self userImagePath] atomically:YES];
+                                           }];
         } else {
             cell.avatarImageView.image = image;
         }
