@@ -103,7 +103,10 @@
 - (void)setCommentStr:(NSString *)commentStr {
     _labelComment.text = commentStr;
     _commentStr = commentStr;
-    CGSize size = [commentStr boundingRectWithSize:CGSizeMake(Screen_Width - 15 - IMAGE_W - 10 - 15, MAXFLOAT) options:MAXFLOAT attributes:@{NSFontAttributeName:COMMENT_FONT} context:nil].size;
+    CGSize size = [commentStr boundingRectWithSize:CGSizeMake(Screen_Width - 15 - IMAGE_W - 10 - 15, MAXFLOAT)
+                                           options:NSStringDrawingUsesLineFragmentOrigin
+                                        attributes:@{NSFontAttributeName:COMMENT_FONT}
+                                           context:nil].size;
     [_labelComment mas_updateConstraints:^(MASConstraintMaker *make) {
         make.height.mas_equalTo(size.height);
     }];
@@ -111,7 +114,10 @@
 
 
 + (CGFloat)heightWithCommentContent:(NSString *)content {
-    CGSize size = [content boundingRectWithSize:CGSizeMake(Screen_Width - 15 - IMAGE_W - 10 - 15, MAXFLOAT) options:MAXFLOAT attributes:@{NSFontAttributeName:COMMENT_FONT} context:nil].size;
+    CGSize size = [content boundingRectWithSize:CGSizeMake(Screen_Width - 15 - IMAGE_W - 10 - 15, MAXFLOAT)
+                                        options:NSStringDrawingUsesLineFragmentOrigin
+                                     attributes:@{NSFontAttributeName:COMMENT_FONT}
+                                        context:nil].size;
     return 6 + IMAGE_W + size.height + 5 + 16 + 5;
 }
 

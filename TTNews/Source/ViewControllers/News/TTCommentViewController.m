@@ -65,7 +65,6 @@
 //                                            NSLog(@"error %@",error.description);
 //                                            [TTProgressHUD showMsg:@"服务器繁忙！请求出错"];
 //                                        }];
-    
     [[AFHTTPSessionManager manager] GET:TT_COMMENT_URL
                              parameters:dic
                                progress:^(NSProgress * _Nonnull downloadProgress) {}
@@ -92,7 +91,6 @@
     TTCommentsModel *comment = _arrayComments[indexPath.row];
     return [TTCommentTableViewCell heightWithCommentContent:comment.content];
 }
-
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 1;

@@ -34,6 +34,7 @@
         self.navigationItem.title = @"邮箱注册 2/2";
         [_buttonRegister setTitle:@"注  册" forState:UIControlStateNormal];
     }
+    [self addTapViewResignKeyboard];
     _buttonRegister.layer.masksToBounds = YES;
     _buttonRegister.layer.cornerRadius = 6;
     _buttonRegister.dk_backgroundColorPicker = DKColorPickerWithRGB(0xfa5054, 0x444444, 0xfa5054);

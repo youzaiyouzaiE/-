@@ -47,7 +47,7 @@
         self.navigationItem.title = @"重置密码 1/2";
     } else
         self.navigationItem.title = @"邮箱注册 1/2";
-    
+    [self addTapViewResignKeyboard];
     _buttonNext.layer.masksToBounds = YES;
     _buttonNext.layer.cornerRadius = 6;
     _buttonNext.dk_backgroundColorPicker = DKColorPickerWithRGB(0xfa5054, 0x444444, 0xfa5054);

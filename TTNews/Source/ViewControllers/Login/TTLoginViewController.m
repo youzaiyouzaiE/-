@@ -32,6 +32,11 @@
 
 @implementation TTLoginViewController
 
+-(void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    [_userNameTextField becomeFirstResponder];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.navigationItem.title = @"登录天维新闻";
@@ -46,11 +51,10 @@
     
     self.view.dk_backgroundColorPicker = DKColorPickerWithRGB(0xf0f0f0, 0x000000, 0xfafafa);
     _itemsBackgroundView.dk_backgroundColorPicker = DKColorPickerWithRGB(0xffffff, 0x444444, 0xfafafa);
-    
+    [self addTapViewResignKeyboard];
     _loginButton.layer.masksToBounds = YES;
     _loginButton.layer.cornerRadius = 6;
     _loginButton.dk_backgroundColorPicker = DKColorPickerWithRGB(0xfa5054, 0x444444, 0xfa5054);
-//    [self initializeNetRequest];
 }
 
 - (void)backAction {

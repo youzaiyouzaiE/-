@@ -9,7 +9,9 @@
 #import "TTBaseViewController.h"
 #import "TTJudgeNetworking.h"
 
-@interface TTBaseViewController () <UINavigationControllerDelegate,UIGestureRecognizerDelegate>
+@interface TTBaseViewController () <UINavigationControllerDelegate,UIGestureRecognizerDelegate> {
+    UITapGestureRecognizer *_tapGestureRecognizer;
+}
 
 @end
 
@@ -52,8 +54,9 @@
 }
 
 - (void)addTapViewResignKeyboard {
-    UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(resignKeyboard)];
-    [self.view addGestureRecognizer:tapGestureRecognizer];
+    _tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(resignKeyboard)];
+    _tapGestureRecognizer.delegate = self;
+    [self.view addGestureRecognizer:_tapGestureRecognizer];
 }
 
 - (void)resignKeyboard {
@@ -68,12 +71,18 @@
 
 #pragma mark - UIGestureRecognizerDelegate
 - (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer {
-    if (self.navigationController.viewControllers.count == 1) {//关闭主界面的右滑返回
+    if (gestureRecognizer == _tapGestureRecognizer) {
+        [self.view endEditing:YES];
         return NO;
     } else {
-        return YES;
+        if (self.navigationController.viewControllers.count == 1) {//关闭主界面的右滑返回
+            return NO;
+        } else {
+            return YES;
+        }
     }
 }
+
 
 #pragma mark - UINavigationControllerDelegate
 - (void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated {

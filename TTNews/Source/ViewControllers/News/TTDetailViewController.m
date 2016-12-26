@@ -263,7 +263,7 @@
 
 - (void)dismissWriterView {
     [_textView resignFirstResponder];
-    [UIView animateWithDuration:0.5 animations:^{
+    [UIView animateWithDuration:0.35 animations:^{
         _writerView.frame = CGRectMake(0, Screen_Height, Screen_Width, TEXTVIEW_H + 60 + 10);
     } completion:^(BOOL finished) {
         _coverView.hidden = YES;
@@ -281,6 +281,7 @@
 
 #pragma mark - longin View
 - (void)presentLoginView {
+    [self dismissWriterView];
     TTLoginViewController *loginVC = [[TTLoginViewController alloc] init];
     loginVC.isPresentInto = YES;
     loginVC.loginBlock = ^(NSNumber *uid, NSString *token) {
