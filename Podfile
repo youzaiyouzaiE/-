@@ -25,7 +25,7 @@ pod 'CYLTabBarController'
 pod 'M13ProgressSuite'
 pod 'WebViewJavascriptBridge'
 pod 'MWPhotoBrowser'
-
+pod 'NimbusKit-AttributedLabel', '~> 1.0.0'
 end
 
 target 'TTNewsTests' do

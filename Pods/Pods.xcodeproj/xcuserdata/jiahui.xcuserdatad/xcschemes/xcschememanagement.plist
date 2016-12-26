@@ -69,6 +69,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>NimbusKit-AttributedLabel.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>PSTCollectionView.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -137,6 +142,16 @@
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>16DFDB2CB615A0A4278EABE9C3AF57DC</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>2776F1D0AB4BB9C5FAE4C378B2A72572</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>2AB49797D14D57FA43A345254AFB9F18</key>
 		<dict>
 			<key>primary</key>
@@ -147,12 +162,7 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>3062D92E8ADE18D4DDBDC70D0C2B8A0E</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>33F411FA0F1E7FEB9A1AE50D6674ED0B</key>
+		<key>431638CFCAAC889DAF070B77389B12BD</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -162,7 +172,7 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>5CCD283B00E63C0A95DB99D126C222D1</key>
+		<key>61B09A9077324FFB8B1E787F37EE3E4B</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -172,12 +182,22 @@
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>62A3D274C67EBC816CABB5531494E36E</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>6E4877BDF1300B93595F6680F28A873C</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>70BC44266C6FFE30D2C57129458E070B</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>786CB916BBC48FEC4ABD8CBDAAE686BC</key>
+		<key>8AE06CDE2C640DABD66A1BAA53AB51A6</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -188,11 +208,6 @@
 			<true/>
 		</dict>
 		<key>9775596B3CA16905FC8F66DA8E2A3C67</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>99345F511B2CB49490B4A0A22E0B786F</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -212,7 +227,7 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>A6800ADF0204FFC356B8D2EB86F59036</key>
+		<key>B0B4DA800BAD76191AAAE2899A4F1838</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -228,11 +243,6 @@
 			<true/>
 		</dict>
 		<key>D058B89EB3B3DF45457A2DCD3971AFFE</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>D93DABB096D92E4D19FDA337A1F5C2E7</key>
 		<dict>
 			<key>primary</key>
 			<true/>

@@ -10,11 +10,15 @@
 
 @interface TTCommentTableViewCell : UITableViewCell
 
+
 @property (nonatomic, strong) UIImageView *imageViewPortrait;
 @property (nonatomic, strong) UILabel *labelName;
 @property (nonatomic, strong) UILabel *labeDate;
-@property (nonatomic, copy) NSString *commentStr;
 
-+ (CGFloat)heightWithCommentContent:(NSString *)content;
+@property (nonatomic, copy, readonly) NSString *commentStr;
+
+- (void)commentContentStr:(NSString *)commentStr replyNickName:(NSString *)nickName;
+
++ (CGFloat)heightWithCommentContent:(NSString *)content replyNickName:(NSString *)nickName;
 
 @end

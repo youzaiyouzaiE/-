@@ -1,0 +1,1 @@
+../../../NimbusKit-AttributedLabel/src/NSMutableAttributedString+NimbusKitAttributedLabel.h

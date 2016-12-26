@@ -50,7 +50,10 @@
         make.bottom.mas_equalTo(self.view.mas_bottom);
     }];
     self.tableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];
-    [self loadLifeInfoDataWithDic:@{@"article_id":_article_id}];
+    if (_article_id) {
+         [self loadLifeInfoDataWithDic:@{@"article_id":_article_id}];
+    } else
+        [TTProgressHUD showMsg:@"没有评论！"];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -90,7 +93,8 @@
 #pragma mark - UITableView
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     TTCommentsModel *comment = _arrayComments[indexPath.row];
-    return [TTCommentTableViewCell heightWithCommentContent:comment.content];
+     NSString *replyNick = comment.parent[@"user_nick"];
+    return [TTCommentTableViewCell heightWithCommentContent:comment.content replyNickName:replyNick];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -111,7 +115,8 @@
     [cell.imageViewPortrait sd_setImageWithURL:[NSURL URLWithString:comment.user_avatar]];
     cell.labelName.text = comment.user_nick;
     cell.labeDate.text = comment.created_at;
-    cell.commentStr = comment.content;
+    NSString *replyNick = comment.parent[@"user_nick"];
+    [cell commentContentStr:comment.content replyNickName:replyNick];
     return cell;
 }
 

@@ -22,6 +22,6 @@
 @property (nonatomic, copy) NSString *updated_at;
 @property (nonatomic, strong) NSNumber *blocked;
 @property (nonatomic, copy) NSString *user_avatar;///头像
-@property (nonatomic, copy) NSString *parent;
+@property (nonatomic, strong) NSDictionary *parent;///对应 回复评论的信息
 
 @end

@@ -7,9 +7,10 @@
 //
 
 #import "TTCommentTableViewCell.h"
+#import "NIAttributedLabel.h"
 
 @interface TTCommentTableViewCell () {
-    UILabel *_labelComment;
+    NIAttributedLabel *_labelComment;
 }
 
 @end
@@ -54,7 +55,7 @@
     
     _labelName = [[UILabel alloc] init];
     _labelName.text = @"name";
-    _labelName.textColor = [UIColor colorWithHexString:@"E5E5E5"];
+    _labelName.textColor = [[UIColor blueColor] colorWithAlphaComponent:0.6];
     _labelName.font = [UIFont systemFontOfSize:12];
     [self.contentView addSubview:_labelName];
     [_labelName mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -64,8 +65,7 @@
         make.height.mas_equalTo(16);
     }];
     
-    _labelComment = [[UILabel alloc] init];
-//    _labelComment.backgroundColor = [UIColor redColor];
+    _labelComment = [[NIAttributedLabel alloc] init];
     _labelComment.textColor = [UIColor blackColor];
     _labelComment.numberOfLines = 0;
     _labelComment.font = COMMENT_FONT;
@@ -97,25 +97,37 @@
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
-
-    // Configure the view for the selected state
 }
 
-- (void)setCommentStr:(NSString *)commentStr {
-    _labelComment.text = commentStr;
-    _commentStr = commentStr;
-    CGSize size = [commentStr boundingRectWithSize:CGSizeMake(Screen_Width - 15 - IMAGE_W - 10 - 15, MAXFLOAT)
+- (void)commentContentStr:(NSString *)commentStr replyNickName:(NSString *)nickName {
+      _commentStr = commentStr;
+    if (nickName.length > 0) {
+        NSString *comment = @"回复";
+        comment = [comment stringByAppendingFormat:@"%@: %@",nickName,commentStr];
+        NSRange range = [comment rangeOfString:nickName];
+        _labelComment.text = comment;
+        [_labelComment setTextColor:[[UIColor blueColor] colorWithAlphaComponent:0.6] range:range];
+    } else {
+        _labelComment.text = commentStr;
+    }
+    CGSize size = [_labelComment.text boundingRectWithSize:CGSizeMake(Screen_Width - 15 - IMAGE_W - 10 - 15, MAXFLOAT)
                                            options:NSStringDrawingUsesLineFragmentOrigin
                                         attributes:@{NSFontAttributeName:COMMENT_FONT}
                                            context:nil].size;
+    
     [_labelComment mas_updateConstraints:^(MASConstraintMaker *make) {
-        make.height.mas_equalTo(ceil(size.height));
+        make.height.mas_equalTo(ceil(size.height) + 1);
     }];
 }
 
 
-+ (CGFloat)heightWithCommentContent:(NSString *)content {
-    CGSize size = [content boundingRectWithSize:CGSizeMake(Screen_Width - 15 - IMAGE_W - 10 - 15, MAXFLOAT)
++ (CGFloat)heightWithCommentContent:(NSString *)content replyNickName:(NSString *)nickName{
+    NSString *contentString = nil;
+    if (nickName.length > 0) {
+        contentString = [NSString stringWithFormat:@"回复%@: %@",nickName,content];
+    } else
+        contentString = content;
+    CGSize size = [contentString boundingRectWithSize:CGSizeMake(Screen_Width - 15 - IMAGE_W - 10 - 15, MAXFLOAT)
                                         options:NSStringDrawingUsesLineFragmentOrigin
                                      attributes:@{NSFontAttributeName:COMMENT_FONT}
                                         context:nil].size;
