@@ -36,6 +36,7 @@
     
     UIView *_bottomView;
     M13ProgressView *_progressView;
+    
     /////写评论
     UIView *_coverView;
     UIView *_writerView;
@@ -157,7 +158,6 @@
     CGFloat buttonMarger =  (Screen_Width/3 - (itemButt_W * 2))/3;
     
     UIButton *checkCommentsBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-//    checkCommentsBtn.backgroundColor = [UIColor yellowColor];
     [checkCommentsBtn setTitle:@"评论" forState:UIControlStateNormal];
     [checkCommentsBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     [checkCommentsBtn addTarget:self action:@selector(checkComments:) forControlEvents:UIControlEventTouchUpInside];
@@ -331,8 +331,6 @@
     } else {
         [self presentLoginView];
     }
-        
-    
 }
 
 - (void)sendComment {
@@ -356,12 +354,16 @@
                                      [TTProgressHUD dismiss];
                                     [SVProgressHUD showSuccessWithStatus:nil];
                                      [self dismissWriterView];
+                                     [self performSelector:@selector(dismissSvprogressHud) withObject:nil afterDelay:0.5];
                                  }
                                  failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
                                      [TTProgressHUD dismiss];
                                      [self dismissWriterView];
                                  }];
-//
+}
+
+- (void)dismissSvprogressHud{
+    [SVProgressHUD dismiss];
 }
 
 

@@ -65,6 +65,7 @@
     }];
     
     _labelComment = [[UILabel alloc] init];
+//    _labelComment.backgroundColor = [UIColor redColor];
     _labelComment.textColor = [UIColor blackColor];
     _labelComment.numberOfLines = 0;
     _labelComment.font = COMMENT_FONT;
@@ -108,7 +109,7 @@
                                         attributes:@{NSFontAttributeName:COMMENT_FONT}
                                            context:nil].size;
     [_labelComment mas_updateConstraints:^(MASConstraintMaker *make) {
-        make.height.mas_equalTo(size.height);
+        make.height.mas_equalTo(ceil(size.height));
     }];
 }
 
