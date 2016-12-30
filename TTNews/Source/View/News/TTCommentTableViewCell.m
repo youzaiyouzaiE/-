@@ -7,10 +7,13 @@
 //
 
 #import "TTCommentTableViewCell.h"
-#import "NIAttributedLabel.h"
+//#import "NIAttributedLabel.h"
+//#import "TTTAttributedLabel.h"
 
 @interface TTCommentTableViewCell () {
-    NIAttributedLabel *_labelComment;
+//    NIAttributedLabel *_labelComment;
+//    TTTAttributedLabel *_labelComment;
+    UILabel *_labelComment;
 }
 
 @end
@@ -65,8 +68,9 @@
         make.height.mas_equalTo(16);
     }];
     
-    _labelComment = [[NIAttributedLabel alloc] init];
+    _labelComment = [[UILabel alloc] initWithFrame:CGRectZero];
     _labelComment.textColor = [UIColor blackColor];
+//    _labelComment.backgroundColor = [UIColor redColor];
     _labelComment.numberOfLines = 0;
     _labelComment.font = COMMENT_FONT;
     [self.contentView addSubview:_labelComment];
@@ -101,22 +105,28 @@
 
 - (void)commentContentStr:(NSString *)commentStr replyNickName:(NSString *)nickName {
       _commentStr = commentStr;
+    CGSize size ;
     if (nickName.length > 0) {
         NSString *comment = @"回复";
         comment = [comment stringByAppendingFormat:@"%@: %@",nickName,commentStr];
         NSRange range = [comment rangeOfString:nickName];
-        _labelComment.text = comment;
-        [_labelComment setTextColor:[[UIColor blueColor] colorWithAlphaComponent:0.6] range:range];
+        NSMutableAttributedString *attString = [[NSMutableAttributedString alloc] initWithString:comment];
+        [attString addAttribute:NSForegroundColorAttributeName value:[[UIColor blueColor] colorWithAlphaComponent:0.6] range:range];
+        [attString addAttribute:NSFontAttributeName value:COMMENT_FONT range:NSMakeRange(0, attString.length -1)];
+        _labelComment.attributedText = attString;
+        size = [_labelComment.text boundingRectWithSize:CGSizeMake(Screen_Width - 15 - IMAGE_W - 10 - 15, MAXFLOAT)
+                                                options:NSStringDrawingUsesLineFragmentOrigin
+                                             attributes:@{NSFontAttributeName:COMMENT_FONT}
+                                                context:nil].size;
     } else {
         _labelComment.text = commentStr;
+        size = [_labelComment.text boundingRectWithSize:CGSizeMake(Screen_Width - 15 - IMAGE_W - 10 - 15, MAXFLOAT)
+                                                options:NSStringDrawingUsesLineFragmentOrigin
+                                             attributes:@{NSFontAttributeName:COMMENT_FONT}
+                                                context:nil].size;
     }
-    CGSize size = [_labelComment.text boundingRectWithSize:CGSizeMake(Screen_Width - 15 - IMAGE_W - 10 - 15, MAXFLOAT)
-                                           options:NSStringDrawingUsesLineFragmentOrigin
-                                        attributes:@{NSFontAttributeName:COMMENT_FONT}
-                                           context:nil].size;
-    
     [_labelComment mas_updateConstraints:^(MASConstraintMaker *make) {
-        make.height.mas_equalTo(ceil(size.height) + 1);
+        make.height.mas_equalTo(ceil(size.height) + 2);
     }];
 }
 

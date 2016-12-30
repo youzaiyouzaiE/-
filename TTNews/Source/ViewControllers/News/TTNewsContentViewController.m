@@ -146,7 +146,7 @@
                                     _cycleScrollView.imageURLStringsGroup = _arrayCycleImages;
                                 } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
                                     [TTProgressHUD dismiss];
-                                    [TTProgressHUD showMsg:@"服务器繁忙！请求出错"];
+                                    [TTProgressHUD showMsg:@"图片请求出错！"];
                                 }];
 }
 
@@ -154,12 +154,12 @@
     [[TTNetworkSessionManager shareManager] Get:TT_FRIST_LIFE_CITY
                                      Parameters:nil
                                         Success:^(NSURLSessionDataTask *task, id responseObject) {
-        _labelLife.text = [NSString stringWithFormat:@"%@    %@: %@   ",responseObject[@"date"],responseObject[@"city"],responseObject[@"tmp"]];
+        _labelLife.text = [NSString stringWithFormat:@"%@  %@:%@ ",responseObject[@"date"],responseObject[@"city"],responseObject[@"tmp"]];
         _labelRate.text = responseObject[@"rate"];
 
     } Failure:^(NSError *error) {
         NSLog(@"error %@",error.description);
-        [TTProgressHUD showMsg:@"服务器繁忙！请求出错"];
+        [TTProgressHUD showMsg:@"天气信息，请求出错"];
     }];
 }
 

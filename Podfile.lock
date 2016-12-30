@@ -58,6 +58,7 @@ PODS:
     - SDWebImage/Core (= 3.7.5)
   - SDWebImage/Core (3.7.5)
   - SVProgressHUD (2.0.3)
+  - TTTAttributedLabel (2.0.0)
   - UIColor-HexString (1.3.0)
   - WebViewJavascriptBridge (5.0.5)
 
@@ -81,6 +82,7 @@ DEPENDENCIES:
   - SDVersion
   - SDWebImage
   - SVProgressHUD
+  - TTTAttributedLabel
   - UIColor-HexString
   - WebViewJavascriptBridge
 
@@ -105,9 +107,10 @@ SPEC CHECKSUMS:
   SDVersion: 43383b6ac05462c973c3fd92d9748c74e360aba5
   SDWebImage: 69c6303e3348fba97e03f65d65d4fbc26740f461
   SVProgressHUD: b0830714205bea1317ea1a2ebc71e5633af334d4
+  TTTAttributedLabel: 8cffe8e127e4e82ff3af1e5386d4cd0ad000b656
   UIColor-HexString: fadc2e1389db19147ac99dee92222d3bd8bfec4a
   WebViewJavascriptBridge: a4d502315f1b8d9a51cd6a9174147ed567ec3bc5
 
-PODFILE CHECKSUM: 9591ae329367f8aee130b6725fd286a97bc64a41
+PODFILE CHECKSUM: 36039c559bcfab64d5f153075467c9954d6126e8
 
 COCOAPODS: 1.0.1
