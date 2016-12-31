@@ -119,10 +119,11 @@
 }
 
 - (void)loadData {
+    _currentPage = 1;
     [self loadListForPage:_currentPage andIsRefresh:YES];
     if (_isFristNews) {
         [self loadCycleImages];
-        [self loadLifeInfoDataWithDic:@{@"lng":@"38.983424" , @"lat" :@"116.5320"}];
+        [self loadLifeInfoDataWithDic:@{@"lng":@"38.983424" ,@"lat" :@"116.5320"}];
     }
 }
 
@@ -137,7 +138,7 @@
     [[AFHTTPSessionManager manager] GET:TT_FRIST_CYCLE_LIST
                              parameters:nil
                                progress:^(NSProgress * _Nonnull downloadProgress) { }
-                                success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+                                success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *responseObject) {
                                     [TTProgressHUD dismiss];
                                     [_arrayCycleImages removeAllObjects];
                                     for (NSDictionary *imageDic in responseObject[@"data"]) {
@@ -165,12 +166,11 @@
 
 - (void)loadListForPage:(NSInteger)page andIsRefresh:(BOOL)isRefresh {
     [TTProgressHUD show];
-    NSDictionary *parameterDic = nil;
     NSString *urlStr = TT_OTHER_News_LIST;
     if (_isFristNews) {
         urlStr = TT_FRIST_NEWS_List;
-        parameterDic = @{@"page":@(page)};
     }
+    NSDictionary *parameterDic = @{@"page":@(page)};;
     __weak __typeof(self)weakSelf = self;
     [[AFHTTPSessionManager manager] GET:urlStr
                              parameters:parameterDic
