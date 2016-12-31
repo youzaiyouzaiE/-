@@ -19,6 +19,7 @@
  *  @param view    显示提示信息的view
  */
 + (void)showHUDAddedTo:(nullable UIView *)view;
++ (void)showHUDAddedTo:(nullable UIView *)view userInteractionEnabled:(BOOL)enabled;
 
 /*!
  *  @brief 显示菊花,添加到当前widonw上，显示期间不能响应

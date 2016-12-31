@@ -336,40 +336,27 @@
 #pragma mark - networking
 - (void)sendExposure {
     [TTProgressHUD show];
+    NSMutableArray *imageDataArr = [NSMutableArray array];
+    if (_arraySelectImages.count > 0) {
+        for (UIImage *image in _arraySelectImages) {
+            NSData *imageData = UIImageJPEGRepresentation(image, 0.5);
+            [imageDataArr addObject:imageData];
+        }
+    }
     NSDictionary *dic = @{@"title" : _dicInputContent[k_TEXTFIELD],
                           @"desc" : _dicInputContent[k_TEXTVIEW],
                           @"link" : _dicInputContent[[NSIndexPath indexPathForRow:1 inSection:0]],
                           @"contact" : _dicInputContent[[NSIndexPath indexPathForRow:0 inSection:1]],
                           @"uname" : _dicInputContent[[NSIndexPath indexPathForRow:1 inSection:1]],
                           @"wechat" : _dicInputContent[[NSIndexPath indexPathForRow:2 inSection:1]],
+                          @"pics":imageDataArr
                                    };
-    NSMutableDictionary *parameterDic = [NSMutableDictionary dictionaryWithDictionary:dic];
-    if (_arraySelectImages.count > 0) {
-        NSMutableArray *imageDataArr = [NSMutableArray array];
-        for (UIImage *image in _arraySelectImages) {
-            NSData *imageData = UIImageJPEGRepresentation(image, 0.5);
-            [imageDataArr addObject:imageData];
-        }
-        [parameterDic setObject:imageDataArr forKey:@"pics"];
-    }
-    
-//    [[TTRequestManager sharedManager] POSTWithAction:TT_EXPOSURES_URL
-//                                          parameters:parameterDic
-//                                            progress:^(NSProgress *progress) {
-//                                                
-//                                            }
-//                                             success:^(NSURLSessionDataTask *task, id responseObject) {
-//                                                 [TTProgressHUD dismiss];
-//                                            }
-//                                             failure:^(NSURLSessionDataTask *task, NSError *error) {
-//                                                 [TTProgressHUD dismiss];
-//                                            }];
     [[AFHTTPSessionManager manager] POST:TT_EXPOSURES_URL
-                              parameters:parameterDic
-                                progress:^(NSProgress * _Nonnull uploadProgress) {
+                              parameters:dic
+                                progress:^(NSProgress *uploadProgress) {
                                     
                                 }
-                                 success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+                                 success:^(NSURLSessionDataTask *task, NSDictionary *responseObject) {
                                      [TTProgressHUD dismiss];
                                  }
                                  failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {

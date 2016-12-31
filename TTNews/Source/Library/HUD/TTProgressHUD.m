@@ -39,18 +39,19 @@ static UIImageView *_loadingImage = nil;
     if (!view) view = Window;
     if (!_hud) {
         _hud = [MBProgressHUD showHUDAddedTo:view animated:YES];
-        _hud.removeFromSuperViewOnHide = YES;
-        _hud.mode = MBProgressHUDModeIndeterminate;
-//        _hud.animationType = MBProgressHUDAnimationZoomOut;
-        _hud.margin = 10.0f;
-//        _hud.userInteractionEnabled = YES;
     }
+    _hud.removeFromSuperViewOnHide = YES;
+    _hud.mode = MBProgressHUDModeIndeterminate;
+    //        _hud.animationType = MBProgressHUDAnimationZoomOut;
+    _hud.margin = 10.0f;
+    //        _hud.userInteractionEnabled = YES;
     [_hud showAnimated:YES];
 }
 
 + (void)dismiss {
     [_hud hideAnimated:YES];
     [_hud removeFromSuperview];
+//    _hud = nil;
     Window.userInteractionEnabled = YES;
 }
 
