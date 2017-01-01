@@ -59,6 +59,9 @@
     _arrayWMPhotos = [NSMutableArray array];
     _sectionTitleArray = @[@"联系方式",@"你的名字",@"你的微信"];
     _dicInputContent = [NSMutableDictionary dictionary];
+    _dicInputContent[[NSIndexPath indexPathForRow:0 inSection:1]] = @"";
+    _dicInputContent[[NSIndexPath indexPathForRow:1 inSection:1]] = @"";
+    _dicInputContent[[NSIndexPath indexPathForRow:2 inSection:1]] = @"";
     
     [self initTableView];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidShowNotification:) name:UIKeyboardDidShowNotification object:nil];
@@ -273,7 +276,9 @@
     if (!SHARE_APP.isLogin) {
         [self presentLoginView];
     } else {
-        [self sendHasImageExposureRequest];
+        if ([self checkParameters]) {
+            [self sendHasImageExposureRequest];
+        }
     }
 }
 
@@ -312,6 +317,23 @@
     loginVC.loginBlock = ^(NSNumber *uid, NSString *token) { };
     UINavigationController *navitagtionVC = [[UINavigationController alloc] initWithRootViewController:loginVC];
     [self presentViewController:navitagtionVC animated:YES completion:^{ }];
+}
+
+- (BOOL)checkParameters {
+    if (!_dicInputContent[k_TEXTFIELD]) {
+        [TTProgressHUD showMsg:@"请输入爆料标题！"];
+        return NO;
+    }
+    if (!_dicInputContent[k_TEXTVIEW]) {
+        [TTProgressHUD showMsg:@"请输入爆料内容！"];
+        return NO;
+    }
+    if (!_dicInputContent[[NSIndexPath indexPathForRow:1 inSection:0]]) {
+        [TTProgressHUD showMsg:@"请输入您的联系方式"];
+        return NO;
+    }
+    
+    return YES;
 }
 
 #pragma mark - UIImagePickerControllerDelegate
@@ -365,14 +387,6 @@
                                      [TTProgressHUD dismiss];
                                  }];
     
-}
-
-- (NSDictionary *)postRequestParameter {
-    NSMutableDictionary *parameterDic = [NSMutableDictionary dictionary];
-    if (!_dicInputContent[k_TEXTFIELD]) {
-        
-    }
-    return parameterDic;
 }
 
 - (void)sendHasImageExposureForAF {
