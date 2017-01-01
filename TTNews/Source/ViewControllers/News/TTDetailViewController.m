@@ -370,13 +370,13 @@
 #pragma mark - JHShareSheetViewDelegate
 - (void)sheetViewdidSelectItemAtIndex:(NSInteger)index {
     if (index == WECHAT_SCENE) {
-//        if ([self checkAppActionInsall:index]) {
+        if ([self checkAppActionInsall:index]) {
             [self sendLinkContentWihtScene:WXSceneSession];
-//        }
+        }
     } else if (index == WECHATTIME_SCENT) {
-//        if ([self checkAppActionInsall:index]) {
+        if ([self checkAppActionInsall:index]) {
             [self sendLinkContentWihtScene:WXSceneTimeline];
-//        }
+        }
     }
 }
 
@@ -386,19 +386,20 @@
             return YES;
         }
         else {
-            [self showMindAlertView];
+            [self showMindAlertView:@"未找到微信应用，请先安装微信"];
             return NO;
         }
     }
-//    [self showMindAlertView];
     return NO;
 }
 
-- (void)showMindAlertView {
-    UIAlertView *installAlert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"未找到微信应用，请先安装微信" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
-    [installAlert show];
-    //弹出alreat 跳到安装面 - 》微信
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[WXApi getWXAppInstallUrl]]];
+- (void)showMindAlertView:(NSString *)meg {
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提示" message:meg preferredStyle:UIAlertControllerStyleAlert];
+    [alert addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault handler:nil]];
+    [alert addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[WXApi getWXAppInstallUrl]]];    //弹出alreat 跳到安装面 - 》微信
+    }]];
+    [self.navigationController presentViewController:alert animated:YES completion:nil];
 }
 
 #pragma mark - WXApiDelegate
