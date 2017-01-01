@@ -61,28 +61,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TTNews/Source/ViewControllers/News/TTExposuresNewsViewController.m"
-            timestampString = "504949032.817054"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "413"
-            endingLineNumber = "413"
-            landmarkName = "-sendHasImageExposure"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "TTNews/Source/ViewControllers/News/TTExposuresNewsViewController.m"
-            timestampString = "504949032.817054"
+            timestampString = "504953029.291194"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "415"
             endingLineNumber = "415"
-            landmarkName = "-sendHasImageExposure"
+            landmarkName = "-sendHasImageExposureForAF"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -93,12 +77,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TTNews/Source/ViewControllers/News/TTExposuresNewsViewController.m"
-            timestampString = "504948798.808051"
+            timestampString = "504953029.291194"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "392"
-            endingLineNumber = "392"
-            landmarkName = "-sendHasImageExposure"
+            startingLineNumber = "417"
+            endingLineNumber = "417"
+            landmarkName = "-sendHasImageExposureForAF"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -109,12 +93,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TTNews/Source/ViewControllers/News/TTExposuresNewsViewController.m"
-            timestampString = "504948808.954049"
+            timestampString = "504953029.291194"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "395"
-            endingLineNumber = "395"
-            landmarkName = "-sendHasImageExposure"
+            startingLineNumber = "394"
+            endingLineNumber = "394"
+            landmarkName = "-sendHasImageExposureForAF"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -125,12 +109,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TTNews/Source/ViewControllers/News/TTExposuresNewsViewController.m"
-            timestampString = "504949032.817054"
+            timestampString = "504953029.291194"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "411"
-            endingLineNumber = "411"
-            landmarkName = "-sendHasImageExposure"
+            startingLineNumber = "397"
+            endingLineNumber = "397"
+            landmarkName = "-sendHasImageExposureForAF"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -141,27 +125,43 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TTNews/Source/ViewControllers/News/TTExposuresNewsViewController.m"
-            timestampString = "504949223.122799"
+            timestampString = "504953029.291194"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "407"
-            endingLineNumber = "407"
-            landmarkName = "-sendHasImageExposure"
+            startingLineNumber = "413"
+            endingLineNumber = "413"
+            landmarkName = "-sendHasImageExposureForAF"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "TTNews/Source/ViewControllers/News/TTExposuresNewsViewController.m"
+            timestampString = "504953029.291194"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "409"
+            endingLineNumber = "409"
+            landmarkName = "-sendHasImageExposureForAF"
             landmarkType = "7">
             <Locations>
                <Location
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "__53-[TTExposuresNewsViewController sendHasImageExposure]_block_invoke"
+                  symbolName = "__58-[TTExposuresNewsViewController sendHasImageExposureForAF]_block_invoke"
                   moduleName = "TTNews"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/jiahui/Desktop/TTNews/TTNews/Source/ViewControllers/News/TTExposuresNewsViewController.m"
-                  timestampString = "504949223.718496"
+                  timestampString = "504953185.372956"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "408"
-                  endingLineNumber = "408"
+                  startingLineNumber = "410"
+                  endingLineNumber = "410"
                   offsetFromSymbolStart = "949">
                </Location>
                <Location
@@ -172,7 +172,7 @@
                   moduleName = "TTNews"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/jiahui/Desktop/TTNews/TTNews/Source/ViewControllers/News/TTExposuresNewsViewController.m"
-                  timestampString = "504949223.721613"
+                  timestampString = "504953185.376103"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "0"
@@ -187,7 +187,7 @@
                   moduleName = "TTNews"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/jiahui/Desktop/TTNews/TTNews/Source/ViewControllers/News/TTExposuresNewsViewController.m"
-                  timestampString = "504949223.724371"
+                  timestampString = "504953185.379828"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "0"
@@ -204,12 +204,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TTNews/Source/ViewControllers/News/TTExposuresNewsViewController.m"
-            timestampString = "504949004.671062"
+            timestampString = "504953029.291194"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "397"
-            endingLineNumber = "397"
-            landmarkName = "-sendHasImageExposure"
+            startingLineNumber = "399"
+            endingLineNumber = "399"
+            landmarkName = "-sendHasImageExposureForAF"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

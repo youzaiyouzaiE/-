@@ -21,7 +21,7 @@
 #define k_TEXTFIELD     @"textFieldKey"
 #define k_TEXTVIEW      @"textViewKey"
 
-@interface TTExposuresNewsViewController () <UITextFieldDelegate, UITextViewDelegate,ExposuresContentViewDelegate,TTLabelAndTextFieldViewDelegate,MWPhotoBrowserDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,UITableViewDelegate,UITableViewDataSource>{
+@interface TTExposuresNewsViewController () <UITextFieldDelegate, UITextViewDelegate,ExposuresContentViewDelegate,TTLabelAndTextFieldViewDelegate,MWPhotoBrowserDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,UITableViewDelegate,UITableViewDataSource,NSURLConnectionDataDelegate>{
     UIBarButtonItem *_rightItem;
     
     NSArray *_sectionTitleArray;
@@ -32,6 +32,8 @@
     CGRect _tableViewFrame;
     NSIndexPath *_editingIndexPath;
     BOOL _keyboardShowed;
+    
+        NSMutableData *_reveivedData;
 }
 
 @property (nonatomic, strong) UITableView *tableView;
@@ -271,7 +273,7 @@
     if (!SHARE_APP.isLogin) {
         [self presentLoginView];
     } else {
-        [self sendHasImageExposure];
+        [self sendHasImageExposureRequest];
     }
 }
 
@@ -373,7 +375,7 @@
     return parameterDic;
 }
 
-- (void)sendHasImageExposure {
+- (void)sendHasImageExposureForAF {
     [TTProgressHUD show];
     NSMutableArray *imageDataArr = [NSMutableArray array];
     if (_arraySelectImages.count > 0) {
@@ -415,6 +417,82 @@
                                  }];
     
 }
+
+///手动拼接
+- (void)sendHasImageExposureRequest {
+    NSURL *URL = [[NSURL alloc] initWithString:TT_EXPOSURES_URL];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc]initWithURL:URL cachePolicy:(NSURLRequestUseProtocolCachePolicy) timeoutInterval:30];
+    request.HTTPMethod = @"POST";
+    
+    NSString *boundary = @"wfWiEWrgEFA9A78512weF7106A";
+    request.allHTTPHeaderFields = @{
+                                    @"Content-Type":[NSString stringWithFormat:@"multipart/form-data; boundary=%@",boundary]
+                                    };
+    
+    NSMutableArray *imageDataArr = [NSMutableArray array];
+    if (_arraySelectImages.count > 0) {
+        for (UIImage *image in _arraySelectImages) {
+            NSData *imageData = UIImageJPEGRepresentation(image, 0.5);
+            [imageDataArr addObject:imageData];
+        }
+    }
+    NSDictionary *dic = @{@"title" : _dicInputContent[k_TEXTFIELD],
+                          @"desc" : _dicInputContent[k_TEXTVIEW],
+                          @"link" : _dicInputContent[[NSIndexPath indexPathForRow:1 inSection:0]],
+                          @"contact" : _dicInputContent[[NSIndexPath indexPathForRow:0 inSection:1]],
+                          @"uname" : _dicInputContent[[NSIndexPath indexPathForRow:1 inSection:1]],
+                          @"wechat" : _dicInputContent[[NSIndexPath indexPathForRow:2 inSection:1]]
+                          };
+    
+    NSMutableData *postData = [[NSMutableData alloc] init];//请求体数据
+    for (NSString *key in dic) {
+        //循环参数按照部分1、2、3那样循环构建每部分数据
+        NSString *pair = [NSString stringWithFormat:@"--%@\r\nContent-Disposition: form-data; name=\"%@\"\r\n\r\n",boundary,key];
+        [postData appendData:[pair dataUsingEncoding:NSUTF8StringEncoding]];
+        
+        id value = [dic objectForKey:key];
+        if ([value isKindOfClass:[NSString class]]) {
+            [postData appendData:[value dataUsingEncoding:NSUTF8StringEncoding]];
+        }else if ([value isKindOfClass:[NSData class]]){
+            [postData appendData:value];
+        }
+        [postData appendData:[@"\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
+    }
+    
+//    //文件部分
+//    NSString *filename = [filePath lastPathComponent];
+//    NSString *contentType = AFContentTypeForPathExtension([filePath pathExtension]);
+//    NSString *filePair = [NSString stringWithFormat:@"--%@\r\nContent-Disposition: form-data; name=\"%@\"; filename=\"%@\";Content-Type=%@\r\n\r\n",boundary,fileKey,filename,contentType];
+//    [postData appendData:[filePair dataUsingEncoding:NSUTF8StringEncoding]];
+//    [postData appendData:fileData];
+    NSString *fileKey = @"pics";
+    NSString *contentType = @"image/jpeg";
+    for (NSData *imagData in imageDataArr) {
+        NSInteger index = 0;
+        NSString *filename = [NSString stringWithFormat:@"photo%@",@(index)];
+        NSString *filePair = [NSString stringWithFormat:@"--%@\r\nContent-Disposition: form-data; name=\"%@\"; filename=\"%@\";Content-Type=%@\r\n\r\n",boundary,fileKey,filename,contentType];
+        [postData appendData:[filePair dataUsingEncoding:NSUTF8StringEncoding]];
+        [postData appendData:imagData]; //加入文件的数据
+          index++;
+    }
+
+    //设置请求体
+    [postData appendData:[[NSString stringWithFormat:@"\r\n--%@--\r\n",boundary] dataUsingEncoding:NSUTF8StringEncoding]];
+    request.HTTPBody = postData;
+    //设置请求头总数据长度
+    [request setValue:[NSString stringWithFormat:@"%lu",(unsigned long)postData.length] forHTTPHeaderField:@"Content-Length"];
+    
+    NSURLSessionDataTask *task =[[NSURLSession sharedSession] dataTaskWithRequest:request
+                                                                completionHandler:^(NSData * data, NSURLResponse *response, NSError *error) {
+                                                                    NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
+                                                                    NSLog(@"dict :%@",dict);
+                                                                    if (error) {
+                                                                          NSLog(@"Error: %@", error);
+                                                                    }
+                                                                }];
+     [task resume];
+}
+
 
 /*
 #pragma mark - Navigation
