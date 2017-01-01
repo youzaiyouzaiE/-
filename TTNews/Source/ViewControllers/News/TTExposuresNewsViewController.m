@@ -271,7 +271,7 @@
     if (!SHARE_APP.isLogin) {
         [self presentLoginView];
     } else {
-        [self sendExposure];
+        [self sendHasImageExposure];
     }
 }
 
@@ -373,9 +373,48 @@
     return parameterDic;
 }
 
-
-
-
+- (void)sendHasImageExposure {
+    [TTProgressHUD show];
+    NSMutableArray *imageDataArr = [NSMutableArray array];
+    if (_arraySelectImages.count > 0) {
+        for (UIImage *image in _arraySelectImages) {
+            NSData *imageData = UIImageJPEGRepresentation(image, 0.5);
+            [imageDataArr addObject:imageData];
+        }
+    }
+    NSDictionary *dic = @{@"title" : _dicInputContent[k_TEXTFIELD],
+                          @"desc" : _dicInputContent[k_TEXTVIEW],
+                          @"link" : _dicInputContent[[NSIndexPath indexPathForRow:1 inSection:0]],
+                          @"contact" : _dicInputContent[[NSIndexPath indexPathForRow:0 inSection:1]],
+                          @"uname" : _dicInputContent[[NSIndexPath indexPathForRow:1 inSection:1]],
+                          @"wechat" : _dicInputContent[[NSIndexPath indexPathForRow:2 inSection:1]]
+                          };
+    [[AFHTTPSessionManager manager] POST:TT_EXPOSURES_URL
+                              parameters:nil
+               constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+                   for (NSData *imageData in imageDataArr) {
+                       NSInteger index = 0;
+                       [formData appendPartWithFileData:imageData
+                                                   name:@"pics"
+                                               fileName:[NSString stringWithFormat:@"phonto %@",@(index)]
+                                               mimeType:@"image/jpeg"];
+                       index++;
+                   }
+                   for (NSString *key in dic.allKeys) {
+                       [formData appendPartWithFormData:[dic[key] dataUsingEncoding:NSUTF8StringEncoding]
+                                                   name:key];
+                   }
+                   NSLog(@"form data :%@",formData);
+               }
+                                progress:nil
+                                 success:^(NSURLSessionDataTask *task, id responseObject) {
+                                     NSLog(@"Response: %@", responseObject);
+                                 }
+                                 failure:^(NSURLSessionDataTask *task, NSError *error) {
+                                     NSLog(@"Error: %@", error);
+                                 }];
+    
+}
 
 /*
 #pragma mark - Navigation
