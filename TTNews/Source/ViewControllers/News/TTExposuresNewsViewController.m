@@ -17,6 +17,7 @@
 #import "TTLoginViewController.h"
 #import "TTRequestManager.h"
 #import <AFNetworking/AFNetworking.h>
+#import "MBProgressHUD.h"
 
 #define k_TEXTFIELD     @"textFieldKey"
 #define k_TEXTVIEW      @"textViewKey"
@@ -33,7 +34,7 @@
     NSIndexPath *_editingIndexPath;
     BOOL _keyboardShowed;
     
-        NSMutableData *_reveivedData;
+    NSMutableData *_reveivedData;
 }
 
 @property (nonatomic, strong) UITableView *tableView;
@@ -60,7 +61,6 @@
     _sectionTitleArray = @[@"联系方式",@"你的名字",@"你的微信"];
     _dicInputContent = [NSMutableDictionary dictionary];
     _dicInputContent[[NSIndexPath indexPathForRow:0 inSection:1]] = @"";
-    _dicInputContent[[NSIndexPath indexPathForRow:1 inSection:1]] = @"";
     _dicInputContent[[NSIndexPath indexPathForRow:2 inSection:1]] = @"";
     
     [self initTableView];
@@ -277,7 +277,7 @@
         [self presentLoginView];
     } else {
         if ([self checkParameters]) {
-            [self sendHasImageExposureRequest];
+            [self sendHasImageExposureForAF];
         }
     }
 }
@@ -324,15 +324,14 @@
         [TTProgressHUD showMsg:@"请输入爆料标题！"];
         return NO;
     }
-    if (!_dicInputContent[k_TEXTVIEW]) {
+    if (!_dicInputContent[k_TEXTVIEW] || [_dicInputContent[k_TEXTVIEW] isEqualToString:@""] || ((NSString *)_dicInputContent[k_TEXTVIEW]).length < 2) {
         [TTProgressHUD showMsg:@"请输入爆料内容！"];
         return NO;
     }
-    if (!_dicInputContent[[NSIndexPath indexPathForRow:1 inSection:0]]) {
-        [TTProgressHUD showMsg:@"请输入您的联系方式"];
+    if (!_dicInputContent[[NSIndexPath indexPathForRow:1 inSection:1]]) {
+        [TTProgressHUD showMsg:@"请输入您的名字"];
         return NO;
     }
-    
     return YES;
 }
 
@@ -358,39 +357,8 @@
 }
 
 #pragma mark - networking
-- (void)sendExposure {
-    [TTProgressHUD show];
-    NSMutableArray *imageDataArr = [NSMutableArray array];
-    if (_arraySelectImages.count > 0) {
-        for (UIImage *image in _arraySelectImages) {
-            NSData *imageData = UIImageJPEGRepresentation(image, 0.5);
-            [imageDataArr addObject:imageData];
-        }
-    }
-    NSDictionary *dic = @{@"title" : _dicInputContent[k_TEXTFIELD],
-                          @"desc" : _dicInputContent[k_TEXTVIEW],
-                          @"link" : _dicInputContent[[NSIndexPath indexPathForRow:1 inSection:0]],
-                          @"contact" : _dicInputContent[[NSIndexPath indexPathForRow:0 inSection:1]],
-                          @"uname" : _dicInputContent[[NSIndexPath indexPathForRow:1 inSection:1]],
-                          @"wechat" : _dicInputContent[[NSIndexPath indexPathForRow:2 inSection:1]],
-                          @"pics":imageDataArr
-                                   };
-    [[AFHTTPSessionManager manager] POST:TT_EXPOSURES_URL
-                              parameters:dic
-                                progress:^(NSProgress *uploadProgress) {
-                                    
-                                }
-                                 success:^(NSURLSessionDataTask *task, NSDictionary *responseObject) {
-                                     [TTProgressHUD dismiss];
-                                 }
-                                 failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-                                     [TTProgressHUD dismiss];
-                                 }];
-    
-}
-
 - (void)sendHasImageExposureForAF {
-    [TTProgressHUD show];
+    __block MBProgressHUD *hud = [self progressHUD];
     NSMutableArray *imageDataArr = [NSMutableArray array];
     if (_arraySelectImages.count > 0) {
         for (UIImage *image in _arraySelectImages) {
@@ -408,105 +376,40 @@
     [[AFHTTPSessionManager manager] POST:TT_EXPOSURES_URL
                               parameters:nil
                constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
-                   for (NSData *imageData in imageDataArr) {
-                       NSInteger index = 0;
-                       [formData appendPartWithFileData:imageData
-                                                   name:@"pics"
-                                               fileName:[NSString stringWithFormat:@"phonto %@",@(index)]
-                                               mimeType:@"image/jpeg"];
-                       index++;
-                   }
                    for (NSString *key in dic.allKeys) {
                        [formData appendPartWithFormData:[dic[key] dataUsingEncoding:NSUTF8StringEncoding]
                                                    name:key];
                    }
-                   NSLog(@"form data :%@",formData);
+                   for (NSData *imageData in imageDataArr) {
+                       NSInteger index = 0;
+                       [formData appendPartWithFileData:imageData
+                                                   name:@"pics[]"
+                                               fileName:[NSString stringWithFormat:@"phonto %@",@(index)]
+                                               mimeType:@"image/jpeg"];
+                       index++;
+                   }
                }
-                                progress:nil
+                                progress:^(NSProgress *progress){
+                                    hud.progressObject = progress;
+                                }
                                  success:^(NSURLSessionDataTask *task, id responseObject) {
+                                      [hud hideAnimated:YES];
+                                     [TTProgressHUD showDoneOnView:self.view];
                                      NSLog(@"Response: %@", responseObject);
                                  }
                                  failure:^(NSURLSessionDataTask *task, NSError *error) {
+                                      [hud hideAnimated:YES];
                                      NSLog(@"Error: %@", error);
                                  }];
     
 }
 
-///手动拼接
-- (void)sendHasImageExposureRequest {
-    NSURL *URL = [[NSURL alloc] initWithString:TT_EXPOSURES_URL];
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc]initWithURL:URL cachePolicy:(NSURLRequestUseProtocolCachePolicy) timeoutInterval:30];
-    request.HTTPMethod = @"POST";
-    
-    NSString *boundary = @"wfWiEWrgEFA9A78512weF7106A";
-    request.allHTTPHeaderFields = @{
-                                    @"Content-Type":[NSString stringWithFormat:@"multipart/form-data; boundary=%@",boundary]
-                                    };
-    
-    NSMutableArray *imageDataArr = [NSMutableArray array];
-    if (_arraySelectImages.count > 0) {
-        for (UIImage *image in _arraySelectImages) {
-            NSData *imageData = UIImageJPEGRepresentation(image, 0.5);
-            [imageDataArr addObject:imageData];
-        }
-    }
-    NSDictionary *dic = @{@"title" : _dicInputContent[k_TEXTFIELD],
-                          @"desc" : _dicInputContent[k_TEXTVIEW],
-                          @"link" : _dicInputContent[[NSIndexPath indexPathForRow:1 inSection:0]],
-                          @"contact" : _dicInputContent[[NSIndexPath indexPathForRow:0 inSection:1]],
-                          @"uname" : _dicInputContent[[NSIndexPath indexPathForRow:1 inSection:1]],
-                          @"wechat" : _dicInputContent[[NSIndexPath indexPathForRow:2 inSection:1]]
-                          };
-    
-    NSMutableData *postData = [[NSMutableData alloc] init];//请求体数据
-    for (NSString *key in dic) {
-        //循环参数按照部分1、2、3那样循环构建每部分数据
-        NSString *pair = [NSString stringWithFormat:@"--%@\r\nContent-Disposition: form-data; name=\"%@\"\r\n\r\n",boundary,key];
-        [postData appendData:[pair dataUsingEncoding:NSUTF8StringEncoding]];
-        
-        id value = [dic objectForKey:key];
-        if ([value isKindOfClass:[NSString class]]) {
-            [postData appendData:[value dataUsingEncoding:NSUTF8StringEncoding]];
-        }else if ([value isKindOfClass:[NSData class]]){
-            [postData appendData:value];
-        }
-        [postData appendData:[@"\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
-    }
-    
-//    //文件部分
-//    NSString *filename = [filePath lastPathComponent];
-//    NSString *contentType = AFContentTypeForPathExtension([filePath pathExtension]);
-//    NSString *filePair = [NSString stringWithFormat:@"--%@\r\nContent-Disposition: form-data; name=\"%@\"; filename=\"%@\";Content-Type=%@\r\n\r\n",boundary,fileKey,filename,contentType];
-//    [postData appendData:[filePair dataUsingEncoding:NSUTF8StringEncoding]];
-//    [postData appendData:fileData];
-    NSString *fileKey = @"pics";
-    NSString *contentType = @"image/jpeg";
-    for (NSData *imagData in imageDataArr) {
-        NSInteger index = 0;
-        NSString *filename = [NSString stringWithFormat:@"photo%@",@(index)];
-        NSString *filePair = [NSString stringWithFormat:@"--%@\r\nContent-Disposition: form-data; name=\"%@\"; filename=\"%@\";Content-Type=%@\r\n\r\n",boundary,fileKey,filename,contentType];
-        [postData appendData:[filePair dataUsingEncoding:NSUTF8StringEncoding]];
-        [postData appendData:imagData]; //加入文件的数据
-          index++;
-    }
 
-    //设置请求体
-    [postData appendData:[[NSString stringWithFormat:@"\r\n--%@--\r\n",boundary] dataUsingEncoding:NSUTF8StringEncoding]];
-    request.HTTPBody = postData;
-    //设置请求头总数据长度
-    [request setValue:[NSString stringWithFormat:@"%lu",(unsigned long)postData.length] forHTTPHeaderField:@"Content-Length"];
-    
-    NSURLSessionDataTask *task =[[NSURLSession sharedSession] dataTaskWithRequest:request
-                                                                completionHandler:^(NSData * data, NSURLResponse *response, NSError *error) {
-                                                                    NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
-                                                                    NSLog(@"dict :%@",dict);
-                                                                    if (error) {
-                                                                          NSLog(@"Error: %@", error);
-                                                                    }
-                                                                }];
-     [task resume];
+- (MBProgressHUD *)progressHUD {
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    hud.mode = MBProgressHUDModeAnnularDeterminate;
+    return hud;
 }
-
 
 /*
 #pragma mark - Navigation

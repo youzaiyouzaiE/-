@@ -6,7 +6,7 @@
 //  Copyright © 2016年 ed. All rights reserved.
 //
 
-
+@class  MBProgressHUD;
 @interface TTProgressHUD : NSObject
 
 /*!
@@ -48,4 +48,8 @@
 
 + (void)showMessageToView:(nonnull UIView *)view message:(nullable NSString *)message autoHideTime:(NSTimeInterval )interval;
 
+
++ (void)showDoneOnView:(nullable UIView *)view;
+
++ (nonnull MBProgressHUD *)showProgressHUDOnView:(nullable UIView *)view;
 @end

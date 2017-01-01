@@ -406,7 +406,6 @@
 -(void) sendLinkContentWihtScene:(int)scene{
     WXMediaMessage *message = [WXMediaMessage message];
     message.title = _shareTitle;
-//    message.description = MESSAGECONTENT;
     [message setThumbImage:[UIImage imageNamed:@"AppIcon"]];
     
     WXWebpageObject *ext = [WXWebpageObject object];
