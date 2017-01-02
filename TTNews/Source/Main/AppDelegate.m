@@ -13,7 +13,14 @@
 #import "TTNetworkSessionManager.h"
 #import "WXApi.h"
 #import "TTAppData.h"
+#import <PgySDK/PgyManager.h>
+//#import <PgyUpdate/PgyUpdateManager.h>
+#import "TalkingData.h"
+#import "TalkingDataSMS.h"
 
+
+
+#define PGY_APP_ID   @"bc2f3e0f520c5299b0bdb3399e27bd4e"
 
 @interface AppDelegate ()<WXApiDelegate>
 
@@ -24,10 +31,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
-    NSURLCache *URLCache = [[NSURLCache alloc] initWithMemoryCapacity:4 * 1024 * 1024
-                                                         diskCapacity:20 * 1024 * 1024
-                                                             diskPath:nil];
-    [NSURLCache setSharedURLCache:URLCache];
+//    [[PgyManager sharedPgyManager] startManagerWithAppId:PGY_APP_ID];
     
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     self.tableBarContrller = [TTTabBarController shareInstance];
@@ -37,8 +41,18 @@
     [self initializeNetRequest];
     [self setupUserDefaults];
     [WXApi registerApp:@"wxc565f6c6475eef2b"];
+    [self installTalkingData];
     return YES;
 }
+
+
+
+- (void)installTalkingData {
+    [TalkingData setExceptionReportEnabled:YES];
+    [TalkingData sessionStarted:@"7ED8D36E60D84EF5992DBB62CF9BA4D0" withChannelId:@"AppStore"];
+    [TalkingDataSMS init:@"7ED8D36E60D84EF5992DBB62CF9BA4D0" withSecretId:@""];
+}
+
 
 #pragma mark - netWork request
 - (void)initializeNetRequest {

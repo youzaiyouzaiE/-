@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		5E2DDD507AFC5A2FC706C802 /* libPods-TTNews.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C4C26A241D42CCF389274A89 /* libPods-TTNews.a */; };
 		7D4937D66844CF5F5FCBDB08 /* libPods-TTNewsTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8BA86FD4B9FFE3FDD3FFE7EA /* libPods-TTNewsTests.a */; };
+		DA0BF3941E1A592900697662 /* libTalkingData.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DA0BF3911E1A592900697662 /* libTalkingData.a */; };
 		DA16CA5D1E0ACDBD00F2F75A /* TTImagesCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DA16CA5C1E0ACDBD00F2F75A /* TTImagesCollectionViewCell.m */; };
 		DA23E9151DFC4D2D0087B232 /* sns_icon_1.png in Resources */ = {isa = PBXBuildFile; fileRef = DA23E8D11DFC4D2D0087B232 /* sns_icon_1.png */; };
 		DA23E9161DFC4D2D0087B232 /* sns_icon_10.png in Resources */ = {isa = PBXBuildFile; fileRef = DA23E8D21DFC4D2D0087B232 /* sns_icon_10.png */; };
@@ -215,6 +216,9 @@
 		96E44656E97FFEA8726671D5 /* Pods-TTNews.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TTNews.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TTNews/Pods-TTNews.debug.xcconfig"; sourceTree = "<group>"; };
 		BD2F2D1CCC7CC93810CE5EB9 /* Pods-TTNewsTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TTNewsTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-TTNewsTests/Pods-TTNewsTests.release.xcconfig"; sourceTree = "<group>"; };
 		C4C26A241D42CCF389274A89 /* libPods-TTNews.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-TTNews.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		DA0BF3911E1A592900697662 /* libTalkingData.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libTalkingData.a; sourceTree = "<group>"; };
+		DA0BF3921E1A592900697662 /* TalkingData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TalkingData.h; sourceTree = "<group>"; };
+		DA0BF3931E1A592900697662 /* TalkingDataSMS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TalkingDataSMS.h; sourceTree = "<group>"; };
 		DA16CA5B1E0ACDBD00F2F75A /* TTImagesCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTImagesCollectionViewCell.h; sourceTree = "<group>"; };
 		DA16CA5C1E0ACDBD00F2F75A /* TTImagesCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTImagesCollectionViewCell.m; sourceTree = "<group>"; };
 		DA23E8D11DFC4D2D0087B232 /* sns_icon_1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sns_icon_1.png; sourceTree = "<group>"; };
@@ -497,6 +501,7 @@
 				DA5B0B8F1DFD943D001067B8 /* Security.framework in Frameworks */,
 				DA5B0B8D1DFD940B001067B8 /* CFNetwork.framework in Frameworks */,
 				DA5B0B801DFD8D51001067B8 /* libWeChatSDK.a in Frameworks */,
+				DA0BF3941E1A592900697662 /* libTalkingData.a in Frameworks */,
 				5E2DDD507AFC5A2FC706C802 /* libPods-TTNews.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -535,6 +540,16 @@
 				0D813C1B45D80A6E775754DA /* libPods-TTNewsUITests.a */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		DA0BF3901E1A592900697662 /* TalkingData */ = {
+			isa = PBXGroup;
+			children = (
+				DA0BF3911E1A592900697662 /* libTalkingData.a */,
+				DA0BF3921E1A592900697662 /* TalkingData.h */,
+				DA0BF3931E1A592900697662 /* TalkingDataSMS.h */,
+			);
+			path = TalkingData;
 			sourceTree = "<group>";
 		};
 		DA23E8CF1DFC4D2D0087B232 /* Images */ = {
@@ -988,6 +1003,7 @@
 		DAC65BBB1DF2D5070090369A /* 3rd */ = {
 			isa = PBXGroup;
 			children = (
+				DA0BF3901E1A592900697662 /* TalkingData */,
 				DA5B0B7A1DFD8D51001067B8 /* OpenSDK1.7.5 */,
 				DAC65BBC1DF2D5070090369A /* MHFBImageViewController */,
 			);
@@ -1683,6 +1699,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/TTNews/Source/Library/3rd/OpenSDK1.7.5",
+					"$(PROJECT_DIR)/TTNews/Source/Library/3rd/TalkingData",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.skykiwi.TanweiNewsT;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1709,6 +1726,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/TTNews/Source/Library/3rd/OpenSDK1.7.5",
+					"$(PROJECT_DIR)/TTNews/Source/Library/3rd/TalkingData",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.skykiwi.TanweiNewsT;
 				PRODUCT_NAME = "$(TARGET_NAME)";

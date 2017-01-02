@@ -49,6 +49,7 @@ PODS:
     - NJKWebViewProgress/ProgressView (= 0.2.3)
   - NJKWebViewProgress/Core (0.2.3)
   - NJKWebViewProgress/ProgressView (0.2.3)
+  - Pgyer (2.8.4)
   - pop (1.0.9)
   - PSTCollectionView (1.2.3)
   - SDCycleScrollView (1.65):
@@ -77,6 +78,7 @@ DEPENDENCIES:
   - MWPhotoBrowser
   - NimbusKit-AttributedLabel (~> 1.0.0)
   - NJKWebViewProgress
+  - Pgyer
   - pop
   - SDCycleScrollView
   - SDVersion
@@ -101,6 +103,7 @@ SPEC CHECKSUMS:
   MWPhotoBrowser: 7087b4c828297ef34ff2b0892c8e967034a86842
   NimbusKit-AttributedLabel: b07b1f99ba46801a1c0d32c43a3a044fdda46c15
   NJKWebViewProgress: f481fd424cb5ecc27eacae11b5397db92fba9a4d
+  Pgyer: 26edfcc8da6da6383fabfdbccd2f77c623b9d6eb
   pop: f667631a5108a2e60d9e8797c9b32ddaf2080bce
   PSTCollectionView: 6749df92885353521f55279a7ce2b293762e2be4
   SDCycleScrollView: f72904c77698a7f93a41bcbbc2d78b073bf7326c
@@ -111,6 +114,6 @@ SPEC CHECKSUMS:
   UIColor-HexString: fadc2e1389db19147ac99dee92222d3bd8bfec4a
   WebViewJavascriptBridge: a4d502315f1b8d9a51cd6a9174147ed567ec3bc5
 
-PODFILE CHECKSUM: 36039c559bcfab64d5f153075467c9954d6126e8
+PODFILE CHECKSUM: 56b6f4ad2a33be7108468da03682c4a068c26c30
 
 COCOAPODS: 1.0.1

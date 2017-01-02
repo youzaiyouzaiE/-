@@ -27,6 +27,7 @@ pod 'WebViewJavascriptBridge'
 pod 'MWPhotoBrowser'
 pod 'NimbusKit-AttributedLabel', '~> 1.0.0'
 pod 'TTTAttributedLabel'
+pod 'Pgyer'
 
 end
 

@@ -21,6 +21,7 @@
 #import <AFNetworking/AFNetworking.h>
 #import "TTAppData.h"
 #import "M13ProgressViewBar.h"
+#import "TalkingData.h"
 
 #define WECHAT_SCENE            0
 #define WECHATTIME_SCENT        1
@@ -328,6 +329,7 @@
 - (void)sendAction:(UIButton *)button {
     if (SHARE_APP.isLogin) {
         [self sendComment];
+        [TalkingData trackEvent:@"详情页表发评论"];
     } else {
         [self presentLoginView];
     }
@@ -372,10 +374,12 @@
     if (index == WECHAT_SCENE) {
         if ([self checkAppActionInsall:index]) {
             [self sendLinkContentWihtScene:WXSceneSession];
+            [TalkingData trackEvent:@"WeChat_share_SceneSession"];
         }
     } else if (index == WECHATTIME_SCENT) {
         if ([self checkAppActionInsall:index]) {
             [self sendLinkContentWihtScene:WXSceneTimeline];
+            [TalkingData trackEvent:@"WeChat_share_Timeline"];
         }
     }
 }

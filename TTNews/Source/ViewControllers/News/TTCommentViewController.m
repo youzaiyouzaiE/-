@@ -18,6 +18,7 @@
 #import "TTCommentViewController.h"
 #import "TTRequestManager.h"
 #import <AFNetworking/AFNetworking.h>
+#import "TalkingData.h"
 
 @interface TTCommentViewController () <UITableViewDelegate,UITableViewDataSource,UIGestureRecognizerDelegate> {
     NSInteger _currentPage;
@@ -35,6 +36,16 @@
 @end
 
 @implementation TTCommentViewController
+
+-(void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [TalkingData trackPageBegin:@"chaKanPingLun"];
+}
+
+-(void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    [TalkingData trackPageEnd:@"chaKanPingLun"];
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -241,6 +252,7 @@
 }
 
 - (void)sendComment {
+     [TalkingData trackEvent:@"评论列表发评论"];
     if (_textView.text.length < 1) {
         [TTProgressHUD showMsg:@"没有评论内容"];
         return;
