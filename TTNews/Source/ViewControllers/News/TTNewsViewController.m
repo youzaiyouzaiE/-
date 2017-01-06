@@ -49,6 +49,7 @@ static NSString * const collectionViewSectionHeaderID = @"ChannelCollectionHeade
     _titleArray = [NSMutableArray arrayWithObject:@"头条"];
     _arraySubControllers = [NSMutableArray array];
     _arrayAddedControllers = [NSMutableArray array];
+    _arrayChannels = [NSMutableArray array];
     [self newsChannelsRequest];
     if ([self respondsToSelector:@selector(edgesForExtendedLayout)])
         self.edgesForExtendedLayout = UIRectEdgeNone;
@@ -72,8 +73,15 @@ static NSString * const collectionViewSectionHeaderID = @"ChannelCollectionHeade
                                     [TTProgressHUD dismiss];
                                     for (NSDictionary *dic in responseObject) {
                                         TTChannelModel *channel = [[TTChannelModel alloc] initWithDictionary:dic];
-                                        [_arrayChannels addObject:channel];
-                                        [_titleArray addObject:channel.name];
+                                        if (channel.id_Channel.integerValue == 1) {//NEWs
+                                            for (TTChannelModel *newsSubCh in channel.children) {
+                                                [_arrayChannels addObject:newsSubCh];
+                                                [_titleArray addObject:newsSubCh.name];
+                                            }
+                                            break;
+                                        }
+//                                        [_arrayChannels addObject:channel];
+//                                        [_titleArray addObject:channel.name];
                                     }
                                     [self setupTopContianerView];
                                     [self setupContentScrollView];
@@ -105,7 +113,6 @@ static NSString * const collectionViewSectionHeaderID = @"ChannelCollectionHeade
             [_arrayAddedControllers addObject:vc];
         } else
             vc.channel = _arrayChannels[index -1];
-        
         [self addChildViewController:vc];
         vc.view.frame = CGRectMake(index * Screen_Width, 0, Screen_Width, _contentScrollView.height);
         [_arraySubControllers addObject:vc];
@@ -154,6 +161,7 @@ static NSString * const collectionViewSectionHeaderID = @"ChannelCollectionHeade
     _contentScrollView.contentSize = CGSizeMake(_contentScrollView.frame.size.width * _titleArray.count, 0);
     _contentScrollView.pagingEnabled = YES;
     _contentScrollView.delegate = self;
+    _contentScrollView.showsHorizontalScrollIndicator = NO;
     [self.view addSubview:_contentScrollView];
 }
 

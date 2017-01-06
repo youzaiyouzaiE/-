@@ -18,14 +18,14 @@
 #define LOGIN_URL                           @"https://passportforapp.skykiwi.com/v2/login/logging.do"
 #define USER_INFO_URL                       @"https://passportforapp.skykiwi.com/v2/member/self.do"
 ///news
-#define TT_NEWS_CHANNELS                    @"http://59.110.23.172/api/channels"    ////频道列表
-#define TT_FRIST_CYCLE_LIST                 @"http://59.110.23.172/api/app_photos"  ////头条循环图
+#define TT_NEWS_CHANNELS                    @"http://cmstest.skykiwichina.com/api/channels"    ////频道列表
+#define TT_FRIST_CYCLE_LIST                 @"http://cmstest.skykiwichina.com/api/app_photos"  ////头条循环图
 #define TT_FRIST_LIFE_CITY                  @"http://139.196.16.143/city.php"       ////日期，城市天气，等信息
-#define TT_FRIST_NEWS_List                  @"http://59.110.23.172/api/sort_links/with_photos"///头条列表
-#define TT_OTHER_News_LIST                  @"http://59.110.23.172/api/articles/channel/1"///其它频道列表
-#define TT_COMMENT_URL                      @"http://59.110.23.172/api/comments"    ////评论
+#define TT_FRIST_NEWS_List                  @"http://cmstest.skykiwichina.com/api/sort_links/with_photos"///头条列表
+#define TT_OTHER_News_LIST(channelID)       [NSString stringWithFormat:@"http://cmstest.skykiwichina.com/api/articles/channel/%@",channelID]///其它频道列表
+#define TT_COMMENT_URL                      @"http://cmstest.skykiwichina.com/api/comments"    ////评论
 
-#define TT_EXPOSURES_URL                    @"http://59.110.23.172/api/exposures"   ////爆料（post）
+#define TT_EXPOSURES_URL                    @"http://cmstest.skykiwichina.com/api/exposures"   ////爆料（post）
 
 
 
@@ -37,7 +37,9 @@
 #define IOS_8LAST                           ([[[UIDevice currentDevice] systemVersion] floatValue]>=8.0)?1:0
 
 
-
 #define NORMAL_COLOR                        [UIColor colorWithHexString:@"fa5054"]
+
+
+#define FORMAT(format, ...) [NSString stringWithFormat:(format), ##__VA_ARGS__]
 
 #endif /* TTDefines_h */

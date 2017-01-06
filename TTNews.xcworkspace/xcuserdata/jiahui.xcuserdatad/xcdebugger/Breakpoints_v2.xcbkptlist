@@ -29,11 +29,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TTNews/Source/ViewControllers/News/TTExposuresNewsViewController.m"
-            timestampString = "504973484.846688"
+            timestampString = "505404016.341232"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "362"
-            endingLineNumber = "362"
+            startingLineNumber = "366"
+            endingLineNumber = "366"
             landmarkName = "-sendHasImageExposureForAF"
             landmarkType = "7">
          </BreakpointContent>
@@ -44,13 +44,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "TTNews/Source/ViewControllers/News/TTNewsViewController.m"
-            timestampString = "505031686.365325"
+            filePath = "TTNews/Source/ViewControllers/News/TTNewsContentViewController.m"
+            timestampString = "505403265.370027"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "101"
-            endingLineNumber = "101"
-            landmarkName = "-setupChildController"
+            startingLineNumber = "169"
+            endingLineNumber = "169"
+            landmarkName = "-loadListForPage:andIsRefresh:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -61,11 +61,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TTNews/Source/ViewControllers/News/TTNewsViewController.m"
-            timestampString = "505031688.71652"
+            timestampString = "505403554.448473"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "107"
-            endingLineNumber = "107"
+            startingLineNumber = "109"
+            endingLineNumber = "109"
             landmarkName = "-setupChildController"
             landmarkType = "7">
          </BreakpointContent>

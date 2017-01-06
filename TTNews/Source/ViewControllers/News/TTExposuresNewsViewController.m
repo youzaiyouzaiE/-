@@ -182,6 +182,10 @@
 - (void)exposuresView:(TTExposuresContentView *)exposureView collectionViewDidSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     [self.view endEditing:YES];
     if (indexPath.row == _arraySelectImages.count) {
+        if (_arraySelectImages.count >= 9) {
+            [TTProgressHUD showMsg:@"最多添加9张图片!"];
+            return;
+        }
         [self addPhotoAction];
     } else {
         MWPhotoBrowser *browser = [[MWPhotoBrowser alloc] initWithDelegate:self];

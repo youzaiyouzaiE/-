@@ -166,7 +166,7 @@
 
 - (void)loadListForPage:(NSInteger)page andIsRefresh:(BOOL)isRefresh {
     [TTProgressHUD show];
-    NSString *urlStr = TT_OTHER_News_LIST;
+    NSString *urlStr = TT_OTHER_News_LIST([_channel.id_Channel stringValue]);
     if (_isFristNews) {
         urlStr = TT_FRIST_NEWS_List;
     }
