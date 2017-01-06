@@ -15,9 +15,10 @@
 #import "TTNewListPageInfoModel.h"
 #import "TTDetailViewController.h"
 #import "TTNetworkSessionManager.h"
+#import <CoreLocation/CoreLocation.h>
 
 
-@interface TTNewsContentViewController () <SDCycleScrollViewDelegate,UITableViewDelegate,UITableViewDataSource> {
+@interface TTNewsContentViewController () <SDCycleScrollViewDelegate,UITableViewDelegate,UITableViewDataSource,CLLocationManagerDelegate> {
     SDCycleScrollView *_cycleScrollView;
     NSInteger _currentPage;
     TTNewListPageInfoModel *_pagInfo;
@@ -26,10 +27,12 @@
     UIView *_headerView;
     UILabel *_labelLife;
     UILabel *_labelRate;
+    NSDictionary *_locationDic;
 }
 
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) NSMutableArray *arrayCycleImages;
+@property (strong, nonatomic) CLLocationManager* locationManager;
 
 @end
 
@@ -47,6 +50,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    [self startLocation];
     _arrayList = [NSMutableArray array];
     _currentPage = 1;
     if (_isFristNews) {
@@ -123,13 +127,60 @@
     [self loadListForPage:_currentPage andIsRefresh:YES];
     if (_isFristNews) {
         [self loadCycleImages];
-        [self loadLifeInfoDataWithDic:@{@"lng":@"38.983424" ,@"lat" :@"116.5320"}];
+        
+        [self loadLifeInfoDataWithDic:_locationDic];////@{@"lng":@"38.983424" ,@"lat" :@"116.5320"} 北京
     }
 }
 
 - (void)loadMoreData {
     _currentPage ++;
     [self loadListForPage:_currentPage andIsRefresh:NO];
+}
+
+
+
+//开始定位
+-(void)startLocation{
+    _locationManager = [[CLLocationManager alloc] init];
+    _locationManager.delegate = self;
+    _locationManager.desiredAccuracy = kCLLocationAccuracyBest;
+    _locationManager.distanceFilter = 10.0f;
+    if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 8.0) {
+        [_locationManager requestWhenInUseAuthorization];
+        [_locationManager requestAlwaysAuthorization];
+    }
+    if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 9.0) {
+        _locationManager.allowsBackgroundLocationUpdates = NO;
+    }
+    [_locationManager startUpdatingLocation];
+}
+
+#pragma mark - CLLocationManagerDelegate
+-(void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation {
+    [_locationManager stopUpdatingLocation];
+    NSLog(@"location ok");
+    NSLog(@"%@",[NSString stringWithFormat:@"经度:%3.4f =======  纬度:%3.4f",newLocation.coordinate.latitude,newLocation.coordinate.longitude]);
+    NSString *longitud = [NSString stringWithFormat:@"%3.4f",newLocation.coordinate.longitude];
+    NSString *latitude = [NSString stringWithFormat:@"%3.4f",newLocation.coordinate.latitude];
+    _locationDic = @{@"lng":longitud ,@"lat" :latitude};
+}
+
+- (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error {
+    [manager stopUpdatingLocation];
+    switch([error code]) {
+        case kCLErrorDenied:
+            [self openGPSTips];
+            break;
+        case kCLErrorLocationUnknown:
+            break;
+        default:
+            break;
+    }
+}
+
+-(void)openGPSTips{
+    UIAlertView *alet = [[UIAlertView alloc] initWithTitle:@"当前定位服务不可用" message:@"请到“设置->隐私->定位服务”中开启定位" delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+    [alet show];
 }
 
 #pragma mark - netWork

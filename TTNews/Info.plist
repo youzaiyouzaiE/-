@@ -70,8 +70,7 @@
 	<key>NSCameraUsageDescription</key>
 	<string>App需要访问您的相机</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>
-        根据位置信息为您推荐附近门店</string>
+	<string>根据位置信息推荐更多精彩</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>App需要访问您的相册</string>
 	<key>UIRequiredDeviceCapabilities</key>
