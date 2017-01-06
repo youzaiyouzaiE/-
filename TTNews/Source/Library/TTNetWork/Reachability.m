@@ -84,8 +84,7 @@ static void ReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkReach
 }
 
 
-+ (instancetype)reachabilityWithAddress:(const struct sockaddr_in *)hostAddress
-{
++ (instancetype)reachabilityWithAddress:(const struct sockaddr_in *)hostAddress {
 	SCNetworkReachabilityRef reachability = SCNetworkReachabilityCreateWithAddress(kCFAllocatorDefault, (const struct sockaddr *)hostAddress);
 
 	Reachability* returnValue = NULL;
@@ -107,8 +106,7 @@ static void ReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkReach
 
 
 
-+ (instancetype)reachabilityForInternetConnection
-{
++ (instancetype)reachabilityForInternetConnection {
 	struct sockaddr_in zeroAddress;
 	bzero(&zeroAddress, sizeof(zeroAddress));
 	zeroAddress.sin_len = sizeof(zeroAddress);

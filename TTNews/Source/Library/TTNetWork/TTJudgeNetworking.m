@@ -18,7 +18,7 @@
     return YES;
 }
 
-+(NetworkingType)currentNetworkingType {
++ (NetworkingType)currentNetworkingType {
     Reachability *reachablility =  [Reachability reachabilityWithHostName:@"www.baidu.com"];
     if ([reachablility currentReachabilityStatus] == ReachableViaWiFi) {
         return NetworkingTypeWiFi;

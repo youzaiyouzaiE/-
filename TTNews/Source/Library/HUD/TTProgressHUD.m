@@ -51,7 +51,7 @@ static UIImageView *_loadingImage = nil;
 + (void)dismiss {
     [_hud hideAnimated:YES];
     [_hud removeFromSuperview];
-//    _hud = nil;
+    _hud = nil;
     Window.userInteractionEnabled = YES;
 }
 

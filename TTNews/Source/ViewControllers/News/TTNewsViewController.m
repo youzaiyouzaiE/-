@@ -19,6 +19,9 @@
 @interface TTNewsViewController()<UIScrollViewDelegate> {
     HMSegmentedControl *_topTitleView;
     NSMutableArray *_titleArray;
+    
+    UILabel *_messageLable;
+    UITapGestureRecognizer *_tap;
 }
 
 @property (nonatomic, strong) NSMutableArray *arrayChannels;
@@ -61,7 +64,6 @@ static NSString * const collectionViewSectionHeaderID = @"ChannelCollectionHeade
 
 -(void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
-    
 }
 
 - (void)newsChannelsRequest {
@@ -70,6 +72,10 @@ static NSString * const collectionViewSectionHeaderID = @"ChannelCollectionHeade
                              parameters:nil
                                progress:^(NSProgress * _Nonnull downloadProgress) {}
                                 success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+                                    if (_tap) {
+                                        [self.view removeGestureRecognizer:_tap];
+                                        [_messageLable removeFromSuperview];
+                                    }
                                     [TTProgressHUD dismiss];
                                     for (NSDictionary *dic in responseObject) {
                                         TTChannelModel *channel = [[TTChannelModel alloc] initWithDictionary:dic];
@@ -89,8 +95,32 @@ static NSString * const collectionViewSectionHeaderID = @"ChannelCollectionHeade
     }
                                 failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
                                     [TTProgressHUD dismiss];
-                                    [TTProgressHUD showMsg:@"服务器繁忙！请求出错"];
+                                    [TTProgressHUD showMsg:@"服务器请求出错！"];
+                                    [self showRefreshNetWorkMessage];
     }];
+}
+
+-(void)showRefreshNetWorkMessage {
+    if (_tap) {
+        [self.view removeGestureRecognizer:_tap];
+        [_messageLable removeFromSuperview];
+    }
+    _messageLable = [[UILabel alloc] init];
+    _messageLable.text = @"网络不给力，点击屏幕重试";
+    _messageLable.textColor = [UIColor colorWithHexString:@"93939E"];
+    _messageLable.textAlignment = NSTextAlignmentCenter;
+    [self.view addSubview:_messageLable];
+    [_messageLable mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.mas_equalTo(self.view.mas_centerX);
+        make.centerY.mas_equalTo(self.view.mas_centerY);
+        make.size.mas_equalTo(CGSizeMake(280, 30));
+    }];
+    _tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(loadNetWork)];
+    [self.view addGestureRecognizer:_tap];
+}
+
+- (void)loadNetWork {
+    [self newsChannelsRequest];
 }
 
 - (void)offerNews {

@@ -13,4 +13,6 @@
 - (void)backAction;
 - (void)addTapViewResignKeyboard;
 
+- (void)dismissSvprogressHud;
+
 @end

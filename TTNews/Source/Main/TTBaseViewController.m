@@ -45,8 +45,14 @@
     
     self.view.dk_backgroundColorPicker = DKColorPickerWithRGB(0xf0f0f0, 0x000000, 0xfafafa);
     if([TTJudgeNetworking judge] == NO) {
-        [SVProgressHUD showErrorWithStatus:@"无网络连接"];
+        [SVProgressHUD showErrorWithStatus:@"无网络连接!"];
+//        [TTProgressHUD showMsg:@"请检查网络设置！"];
+        [self performSelector:@selector(dismissSvprogressHud) withObject:nil afterDelay:1];
     }
+}
+
+- (void)dismissSvprogressHud {
+    [SVProgressHUD dismiss];
 }
 
 - (void)didReceiveMemoryWarning {
