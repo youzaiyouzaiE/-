@@ -319,8 +319,9 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     TTNewListModel *listInfo = _arrayList[indexPath.row];
     TTDetailViewController *detailVC = [[TTDetailViewController alloc] init];
-    detailVC.url = listInfo.url;
-    detailVC.shareTitle = listInfo.title;
+    detailVC.detailModel = listInfo;
+//    detailVC.url = listInfo.url;
+//    detailVC.shareTitle = listInfo.title;
     detailVC.article_id = listInfo.articleInfo.article_id;
     [self.navigationController pushViewController:detailVC animated:YES];
 }

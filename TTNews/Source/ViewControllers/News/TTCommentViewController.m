@@ -91,6 +91,10 @@
                                         [_arrayComments addObject:comment];
                                     }
                                     [_tableView reloadData];
+                                    if (_totalComments.integerValue > _arrayComments.count) {
+                                        [self updateMJViewWithFootHaveMoreData:YES];
+                                    } else
+                                        [self updateMJViewWithFootHaveMoreData:NO];
                                 }
                                 failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
                                     [TTProgressHUD dismiss];
@@ -98,7 +102,13 @@
                                     [_tableView.mj_header endRefreshing];
                                     self.tableView.mj_footer.hidden = YES;
                                 }];
+}
 
+- (void)updateMJViewWithFootHaveMoreData:(BOOL)haveData {
+        if (haveData) {
+            [_tableView.mj_footer resetNoMoreData];
+        } else
+            [_tableView.mj_footer endRefreshingWithNoMoreData];
 }
 
 #pragma mark - UITableView
@@ -114,6 +124,14 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return _arrayComments.count;
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
+    return [[UIView alloc] init];
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    return 0.1;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {

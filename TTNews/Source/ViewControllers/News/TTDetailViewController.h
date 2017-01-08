@@ -8,12 +8,11 @@
 
 #import <UIKit/UIKit.h>
 #import "TTBaseViewController.h"
-//#import "TTNewListModel.h"
+#import "TTNewListModel.h"
 
 @interface TTDetailViewController : TTBaseViewController
 
-@property (nonatomic, copy) NSString *url;
-@property (nonatomic, copy) NSString *shareTitle;
+@property (nonatomic, strong) TTNewListModel *detailModel;
 @property (nonatomic, strong) NSNumber *article_id;
 
 @end

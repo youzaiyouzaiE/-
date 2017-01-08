@@ -11,5 +11,6 @@
 @interface TTCommentViewController : TTBaseViewController
 
 @property (nonatomic, strong) NSNumber *article_id;
+@property (nonatomic, strong) NSNumber *totalComments;
 
 @end

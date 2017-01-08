@@ -23,12 +23,22 @@
 #import "M13ProgressViewBar.h"
 #import "TalkingData.h"
 
-#define WECHAT_SCENE            0
-#define WECHATTIME_SCENT        1
-#define QQ_SCENE                2
-#define QQZONE_SCENE            3
-#define WEIBO_SCENE             4
-#define TENCENTWEIBO_SCENE      5
+
+typedef NS_ENUM(NSUInteger, TTShareScene) {
+    TTShareSceneWeChat_Scene,  
+    TTShareSceneWeChat_TimeScene,
+    TTShareSceneQQ_Scene,
+    TTShareSceneQQ_Zone,
+};
+//
+//#define WECHAT_SCENE            0
+//#define WECHATTIME_SCENT        1
+//#define QQ_SCENE                2
+//#define QQZONE_SCENE            3
+//#define WEIBO_SCENE             4
+//#define TENCENTWEIBO_SCENE      5
+
+static const NSInteger itemButt_W = 40;
 
 @interface TTDetailViewController () <WKNavigationDelegate,JHShareSheetViewDelegate,UIGestureRecognizerDelegate> {
     
@@ -47,7 +57,6 @@
 
 @property (nonatomic, strong) UIButton *ButtonShare;
 @property (nonatomic, strong) WKWebView *webView;
-
 
 
 @end
@@ -98,7 +107,7 @@
     _webView = [[WKWebView alloc] init];
     _webView.navigationDelegate = self;
     [self.view addSubview:_webView];
-    [_webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:self.url]]];
+    [_webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:_detailModel.url]]];
     [_webView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.left.right.mas_equalTo(0);
         make.bottom.mas_equalTo(self.view.mas_bottom).offset(-44);
@@ -124,7 +133,7 @@
     }
 }
 
-#define itemButt_W         40
+
 
 - (void)setupBottomView {
     UIView *bottomView = [[UIView alloc] init];
@@ -159,6 +168,7 @@
     [checkCommentsBtn setTitle:@"评论" forState:UIControlStateNormal];
     [checkCommentsBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     [checkCommentsBtn addTarget:self action:@selector(checkComments:) forControlEvents:UIControlEventTouchUpInside];
+//    checkCommentsBtn.backgroundColor = [UIColor yellowColor];
     [bottomView addSubview:checkCommentsBtn];
     [checkCommentsBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(writeButton.mas_right).offset(buttonMarger);
@@ -166,6 +176,24 @@
         make.height.mas_equalTo(itemButt_W);
         make.width.mas_equalTo(itemButt_W);
     }];
+    
+    UILabel *commentNumLabel = [[UILabel alloc] init];
+    commentNumLabel.text = _detailModel.comment_num.stringValue;
+//    commentNumLabel.text = FORMAT(@"999");
+    commentNumLabel.userInteractionEnabled = NO;
+    commentNumLabel.backgroundColor = NORMAL_COLOR;
+    commentNumLabel.textColor = [UIColor whiteColor];
+    commentNumLabel.font = [UIFont systemFontOfSize:12];
+    commentNumLabel.textAlignment = NSTextAlignmentCenter;
+    commentNumLabel.layer.masksToBounds = YES;
+    commentNumLabel.layer.cornerRadius = 6;
+    [checkCommentsBtn addSubview:commentNumLabel];
+    [commentNumLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.mas_equalTo(checkCommentsBtn.mas_right).offset(5);
+        make.top.mas_equalTo(checkCommentsBtn.mas_top).offset(1);
+        make.size.mas_equalTo(CGSizeMake(25, 12));
+    }];
+ 
     
     UIButton *storeBtn = [UIButton buttonWithType:UIButtonTypeCustom];
 //    storeBtn.backgroundColor = [UIColor redColor];
@@ -308,6 +336,7 @@
 - (void)checkComments:(UIButton *)sender {
     TTCommentViewController *commentVC = [[TTCommentViewController alloc] init];
     commentVC.article_id = _article_id;
+    commentVC.totalComments = _detailModel.comment_num;
     [self.navigationController pushViewController:commentVC animated:YES];
 }
 
@@ -351,7 +380,7 @@
                                 }
                                  success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
                                      [TTProgressHUD dismiss];
-                                    [SVProgressHUD showSuccessWithStatus:nil];
+                                     [SVProgressHUD showSuccessWithStatus:nil];
                                      [self dismissWriterView];
                                      [self performSelector:@selector(dismissSvprogressHud) withObject:nil afterDelay:0.5];
                                  }
@@ -368,12 +397,12 @@
 
 #pragma mark - JHShareSheetViewDelegate
 - (void)sheetViewdidSelectItemAtIndex:(NSInteger)index {
-    if (index == WECHAT_SCENE) {
+    if (index == TTShareSceneWeChat_Scene) {
         if ([self checkAppActionInsall:index]) {
             [self sendLinkContentWihtScene:WXSceneSession];
             [TalkingData trackEvent:@"WeChat_share_SceneSession"];
         }
-    } else if (index == WECHATTIME_SCENT) {
+    } else if (index == TTShareSceneWeChat_TimeScene) {
         if ([self checkAppActionInsall:index]) {
             [self sendLinkContentWihtScene:WXSceneTimeline];
             [TalkingData trackEvent:@"WeChat_share_Timeline"];
@@ -382,7 +411,7 @@
 }
 
 - (BOOL)checkAppActionInsall:(NSInteger) index {
-    if (index == WECHAT_SCENE || index == WECHATTIME_SCENT) {
+    if (index == TTShareSceneWeChat_Scene || index == TTShareSceneWeChat_TimeScene) {
         if ([WXApi isWXAppInstalled] && [WXApi isWXAppSupportApi]){
             return YES;
         }
@@ -406,11 +435,11 @@
 #pragma mark - WXApiDelegate
 -(void) sendLinkContentWihtScene:(int)scene{
     WXMediaMessage *message = [WXMediaMessage message];
-    message.title = _shareTitle;
+    message.title = _detailModel.title;
     [message setThumbImage:[UIImage imageNamed:@"AppIcon"]];
     
     WXWebpageObject *ext = [WXWebpageObject object];
-    ext.webpageUrl = _url;
+    ext.webpageUrl = _detailModel.url;
     message.mediaObject = ext;
     
     SendMessageToWXReq* req = [[SendMessageToWXReq alloc] init];
