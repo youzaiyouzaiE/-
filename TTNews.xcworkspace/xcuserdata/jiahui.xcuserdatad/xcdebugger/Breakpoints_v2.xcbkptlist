@@ -45,11 +45,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TTNews/Source/ViewControllers/News/TTDetailViewController.m"
-            timestampString = "505579957.111303"
+            timestampString = "505791560.983548"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "383"
-            endingLineNumber = "383"
+            startingLineNumber = "375"
+            endingLineNumber = "375"
             landmarkName = "-sendComment"
             landmarkType = "7">
          </BreakpointContent>
@@ -61,11 +61,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TTNews/Source/ViewControllers/News/TTDetailViewController.m"
-            timestampString = "505579957.111303"
+            timestampString = "505791560.983548"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "388"
-            endingLineNumber = "388"
+            startingLineNumber = "380"
+            endingLineNumber = "380"
             landmarkName = "-sendComment"
             landmarkType = "7">
          </BreakpointContent>
@@ -77,11 +77,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TTNews/Source/ViewControllers/News/TTDetailViewController.m"
-            timestampString = "505579957.111303"
+            timestampString = "505791560.983548"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "376"
-            endingLineNumber = "376"
+            startingLineNumber = "368"
+            endingLineNumber = "368"
             landmarkName = "-sendComment"
             landmarkType = "7">
          </BreakpointContent>

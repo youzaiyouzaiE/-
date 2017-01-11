@@ -87,14 +87,6 @@ static const NSInteger itemButt_W = 40;
     [self createWriteCommentsView];
 }
 
--(void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-}
-
--(void)viewWillDisappear:(BOOL)animated {
-    [super viewWillDisappear:animated];
-}
-
 - (void)setupProgressView {
     _progressView = [[M13ProgressViewBar alloc] initWithFrame:CGRectMake(0, 0, self.view.width + 50, 5)];
     _progressView.primaryColor = NORMAL_COLOR;
