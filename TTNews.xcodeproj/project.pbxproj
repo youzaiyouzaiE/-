@@ -186,7 +186,6 @@
 		EE4635D31CC72B8900DB248F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EE4635D21CC72B8900DB248F /* Assets.xcassets */; };
 		EE4635E11CC72B8A00DB248F /* TTNewsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = EE4635E01CC72B8A00DB248F /* TTNewsTests.m */; };
 		EE4635EC1CC72B8A00DB248F /* TTNewsUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = EE4635EB1CC72B8A00DB248F /* TTNewsUITests.m */; };
-		EE4BEB5D1D5480E400B4A035 /* NewsURLs.plist in Resources */ = {isa = PBXBuildFile; fileRef = EE4BEB5C1D5480E400B4A035 /* NewsURLs.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -486,7 +485,6 @@
 		EE4635E71CC72B8A00DB248F /* TTNewsUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TTNewsUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		EE4635EB1CC72B8A00DB248F /* TTNewsUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TTNewsUITests.m; sourceTree = "<group>"; };
 		EE4635ED1CC72B8A00DB248F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		EE4BEB5C1D5480E400B4A035 /* NewsURLs.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = NewsURLs.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1076,7 +1074,6 @@
 				EE4635D21CC72B8900DB248F /* Assets.xcassets */,
 				EE4635D71CC72B8900DB248F /* Info.plist */,
 				EE4635C71CC72B8900DB248F /* main.m */,
-				EE4BEB5C1D5480E400B4A035 /* NewsURLs.plist */,
 				DA2F26D01DDDE495002BD87B /* TTDefines.h */,
 				DAAEBD421DF2B054002D82CF /* TTNews.pch */,
 				DA27D1321E0EACE100B72657 /* Localizable.strings */,
@@ -1317,7 +1314,6 @@
 				DA23E9161DFC4D2D0087B232 /* sns_icon_10.png in Resources */,
 				DA23E9531DFC4D2D0087B232 /* sns_icon_7.png in Resources */,
 				DA62CA151DF7BCAB00AD3928 /* EditUserInfoViewController.xib in Resources */,
-				EE4BEB5D1D5480E400B4A035 /* NewsURLs.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

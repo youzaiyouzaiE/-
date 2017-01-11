@@ -34,7 +34,6 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
 //    [[PgyManager sharedPgyManager] startManagerWithAppId:PGY_APP_ID];
-    
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     self.tableBarContrller = [TTTabBarController shareInstance];
     self.window.rootViewController = self.tableBarContrller;
