@@ -16,6 +16,7 @@
 #import "TTDetailViewController.h"
 #import "TTNetworkSessionManager.h"
 #import <CoreLocation/CoreLocation.h>
+//#import "TTCycleImageModel.h"
 
 
 @interface TTNewsContentViewController () <SDCycleScrollViewDelegate,UITableViewDelegate,UITableViewDataSource,CLLocationManagerDelegate> {
@@ -32,6 +33,7 @@
 
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) NSMutableArray *arrayCycleImages;
+@property (nonatomic, strong) NSMutableArray *arrayImageModel;
 @property (strong, nonatomic) CLLocationManager* locationManager;
 
 @end
@@ -56,6 +58,7 @@
     if (_isFristNews) {
         [self addCycleScrollView];
         _arrayCycleImages = [NSMutableArray array];
+        _arrayImageModel = [NSMutableArray array];
     }
     [self addTabelView];
 }
@@ -192,8 +195,11 @@
                                 success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *responseObject) {
                                     [TTProgressHUD dismiss];
                                     [_arrayCycleImages removeAllObjects];
+                                    [_arrayImageModel removeAllObjects];
                                     for (NSDictionary *imageDic in responseObject[@"data"]) {
-                                        [_arrayCycleImages addObject:imageDic[@"path"]];
+                                        TTNewListModel *imageModel = [[TTNewListModel alloc] initWithDictionary:imageDic];
+                                        [_arrayImageModel addObject:imageModel];
+                                        [_arrayCycleImages addObject:imageModel.cover_pic];
                                     }
                                     _cycleScrollView.imageURLStringsGroup = _arrayCycleImages;
                                 } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
@@ -269,7 +275,10 @@
 #pragma mark - SDCycleScrollViewDelegate
 /** 点击图片回调 */
 - (void)cycleScrollView:(SDCycleScrollView *)cycleScrollView didSelectItemAtIndex:(NSInteger)index {
-    
+    TTNewListModel *imageModel = _arrayImageModel[index];
+    TTDetailViewController *detailVC = [[TTDetailViewController alloc] init];
+     detailVC.detailModel = imageModel;
+    [self.navigationController pushViewController:detailVC animated:YES];
 }
 
 /** 图片滚动回调 */
@@ -320,8 +329,6 @@
     TTNewListModel *listInfo = _arrayList[indexPath.row];
     TTDetailViewController *detailVC = [[TTDetailViewController alloc] init];
     detailVC.detailModel = listInfo;
-//    detailVC.url = listInfo.url;
-//    detailVC.shareTitle = listInfo.title;
     detailVC.article_id = listInfo.articleInfo.article_id;
     [self.navigationController pushViewController:detailVC animated:YES];
 }

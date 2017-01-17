@@ -83,8 +83,14 @@ static const NSInteger itemButt_W = 40;
     self.view.backgroundColor = [UIColor yellowColor];
     [self setupView];
     [self setupProgressView];
-    [self setupBottomView];
-    [self createWriteCommentsView];
+    if (_article_id) {
+        [self setupBottomView];
+        [self createWriteCommentsView];
+    } else {
+        [_webView mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.bottom.mas_equalTo(self.view.mas_bottom);
+        }];
+    }
 }
 
 - (void)setupProgressView {

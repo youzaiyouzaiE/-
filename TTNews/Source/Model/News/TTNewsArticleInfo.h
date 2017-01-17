@@ -8,7 +8,7 @@
 
 #import "TTBaseModel.h"
 
-@interface TTNewsArticleInfo : TTBaseModel ///article_info
+@interface TTNewsArticleInfo : TTBaseModel ///article_info  评论信息
 
 @property (nonatomic, strong) NSNumber *article_id;
 @property (nonatomic, strong) NSNumber *view_num;
