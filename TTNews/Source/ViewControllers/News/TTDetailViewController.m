@@ -83,7 +83,7 @@ static const NSInteger itemButt_W = 40;
     self.view.backgroundColor = [UIColor yellowColor];
     [self setupView];
     [self setupProgressView];
-    if (_article_id) {
+    if (_article_id && (_article_id.integerValue > 0)) {
         [self setupBottomView];
         [self createWriteCommentsView];
     } else {
@@ -384,6 +384,7 @@ static const NSInteger itemButt_W = 40;
                                  }
                                  failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
                                      [TTProgressHUD dismiss];
+                                     [TTProgressHUD showMsg:@"服务器请求出错，请稍后重试！"];
                                      [self dismissWriterView];
                                  }];
 }

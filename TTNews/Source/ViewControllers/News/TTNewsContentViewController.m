@@ -277,7 +277,8 @@
 - (void)cycleScrollView:(SDCycleScrollView *)cycleScrollView didSelectItemAtIndex:(NSInteger)index {
     TTNewListModel *imageModel = _arrayImageModel[index];
     TTDetailViewController *detailVC = [[TTDetailViewController alloc] init];
-     detailVC.detailModel = imageModel;
+    detailVC.detailModel = imageModel;
+    detailVC.article_id = imageModel.articleInfo.article_id;
     [self.navigationController pushViewController:detailVC animated:YES];
 }
 

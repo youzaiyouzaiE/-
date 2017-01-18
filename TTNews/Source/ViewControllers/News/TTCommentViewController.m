@@ -295,6 +295,7 @@
                                  }
                                  failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
                                      [TTProgressHUD dismiss];
+                                    [TTProgressHUD showMsg:@"服务器请求出错，请稍后重试！"];
                                      [self dismissWriterView];
                                  }];
     //
