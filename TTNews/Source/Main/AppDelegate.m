@@ -18,6 +18,7 @@
 #import "TalkingData.h"
 #import "TalkingDataSMS.h"
 #import <CoreLocation/CoreLocation.h>
+#import "TTADPresentView.h"
 
 #define PGY_APP_ID   @"bc2f3e0f520c5299b0bdb3399e27bd4e"
 
@@ -35,6 +36,7 @@
     
 //    [[PgyManager sharedPgyManager] startManagerWithAppId:PGY_APP_ID];
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
+    [TTAppData shareInstance];
     self.tableBarContrller = [TTTabBarController shareInstance];
     self.window.rootViewController = self.tableBarContrller;
     
@@ -43,94 +45,16 @@
     [self setupUserDefaults];
     [WXApi registerApp:@"wxc565f6c6475eef2b"];
     [self installTalkingData];
+    [TTADPresentView showADImageView];
+    [self requestADImage];
+    
     return YES;
 }
-
-
 
 - (void)installTalkingData {
     [TalkingData setExceptionReportEnabled:YES];
     [TalkingData sessionStarted:@"7ED8D36E60D84EF5992DBB62CF9BA4D0" withChannelId:@"AppStore"];
     [TalkingDataSMS init:@"7ED8D36E60D84EF5992DBB62CF9BA4D0" withSecretId:@""];
-}
-
-//开始定位
--(void)startLocation{
-    _locationManager = [[CLLocationManager alloc] init];
-    _locationManager.delegate = self;
-    _locationManager.desiredAccuracy = kCLLocationAccuracyBest;
-    _locationManager.distanceFilter = 10.0f;
-    if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 8.0) {
-        [_locationManager requestWhenInUseAuthorization];
-        [_locationManager requestAlwaysAuthorization];
-    }
-    if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 9.0) {
-        _locationManager.allowsBackgroundLocationUpdates = NO;
-    }
-    [_locationManager startUpdatingLocation];
-}
-
-
-#pragma mark - CLLocationManagerDelegate
-//定位代理经纬度回调
--(void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation {
-    [_locationManager stopUpdatingLocation];
-    NSLog(@"location ok");
-    NSLog(@"%@",[NSString stringWithFormat:@"经度:%3.5f\n纬度:%3.5f",newLocation.coordinate.latitude,newLocation.coordinate.longitude]);
-    
-    //    CLGeocoder * geoCoder = [[CLGeocoder alloc] init];
-    //    [geoCoder reverseGeocodeLocation:newLocation completionHandler:^(NSArray *placemarks, NSError *error) {
-    //        for (CLPlacemark * placemark in placemarks) {
-    //            NSDictionary *test = [placemark addressDictionary];
-    //            //  Country(国家)  State(城市)  SubLocality(区)
-    //            NSLog(@"%@", [test objectForKey:@"State"]);
-    //            NSString *cityName = [test objectForKey:@"State"];
-    //            if (currentCityString == nil || currentCityString.length < 1) {
-    //                [[NSNotificationCenter defaultCenter] postNotificationName:@"getLocationNotification" object:cityName];
-    //                currentCityString = [cityName substringWithRange:NSMakeRange(0,2)];
-    //                alertView = [[UIAlertView alloc] initWithTitle:@"提示" message:FORMAT(@"当前定位到城市为%@,是否切换",cityName) delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
-    //                [alertView show];
-    //            } else {
-    //                if(![[currentCityString substringWithRange:NSMakeRange(0,2)] isEqualToString:[cityName substringWithRange:NSMakeRange(0,2)]]) {
-    //                    [alertView show];
-    //                }
-    //            }
-    //        }
-    //    }];
-}
-
-- (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error {
-    [manager stopUpdatingLocation];
-    switch([error code]) {
-        case kCLErrorDenied:
-            [self openGPSTips];
-            break;
-        case kCLErrorLocationUnknown:
-            break;
-        default:
-            break;
-    }
-}
-
--(void)openGPSTips{
-    UIAlertView *alet = [[UIAlertView alloc] initWithTitle:@"当前定位服务不可用" message:@"请到“设置->隐私->定位服务”中开启定位" delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
-    [alet show];
-}
-
-#pragma mark - netWork request
-- (void)initializeNetRequest {
-    [TTAppData shareInstance];
-    [[TTNetworkSessionManager shareManager] Get:INITIALIZE_URL
-                              Parameters:nil
-                                 Success:^(NSURLSessionDataTask *task, NSDictionary *responseObject) {
-        NSNumber *signalNum = responseObject[@"signal"];
-        if (signalNum.integerValue == 1) {
-            _guid = responseObject[@"data"][@"GUID"];
-           
-        }
-    } Failure:^(NSError *error) {
-        
-    }];
 }
 
 - (void)setupUserDefaults {
@@ -143,6 +67,58 @@
     } else
         self.isLogin = NO;
 }
+
+
+#pragma mark - netWork request
+- (void)initializeNetRequest {
+
+    [[TTNetworkSessionManager shareManager] Get:INITIALIZE_URL
+                                     Parameters:nil
+                                        Success:^(NSURLSessionDataTask *task, NSDictionary *responseObject) {
+                                            NSNumber *signalNum = responseObject[@"signal"];
+                                            if (signalNum.integerValue == 1) {
+                                                _guid = responseObject[@"data"][@"GUID"];
+                                                
+                                            }
+                                        } Failure:^(NSError *error) {
+                                            
+                                        }];
+}
+
+- (void)requestADImage {
+    [[TTNetworkSessionManager shareManager] Get:TT_APP_AD_IMAGE
+                                     Parameters:nil
+                                        Success:^(NSURLSessionDataTask *task, NSDictionary *responseObject) {
+                                            NSArray *imageUrls = responseObject[@"data"];
+                                            NSDictionary *imageURLDic = [imageUrls firstObject];
+                                            [self downloadAndSaveAdImageWithUrl:imageURLDic[@"path"]];
+                                        } Failure:^(NSError *error) {
+                                            
+                                        }];
+}
+
+- (void)downloadAndSaveAdImageWithUrl:(NSString *)imageUrl  {
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        NSRange range = [imageUrl rangeOfString:@"/" options:NSBackwardsSearch];
+        if (range.location == NSNotFound) {
+            return ;
+        }
+        NSString *fileName = [imageUrl substringFromIndex:range.location +1];
+        if (![TTAppData getADImageFilePath:fileName]) {
+            NSData *data = [NSData dataWithContentsOfURL:[NSURL URLWithString:imageUrl]];
+            UIImage *image = [UIImage imageWithData:data];
+            NSString *documentPath = [TTAppData getADDocumentPath];
+            NSString *imagePath = [documentPath stringByAppendingPathComponent:fileName];
+            if ([UIImagePNGRepresentation(image) writeToFile:imagePath atomically:YES]) {// 保存成功
+                NSLog(@"保存成功");
+                // 如果有广告链接，将广告链接也保存下来
+            }else{
+                NSLog(@"保存失败");
+            }
+        }
+    });
+}
+
 
 - (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url  {
     return  [WXApi handleOpenURL:url delegate:self];

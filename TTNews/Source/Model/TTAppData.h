@@ -22,6 +22,14 @@ extern NSString * const k_UserInfoDic;
 
 
 + (instancetype)shareInstance;
-- (NSString *)currentUserIconURLString;
+- (NSString *)currentUserIconURLString;///拼当前用户头像URL
+
++ (NSString *)getCachesDirectoryDocumentPath:(NSString *)documentName;
+
+
+///得到广告文件地址
++ (NSString *)getADDocumentPath;
+////返回广告图片地址，没有返回nil
++ (NSString *)getADImageFilePath:(NSString *)imageName;
 
 @end

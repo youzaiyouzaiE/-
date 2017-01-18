@@ -22,6 +22,7 @@
 #import "TTAppData.h"
 #import "M13ProgressViewBar.h"
 #import "TalkingData.h"
+#import "TTCommentInputView.h"
 
 
 typedef NS_ENUM(NSUInteger, TTShareScene) {
@@ -49,6 +50,7 @@ static const NSInteger itemButt_W = 40;
     M13ProgressView *_progressView;
     
     /////写评论
+    TTCommentInputView *_commentView;
     UIView *_coverView;
     UIView *_writerView;
     UITextView *_textView;
@@ -144,7 +146,7 @@ static const NSInteger itemButt_W = 40;
     }];
     
     UIButton *writeButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [writeButton addTarget:self action:@selector(writeComment:) forControlEvents:UIControlEventTouchUpInside];
+    [writeButton addTarget:self action:@selector(writeCommentAction:) forControlEvents:UIControlEventTouchUpInside];
     [writeButton setTitle:@"发表评论" forState:UIControlStateNormal];
     [writeButton setTitleColor:[UIColor colorWithHexString:@"E5E5E5"] forState:UIControlStateNormal];
     writeButton.backgroundColor = [UIColor whiteColor];
@@ -165,7 +167,7 @@ static const NSInteger itemButt_W = 40;
     UIButton *checkCommentsBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [checkCommentsBtn setTitle:@"评论" forState:UIControlStateNormal];
     [checkCommentsBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    [checkCommentsBtn addTarget:self action:@selector(checkComments:) forControlEvents:UIControlEventTouchUpInside];
+    [checkCommentsBtn addTarget:self action:@selector(checkCommentsAction:) forControlEvents:UIControlEventTouchUpInside];
 //    checkCommentsBtn.backgroundColor = [UIColor yellowColor];
     [bottomView addSubview:checkCommentsBtn];
     [checkCommentsBtn mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -327,11 +329,15 @@ static const NSInteger itemButt_W = 40;
     [_sheetView show];
 }
 
-- (void)writeComment:(UIButton *)sender {
+- (void)writeCommentAction:(UIButton *)sender {
     [self showWriteView];
+//    if (!_commentView) {
+//        _commentView = [TTCommentInputView commentView];
+//    }
+//    [_commentView showCommentView];
 }
 
-- (void)checkComments:(UIButton *)sender {
+- (void)checkCommentsAction:(UIButton *)sender {
     TTCommentViewController *commentVC = [[TTCommentViewController alloc] init];
     commentVC.article_id = _article_id;
     commentVC.totalComments = _detailModel.comment_num;

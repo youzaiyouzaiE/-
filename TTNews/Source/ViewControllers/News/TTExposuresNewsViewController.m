@@ -130,6 +130,7 @@
         cell.labelTextFieldView.delegate = self;
         cell.labelTextFieldView.indexPath = indexPath;
         cell.labelTextFieldView.textField.text = _dicInputContent[indexPath];
+        cell.labelTextFieldView.textField.placeholder = _sectionTitleArray[indexPath.row];
         return cell;
     }
 }
@@ -379,33 +380,32 @@
                           };
     [[AFHTTPSessionManager manager] POST:TT_EXPOSURES_URL
                               parameters:nil
-               constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
-                   for (NSString *key in dic.allKeys) {
-                       [formData appendPartWithFormData:[dic[key] dataUsingEncoding:NSUTF8StringEncoding]
-                                                   name:key];
-                   }
-                   for (NSData *imageData in imageDataArr) {
-                       NSInteger index = 0;
-                       [formData appendPartWithFileData:imageData
-                                                   name:@"pics[]"
-                                               fileName:[NSString stringWithFormat:@"phonto %@",@(index)]
-                                               mimeType:@"image/jpeg"];
-                       index++;
-                   }
-               }
+               constructingBodyWithBlock:^(id<AFMultipartFormData> formData){
+                                   for (NSString *key in dic.allKeys) {
+                                       [formData appendPartWithFormData:[dic[key] dataUsingEncoding:NSUTF8StringEncoding]
+                                                                   name:key];
+                                   }
+                                   for (NSData *imageData in imageDataArr) {
+                                       NSInteger index = 0;
+                                       [formData appendPartWithFileData:imageData
+                                                                   name:@"pics[]"
+                                                               fileName:[NSString stringWithFormat:@"phonto %@",@(index)]
+                                                               mimeType:@"image/jpeg"];
+                                       index++;
+                                   }
+                                }
                                 progress:^(NSProgress *progress){
                                     hud.progressObject = progress;
                                 }
                                  success:^(NSURLSessionDataTask *task, id responseObject) {
-                                      [hud hideAnimated:YES];
+                                     [hud hideAnimated:YES];
                                      [TTProgressHUD showDoneOnView:self.view];
                                      NSLog(@"Response: %@", responseObject);
                                  }
                                  failure:^(NSURLSessionDataTask *task, NSError *error) {
-                                      [hud hideAnimated:YES];
+                                     [hud hideAnimated:YES];
                                      NSLog(@"Error: %@", error);
                                  }];
-    
 }
 
 

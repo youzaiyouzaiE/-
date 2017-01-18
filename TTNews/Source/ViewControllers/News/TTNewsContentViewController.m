@@ -316,6 +316,7 @@
     TTNewListModel *listInfo = _arrayList[indexPath.row];
     cell.imageUrl = listInfo.cover_pic;
     cell.contentTittle = listInfo.title;
+    cell.typeImageView.hidden = YES;
     NSString *publishedDate = listInfo.published_at;
     if (publishedDate.length > 10) {
         publishedDate = [publishedDate substringWithRange:NSMakeRange(0, 10)];
