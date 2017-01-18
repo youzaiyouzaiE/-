@@ -170,6 +170,7 @@
 		DA93178C1DF3B276007F15B3 /* TTProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = DA93178B1DF3B276007F15B3 /* TTProgressHUD.m */; };
 		DA9317B51DF410DC007F15B3 /* TTNetworkSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DA9317B31DF410DC007F15B3 /* TTNetworkSessionManager.m */; };
 		DA931A371DF41910007F15B3 /* TTRequestManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DA931A361DF41910007F15B3 /* TTRequestManager.m */; };
+		DAA31C821E2F0E6300FBEB34 /* TTCommentInputView.m in Sources */ = {isa = PBXBuildFile; fileRef = DAA31C811E2F0E6300FBEB34 /* TTCommentInputView.m */; };
 		DABDD2D21E09714E00F3AE49 /* TTLabelAndTextFieldCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DABDD2D11E09714E00F3AE49 /* TTLabelAndTextFieldCell.m */; };
 		DABDD2D51E097BA400F3AE49 /* TTExposuresContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = DABDD2D41E097BA400F3AE49 /* TTExposuresContentView.m */; };
 		DAC17BDB1DFD5F8F005674CD /* JHCollectionViewQuaternionLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = DAC17BD81DFD5F8F005674CD /* JHCollectionViewQuaternionLayout.m */; };
@@ -452,6 +453,8 @@
 		DA9317B31DF410DC007F15B3 /* TTNetworkSessionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTNetworkSessionManager.m; sourceTree = "<group>"; };
 		DA931A351DF41910007F15B3 /* TTRequestManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTRequestManager.h; sourceTree = "<group>"; };
 		DA931A361DF41910007F15B3 /* TTRequestManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTRequestManager.m; sourceTree = "<group>"; };
+		DAA31C801E2F0E6300FBEB34 /* TTCommentInputView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTCommentInputView.h; sourceTree = "<group>"; };
+		DAA31C811E2F0E6300FBEB34 /* TTCommentInputView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTCommentInputView.m; sourceTree = "<group>"; };
 		DAAEBD421DF2B054002D82CF /* TTNews.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTNews.pch; sourceTree = "<group>"; };
 		DABDD2D01E09714E00F3AE49 /* TTLabelAndTextFieldCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTLabelAndTextFieldCell.h; sourceTree = "<group>"; };
 		DABDD2D11E09714E00F3AE49 /* TTLabelAndTextFieldCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTLabelAndTextFieldCell.m; sourceTree = "<group>"; };
@@ -759,6 +762,8 @@
 				DABDD2D41E097BA400F3AE49 /* TTExposuresContentView.m */,
 				DAE42ADE1E0E1510007C8404 /* TTExposuresContentCell.h */,
 				DAE42ADF1E0E1510007C8404 /* TTExposuresContentCell.m */,
+				DAA31C801E2F0E6300FBEB34 /* TTCommentInputView.h */,
+				DAA31C811E2F0E6300FBEB34 /* TTCommentInputView.m */,
 			);
 			path = News;
 			sourceTree = "<group>";
@@ -1470,6 +1475,7 @@
 				DAC65C751DF2D5080090369A /* MHFacebookImageViewer.m in Sources */,
 				DA62CA371DF7BDB100AD3928 /* PictureViewController.m in Sources */,
 				DA62C9E41DF7BCAB00AD3928 /* TTPictureComment.m in Sources */,
+				DAA31C821E2F0E6300FBEB34 /* TTCommentInputView.m in Sources */,
 				DA62CA351DF7BDB100AD3928 /* PictureCommentViewController.m in Sources */,
 				DAE42AE01E0E1510007C8404 /* TTExposuresContentCell.m in Sources */,
 				DA93168B1DF3B214007F15B3 /* NSString+Extension.m in Sources */,
