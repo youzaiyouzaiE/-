@@ -67,7 +67,7 @@ NSString * const k_UserLoginType = @"UseLonginType";
         return adComponentPath;
 }
 
-//返回广告图片本地地址，没有返回nil 有对比是否相同，不同删旧图，返回空
+//返回广告图片本地地址，没有返回nil
 + (NSString *)getADImageFilePath:(NSString *)imageName {
     NSString *cacheDirectoryPath = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) objectAtIndex:0];
     NSString *adComponentPath = [cacheDirectoryPath stringByAppendingPathComponent:@"/AD"];
@@ -84,13 +84,18 @@ NSString * const k_UserLoginType = @"UseLonginType";
         NSArray *filesName = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:adComponentPath error:nil];
         NSString *fileName = [filesName firstObject];
         if (fileName) {
-              NSString *imagePath = [adComponentPath stringByAppendingPathComponent:imageName];
+              NSString *imagePath = [adComponentPath stringByAppendingPathComponent:fileName];
             if ([fileName isEqualToString:imageName]) {
                 return imagePath;
             } else {//不同，移除旧图
                  NSError *error = nil;
-                if (![[NSFileManager defaultManager] removeItemAtPath:imagePath error:&error]) {
-                    [[NSFileManager defaultManager] removeItemAtPath:adComponentPath error:&error];
+                BOOL isSuccess = [[NSFileManager defaultManager] removeItemAtPath:imagePath error:&error];
+                if (!isSuccess) {
+                    NSLog(@"remove small %@.JPG Error :%@",imageName,error.localizedDescription);
+                  BOOL isRemove = [[NSFileManager defaultManager] removeItemAtPath:adComponentPath error:&error];
+                    if (isRemove) {
+                        NSLog(@"delete success");
+                    }
                 }
                 return nil;
             }

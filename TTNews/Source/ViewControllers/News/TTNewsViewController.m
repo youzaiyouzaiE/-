@@ -67,7 +67,6 @@ static NSString * const collectionViewSectionHeaderID = @"ChannelCollectionHeade
 }
 
 - (void)newsChannelsRequest {
-    [TTProgressHUD show];
     [[AFHTTPSessionManager manager] GET:TT_NEWS_CHANNELS
                              parameters:nil
                                progress:^(NSProgress * _Nonnull downloadProgress) {}
