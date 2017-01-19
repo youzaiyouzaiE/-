@@ -29,7 +29,8 @@ extern NSString * const k_UserInfoDic;
 
 ///得到广告文件地址
 + (NSString *)getADDocumentPath;
-////返回广告图片地址，没有返回nil
+
+//返回广告图片本地地址，没有返回nil ，传入nil则移除之前图片
 + (NSString *)getADImageFilePath:(NSString *)imageName;
 
 @end

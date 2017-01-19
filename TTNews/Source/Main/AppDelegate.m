@@ -68,7 +68,6 @@
         self.isLogin = NO;
 }
 
-
 #pragma mark - netWork request
 - (void)initializeNetRequest {
 
@@ -91,29 +90,33 @@
                                         Success:^(NSURLSessionDataTask *task, NSDictionary *responseObject) {
                                             NSArray *imageUrls = responseObject[@"data"];
                                             NSDictionary *imageURLDic = [imageUrls firstObject];
-                                            [self downloadAndSaveAdImageWithUrl:imageURLDic[@"path"]];
+                                            NSString *URLStr = imageURLDic[@"path"];
+//                                            NSString *URLStr =  @"http:/img.cmstest.skykiwichina.com/upload/image";
+//                                            NSString *URLStr = @"";
+                                            [self downloadAndSaveAdImageWithImageURL:URLStr];
                                         } Failure:^(NSError *error) {
                                             
                                         }];
 }
 
-- (void)downloadAndSaveAdImageWithUrl:(NSString *)imageUrl  {
+- (void)downloadAndSaveAdImageWithImageURL:(NSString *)URLStr  {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        NSRange range = [imageUrl rangeOfString:@"/" options:NSBackwardsSearch];
-        if (range.location == NSNotFound) {
-            return ;
+        NSString *imageName = nil;
+        if (![URLStr isEqualToString:@""] && URLStr.length > 1) {
+              imageName = [URLStr lastPathComponent];
         }
-        NSString *fileName = [imageUrl substringFromIndex:range.location +1];
-        if (![TTAppData getADImageFilePath:fileName]) {
-            NSData *data = [NSData dataWithContentsOfURL:[NSURL URLWithString:imageUrl]];
-            UIImage *image = [UIImage imageWithData:data];
-            NSString *documentPath = [TTAppData getADDocumentPath];
-            NSString *imagePath = [documentPath stringByAppendingPathComponent:fileName];
-            if ([UIImagePNGRepresentation(image) writeToFile:imagePath atomically:YES]) {// 保存成功
-                NSLog(@"保存成功");
-                // 如果有广告链接，将广告链接也保存下来
-            }else{
-                NSLog(@"保存失败");
+        if (![TTAppData getADImageFilePath:imageName]) {
+            if (imageName) {
+                NSData *data = [NSData dataWithContentsOfURL:[NSURL URLWithString:URLStr]];
+                UIImage *image = [UIImage imageWithData:data];
+                NSString *documentPath = [TTAppData getADDocumentPath];
+                NSString *imagePath = [documentPath stringByAppendingPathComponent:imageName];
+                if ([UIImagePNGRepresentation(image) writeToFile:imagePath atomically:YES]) {// 保存成功
+                    NSLog(@"保存成功");
+                    // 如果有广告链接，将广告链接也保存下来
+                }else{
+                    NSLog(@"保存失败");
+                }
             }
         }
     });
