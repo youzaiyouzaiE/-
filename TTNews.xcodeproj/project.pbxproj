@@ -458,6 +458,7 @@
 		DAA31C811E2F0E6300FBEB34 /* TTCommentInputView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTCommentInputView.m; sourceTree = "<group>"; };
 		DAA31C831E2FB27200FBEB34 /* TTADPresentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTADPresentView.h; sourceTree = "<group>"; };
 		DAA31C841E2FB27200FBEB34 /* TTADPresentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTADPresentView.m; sourceTree = "<group>"; };
+		DAA31C861E31070900FBEB34 /* TTURLFile.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TTURLFile.h; sourceTree = "<group>"; };
 		DAAEBD421DF2B054002D82CF /* TTNews.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTNews.pch; sourceTree = "<group>"; };
 		DABDD2D01E09714E00F3AE49 /* TTLabelAndTextFieldCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTLabelAndTextFieldCell.h; sourceTree = "<group>"; };
 		DABDD2D11E09714E00F3AE49 /* TTLabelAndTextFieldCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTLabelAndTextFieldCell.m; sourceTree = "<group>"; };
@@ -1085,6 +1086,7 @@
 				EE4635D71CC72B8900DB248F /* Info.plist */,
 				EE4635C71CC72B8900DB248F /* main.m */,
 				DA2F26D01DDDE495002BD87B /* TTDefines.h */,
+				DAA31C861E31070900FBEB34 /* TTURLFile.h */,
 				DAAEBD421DF2B054002D82CF /* TTNews.pch */,
 				DA27D1321E0EACE100B72657 /* Localizable.strings */,
 			);

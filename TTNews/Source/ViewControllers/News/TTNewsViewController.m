@@ -10,11 +10,10 @@
 #import "TTNewsContentViewController.h"
 #import <HMSegmentedControl/HMSegmentedControl.h>
 #import "TTChannelModel.h"
-#import "AFNetworking.h"
 #import "SDiOSVersion.h"
 #import "TTExposuresNewsViewController.h"
+#import "TTNetworkSessionManager.h"
 
-//#import "TTCommentViewController.h"
 
 @interface TTNewsViewController()<UIScrollViewDelegate> {
     HMSegmentedControl *_topTitleView;
@@ -150,21 +149,24 @@ static NSString * const collectionViewSectionHeaderID = @"ChannelCollectionHeade
 
 - (void)setupTopContianerView {
     CGFloat height = 30.0f;
-    CGFloat fontSize = 15.0f;
-    DeviceSize size = [SDiOSVersion deviceSize];
-    if ( size == Screen4Dot7inch) {
-        height = 35.0f;
-        fontSize = 16.0f;
-    } else if (size == Screen4inch) {
-        height = 38.0f;
-        fontSize = 16.0f;
-    }
+    CGFloat fontSize = 14.0f;
+//    DeviceSize size = [SDiOSVersion deviceSize];
+//    if ( size == Screen4Dot7inch) {
+//        height = 30.0f;
+//        fontSize = 14.0f;
+//    } else if (size == Screen4inch) {
+//        height = 30.0f;
+//        fontSize = 14.0f;
+//    } else if (size == Screen5Dot5inch) {
+//        height = 35.0f;
+//        fontSize = 15.0f;
+//    }
     _topTitleView = [[HMSegmentedControl alloc] initWithSectionTitles:_titleArray];
     _topTitleView.selectionStyle = HMSegmentedControlSelectionStyleArrow;
     _topTitleView.selectionIndicatorLocation = HMSegmentedControlSelectionIndicatorLocationNone;
     _topTitleView.verticalDividerEnabled = NO;
-    _topTitleView.titleTextAttributes = @{NSForegroundColorAttributeName : [UIColor blackColor],NSFontAttributeName:[UIFont systemFontOfSize:fontSize]};
-    _topTitleView.selectedTitleTextAttributes = @{NSForegroundColorAttributeName :NORMAL_COLOR,NSFontAttributeName:[UIFont systemFontOfSize:fontSize+3]};
+    _topTitleView.titleTextAttributes = @{NSForegroundColorAttributeName : [UIColor colorWithHexString:@"333333"],NSFontAttributeName:FONT_Regular_PF(fontSize)};
+    _topTitleView.selectedTitleTextAttributes = @{NSForegroundColorAttributeName :[UIColor colorWithHexString:@"E22A1E"],NSFontAttributeName:[UIFont fontWithName:@"PingFangSC-Regular" size:fontSize + 4]};
     _topTitleView.selectionIndicatorColor = NORMAL_COLOR;
     _topTitleView.selectionIndicatorHeight = 2.0;
     _topTitleView.borderType = HMSegmentedControlBorderTypeBottom;
@@ -173,6 +175,7 @@ static NSString * const collectionViewSectionHeaderID = @"ChannelCollectionHeade
     [self.view addSubview:_topTitleView];
     [_topTitleView setFrame:CGRectMake(0, 0, Screen_Width, height)];
 }
+
 
 - (void)switchSection:(HMSegmentedControl *)segment {
     TTNewsContentViewController *vc = _arraySubControllers[segment.selectedSegmentIndex];

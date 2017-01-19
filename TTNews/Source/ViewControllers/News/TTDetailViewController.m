@@ -18,12 +18,11 @@
 #import "TTLoginViewController.h"
 #import "TTCommentViewController.h"
 #import "TTRequestManager.h"
-#import <AFNetworking/AFNetworking.h>
 #import "TTAppData.h"
 #import "M13ProgressViewBar.h"
 #import "TalkingData.h"
 #import "TTCommentInputView.h"
-
+#import "TTNetworkSessionManager.h"
 
 typedef NS_ENUM(NSUInteger, TTShareScene) {
     TTShareSceneWeChat_Scene,  

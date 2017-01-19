@@ -17,7 +17,7 @@
 #import "TTLoginViewController.h"
 #import "TTCommentViewController.h"
 #import "TTRequestManager.h"
-#import <AFNetworking/AFNetworking.h>
+#import "TTNetworkSessionManager.h"
 #import "TalkingData.h"
 
 @interface TTCommentViewController () <UITableViewDelegate,UITableViewDataSource,UIGestureRecognizerDelegate> {

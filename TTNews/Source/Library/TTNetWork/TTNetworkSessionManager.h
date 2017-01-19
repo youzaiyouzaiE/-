@@ -7,7 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
-
+#import "TTURLFile.h"
+#import "AFNetworking.h"
 
 typedef void (^Completion)(NSURLSessionDataTask *task ,id  responseObject);
 typedef void (^Failure)(NSError *  error);

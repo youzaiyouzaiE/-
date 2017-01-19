@@ -10,7 +10,6 @@
 #import "SDCycleScrollView.h"
 #import "SinglePictureNewsTableViewCell.h"
 #import <MJRefresh.h>
-#import "AFNetworking.h"
 #import "TTNewListModel.h"
 #import "TTNewListPageInfoModel.h"
 #import "TTDetailViewController.h"
@@ -18,16 +17,20 @@
 #import <CoreLocation/CoreLocation.h>
 //#import "TTCycleImageModel.h"
 
+static const NSInteger  infoLabelHeight = 30;
 
 @interface TTNewsContentViewController () <SDCycleScrollViewDelegate,UITableViewDelegate,UITableViewDataSource,CLLocationManagerDelegate> {
     SDCycleScrollView *_cycleScrollView;
+    CGFloat _cycleViewHeight;
     NSInteger _currentPage;
     TTNewListPageInfoModel *_pagInfo;
     
     NSMutableArray *_arrayList;
     UIView *_headerView;
-    UILabel *_labelLife;
-    UILabel *_labelRate;
+    
+    UILabel *_labelLife;///城市 天气
+    UILabel *_labelRate;///汇率
+    
     NSDictionary *_locationDic;
 }
 
@@ -72,9 +75,10 @@
     _cycleScrollView.autoScrollTimeInterval = 4;
     _cycleScrollView.pageControlAliment = SDCycleScrollViewPageContolAlimentRight;
     [_headerView addSubview:_cycleScrollView];
+    _cycleViewHeight = Screen_Height * (188.0f/667.0f);
     [_cycleScrollView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.left.right.mas_equalTo(0);
-        make.height.mas_equalTo(Screen_Height/4);
+        make.height.mas_equalTo(ceil(_cycleViewHeight));
     }];
     
     _labelRate = [[UILabel alloc] init];
@@ -86,7 +90,7 @@
         make.top.mas_equalTo(_cycleScrollView.mas_bottom);
         make.right.mas_equalTo(-5);
         make.width.mas_equalTo(160);
-        make.height.mas_equalTo(22);
+        make.height.mas_equalTo(infoLabelHeight);
     }];
     
     _labelLife = [[UILabel alloc] init];
@@ -97,7 +101,7 @@
         make.top.mas_equalTo(_cycleScrollView.mas_bottom);
         make.left.mas_equalTo(10);
         make.right.mas_equalTo(_labelRate.mas_left);
-        make.height.mas_equalTo(22);
+        make.height.mas_equalTo(infoLabelHeight);
     }];
     
 }
@@ -296,7 +300,7 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     if (_isFristNews) {
-        return Screen_Height/4 + 23;
+        return _cycleViewHeight + infoLabelHeight +1;
     } else
         return 0.1;
 }

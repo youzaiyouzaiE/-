@@ -16,7 +16,7 @@
 #import "TTLabelAndTextFieldCell.h"
 #import "TTLoginViewController.h"
 #import "TTRequestManager.h"
-#import <AFNetworking/AFNetworking.h>
+#import "TTNetworkSessionManager.h"
 #import "MBProgressHUD.h"
 
 #define k_TEXTFIELD     @"textFieldKey"
