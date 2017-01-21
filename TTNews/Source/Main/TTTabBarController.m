@@ -34,7 +34,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [[UITabBar appearance] setTintColor:NORMAL_COLOR];
+    [[UITabBar appearance] setTintColor:COLOR_NORMAL];
     [[UITabBar appearance] setBarTintColor:[UIColor whiteColor]];
 //    self.delegate = self;
     [self setupViewControllers];

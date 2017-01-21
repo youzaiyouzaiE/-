@@ -30,17 +30,11 @@ typedef NS_ENUM(NSUInteger, TTShareScene) {
     TTShareSceneQQ_Scene,
     TTShareSceneQQ_Zone,
 };
-//
-//#define WECHAT_SCENE            0
-//#define WECHATTIME_SCENT        1
-//#define QQ_SCENE                2
-//#define QQZONE_SCENE            3
-//#define WEIBO_SCENE             4
-//#define TENCENTWEIBO_SCENE      5
+
 
 static const NSInteger itemButt_W = 40;
 
-@interface TTDetailViewController () <WKNavigationDelegate,JHShareSheetViewDelegate,UIGestureRecognizerDelegate> {
+@interface TTDetailViewController () <WKNavigationDelegate,JHShareSheetViewDelegate,UIGestureRecognizerDelegate,TTCommentInputViewDelegate> {
     
     JHShareSheetView *_sheetView;
     NSInteger _selectedIndex;
@@ -50,9 +44,7 @@ static const NSInteger itemButt_W = 40;
     
     /////写评论
     TTCommentInputView *_commentView;
-    UIView *_coverView;
-    UIView *_writerView;
-    UITextView *_textView;
+    NSInteger _totalComments;
 }
 
 
@@ -86,7 +78,6 @@ static const NSInteger itemButt_W = 40;
     [self setupProgressView];
     if (_article_id && (_article_id.integerValue > 0)) {
         [self setupBottomView];
-        [self createWriteCommentsView];
     } else {
         [_webView mas_updateConstraints:^(MASConstraintMaker *make) {
             make.bottom.mas_equalTo(self.view.mas_bottom);
@@ -96,7 +87,7 @@ static const NSInteger itemButt_W = 40;
 
 - (void)setupProgressView {
     _progressView = [[M13ProgressViewBar alloc] initWithFrame:CGRectMake(0, 0, self.view.width + 50, 5)];
-    _progressView.primaryColor = NORMAL_COLOR;
+    _progressView.primaryColor = COLOR_NORMAL;
     _progressView.secondaryColor = [UIColor lightGrayColor];
     [self.view addSubview:_progressView];
     [self.view bringSubviewToFront:_progressView];
@@ -131,8 +122,6 @@ static const NSInteger itemButt_W = 40;
         [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
     }
 }
-
-
 
 - (void)setupBottomView {
     UIView *bottomView = [[UIView alloc] init];
@@ -178,9 +167,10 @@ static const NSInteger itemButt_W = 40;
     
     UILabel *commentNumLabel = [[UILabel alloc] init];
     commentNumLabel.text = _detailModel.comment_num.stringValue;
-//    commentNumLabel.text = FORMAT(@"999");
+    _totalComments = [_detailModel.comment_num integerValue];
+    commentNumLabel.tag = 99;
     commentNumLabel.userInteractionEnabled = NO;
-    commentNumLabel.backgroundColor = NORMAL_COLOR;
+    commentNumLabel.backgroundColor = COLOR_NORMAL;
     commentNumLabel.textColor = [UIColor whiteColor];
     commentNumLabel.font = [UIFont systemFontOfSize:12];
     commentNumLabel.textAlignment = NSTextAlignmentCenter;
@@ -193,9 +183,7 @@ static const NSInteger itemButt_W = 40;
         make.size.mas_equalTo(CGSizeMake(25, 12));
     }];
  
-    
     UIButton *storeBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-//    storeBtn.backgroundColor = [UIColor redColor];
     [storeBtn setTitle:@"收藏" forState:UIControlStateNormal];
     [storeBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     [storeBtn addTarget:self action:@selector(storeAction:) forControlEvents:UIControlEventTouchUpInside];
@@ -208,112 +196,17 @@ static const NSInteger itemButt_W = 40;
     }];
 }
 
-#define  TEXTVIEW_H     90
-- (void)createWriteCommentsView {
-    
-//    CGFloat textViewH = 90;
-    
-    _coverView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, Screen_Width, Screen_Height)];
-    _coverView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.4];
-    _coverView.hidden = YES;
-    [[UIApplication sharedApplication].keyWindow addSubview:_coverView];
-    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGestureAction)];
-    tapGesture.delegate = self;
-    [_coverView addGestureRecognizer:tapGesture];
-    
-    _writerView = [[UIView alloc] initWithFrame:CGRectMake(0, Screen_Height, Screen_Width, TEXTVIEW_H + 60 + 10)];
-    _writerView.backgroundColor = [[UIColor whiteColor] colorWithAlphaComponent:1];
-    _writerView.alpha = 1;
-    [_coverView addSubview:_writerView];
-    
-    UIButton *cancelBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [cancelBtn setTitle:@"取消" forState:UIControlStateNormal];
-    [cancelBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    cancelBtn.titleLabel.font = [UIFont systemFontOfSize:15];
-    [cancelBtn addTarget:self action:@selector(cancelAction:) forControlEvents:UIControlEventTouchUpInside];
-    [_writerView addSubview:cancelBtn];
-    [cancelBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo (10);
-        make.left.mas_equalTo (15);
-        make.size.mas_equalTo(CGSizeMake(50, 30));
-    }];
-    
-    UILabel *writerLabel = [[UILabel alloc] init];
-    writerLabel.textAlignment = NSTextAlignmentCenter;
-    writerLabel.font = [UIFont systemFontOfSize:18];
-    writerLabel.text = @"写跟帖";
-    [_writerView addSubview:writerLabel];
-    [writerLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo (10);
-        make.centerX.mas_equalTo (_writerView.mas_centerX);
-        make.size.mas_equalTo(CGSizeMake(60, 30));
-    }];
-    
-    UIButton *sendBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [sendBtn setTitle:@"发送" forState:UIControlStateNormal];
-    [sendBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    sendBtn.titleLabel.font = [UIFont systemFontOfSize:15];
-    [sendBtn addTarget:self action:@selector(sendAction:) forControlEvents:UIControlEventTouchUpInside];
-    [_writerView addSubview:sendBtn];
-    [sendBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo (10);
-        make.right.mas_equalTo (-15);
-        make.size.mas_equalTo(CGSizeMake(50, 30));
-    }];
-    
-    _textView = [[UITextView alloc] init];
-    _textView.backgroundColor = [UIColor colorWithHexString:@"f0f0f0"];
-    _textView.font = [UIFont systemFontOfSize:16];
-     [_writerView addSubview:_textView];
-    [_textView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(50);
-        make.left.mas_equalTo(15);
-        make.right.mas_equalTo(-15);
-        make.bottom.mas_equalTo(_writerView.mas_bottom).offset(-15);
-    }];
-}
-
-- (void)showWriteView {
-    _coverView.hidden = NO;
-     [_textView becomeFirstResponder];
-    [UIView animateWithDuration:0.5 animations:^{
-        DeviceSize size = [SDiOSVersion deviceSize];
-        if ( size == Screen5Dot5inch) {
-            _writerView.frame = CGRectMake(0, Screen_Height - TEXTVIEW_H - 60 - 30 - 250 , Screen_Width, TEXTVIEW_H + 60 + 10);
-        } else
-            _writerView.frame = CGRectMake(0, Screen_Height - TEXTVIEW_H - 60 - 10 - 250 , Screen_Width, TEXTVIEW_H + 60 + 10);
-    } completion:^(BOOL finished) {
-    }];
-}
-
-- (void)dismissWriterView {
-    [_textView resignFirstResponder];
-    [UIView animateWithDuration:0.35 animations:^{
-        _writerView.frame = CGRectMake(0, Screen_Height, Screen_Width, TEXTVIEW_H + 60 + 10);
-    } completion:^(BOOL finished) {
-        _coverView.hidden = YES;
-    }];
-}
-
-#pragma mark - UIGestureRecognizerDelegate
-- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer {
-    CGPoint point = [gestureRecognizer locationInView:_writerView];
-    if (point.y > 0) {
-        return NO;
-    } else
-        return YES;
-}
-
 #pragma mark - longin View
 - (void)presentLoginView {
-    [self dismissWriterView];
     TTLoginViewController *loginVC = [[TTLoginViewController alloc] init];
     loginVC.isPresentInto = YES;
     loginVC.loginBlock = ^(NSNumber *uid, NSString *token) {
         
     };
     UINavigationController *navitagtionVC = [[UINavigationController alloc] initWithRootViewController:loginVC];
-    [self presentViewController:navitagtionVC animated:YES completion:nil];
+    [self presentViewController:navitagtionVC animated:YES completion:^{
+        [_commentView dismessCommentView];
+    }];
 }
 
 #pragma mark - Action perform
@@ -329,11 +222,12 @@ static const NSInteger itemButt_W = 40;
 }
 
 - (void)writeCommentAction:(UIButton *)sender {
-    [self showWriteView];
-//    if (!_commentView) {
-//        _commentView = [TTCommentInputView commentView];
-//    }
-//    [_commentView showCommentView];
+    if (!_commentView) {
+        _commentView = [TTCommentInputView commentView];
+        _commentView.delegate = self;
+    }
+    _commentView.article_id = _article_id;
+    [_commentView showCommentView];
 }
 
 - (void)checkCommentsAction:(UIButton *)sender {
@@ -347,57 +241,24 @@ static const NSInteger itemButt_W = 40;
     
 }
 
-- (void)tapGestureAction {
-    [self dismissWriterView];
-}
-
-- (void)cancelAction:(UIButton *)button {
-    [self dismissWriterView];
-}
-
 - (void)sendAction:(UIButton *)button {
     if (SHARE_APP.isLogin) {
-        [self sendComment];
         [TalkingData trackEvent:@"详情页表发评论"];
     } else {
         [self presentLoginView];
     }
 }
 
-- (void)sendComment {
-    if (_textView.text.length < 1) {
-        [TTProgressHUD showMsg:@"没有评论内容"];
-        return;
-    }
-    [TTProgressHUD show];
-    NSDictionary *parameterDic = @{@"article_id" : _article_id ,
-                                   @"content":_textView.text ,
-                                   @"user_id":[TTAppData shareInstance].currentUser.memberId ,
-                                   @"user_nick" : [TTAppData shareInstance].currentUser.nickname ,
-                                   @"user_avatar":[[TTAppData shareInstance] currentUserIconURLString]
-                                   };
-    [[AFHTTPSessionManager manager] POST:TT_COMMENT_URL
-                              parameters:parameterDic
-                                progress:^(NSProgress * _Nonnull uploadProgress) {
-                                    
-                                }
-                                 success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-                                     [TTProgressHUD dismiss];
-                                     [SVProgressHUD showSuccessWithStatus:nil];
-                                     [self dismissWriterView];
-                                     [self performSelector:@selector(dismissSvprogressHud) withObject:nil afterDelay:0.5];
-                                 }
-                                 failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-                                     [TTProgressHUD dismiss];
-                                     [TTProgressHUD showMsg:@"服务器请求出错，请稍后重试！"];
-                                     [self dismissWriterView];
-                                 }];
+#pragma mark - TTCommentInputViewDelegate
+-(void)commentViewCheckNotLongin:(TTCommentInputView *)commentView; {
+    [self presentLoginView];
 }
 
-- (void)dismissSvprogressHud{
-    [SVProgressHUD dismiss];
+- (void)commentViewSendCommentSuccess:(TTCommentInputView *)commentView {
+    _totalComments += 1;
+    UILabel *commentNumLabel = (UILabel *)[self.view viewWithTag:99];
+    commentNumLabel.text = FORMAT(@"%@",@(_totalComments));
 }
-
 
 #pragma mark - JHShareSheetViewDelegate
 - (void)sheetViewdidSelectItemAtIndex:(NSInteger)index {

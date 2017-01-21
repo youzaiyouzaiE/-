@@ -18,7 +18,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    [[UINavigationBar appearance] setBarTintColor:NORMAL_COLOR];
+    [[UINavigationBar appearance] setBarTintColor:COLOR_NORMAL];
     [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
     [[UINavigationBar appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor],NSFontAttributeName:FONT_Regular_PF(20)}];
     [[UIBarButtonItem appearance] setTintColor:[UIColor whiteColor]];

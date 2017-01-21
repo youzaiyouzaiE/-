@@ -12,7 +12,9 @@
 @protocol TTCommentInputViewDelegate <NSObject>
 
 @optional
--(void)commentViewSendButtonDidChecked:(TTCommentInputView *)commentView;
+- (void)commentViewSendButtonDidChecked:(TTCommentInputView *)commentView;
+- (void)commentViewCheckNotLongin:(TTCommentInputView *)commentView;
+- (void)commentViewSendCommentSuccess:(TTCommentInputView *)commentView;
 
 @end
 
@@ -21,9 +23,14 @@
 
 @property (nonatomic, weak) id<TTCommentInputViewDelegate> delegate;
 @property (nonatomic, copy, readonly) NSString *inputText;
+@property (nonatomic, assign) BOOL isAnswer;
+
+@property (nonatomic, strong) NSNumber *article_id;
+@property (nonatomic, strong) NSNumber *selectedReplyID;
 
 + (instancetype)commentView;
 - (void)showCommentView;
 - (void)dismessCommentView;
+- (void)setTextViewPlaceholder:(NSString *)placeholderText;
 
 @end

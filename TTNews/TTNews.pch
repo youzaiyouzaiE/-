@@ -12,6 +12,7 @@
     #import "AppDelegate.h"
     #import "Masonry.h"
     #import "UIColor+HexString.h"
+    #import "UIImage+colorImage.h"
     #import "NSObject+Extension.h"
     #import <DKNightVersion.h>
     #import "TTDefines.h"

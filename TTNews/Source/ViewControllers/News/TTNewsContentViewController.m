@@ -90,7 +90,6 @@ static const NSInteger  infoLabelHeight = 30;
         make.height.mas_equalTo(ceil(_cycleViewHeight));
     }];
     
-    
     _labelWeather = [[UILabel alloc] init];
     _labelWeather.font = FONT_Regular_PF(12);
     _labelWeather.textColor = COLOR_HexStr(@"4AA6D9");
@@ -124,7 +123,6 @@ static const NSInteger  infoLabelHeight = 30;
         make.right.mas_equalTo(_labelWeather.mas_left);
         make.height.mas_equalTo(infoLabelHeight);
     }];
-    
 }
 
 -(void)addTabelView {

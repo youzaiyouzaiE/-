@@ -54,8 +54,8 @@
     _adImageView.image = [UIImage imageWithContentsOfFile:imagePath];
     [self addSubview:_adImageView];
     
-//    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(pushToAdDetail)];
-//    [_adImageView addGestureRecognizer:tap];
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(pushToAdDetail)];
+    [_adImageView addGestureRecognizer:tap];
     
     UIButton *_passBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [_passBtn addTarget:self action:@selector(dismiss) forControlEvents:UIControlEventTouchUpInside];

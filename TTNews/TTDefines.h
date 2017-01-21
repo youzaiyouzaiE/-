@@ -19,8 +19,9 @@
 #define IOS_8LAST                                   ([[[UIDevice currentDevice] systemVersion] floatValue]>=8.0)?1:0
 
 
-#define NORMAL_COLOR                                [UIColor colorWithHexString:@"fa5054"]
+#define COLOR_NORMAL                                [UIColor colorWithHexString:@"fa5054"]
 #define COLOR_HexStr(hexStr)                        [UIColor colorWithHexString:hexStr]
+#define COLOR_DISABLED                              [UIColor colorWithHexString:@"dadadf"]
 
 ///Font
 #define FONT_Regular_PF(fontSize)                   ([UIFont fontWithName:@"PingFangSC-Regular" size:(fontSize)])?[UIFont fontWithName:@"PingFangSC-Regular" size:(fontSize)]:[UIFont systemFontOfSize:(fontSize)]
