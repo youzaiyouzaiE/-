@@ -36,6 +36,7 @@ static const NSInteger  infoLabelHeight = 30;
 
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) NSMutableArray *arrayCycleImages;
+@property (nonatomic, strong) NSMutableArray *arrayCycleTitle;
 @property (nonatomic, strong) NSMutableArray *arrayImageModel;
 @property (strong, nonatomic) CLLocationManager* locationManager;
 
@@ -61,6 +62,7 @@ static const NSInteger  infoLabelHeight = 30;
     if (_isFristNews) {
         [self addCycleScrollView];
         _arrayCycleImages = [NSMutableArray array];
+        _arrayCycleTitle = [NSMutableArray array];
         _arrayImageModel = [NSMutableArray array];
     }
     [self addTabelView];
@@ -74,6 +76,10 @@ static const NSInteger  infoLabelHeight = 30;
     _cycleScrollView.backgroundColor = [UIColor whiteColor];
     _cycleScrollView.autoScrollTimeInterval = 4;
     _cycleScrollView.pageControlAliment = SDCycleScrollViewPageContolAlimentRight;
+    _cycleScrollView.titleLabelTextFont = FONT_Medium_PF(12);
+    _cycleScrollView.titleLabelTextColor = COLOR_HexStr(@"FFFFFF");
+    _cycleScrollView.titleLabelHeight = 27.0f;
+    _cycleScrollView.titleLabelBackgroundColor = [UIColor colorWithRed:108.0f/255.0f green:108.0f/255.0f blue:108.0f/255.0f alpha:0.6];
     [_headerView addSubview:_cycleScrollView];
     _cycleViewHeight = Screen_Height * (188.0f/667.0f);
     [_cycleScrollView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -112,6 +118,12 @@ static const NSInteger  infoLabelHeight = 30;
     _tableView.delegate = self;
     _tableView.dataSource = self;
     _tableView.rowHeight = [SinglePictureNewsTableViewCell height];
+    _tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
+    _tableView.separatorColor = COLOR_HexStr(@"EFEFEF");
+    [self.tableView setSeparatorInset:UIEdgeInsetsZero];
+//    if ([self.tableView respondsToSelector:@selector(setLayoutMargins:)]) {
+//        [self.tableView setLayoutMargins:UIEdgeInsetsZero];
+//    }
     [self.view addSubview:_tableView];
     [_tableView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(0);
@@ -198,13 +210,16 @@ static const NSInteger  infoLabelHeight = 30;
                                 success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *responseObject) {
                                     [TTProgressHUD dismiss];
                                     [_arrayCycleImages removeAllObjects];
+                                    [_arrayCycleTitle removeAllObjects];
                                     [_arrayImageModel removeAllObjects];
                                     for (NSDictionary *imageDic in responseObject[@"data"]) {
                                         TTNewListModel *imageModel = [[TTNewListModel alloc] initWithDictionary:imageDic];
                                         [_arrayImageModel addObject:imageModel];
                                         [_arrayCycleImages addObject:imageModel.cover_pic];
+                                        [_arrayCycleTitle addObject:imageModel.title];
                                     }
                                     _cycleScrollView.imageURLStringsGroup = _arrayCycleImages;
+                                    _cycleScrollView.titlesGroup = _arrayCycleTitle;
                                 } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
                                     [TTProgressHUD dismiss];
                                     [TTProgressHUD showMsg:@"图片请求出错！"];
@@ -318,13 +333,12 @@ static const NSInteger  infoLabelHeight = 30;
     TTNewListModel *listInfo = _arrayList[indexPath.row];
     cell.imageUrl = listInfo.cover_pic;
     cell.contentTittle = listInfo.title;
-    cell.typeImageView.hidden = YES;
     NSString *publishedDate = listInfo.published_at;
     if (publishedDate.length > 10) {
         publishedDate = [publishedDate substringWithRange:NSMakeRange(0, 10)];
     }
     cell.dateLabel.text = publishedDate;
-    cell.sourceLabel.text = listInfo.source;
+    [cell setSourceLabelText:listInfo.source];
     return cell;
 }
 

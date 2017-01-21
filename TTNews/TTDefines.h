@@ -20,7 +20,7 @@
 
 
 #define NORMAL_COLOR                                [UIColor colorWithHexString:@"fa5054"]
-#define COLOR_HexStr(hexStr)                        [UIColor colorWithHexString:@hexStr]
+#define COLOR_HexStr(hexStr)                        [UIColor colorWithHexString:hexStr]
 
 ///Font
 #define FONT_Regular_PF(fontSize)                   ([UIFont fontWithName:@"PingFangSC-Regular" size:(fontSize)])?[UIFont fontWithName:@"PingFangSC-Regular" size:(fontSize)]:[UIFont systemFontOfSize:(fontSize)]

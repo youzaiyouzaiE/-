@@ -106,6 +106,7 @@ static NSString * const collectionViewSectionHeaderID = @"ChannelCollectionHeade
     _messageLable = [[UILabel alloc] init];
     _messageLable.text = @"网络不给力，点击屏幕重试";
     _messageLable.textColor = [UIColor colorWithHexString:@"93939E"];
+    _messageLable.font = FONT_Light_PF(16);
     _messageLable.textAlignment = NSTextAlignmentCenter;
     [self.view addSubview:_messageLable];
     [_messageLable mas_makeConstraints:^(MASConstraintMaker *make) {
