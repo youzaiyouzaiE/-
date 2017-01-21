@@ -125,12 +125,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TTNews/Source/ViewControllers/News/TTNewsContentViewController.m"
-            timestampString = "506598008.662911"
+            timestampString = "506662281.289298"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "218"
-            endingLineNumber = "218"
-            landmarkName = "-loadCycleImages"
+            startingLineNumber = "295"
+            endingLineNumber = "295"
+            landmarkName = "-updateMJViewStatusWithIsUpload:footHaveMoreData:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

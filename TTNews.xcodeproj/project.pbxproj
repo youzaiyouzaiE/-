@@ -87,6 +87,8 @@
 		DA2C95711E05417600A43E9B /* TTLableAndTextFieldView.m in Sources */ = {isa = PBXBuildFile; fileRef = DA2C95701E05417600A43E9B /* TTLableAndTextFieldView.m */; };
 		DA2C95741E06885300A43E9B /* TTCommentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DA2C95731E06885300A43E9B /* TTCommentViewController.m */; };
 		DA2C95771E06977000A43E9B /* TTCommentTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DA2C95761E06977000A43E9B /* TTCommentTableViewCell.m */; };
+		DA36775B1E3300E4002CDD56 /* TTLoadMoerTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DA3677591E3300E4002CDD56 /* TTLoadMoerTableViewCell.m */; };
+		DA36775C1E3300E4002CDD56 /* TTLoadMoerTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA36775A1E3300E4002CDD56 /* TTLoadMoerTableViewCell.xib */; };
 		DA544A261E078BE000EC6A10 /* TTNewsArticleInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = DA544A251E078BE000EC6A10 /* TTNewsArticleInfo.m */; };
 		DA5B0B801DFD8D51001067B8 /* libWeChatSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DA5B0B7B1DFD8D51001067B8 /* libWeChatSDK.a */; };
 		DA5B0B811DFD8D51001067B8 /* README.txt in Resources */ = {isa = PBXBuildFile; fileRef = DA5B0B7C1DFD8D51001067B8 /* README.txt */; };
@@ -307,6 +309,9 @@
 		DA2C95751E06977000A43E9B /* TTCommentTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTCommentTableViewCell.h; sourceTree = "<group>"; };
 		DA2C95761E06977000A43E9B /* TTCommentTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTCommentTableViewCell.m; sourceTree = "<group>"; };
 		DA2F26D01DDDE495002BD87B /* TTDefines.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TTDefines.h; sourceTree = "<group>"; };
+		DA3677581E3300E4002CDD56 /* TTLoadMoerTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTLoadMoerTableViewCell.h; sourceTree = "<group>"; };
+		DA3677591E3300E4002CDD56 /* TTLoadMoerTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTLoadMoerTableViewCell.m; sourceTree = "<group>"; };
+		DA36775A1E3300E4002CDD56 /* TTLoadMoerTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TTLoadMoerTableViewCell.xib; sourceTree = "<group>"; };
 		DA544A241E078BE000EC6A10 /* TTNewsArticleInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTNewsArticleInfo.h; sourceTree = "<group>"; };
 		DA544A251E078BE000EC6A10 /* TTNewsArticleInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTNewsArticleInfo.m; sourceTree = "<group>"; };
 		DA5B0B7B1DFD8D51001067B8 /* libWeChatSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libWeChatSDK.a; sourceTree = "<group>"; };
@@ -754,6 +759,9 @@
 				DA62C98F1DF7BCAB00AD3928 /* SinglePictureNewsTableViewCell.h */,
 				DA62C9901DF7BCAB00AD3928 /* SinglePictureNewsTableViewCell.m */,
 				DA62C9911DF7BCAB00AD3928 /* SinglePictureNewsTableViewCell.xib */,
+				DA3677581E3300E4002CDD56 /* TTLoadMoerTableViewCell.h */,
+				DA3677591E3300E4002CDD56 /* TTLoadMoerTableViewCell.m */,
+				DA36775A1E3300E4002CDD56 /* TTLoadMoerTableViewCell.xib */,
 				DA2C95751E06977000A43E9B /* TTCommentTableViewCell.h */,
 				DA2C95761E06977000A43E9B /* TTCommentTableViewCell.m */,
 				DA2C956F1E05417600A43E9B /* TTLableAndTextFieldView.h */,
@@ -1247,6 +1255,7 @@
 				DA62CA361DF7BDB100AD3928 /* PictureCommentViewController.xib in Resources */,
 				DA23E9321DFC4D2D0087B232 /* sns_icon_24.png in Resources */,
 				DA62CA2C1DF7BD9E00AD3928 /* PictureTableViewCell.xib in Resources */,
+				DA36775C1E3300E4002CDD56 /* TTLoadMoerTableViewCell.xib in Resources */,
 				DA23E9571DFC4D2D0087B232 /* sns_icon_9.png in Resources */,
 				DA62CA111DF7BCAB00AD3928 /* TTRegisterViewController.xib in Resources */,
 				DA23E9581DFC4D2D0087B232 /* sns_icon_9@2x.png in Resources */,
@@ -1476,6 +1485,7 @@
 				DAC17BDC1DFD5F8F005674CD /* JHShareSheetView.m in Sources */,
 				DA931A371DF41910007F15B3 /* TTRequestManager.m in Sources */,
 				DA62C9EB1DF7BCAB00AD3928 /* TwoLabelCell.m in Sources */,
+				DA36775B1E3300E4002CDD56 /* TTLoadMoerTableViewCell.m in Sources */,
 				DA9317B51DF410DC007F15B3 /* TTNetworkSessionManager.m in Sources */,
 				DA9316921DF3B214007F15B3 /* TTConst.m in Sources */,
 				DA62CA171DF7BCAB00AD3928 /* SendFeedbackViewController.m in Sources */,

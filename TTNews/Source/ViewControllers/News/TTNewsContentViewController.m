@@ -15,6 +15,7 @@
 #import "TTDetailViewController.h"
 #import "TTNetworkSessionManager.h"
 #import <CoreLocation/CoreLocation.h>
+#import "TTLoadMoerTableViewCell.h"
 //#import "TTCycleImageModel.h"
 
 static const NSInteger  infoLabelHeight = 30;
@@ -28,10 +29,12 @@ static const NSInteger  infoLabelHeight = 30;
     NSMutableArray *_arrayList;
     UIView *_headerView;
     
-    UILabel *_labelLife;///城市 天气
+    UILabel *_labelDate;///城市
+    UILabel *_labelWeather;///天气
     UILabel *_labelRate;///汇率
     
     NSDictionary *_locationDic;
+    BOOL _hasMoreData;
 }
 
 @property (nonatomic, strong) UITableView *tableView;
@@ -87,26 +90,38 @@ static const NSInteger  infoLabelHeight = 30;
         make.height.mas_equalTo(ceil(_cycleViewHeight));
     }];
     
+    
+    _labelWeather = [[UILabel alloc] init];
+    _labelWeather.font = FONT_Regular_PF(12);
+    _labelWeather.textColor = COLOR_HexStr(@"4AA6D9");
+    _labelWeather.textAlignment = NSTextAlignmentCenter;
+    [_headerView addSubview:_labelWeather];
+    [_labelWeather mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(_cycleScrollView.mas_bottom);
+        make.height.mas_equalTo(infoLabelHeight);
+        make.centerX.mas_equalTo(_headerView.mas_centerX);
+        make.width.mas_equalTo(60);
+    }];
+    
     _labelRate = [[UILabel alloc] init];
-    _labelRate.font = [UIFont systemFontOfSize:15];
+    _labelRate.font = FONT_Regular_PF(12);
     _labelRate.textAlignment = NSTextAlignmentRight;
-//    _labelRate.backgroundColor = [UIColor yellowColor];
     [_headerView addSubview:_labelRate];
     [_labelRate mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(_cycleScrollView.mas_bottom);
-        make.right.mas_equalTo(-5);
-        make.width.mas_equalTo(160);
+        make.right.mas_equalTo(-9);
+        make.left.mas_equalTo(_labelWeather.mas_right);
         make.height.mas_equalTo(infoLabelHeight);
     }];
     
-    _labelLife = [[UILabel alloc] init];
-    _labelLife.font = [UIFont systemFontOfSize:15];
-    _labelLife.text = @"获取城市失败，请稍后再试";
-    [_headerView addSubview:_labelLife];
-    [_labelLife mas_makeConstraints:^(MASConstraintMaker *make) {
+    _labelDate = [[UILabel alloc] init];
+    _labelDate.font = FONT_Regular_PF(12);
+    _labelDate.text = @"获取中请稍后…";
+    [_headerView addSubview:_labelDate];
+    [_labelDate mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(_cycleScrollView.mas_bottom);
         make.left.mas_equalTo(10);
-        make.right.mas_equalTo(_labelRate.mas_left);
+        make.right.mas_equalTo(_labelWeather.mas_left);
         make.height.mas_equalTo(infoLabelHeight);
     }];
     
@@ -117,13 +132,10 @@ static const NSInteger  infoLabelHeight = 30;
     _tableView.backgroundColor = [UIColor whiteColor];
     _tableView.delegate = self;
     _tableView.dataSource = self;
-    _tableView.rowHeight = [SinglePictureNewsTableViewCell height];
+//    _tableView.rowHeight = [SinglePictureNewsTableViewCell height];
     _tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
     _tableView.separatorColor = COLOR_HexStr(@"EFEFEF");
     [self.tableView setSeparatorInset:UIEdgeInsetsZero];
-//    if ([self.tableView respondsToSelector:@selector(setLayoutMargins:)]) {
-//        [self.tableView setLayoutMargins:UIEdgeInsetsZero];
-//    }
     [self.view addSubview:_tableView];
     [_tableView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(0);
@@ -131,22 +143,24 @@ static const NSInteger  infoLabelHeight = 30;
     }];
     self.tableView.dk_backgroundColorPicker = DKColorPickerWithRGB(0xf0f0f0, 0x000000, 0xfafafa);
     self.automaticallyAdjustsScrollViewInsets = NO;
-    [self.tableView registerNib:[UINib nibWithNibName:NSStringFromClass([SinglePictureNewsTableViewCell class]) bundle:nil] forCellReuseIdentifier:@"SinglePictureCell"];
+    [self.tableView registerNib:[UINib nibWithNibName:NSStringFromClass([SinglePictureNewsTableViewCell class]) bundle:nil]
+         forCellReuseIdentifier:@"SinglePictureCell"];
+    [self.tableView registerNib:[UINib nibWithNibName:NSStringFromClass([TTLoadMoerTableViewCell class]) bundle:nil]
+         forCellReuseIdentifier:@"loadMoreCell"];
     [self setupRefresh];
 }
 
 -(void)setupRefresh {
     self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadData)];
     [self.tableView.mj_header beginRefreshing];
-    self.tableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];
 }
 
 - (void)loadData {
     _currentPage = 1;
+    _hasMoreData = YES;///
     [self loadListForPage:_currentPage andIsRefresh:YES];
     if (_isFristNews) {
         [self loadCycleImages];
-        
         [self loadLifeInfoDataWithDic:_locationDic];////@{@"lng":@"38.983424" ,@"lat" :@"116.5320"} 北京
     }
 }
@@ -155,8 +169,6 @@ static const NSInteger  infoLabelHeight = 30;
     _currentPage ++;
     [self loadListForPage:_currentPage andIsRefresh:NO];
 }
-
-
 
 //开始定位
 -(void)startLocation{
@@ -230,13 +242,14 @@ static const NSInteger  infoLabelHeight = 30;
     [[TTNetworkSessionManager shareManager] Get:TT_FRIST_LIFE_CITY
                                      Parameters:nil
                                         Success:^(NSURLSessionDataTask *task, id responseObject) {
-        _labelLife.text = [NSString stringWithFormat:@"%@  %@:%@ ",responseObject[@"date"],responseObject[@"city"],responseObject[@"tmp"]];
-        _labelRate.text = responseObject[@"rate"];
-
-    } Failure:^(NSError *error) {
-        NSLog(@"error %@",error.description);
-        [TTProgressHUD showMsg:@"天气信息，请求出错"];
-    }];
+//                                            _labelDate.text =  [NSString stringWithFormat:@"%@  %@",responseObject[@"date"],responseObject[@"city"]];
+                                            _labelDate.text =  [NSString stringWithFormat:@"%@",responseObject[@"date"]];
+                                            _labelWeather.text = responseObject[@"tmp"];
+                                            _labelRate.text = responseObject[@"rate"];
+                                        } Failure:^(NSError *error) {
+                                            NSLog(@"error %@",error.description);
+                                            [TTProgressHUD showMsg:@"天气信息，请求出错"];
+                                        }];
 }
 
 - (void)loadListForPage:(NSInteger)page andIsRefresh:(BOOL)isRefresh {
@@ -271,22 +284,21 @@ static const NSInteger  infoLabelHeight = 30;
                                     [TTProgressHUD dismiss];
                                     [TTProgressHUD showMsg:@"服务器繁忙！请求出错"];
                                     [_tableView.mj_header endRefreshing];
-                                    self.tableView.mj_footer.hidden = YES;
                                 }];
 }
 
 - (void)updateMJViewStatusWithIsUpload:(BOOL)isRefresh footHaveMoreData:(BOOL)haveData{
     if (isRefresh) {
         [_tableView.mj_header endRefreshing];
-        [_tableView.mj_footer resetNoMoreData];
-        self.tableView.mj_footer.hidden = NO;
+        [_tableView reloadData];
     } else {
         if (haveData) {
-            [_tableView.mj_footer resetNoMoreData];
-        } else
-            [_tableView.mj_footer endRefreshingWithNoMoreData];
+            _hasMoreData = YES;
+        } else {
+            _hasMoreData = NO;
+        }
+        [_tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:_arrayList.count inSection:0]] withRowAnimation:UITableViewRowAnimationFade];
     }
-    [_tableView reloadData];
 }
 
 #pragma mark - SDCycleScrollViewDelegate
@@ -310,7 +322,7 @@ static const NSInteger  infoLabelHeight = 30;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return _arrayList.count;
+    return _arrayList.count +1;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
@@ -324,22 +336,44 @@ static const NSInteger  infoLabelHeight = 30;
     return 0.1;
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.row == _arrayList.count) {
+        return 46;
+    } else
+        return [SinglePictureNewsTableViewCell height];
+}
+
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
     return _headerView;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    SinglePictureNewsTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"SinglePictureCell"];
-    TTNewListModel *listInfo = _arrayList[indexPath.row];
-    cell.imageUrl = listInfo.cover_pic;
-    cell.contentTittle = listInfo.title;
-    NSString *publishedDate = listInfo.published_at;
-    if (publishedDate.length > 10) {
-        publishedDate = [publishedDate substringWithRange:NSMakeRange(0, 10)];
+    if (indexPath.row == _arrayList.count) {
+        TTLoadMoerTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"loadMoreCell"];
+        if (_hasMoreData) {
+            cell.activityView.hidden = NO;
+             [cell.activityView startAnimating];
+            cell.titleLabel.text = @"努力加载中…";
+            [self loadMoreData];
+        } else {
+            cell.activityView.hidden = YES;
+            [cell.activityView stopAnimating];
+            cell.titleLabel.text = @"没有更多数据";
+        }
+        return cell;
+    } else {
+        SinglePictureNewsTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"SinglePictureCell"];
+        TTNewListModel *listInfo = _arrayList[indexPath.row];
+        cell.imageUrl = listInfo.cover_pic;
+        cell.contentTittle = listInfo.title;
+        NSString *publishedDate = listInfo.published_at;
+        if (publishedDate.length > 10) {
+            publishedDate = [publishedDate substringWithRange:NSMakeRange(0, 10)];
+        }
+        cell.dateLabel.text = publishedDate;
+        [cell setSourceLabelText:listInfo.source];
+        return cell;
     }
-    cell.dateLabel.text = publishedDate;
-    [cell setSourceLabelText:listInfo.source];
-    return cell;
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
