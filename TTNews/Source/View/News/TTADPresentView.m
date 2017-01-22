@@ -54,8 +54,12 @@
     _adImageView.image = [UIImage imageWithContentsOfFile:imagePath];
     [self addSubview:_adImageView];
     
+    #ifdef DEBUG
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(pushToAdDetail)];
     [_adImageView addGestureRecognizer:tap];
+    #else
+    
+    #endif
     
     UIButton *_passBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [_passBtn addTarget:self action:@selector(dismiss) forControlEvents:UIControlEventTouchUpInside];
@@ -72,7 +76,6 @@
         make.size.mas_equalTo(CGSizeMake(60, 30));
     }];
     [self changePassButtonTitle:_passBtn];
-    
 }
 
 #pragma mark - action Perform
@@ -116,7 +119,7 @@
 
 - (void)dealloc
 {
-        NSLog(@"%@ -> %@",NSStringFromClass([self class]), NSStringFromSelector(_cmd));
+    NSLog(@"%@ -> %@",NSStringFromClass([self class]), NSStringFromSelector(_cmd));
 }
 
 @end

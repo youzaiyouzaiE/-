@@ -38,7 +38,7 @@ static NSString * const collectionViewSectionHeaderID = @"ChannelCollectionHeade
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    UIBarButtonItem * item = [[UIBarButtonItem alloc] initWithTitle:@"爆料"
+    UIBarButtonItem * item = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"exposureImage"]
                                                               style:UIBarButtonItemStylePlain
                                                              target:self
                                                              action:@selector(offerNews)];

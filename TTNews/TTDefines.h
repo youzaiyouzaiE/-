@@ -19,7 +19,8 @@
 #define IOS_8LAST                                   ([[[UIDevice currentDevice] systemVersion] floatValue]>=8.0)?1:0
 
 
-#define COLOR_NORMAL                                [UIColor colorWithHexString:@"fa5054"]
+//#define COLOR_NORMAL                           [UIColor colorWithHexString:@"fa5054"]
+#define COLOR_NORMAL                                [UIColor colorWithHexString:@"#E12D28"]
 #define COLOR_HexStr(hexStr)                        [UIColor colorWithHexString:hexStr]
 #define COLOR_DISABLED                              [UIColor colorWithHexString:@"dadadf"]
 
