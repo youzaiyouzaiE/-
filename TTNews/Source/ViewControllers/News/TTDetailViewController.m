@@ -23,6 +23,7 @@
 #import "TalkingData.h"
 #import "TTCommentInputView.h"
 #import "TTNetworkSessionManager.h"
+#import "TTBottomBarView.h"
 
 typedef NS_ENUM(NSUInteger, TTShareScene) {
     TTShareSceneWeChat_Scene,  
@@ -32,16 +33,12 @@ typedef NS_ENUM(NSUInteger, TTShareScene) {
 };
 
 
-static const NSInteger itemButt_W = 40;
-
-@interface TTDetailViewController () <WKNavigationDelegate,JHShareSheetViewDelegate,UIGestureRecognizerDelegate,TTCommentInputViewDelegate> {
+@interface TTDetailViewController () <WKNavigationDelegate,JHShareSheetViewDelegate,UIGestureRecognizerDelegate,TTCommentInputViewDelegate,TTBottomBarViewDelegate> {
     
     JHShareSheetView *_sheetView;
     NSInteger _selectedIndex;
-    
-    UIView *_bottomView;
     M13ProgressView *_progressView;
-    
+    TTBottomBarView *_bottomView;
     /////写评论
     TTCommentInputView *_commentView;
     NSInteger _totalComments;
@@ -65,18 +62,18 @@ static const NSInteger itemButt_W = 40;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    UIBarButtonItem * item = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"share"]
+    UIBarButtonItem * item = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"fontSelectImage"]
                                                               style:UIBarButtonItemStylePlain
                                                              target:self
-                                                             action:@selector(shareNews)];
+                                                             action:@selector(selectFontSizeAction)];
     self.navigationItem.rightBarButtonItem = item;
-    
     
     self.view.dk_backgroundColorPicker = DKColorPickerWithRGB(0xf0f0f0, 0x343434, 0xfafafa);
     self.view.backgroundColor = [UIColor yellowColor];
     [self setupView];
     [self setupProgressView];
     if (_article_id && (_article_id.integerValue > 0)) {
+        _totalComments = [_detailModel.comment_num integerValue];
         [self setupBottomView];
     } else {
         [_webView mas_updateConstraints:^(MASConstraintMaker *make) {
@@ -124,76 +121,15 @@ static const NSInteger itemButt_W = 40;
 }
 
 - (void)setupBottomView {
-    UIView *bottomView = [[UIView alloc] init];
-    bottomView.backgroundColor = [UIColor colorWithHexString:@"f0f0f0"];
-    [self.view addSubview:bottomView];
-    [bottomView mas_makeConstraints:^(MASConstraintMaker *make) {
+    _bottomView = [[TTBottomBarView alloc] init];
+    _bottomView.delegate = self;
+    [self.view addSubview:_bottomView];
+    [_bottomView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.mas_equalTo(self.view.mas_bottom);
         make.left.right.mas_equalTo(0);
-        make.height.mas_equalTo(44);
+        make.height.mas_equalTo([TTBottomBarView height]);
     }];
-    
-    UIButton *writeButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [writeButton addTarget:self action:@selector(writeCommentAction:) forControlEvents:UIControlEventTouchUpInside];
-    [writeButton setTitle:@"发表评论" forState:UIControlStateNormal];
-    [writeButton setTitleColor:[UIColor colorWithHexString:@"E5E5E5"] forState:UIControlStateNormal];
-    writeButton.backgroundColor = [UIColor whiteColor];
-    writeButton.layer.masksToBounds = YES;
-    writeButton.layer.borderColor = [UIColor colorWithHexString:@"E5E5E5"].CGColor;
-    writeButton.layer.cornerRadius = 3;
-    writeButton.layer.borderWidth = 0.5;
-    [bottomView addSubview:writeButton];
-    [writeButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(15);
-        make.centerY.mas_equalTo(bottomView.mas_centerY);
-        make.height.mas_equalTo(34);
-        make.width.mas_equalTo(Screen_Width*2/3 - 15);
-    }];
-    
-    CGFloat buttonMarger =  (Screen_Width/3 - (itemButt_W * 2))/3;
-    
-    UIButton *checkCommentsBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [checkCommentsBtn setTitle:@"评论" forState:UIControlStateNormal];
-    [checkCommentsBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    [checkCommentsBtn addTarget:self action:@selector(checkCommentsAction:) forControlEvents:UIControlEventTouchUpInside];
-//    checkCommentsBtn.backgroundColor = [UIColor yellowColor];
-    [bottomView addSubview:checkCommentsBtn];
-    [checkCommentsBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(writeButton.mas_right).offset(buttonMarger);
-        make.centerY.mas_equalTo(bottomView.mas_centerY);
-        make.height.mas_equalTo(itemButt_W);
-        make.width.mas_equalTo(itemButt_W);
-    }];
-    
-    UILabel *commentNumLabel = [[UILabel alloc] init];
-    commentNumLabel.text = _detailModel.comment_num.stringValue;
-    _totalComments = [_detailModel.comment_num integerValue];
-    commentNumLabel.tag = 99;
-    commentNumLabel.userInteractionEnabled = NO;
-    commentNumLabel.backgroundColor = COLOR_NORMAL;
-    commentNumLabel.textColor = [UIColor whiteColor];
-    commentNumLabel.font = [UIFont systemFontOfSize:12];
-    commentNumLabel.textAlignment = NSTextAlignmentCenter;
-    commentNumLabel.layer.masksToBounds = YES;
-    commentNumLabel.layer.cornerRadius = 6;
-    [checkCommentsBtn addSubview:commentNumLabel];
-    [commentNumLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.mas_equalTo(checkCommentsBtn.mas_right).offset(5);
-        make.top.mas_equalTo(checkCommentsBtn.mas_top).offset(1);
-        make.size.mas_equalTo(CGSizeMake(25, 12));
-    }];
- 
-    UIButton *storeBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [storeBtn setTitle:@"收藏" forState:UIControlStateNormal];
-    [storeBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    [storeBtn addTarget:self action:@selector(storeAction:) forControlEvents:UIControlEventTouchUpInside];
-    [bottomView addSubview:storeBtn];
-    [storeBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.mas_equalTo(bottomView.mas_right).offset(-buttonMarger);
-        make.centerY.mas_equalTo(bottomView.mas_centerY);
-        make.height.mas_equalTo(itemButt_W);
-        make.width.mas_equalTo(itemButt_W);
-    }];
+    [_bottomView setCommentNumber:[_detailModel.comment_num stringValue]];
 }
 
 #pragma mark - longin View
@@ -210,6 +146,10 @@ static const NSInteger itemButt_W = 40;
 }
 
 #pragma mark - Action perform
+- (void)selectFontSizeAction {
+    
+}
+
 -(void)shareNews {
 //        [_bridge callHandler:@"getUserLoginInfo" data:@{ @"uid":@"123456789",@"uname":@"youzaiyouzai",@"seckey":@"k_MD5_encode"}];
     NSArray *titleArray = @[@"微信",@"微信朋友圈",@"QQ好友",@"QQ空间"];//@[@"腾讯微博",@"微信",@"微信朋友圈",@"QQ",@"QQ空间",@"新浪微博",@"腾讯微博"];
@@ -221,7 +161,8 @@ static const NSInteger itemButt_W = 40;
     [_sheetView show];
 }
 
-- (void)writeCommentAction:(UIButton *)sender {
+#pragma mark – TTBottomBarViewDelegate
+- (void)writeButtonClicked:(TTBottomBarView *)bottomView {
     if (!_commentView) {
         _commentView = [TTCommentInputView commentView];
         _commentView.delegate = self;
@@ -230,23 +171,19 @@ static const NSInteger itemButt_W = 40;
     [_commentView showCommentView];
 }
 
-- (void)checkCommentsAction:(UIButton *)sender {
+- (void)checkCommentsButtonClicked:(TTBottomBarView *)bottomView {
     TTCommentViewController *commentVC = [[TTCommentViewController alloc] init];
     commentVC.article_id = _article_id;
     commentVC.totalComments = _detailModel.comment_num;
     [self.navigationController pushViewController:commentVC animated:YES];
 }
 
-- (void)storeAction:(UIButton *)sender {
+- (void)storeButtonClicked:(TTBottomBarView *)bottomView isStore:(BOOL)isStore {
     
 }
 
-- (void)sendAction:(UIButton *)button {
-    if (SHARE_APP.isLogin) {
-        [TalkingData trackEvent:@"详情页表发评论"];
-    } else {
-        [self presentLoginView];
-    }
+- (void)shareButtonClicked:(TTBottomBarView *)bottomView {
+    [self shareNews];
 }
 
 #pragma mark - TTCommentInputViewDelegate
@@ -256,8 +193,7 @@ static const NSInteger itemButt_W = 40;
 
 - (void)commentViewSendCommentSuccess:(TTCommentInputView *)commentView {
     _totalComments += 1;
-    UILabel *commentNumLabel = (UILabel *)[self.view viewWithTag:99];
-    commentNumLabel.text = FORMAT(@"%@",@(_totalComments));
+    [_bottomView setCommentNumber:FORMAT(@"%@",@(_totalComments))];
 }
 
 #pragma mark - JHShareSheetViewDelegate
@@ -279,8 +215,7 @@ static const NSInteger itemButt_W = 40;
     if (index == TTShareSceneWeChat_Scene || index == TTShareSceneWeChat_TimeScene) {
         if ([WXApi isWXAppInstalled] && [WXApi isWXAppSupportApi]){
             return YES;
-        }
-        else {
+        } else {
             [self showMindAlertView:@"未找到微信应用，请先安装微信"];
             return NO;
         }

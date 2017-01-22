@@ -375,6 +375,9 @@ static const NSInteger  infoLabelHeight = 30;
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.row == _arrayList.count) {
+        return ;
+    }
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     TTNewListModel *listInfo = _arrayList[indexPath.row];
     TTDetailViewController *detailVC = [[TTDetailViewController alloc] init];

@@ -123,7 +123,6 @@ static NSString * const collectionViewSectionHeaderID = @"ChannelCollectionHeade
 }
 
 - (void)offerNews {
-    
     TTExposuresNewsViewController *exposuresVC = [[TTExposuresNewsViewController alloc] init];
     [self.navigationController pushViewController:exposuresVC animated:YES];
     
