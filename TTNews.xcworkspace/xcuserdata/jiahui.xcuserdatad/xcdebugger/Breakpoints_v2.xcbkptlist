@@ -29,11 +29,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TTNews/Source/ViewControllers/News/TTExposuresNewsViewController.m"
-            timestampString = "506422121.265713"
+            timestampString = "506772132.044103"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "367"
-            endingLineNumber = "367"
+            startingLineNumber = "358"
+            endingLineNumber = "358"
             landmarkName = "-sendHasImageExposureForAF"
             landmarkType = "7">
          </BreakpointContent>
@@ -61,11 +61,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TTNews/Source/ViewControllers/News/TTCommentViewController.m"
-            timestampString = "506699851.686687"
+            timestampString = "506772951.625559"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "161"
-            endingLineNumber = "161"
+            startingLineNumber = "185"
+            endingLineNumber = "185"
             landmarkName = "-tableView:didSelectRowAtIndexPath:"
             landmarkType = "7">
          </BreakpointContent>
@@ -77,12 +77,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TTNews/Source/ViewControllers/News/TTCommentViewController.m"
-            timestampString = "506699902.120596"
+            timestampString = "506772951.625559"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "89"
-            endingLineNumber = "89"
-            landmarkName = "-loadLifeInfoDataWithDic:"
+            startingLineNumber = "143"
+            endingLineNumber = "143"
+            landmarkName = "-tableView:cellForRowAtIndexPath:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

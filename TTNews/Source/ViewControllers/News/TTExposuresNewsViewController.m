@@ -162,15 +162,6 @@
     _keyboardShowed = YES;
 }
 
-//- (void)keyboardWillChangeFrameNotification:(NSNotification *)notification {
-//    if (!_keyboardShowed) {
-//        return ;
-//    }
-//    CGSize keyboardSize = [[[notification userInfo] objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
-//    _tableView.frame = CGRectMake(_tableViewFrame.origin.x, _tableViewFrame.origin.y, _tableViewFrame.size.width, _tableViewFrame.size.height - keyboardSize.height);
-//    [self.tableView scrollToRowAtIndexPath:_editingIndexPath atScrollPosition:UITableViewScrollPositionBottom animated:YES];
-//}
-
 - (void)keyboardWillHideNotification:(NSNotification *)notification {
     if (!_keyboardShowed) {
         return ;

@@ -209,7 +209,6 @@ static const NSInteger bottomViewH = 135;
     if (_isAnswer && _selectedReplyID) {
         [parameterDic setObject:_selectedReplyID forKey:@"reply_to_id"];
     }
-    
     [[AFHTTPSessionManager manager] POST:TT_COMMENT_URL
                               parameters:parameterDic
                                 progress:^(NSProgress * _Nonnull uploadProgress) {
@@ -219,6 +218,7 @@ static const NSInteger bottomViewH = 135;
                                      [TTProgressHUD dismiss];
                                      [SVProgressHUD showSuccessWithStatus:@"评论成功"];
                                      _textView.text = nil;
+                                     _sendBtn.enabled = NO;
                                      [self performSelector:@selector(dismessCommentView) withObject:nil afterDelay:0.5];
                                      [self performSelector:@selector(dismissSvprogressHud) withObject:nil afterDelay:0.5];
                                      if ([_delegate respondsToSelector:@selector(commentViewSendCommentSuccess:)]) {

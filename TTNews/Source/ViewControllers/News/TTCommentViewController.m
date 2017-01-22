@@ -59,11 +59,9 @@
         make.top.left.right.mas_equalTo(0);
         make.bottom.mas_equalTo(self.view.mas_bottom);
     }];
-    self.tableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];
-    if (_article_id) {
-         [self loadLifeInfoDataWithDic:@{@"article_id":_article_id}];
-    } else
-        [TTProgressHUD showMsg:@"没有评论！"];
+    [self.tableView registerNib:[UINib nibWithNibName:NSStringFromClass([TTLoadMoerTableViewCell class]) bundle:nil]
+         forCellReuseIdentifier:@"loadMoreCell"];
+    [self loadMoreData];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -73,8 +71,10 @@
 
 #pragma mark - MJ
 - (void)loadMoreData {
-    _currentPage ++;
-//    [self loadListForPage:_currentPage ];
+    if (_article_id) {
+        [self loadLifeInfoDataWithDic:@{@"article_id":_article_id}];
+    } else
+        [TTProgressHUD showMsg:@"没有评论！"];
 }
 
 - (void)loadLifeInfoDataWithDic:(NSDictionary *)dic {
@@ -91,9 +91,11 @@
                                     }
                                     [_tableView reloadData];
                                     if (_totalComments.integerValue > _arrayComments.count) {
-                                        [self updateMJViewWithFootHaveMoreData:YES];
+                                        _hasMoreData = YES;
+                                        _currentPage ++;
                                     } else
-                                        [self updateMJViewWithFootHaveMoreData:NO];
+                                       _hasMoreData = NO;
+                                   
                                 }
                                 failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
                                     [TTProgressHUD dismiss];
@@ -103,18 +105,22 @@
                                 }];
 }
 
-- (void)updateMJViewWithFootHaveMoreData:(BOOL)haveData {
-        if (haveData) {
-            [_tableView.mj_footer resetNoMoreData];
-        } else
-            [_tableView.mj_footer endRefreshingWithNoMoreData];
-}
+//- (void)updateMJViewWithFootHaveMoreData:(BOOL)haveData {
+//        if (haveData) {
+//           _hasMoreData = YES;
+//        } else
+//          _hasMoreData = NO;
+//}
 
 #pragma mark - UITableView
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    TTCommentsModel *comment = _arrayComments[indexPath.row];
-     NSString *replyNick = comment.parent[@"user_nick"];
-    return [TTCommentTableViewCell heightWithCommentContent:comment.content replyNickName:replyNick];
+    if (indexPath.row == _arrayComments.count) {
+        return 46;
+    } else{
+        TTCommentsModel *comment = _arrayComments[indexPath.row];
+        NSString *replyNick = comment.parent[@"user_nick"];
+        return [TTCommentTableViewCell heightWithCommentContent:comment.content replyNickName:replyNick];
+    }
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -122,7 +128,7 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return _arrayComments.count;
+    return _arrayComments.count + 1;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
@@ -134,21 +140,39 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSString *identifierString = @"commentCell";
-    TTCommentTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifierString];
-    if (!cell) {
-        cell = [[TTCommentTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifierString];
+    if (indexPath.row == _arrayComments.count) {
+        TTLoadMoerTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"loadMoreCell"];
+        if (_hasMoreData) {
+            cell.activityView.hidden = NO;
+            [cell.activityView startAnimating];
+            cell.titleLabel.text = @"努力加载中…";
+            [self loadMoreData];
+        } else {
+            cell.activityView.hidden = YES;
+            [cell.activityView stopAnimating];
+            cell.titleLabel.text = @"没有更多评论";
+        }
+        return cell;
+    } else {
+        NSString *identifierString = @"commentCell";
+        TTCommentTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifierString];
+        if (!cell) {
+            cell = [[TTCommentTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifierString];
+        }
+        TTCommentsModel *comment = _arrayComments[indexPath.row];
+        [cell.imageViewPortrait sd_setImageWithURL:[NSURL URLWithString:comment.user_avatar]];
+        cell.labelName.text = comment.user_nick;
+        cell.labeDate.text = comment.created_at;
+        NSString *replyNick = comment.parent[@"user_nick"];
+        [cell commentContentStr:comment.content replyNickName:replyNick];
+        return cell;
     }
-    TTCommentsModel *comment = _arrayComments[indexPath.row];
-    [cell.imageViewPortrait sd_setImageWithURL:[NSURL URLWithString:comment.user_avatar]];
-    cell.labelName.text = comment.user_nick;
-    cell.labeDate.text = comment.created_at;
-    NSString *replyNick = comment.parent[@"user_nick"];
-    [cell commentContentStr:comment.content replyNickName:replyNick];
-    return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.row == _arrayComments.count) {
+        return;
+    }
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     TTCommentsModel *comment = _arrayComments[indexPath.row];
     if (!_commentView) {

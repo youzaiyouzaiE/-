@@ -350,7 +350,7 @@ static const NSInteger  infoLabelHeight = 30;
         TTLoadMoerTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"loadMoreCell"];
         if (_hasMoreData) {
             cell.activityView.hidden = NO;
-             [cell.activityView startAnimating];
+            [cell.activityView startAnimating];
             cell.titleLabel.text = @"努力加载中…";
             [self loadMoreData];
         } else {

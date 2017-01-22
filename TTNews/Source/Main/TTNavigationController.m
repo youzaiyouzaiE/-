@@ -23,7 +23,7 @@
     [[UINavigationBar appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor],NSFontAttributeName:FONT_Regular_PF(20)}];
     [[UIBarButtonItem appearance] setTintColor:[UIColor whiteColor]];
     
-    [[UILabel appearance] setFont:FONT_Regular_PF(16)];
+//    [[UILabel appearance] setFont:FONT_Regular_PF([UIFont systemFontSize])];
 }
 
 - (void)didReceiveMemoryWarning {
