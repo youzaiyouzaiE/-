@@ -162,7 +162,11 @@
         TTCommentsModel *comment = _arrayComments[indexPath.row];
         [cell.imageViewPortrait sd_setImageWithURL:[NSURL URLWithString:comment.user_avatar]];
         cell.labelName.text = comment.user_nick;
-        cell.labeDate.text = comment.created_at;
+        NSString *publishedDate = comment.created_at;
+        if (publishedDate.length > 10) {
+            publishedDate = [publishedDate substringWithRange:NSMakeRange(0, 10)];
+        }
+        cell.labeDate.text = publishedDate;
         NSString *replyNick = comment.parent[@"user_nick"];
         [cell commentContentStr:comment.content replyNickName:replyNick];
         return cell;

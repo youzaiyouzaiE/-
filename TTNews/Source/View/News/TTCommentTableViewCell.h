@@ -14,8 +14,10 @@
 @property (nonatomic, strong) UIImageView *imageViewPortrait;
 @property (nonatomic, strong) UILabel *labelName;
 @property (nonatomic, strong) UILabel *labeDate;
-
 @property (nonatomic, copy, readonly) NSString *commentStr;
+
+@property (nonatomic, assign) BOOL isShowTopLike;
+@property (nonatomic, assign) BOOL canDeleteComment;
 
 - (void)commentContentStr:(NSString *)commentStr replyNickName:(NSString *)nickName;
 
