@@ -16,7 +16,7 @@
 @property (nonatomic, copy) NSString *ip;
 @property (nonatomic, strong) NSNumber *user_id;
 @property (nonatomic, copy) NSString *user_nick;
-@property (nonatomic, strong) NSNumber *reply_to_id;
+@property (nonatomic, strong) NSNumber *reply_to_id;////回复哪一条评论 
 @property (nonatomic, strong) NSNumber *deleted_at;
 @property (nonatomic, copy) NSString *created_at;
 @property (nonatomic, copy) NSString *updated_at;

@@ -23,7 +23,7 @@ static const NSInteger button_H = viewHeight - 16;
     NSMutableArray *_arrayReplyComments;
     
     BOOL _hasMoreData;
-    TTCommentInputView *_commentView;
+    TTCommentInputView *_writeCommentView;
 }
 
 @property (nonatomic, strong) UITableView *tableView;
@@ -43,10 +43,12 @@ static const NSInteger button_H = viewHeight - 16;
     [self.view addSubview:_tableView];
     [_tableView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.left.right.mas_equalTo(0);
-        make.bottom.mas_equalTo(self.view.mas_bottom);
+        make.bottom.mas_equalTo(self.view.mas_bottom).offset(-viewHeight);
     }];
     [self.tableView registerNib:[UINib nibWithNibName:NSStringFromClass([TTLoadMoerTableViewCell class]) bundle:nil]
          forCellReuseIdentifier:@"loadMoreCell"];
+    
+    [self createBottomBarView];
 }
 
 - (void)createBottomBarView {
@@ -61,7 +63,7 @@ static const NSInteger button_H = viewHeight - 16;
     
     UIButton *writeButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [writeButton addTarget:self action:@selector(writeCommentAction:) forControlEvents:UIControlEventTouchUpInside];
-    [writeButton setTitle:@"发表评论" forState:UIControlStateNormal];
+    [writeButton setTitle:@"回复评论" forState:UIControlStateNormal];
     writeButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
     writeButton.contentEdgeInsets = UIEdgeInsetsMake(0, 10, 0, 0);
     writeButton.titleLabel.font = FONT_Regular_PF(15);
@@ -103,35 +105,30 @@ static const NSInteger button_H = viewHeight - 16;
 //                                    failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
 //                                        [TTProgressHUD dismiss];
 //                                        [TTProgressHUD showMsg:@"服务器繁忙！请求出错"];
-//                                        [_tableView.mj_header endRefreshing];
-//                                        self.tableView.mj_footer.hidden = YES;
 //                                    }];
 //    }
 }
 
 #pragma mark - Action perform
 - (void)writeCommentAction:(UIButton *)button {
-    if (!_commentView) {
-        _commentView = [TTCommentInputView commentView];
-        _commentView.delegate = self;
+    if (!_writeCommentView) {
+        _writeCommentView = [TTCommentInputView commentView];
+        _writeCommentView.delegate = self;
     }
-//    _commentView.article_id = _article_id;
-    _commentView.isReply = YES;
-    [_commentView showCommentView];
+    _writeCommentView.isReply = YES;
+    _writeCommentView.commit_id = _sourceComment.commentId;
+    [_writeCommentView showCommentView];
 }
-
 
 #pragma mark - UITableView
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section == 0) {
-//        NSString *replyNick = _sourceComment.parent[@"user_nick"];
         return [TTCommentTableViewCell heightWithCommentContent:_sourceComment.content replyNickName:nil];
     } else {
         if (indexPath.row == _arrayReplyComments.count) {
             return 46;
         } else {
             TTCommentsModel *comment = _arrayReplyComments[indexPath.row];
-//            NSString *replyNick = comment.parent[@"user_nick"];
             return [TTCommentTableViewCell heightWithCommentContent:comment.content replyNickName:nil];
         }
     }
@@ -148,10 +145,11 @@ static const NSInteger button_H = viewHeight - 16;
         titleLabel.font = FONT_Regular_PF(16);
         titleLabel.textAlignment = NSTextAlignmentLeft;
         CGFloat height = [titleLabel.text stringHeightWithFont:titleLabel.font andInZoneWidth:MAXFLOAT];
+        [headerView addSubview:titleLabel];
         [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.mas_equalTo(18);
             make.left.mas_equalTo(15);
-            make.width.mas_equalTo(60);
+            make.width.mas_equalTo(120);
             make.height.mas_equalTo(height);
         }];
         return headerView;
@@ -162,7 +160,7 @@ static const NSInteger button_H = viewHeight - 16;
     if (section == 0) {
         return 1;
     } else {
-        return 18 + 22 + 18;
+        return 18 + 23 + 18;
     }
 }
 
@@ -186,7 +184,7 @@ static const NSInteger button_H = viewHeight - 16;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.row == _arrayReplyComments.count) {
+    if (indexPath.row == _arrayReplyComments.count && indexPath.section == 1) {
         TTLoadMoerTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"loadMoreCell"];
         if (_hasMoreData) {
             cell.activityView.hidden = NO;
@@ -205,7 +203,11 @@ static const NSInteger button_H = viewHeight - 16;
         if (!cell) {
             cell = [[TTCommentTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifierString];
         }
-        TTCommentsModel *comment = _arrayReplyComments[indexPath.row];
+        TTCommentsModel *comment = nil;
+        if (indexPath.section == 0) {
+            comment = _sourceComment;
+        } else
+            comment = _arrayReplyComments[indexPath.row];
         [cell.imageViewPortrait sd_setImageWithURL:[NSURL URLWithString:comment.user_avatar]];
         cell.labelName.text = comment.user_nick;
         NSString *publishedDate = comment.created_at;
@@ -213,7 +215,6 @@ static const NSInteger button_H = viewHeight - 16;
             publishedDate = [publishedDate substringWithRange:NSMakeRange(0, 10)];
         }
         cell.labeDate.text = publishedDate;
-//        NSString *replyNick = comment.parent[@"user_nick"];
         [cell commentContentStr:comment.content replyNickName:nil];
         cell.isShowTopLike = NO;
         TTUserInfoModel *currentUser = [TTAppData shareInstance].currentUser;
@@ -234,13 +235,11 @@ static const NSInteger button_H = viewHeight - 16;
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
     TTCommentsModel *comment = _arrayReplyComments[indexPath.row];
-    if (!_commentView) {
-        _commentView = [TTCommentInputView commentView];
-        _commentView.delegate = self;
-    }
-    _commentView.isReply = YES;
-    _commentView.selectedReplyID = comment.reply_to_id;
-    [_commentView showCommentView];
+    TTCommentInputView  *commentView = [TTCommentInputView commentView];
+    commentView.delegate = self;
+    commentView.isReply = YES;
+    commentView.commit_id = comment.commentId;
+    [commentView showCommentView];
 }
 
 #pragma mark - TTCommentInputViewDelegate

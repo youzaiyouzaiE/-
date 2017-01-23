@@ -23,10 +23,11 @@
 
 @property (nonatomic, weak) id<TTCommentInputViewDelegate> delegate;
 @property (nonatomic, copy, readonly) NSString *inputText;
+
 @property (nonatomic, assign) BOOL isReply;///是否是回复评论
 
-@property (nonatomic, strong) NSNumber *article_id;
-@property (nonatomic, strong) NSNumber *selectedReplyID;
+@property (nonatomic, strong) NSNumber *article_id;         /////文章id（回文章用）
+@property (nonatomic, strong) NSNumber *commit_id;          ///评论id(回评论用)
 
 + (instancetype)commentView;
 - (void)showCommentView;

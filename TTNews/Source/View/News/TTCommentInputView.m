@@ -201,16 +201,19 @@ static const NSInteger bottomViewH = 135;
 #pragma makr - netWorkRequest
 - (void)sendComment {
     [TTProgressHUD show];
-    NSDictionary *dic = @{@"article_id" : _article_id ,
-                          @"content":_textView.text ,
+    NSDictionary *dic = @{@"content":_textView.text ,
                           @"user_id":[TTAppData shareInstance].currentUser.memberId ,
                           @"user_nick" : [TTAppData shareInstance].currentUser.nickname ,
                           @"user_avatar":[[TTAppData shareInstance] currentUserIconURLString]};
     NSMutableDictionary *parameterDic = [NSMutableDictionary dictionaryWithDictionary:dic];
-    if (_isReply && _selectedReplyID) {
-        [parameterDic setObject:_selectedReplyID forKey:@"reply_to_id"];
+    NSString *url = TT_COMMENT_SEND_URL;
+    if (_isReply) {
+        [parameterDic setObject:_commit_id forKey:@"comment_id"];
+        url = TT_COMMENT_REPLY_URL;
+    } else {
+        [parameterDic setObject:_article_id forKey:@"article_id"];
     }
-    [[AFHTTPSessionManager manager] POST:TT_COMMENT_SEND_URL
+    [[AFHTTPSessionManager manager] POST:url
                               parameters:parameterDic
                                 progress:^(NSProgress * _Nonnull uploadProgress) {
                                     
