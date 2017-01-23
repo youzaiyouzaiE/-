@@ -69,6 +69,8 @@ static UIImageView *_loadingImage = nil;
     if((msg == nil) || [msg isEqualToString:@""]) return;
     
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:view animated:YES];
+    [hud.bezelView setBackgroundColor:[UIColor blackColor]];
+    hud.contentColor = [UIColor whiteColor];
     hud.mode = MBProgressHUDModeText;
     hud.detailsLabel.font = [UIFont systemFontOfSize:14];
     hud.detailsLabel.text = msg;

@@ -139,7 +139,7 @@ static const NSInteger button_H = viewHeight - 16;
         return 46;
     } else{
         TTCommentsModel *comment = _arrayComments[indexPath.row];
-        return [TTCommentTableViewCell heightWithCommentContent:comment.content replyNickName:nil];
+        return [TTCommentTableViewCell heightWithCommentContent:comment.content];
     }
 }
 
@@ -187,7 +187,7 @@ static const NSInteger button_H = viewHeight - 16;
             publishedDate = [publishedDate substringWithRange:NSMakeRange(0, 10)];
         }
         cell.labeDate.text = publishedDate;
-        [cell commentContentStr:comment.content replyNickName:nil];
+        [cell commentContentStr:comment.content];
         cell.isShowTopLike = NO;
         TTUserInfoModel *currentUser = [TTAppData shareInstance].currentUser;
         if ([comment.user_id.stringValue isEqualToString:currentUser.memberId]) {

@@ -15,13 +15,15 @@
 @property (nonatomic, strong) UILabel *labelName;
 @property (nonatomic, strong) UILabel *labeDate;
 @property (nonatomic, copy, readonly) NSString *commentStr;
+@property (nonatomic, copy) NSString *commentID;
 
 @property (nonatomic, assign) BOOL isShowTopLike;
 @property (nonatomic, assign) BOOL canDeleteComment;
+@property (nonatomic, assign) BOOL isLike;
 
 - (void)setLikesNumber:(NSNumber *)likeNumber;
-- (void)commentContentStr:(NSString *)commentStr replyNickName:(NSString *)nickName;
+- (void)commentContentStr:(NSString *)commentStr;
 
-+ (CGFloat)heightWithCommentContent:(NSString *)content replyNickName:(NSString *)nickName;
++ (CGFloat)heightWithCommentContent:(NSString *)content;
 
 @end

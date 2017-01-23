@@ -14,6 +14,7 @@
 #import "UIImageView+WebCache.h"
 #import "TTLoginViewController.h"
 #import "NSString+Size.h"
+#import "TTNetworkSessionManager.h"
 
 static const CGFloat viewHeight = 44.0f;
 static const NSInteger button_H = viewHeight - 16;
@@ -21,9 +22,12 @@ static const NSInteger button_H = viewHeight - 16;
 @interface TTCommentReplyListViewController () <UITableViewDelegate,UITableViewDataSource,TTCommentInputViewDelegate>{
     NSInteger _currentPage;
     NSMutableArray *_arrayReplyComments;
-    
-    BOOL _hasMoreData;
+    NSInteger _totalReplyComments;
     TTCommentInputView *_writeCommentView;
+    
+    BOOL _canLoadMoreData;////用于判断刷新状态
+    BOOL _isLoading;///防止请求中多次请求
+    BOOL _haveReplyComments;
 }
 
 @property (nonatomic, strong) UITableView *tableView;
@@ -34,7 +38,7 @@ static const NSInteger button_H = viewHeight - 16;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.navigationItem.title = @"评论";
+    self.navigationItem.title = @"详情";
     _currentPage = 0;
     _arrayReplyComments = [NSMutableArray array];
     _tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
@@ -47,8 +51,12 @@ static const NSInteger button_H = viewHeight - 16;
     }];
     [self.tableView registerNib:[UINib nibWithNibName:NSStringFromClass([TTLoadMoerTableViewCell class]) bundle:nil]
          forCellReuseIdentifier:@"loadMoreCell"];
-    
     [self createBottomBarView];
+    _totalReplyComments = _sourceComment.reply_num.integerValue;
+    if (_totalReplyComments > 0) {
+        _canLoadMoreData = YES;
+        [self loadMoreReplyDataAndIsRefresh:YES];
+    }
 }
 
 - (void)createBottomBarView {
@@ -82,31 +90,36 @@ static const NSInteger button_H = viewHeight - 16;
     }];
 }
 
-- (void)loadMoreData {
-//    if (_article_id) {
-//        [TTProgressHUD show];
-//        [[AFHTTPSessionManager manager] GET:TT_COMMENT_LIST_URL
-//                                 parameters:@{@"article_id":_article_id}
-//                                   progress:^(NSProgress * _Nonnull downloadProgress) {}
-//                                    success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-//                                        [TTProgressHUD dismiss];
-//                                        NSArray *comments = responseObject[@"data"];
-//                                        for (NSDictionary *dic in comments) {
-//                                            TTCommentsModel *comment = [[TTCommentsModel alloc] initWithDictionary:dic];
-//                                            [_arrayComments addObject:comment];
-//                                        }
-//                                        if (_totalComments.integerValue > _arrayComments.count) {
-//                                            _hasMoreData = YES;
-//                                            _currentPage ++;
-//                                        } else
-//                                            _hasMoreData = NO;
-//                                        [_tableView reloadData];
-//                                    }
-//                                    failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-//                                        [TTProgressHUD dismiss];
-//                                        [TTProgressHUD showMsg:@"服务器繁忙！请求出错"];
-//                                    }];
-//    }
+- (void)loadMoreReplyDataAndIsRefresh:(BOOL)isRefresh {
+    if (_isLoading) {
+        return ;
+    }
+    if (isRefresh) {
+        _canLoadMoreData = YES;
+        _currentPage = 0;
+        [_arrayReplyComments removeAllObjects];
+    }
+    _isLoading = YES;
+    [[AFHTTPSessionManager manager] GET:TT_COMMENT_REPLY_LIST_URL
+                             parameters:@{@"comment_id":_sourceComment.commentId}//, @"page":@(_currentPage)}
+                               progress:^(NSProgress * _Nonnull downloadProgress) {}
+                                success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+                                    NSArray *comments = responseObject[@"data"];
+                                    for (NSDictionary *dic in comments) {
+                                        TTCommentsModel *comment = [[TTCommentsModel alloc] initWithDictionary:dic];
+                                        [_arrayReplyComments addObject:comment];
+                                    }
+                                    if (_totalReplyComments > _arrayReplyComments.count) {
+                                        _canLoadMoreData = YES;
+                                        _currentPage ++;
+                                    } else {
+                                        _canLoadMoreData = NO;
+                                    }
+                                    [_tableView reloadData];
+                                }
+                                failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+                                    [TTProgressHUD showMsg:@"服务器繁忙！请求出错"];
+                                }];
 }
 
 #pragma mark - Action perform
@@ -123,13 +136,13 @@ static const NSInteger button_H = viewHeight - 16;
 #pragma mark - UITableView
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section == 0) {
-        return [TTCommentTableViewCell heightWithCommentContent:_sourceComment.content replyNickName:nil];
+        return [TTCommentTableViewCell heightWithCommentContent:_sourceComment.content];
     } else {
         if (indexPath.row == _arrayReplyComments.count) {
             return 46;
         } else {
             TTCommentsModel *comment = _arrayReplyComments[indexPath.row];
-            return [TTCommentTableViewCell heightWithCommentContent:comment.content replyNickName:nil];
+            return [TTCommentTableViewCell heightWithCommentContent:comment.content];
         }
     }
 }
@@ -138,28 +151,38 @@ static const NSInteger button_H = viewHeight - 16;
     if (section == 0) {
         return nil;
     } else {
-        UIView *headerView = [[UIView alloc] init];
-        headerView.backgroundColor = [UIColor whiteColor];
-        UILabel *titleLabel = [[UILabel alloc] init];
-        titleLabel.text = @"全部评论";
-        titleLabel.font = FONT_Regular_PF(16);
-        titleLabel.textAlignment = NSTextAlignmentLeft;
-        CGFloat height = [titleLabel.text stringHeightWithFont:titleLabel.font andInZoneWidth:MAXFLOAT];
-        [headerView addSubview:titleLabel];
-        [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.mas_equalTo(18);
-            make.left.mas_equalTo(15);
-            make.width.mas_equalTo(120);
-            make.height.mas_equalTo(height);
-        }];
-        return headerView;
+        return [self tableViewSectionHeaderView];
     }
+}
+
+- (UIView *)tableViewSectionHeaderView {
+    if (_totalReplyComments < 1) {
+        return nil;
+    }
+    UIView *headerView = [[UIView alloc] init];
+    headerView.backgroundColor = [UIColor whiteColor];
+    UILabel *titleLabel = [[UILabel alloc] init];
+    titleLabel.text = @"全部评论";
+    titleLabel.font = FONT_Regular_PF(16);
+    titleLabel.textAlignment = NSTextAlignmentLeft;
+    CGFloat height = [titleLabel.text stringHeightWithFont:titleLabel.font andInZoneWidth:MAXFLOAT];
+    [headerView addSubview:titleLabel];
+    [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(18);
+        make.left.mas_equalTo(15);
+        make.width.mas_equalTo(120);
+        make.height.mas_equalTo(height);
+    }];
+    return headerView;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     if (section == 0) {
         return 1;
     } else {
+        if (_totalReplyComments < 1) {
+            return 1;
+        }
         return 18 + 23 + 18;
     }
 }
@@ -176,21 +199,24 @@ static const NSInteger button_H = viewHeight - 16;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
-    return [[UIView alloc] init];
+    if (section  == 1) {
+        return [[UIView alloc] init];
+    }
+    return  nil;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
-    return 0.1;
+    return 1;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.row == _arrayReplyComments.count && indexPath.section == 1) {
         TTLoadMoerTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"loadMoreCell"];
-        if (_hasMoreData) {
+        if (_canLoadMoreData) {
             cell.activityView.hidden = NO;
             [cell.activityView startAnimating];
             cell.titleLabel.text = @"努力加载中…";
-            [self loadMoreData];
+            [self loadMoreReplyDataAndIsRefresh:NO];
         } else {
             cell.activityView.hidden = YES;
             [cell.activityView stopAnimating];
@@ -206,8 +232,11 @@ static const NSInteger button_H = viewHeight - 16;
         TTCommentsModel *comment = nil;
         if (indexPath.section == 0) {
             comment = _sourceComment;
-        } else
+            cell.isShowTopLike = YES;
+        } else {
             comment = _arrayReplyComments[indexPath.row];
+            cell.isShowTopLike = NO;
+        }
         [cell.imageViewPortrait sd_setImageWithURL:[NSURL URLWithString:comment.user_avatar]];
         cell.labelName.text = comment.user_nick;
         NSString *publishedDate = comment.created_at;
@@ -215,8 +244,7 @@ static const NSInteger button_H = viewHeight - 16;
             publishedDate = [publishedDate substringWithRange:NSMakeRange(0, 10)];
         }
         cell.labeDate.text = publishedDate;
-        [cell commentContentStr:comment.content replyNickName:nil];
-        cell.isShowTopLike = NO;
+        [cell commentContentStr:comment.content];
         TTUserInfoModel *currentUser = [TTAppData shareInstance].currentUser;
         if ([comment.user_id.stringValue isEqualToString:currentUser.memberId]) {
             cell.canDeleteComment = YES;
@@ -248,6 +276,7 @@ static const NSInteger button_H = viewHeight - 16;
 }
 
 - (void)commentViewSendCommentSuccess:(TTCommentInputView *)commentView {
+    _totalReplyComments += 1;
     //    [];
 }
 

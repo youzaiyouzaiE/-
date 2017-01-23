@@ -26,8 +26,9 @@
 
 @property (nonatomic, assign) BOOL isReply;///是否是回复评论
 
-@property (nonatomic, strong) NSNumber *article_id;         /////文章id（回文章用）
-@property (nonatomic, strong) NSNumber *commit_id;          ///评论id(回评论用)
+@property (nonatomic, strong) NSNumber *article_id;         ///回复文章id（回文章用）
+@property (nonatomic, strong) NSNumber *commit_id;          ///回复评论的id(回评论用)
+@property (nonatomic, copy) NSString *reply;                ///回复评论的作者nik
 
 + (instancetype)commentView;
 - (void)showCommentView;

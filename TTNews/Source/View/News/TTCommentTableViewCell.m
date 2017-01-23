@@ -183,40 +183,27 @@ static const  CGFloat image_W = 40;
         _bottomCommentNumLabel.text = likeNumber.stringValue;
 }
 
-- (void)commentContentStr:(NSString *)commentStr replyNickName:(NSString *)nickName {
-      _commentStr = commentStr;
+- (void)setIsLike:(BOOL)isLike {
+    _isLike = isLike;
+    _topCommentLikeButton.selected = isLike;
+    _bottomCommentLikeButton.selected = isLike;
+}
+
+- (void)commentContentStr:(NSString *)commentStr {
+    _commentStr = commentStr;
     CGSize size ;
-    if (nickName.length > 0) {
-        NSString *comment = @"回复";
-        comment = [comment stringByAppendingFormat:@"%@: %@",nickName,commentStr];
-        NSRange range = [comment rangeOfString:nickName];
-        NSMutableAttributedString *attString = [[NSMutableAttributedString alloc] initWithString:comment];
-        [attString addAttribute:NSForegroundColorAttributeName value:COLOR_HexStr(@"#4990e2") range:range];
-        [attString addAttribute:NSFontAttributeName value:COMMENT_FONT range:NSMakeRange(0, attString.length -1)];
-        _labelComment.attributedText = attString;
-        size = [_labelComment.text boundingRectWithSize:CGSizeMake(Screen_Width - 15 - image_W - 10 - 15, MAXFLOAT)
-                                                options:NSStringDrawingUsesLineFragmentOrigin
-                                             attributes:@{NSFontAttributeName:COMMENT_FONT}
-                                                context:nil].size;
-    } else {
-        _labelComment.text = commentStr;
-        size = [_labelComment.text boundingRectWithSize:CGSizeMake(Screen_Width - 15 - image_W - 10 - 15, MAXFLOAT)
-                                                options:NSStringDrawingUsesLineFragmentOrigin
-                                             attributes:@{NSFontAttributeName:COMMENT_FONT}
-                                                context:nil].size;
-    }
+    _labelComment.text = commentStr;
+    size = [_labelComment.text boundingRectWithSize:CGSizeMake(Screen_Width - 15 - image_W - 10 - 15, MAXFLOAT)
+                                            options:NSStringDrawingUsesLineFragmentOrigin
+                                         attributes:@{NSFontAttributeName:COMMENT_FONT}
+                                            context:nil].size;
     [_labelComment mas_updateConstraints:^(MASConstraintMaker *make) {
         make.height.mas_equalTo(ceil(size.height) + 2);
     }];
 }
 
-+ (CGFloat)heightWithCommentContent:(NSString *)content replyNickName:(NSString *)nickName{
-    NSString *contentString = nil;
-    if (nickName.length > 0) {
-        contentString = [NSString stringWithFormat:@"回复%@: %@",nickName,content];
-    } else
-        contentString = content;
-    CGSize size = [contentString boundingRectWithSize:CGSizeMake(Screen_Width - 15 - image_W - 10 - 15, MAXFLOAT)
++ (CGFloat)heightWithCommentContent:(NSString *)content{
+    CGSize size = [content boundingRectWithSize:CGSizeMake(Screen_Width - 15 - image_W - 10 - 15, MAXFLOAT)
                                         options:NSStringDrawingUsesLineFragmentOrigin
                                      attributes:@{NSFontAttributeName:COMMENT_FONT}
                                         context:nil].size;
@@ -234,7 +221,6 @@ static const  CGFloat image_W = 40;
         return ;
     }
     button.selected = !button.selected;
-    
 }
 
 - (void)deleteButtonAction:(UIButton *)button {
