@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "TTCommentsModel.h"
 
 @class TTCommentInputView;
 @protocol TTCommentInputViewDelegate <NSObject>
@@ -14,7 +15,7 @@
 @optional
 - (void)commentViewSendButtonDidChecked:(TTCommentInputView *)commentView;
 - (void)commentViewCheckNotLongin:(TTCommentInputView *)commentView;
-- (void)commentViewSendCommentSuccess:(TTCommentInputView *)commentView;
+- (void)commentViewSendCommentSuccess:(TTCommentInputView *)commentView withComment:(TTCommentsModel *)comment;
 
 @end
 

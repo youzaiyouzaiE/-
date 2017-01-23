@@ -7,6 +7,8 @@
 //
 
 #import "TTCommentTableViewCell.h"
+#import "TTNetworkSessionManager.h"
+#import "TTAppData.h"
 //#import "NIAttributedLabel.h"
 //#import "TTTAttributedLabel.h"
 
@@ -130,6 +132,7 @@ static const  CGFloat image_W = 40;
     _commentShareButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [_commentShareButton setBackgroundImage:[UIImage imageNamed:@"comment_share"] forState:UIControlStateNormal];
     [_commentShareButton setBackgroundImage:[UIImage imageNamed:@"comment_share_HL"] forState:UIControlStateHighlighted];
+    _commentShareButton.userInteractionEnabled = NO;
     [self.contentView addSubview:_commentShareButton];
     [_commentShareButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(_labeDate.mas_top).offset(3);
@@ -221,10 +224,33 @@ static const  CGFloat image_W = 40;
         return ;
     }
     button.selected = !button.selected;
+    if (_commentID) {
+        [self likeCommentRequest];
+    }
+    _likeBlock(button);
 }
 
 - (void)deleteButtonAction:(UIButton *)button {
-    
+    _deleteBlock(button);
+}
+
+#pragma makr - netWorkRequest
+- (void)likeCommentRequest {
+    NSDictionary *dic = @{@"comment_id":_commentID,
+                          @"user_id":[TTAppData shareInstance].currentUser.memberId ,
+                          @"user_nick" : [TTAppData shareInstance].currentUser.nickname ,
+                          @"user_avatar":[[TTAppData shareInstance] currentUserIconURLString]};
+    NSMutableDictionary *parameterDic = [NSMutableDictionary dictionaryWithDictionary:dic];
+    [[AFHTTPSessionManager manager] POST:TT_COMMENT_LIKE_URL
+                              parameters:parameterDic
+                                progress:^(NSProgress * _Nonnull uploadProgress) {}
+                                 success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+                                     NSLog(@"%@",responseObject);
+                                 }
+                                 failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+                                     [TTProgressHUD showMsg:@"服务器请求出错，请稍后重试！"];
+                                     //                                     [self dismissWriterView];
+                                 }];
 }
 
 @end

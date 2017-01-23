@@ -189,13 +189,13 @@ static const NSInteger button_H = viewHeight - 16;
         cell.labeDate.text = publishedDate;
         [cell commentContentStr:comment.content];
         cell.isShowTopLike = NO;
-        TTUserInfoModel *currentUser = [TTAppData shareInstance].currentUser;
-        if ([comment.user_id.stringValue isEqualToString:currentUser.memberId]) {
+        if ([comment.user_id.stringValue isEqualToString:[TTAppData shareInstance].currentUser.memberId]) {
             cell.canDeleteComment = YES;
         } else {
             cell.canDeleteComment = NO;
         }
         [cell setLikesNumber:comment.like_num];
+        cell.commentID = comment.commentId;
         return cell;
     }
 }
@@ -229,9 +229,10 @@ static const NSInteger button_H = viewHeight - 16;
     [self presentLoginView];
 }
 
-- (void)commentViewSendCommentSuccess:(TTCommentInputView *)commentView {
+- (void)commentViewSendCommentSuccess:(TTCommentInputView *)commentView withComment:(TTCommentsModel *)comment{
 //    _hasMoreData = YES;
-    [self loadMoreDataOrReset:YES];
+    [_arrayComments addObject:comment];
+//    [self loadMoreDataOrReset:YES];
 }
 
 #pragma mark - longin View

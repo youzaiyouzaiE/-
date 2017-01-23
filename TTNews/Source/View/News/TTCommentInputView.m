@@ -218,15 +218,16 @@ static const NSInteger bottomViewH = 135;
                                 progress:^(NSProgress * _Nonnull uploadProgress) {
                                     
                                 }
-                                 success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+                                 success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *responseObject) {
                                      [TTProgressHUD dismiss];
                                      [SVProgressHUD showSuccessWithStatus:@"评论成功"];
                                      _textView.text = nil;
                                      _sendBtn.enabled = NO;
                                      [self performSelector:@selector(dismessCommentView) withObject:nil afterDelay:0.5];
                                      [self performSelector:@selector(dismissSvprogressHud) withObject:nil afterDelay:0.5];
-                                     if ([_delegate respondsToSelector:@selector(commentViewSendCommentSuccess:)]) {
-                                         [_delegate commentViewSendCommentSuccess:self];
+                                     if ([_delegate respondsToSelector:@selector(commentViewSendCommentSuccess: withComment:)]) {
+                                         TTCommentsModel *responseComment = [[TTCommentsModel alloc] initWithDictionary:responseObject[@"comment"]];
+                                         [_delegate commentViewSendCommentSuccess:self withComment:responseComment];
                                      }
                                  }
                                  failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
