@@ -1,10 +1,11 @@
 //
-//  TTTabBarController.m
+//  TTTabBarController.h
 //  TTNews
 //
-//  Created by 瑞文戴尔 on 16/3/25.
-//  Copyright © 2016年 瑞文戴尔. All rights reserved.
+//  Created by jiahui on 2016/12/8.
+//  Copyright © 2016年 TTNews. All rights reserved.
 //
+
 
 #import "TTTabBarController.h"
 #import "TTNavigationController.h"

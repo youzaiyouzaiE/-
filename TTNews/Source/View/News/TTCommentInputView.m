@@ -115,10 +115,12 @@ static const NSInteger bottomViewH = 135;
     _textView.placeholder = placeholderText;
 }
 
-- (void)setIsAnswer:(BOOL)isAnswer {
-    _isAnswer = isAnswer;
-    _textView.placeholder = @"回复评论：";
-    [_sendBtn setTitle:@"回复" forState:UIControlStateNormal];
+- (void)setIsReply:(BOOL)isReply {
+    _isReply = isReply;
+    if (isReply) {
+        _textView.placeholder = @"回复评论：";
+        [_sendBtn setTitle:@"回复" forState:UIControlStateNormal];
+    }
 }
 
 - (void)showCommentView {
@@ -200,16 +202,15 @@ static const NSInteger bottomViewH = 135;
 - (void)sendComment {
     [TTProgressHUD show];
     NSDictionary *dic = @{@"article_id" : _article_id ,
-                                   @"content":_textView.text ,
-                                   @"user_id":[TTAppData shareInstance].currentUser.memberId ,
-                                   @"user_nick" : [TTAppData shareInstance].currentUser.nickname ,
-                                   @"user_avatar":[[TTAppData shareInstance] currentUserIconURLString]
-                                   };
+                          @"content":_textView.text ,
+                          @"user_id":[TTAppData shareInstance].currentUser.memberId ,
+                          @"user_nick" : [TTAppData shareInstance].currentUser.nickname ,
+                          @"user_avatar":[[TTAppData shareInstance] currentUserIconURLString]};
     NSMutableDictionary *parameterDic = [NSMutableDictionary dictionaryWithDictionary:dic];
-    if (_isAnswer && _selectedReplyID) {
+    if (_isReply && _selectedReplyID) {
         [parameterDic setObject:_selectedReplyID forKey:@"reply_to_id"];
     }
-    [[AFHTTPSessionManager manager] POST:TT_COMMENT_URL
+    [[AFHTTPSessionManager manager] POST:TT_COMMENT_SEND_URL
                               parameters:parameterDic
                                 progress:^(NSProgress * _Nonnull uploadProgress) {
                                     

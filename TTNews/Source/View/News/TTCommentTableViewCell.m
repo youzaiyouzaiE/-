@@ -81,7 +81,7 @@ static const  CGFloat image_W = 40;
     _topCommentLikeButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [_topCommentLikeButton setBackgroundImage:[UIImage imageNamed:@"comment_like"] forState:UIControlStateNormal];
     [_topCommentLikeButton setBackgroundImage:[UIImage imageNamed:@"comment_like_press"] forState:UIControlStateSelected];
-    [_topCommentLikeButton addTarget:self action:@selector(topCommentButtonAction:) forControlEvents:UIControlEventTouchUpInside];
+    [_topCommentLikeButton addTarget:self action:@selector(commentLikeButtonAction:) forControlEvents:UIControlEventTouchUpInside];
     _topCommentLikeButton.hidden = YES;
     [self.contentView addSubview:_topCommentLikeButton];
     [_topCommentLikeButton mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -118,6 +118,7 @@ static const  CGFloat image_W = 40;
     [_deleteButton setTitleColor:[UIColor colorWithHexString:@"#9A9A9A"] forState:UIControlStateNormal];
     [_deleteButton setTitle:@"删除" forState:UIControlStateNormal];
     _deleteButton.hidden = YES;
+     [_deleteButton addTarget:self action:@selector(deleteButtonAction:) forControlEvents:UIControlEventTouchUpInside];
     [self.contentView addSubview:_deleteButton];
     [_deleteButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(_labeDate.mas_top);
@@ -131,7 +132,7 @@ static const  CGFloat image_W = 40;
     [_commentShareButton setBackgroundImage:[UIImage imageNamed:@"comment_share_HL"] forState:UIControlStateHighlighted];
     [self.contentView addSubview:_commentShareButton];
     [_commentShareButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(_labeDate.mas_top);
+        make.top.mas_equalTo(_labeDate.mas_top).offset(3);
         make.right.mas_equalTo(self.contentView.mas_right).offset(-15);
         make.width.mas_equalTo(15);
         make.height.mas_equalTo(15);
@@ -152,7 +153,7 @@ static const  CGFloat image_W = 40;
     _bottomCommentLikeButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [_bottomCommentLikeButton setBackgroundImage:[UIImage imageNamed:@"comment_like"] forState:UIControlStateNormal];
     [_bottomCommentLikeButton setBackgroundImage:[UIImage imageNamed:@"comment_like_press"] forState:UIControlStateSelected];
-    [_bottomCommentLikeButton addTarget:self action:@selector(topCommentButtonAction:) forControlEvents:UIControlEventTouchUpInside];
+    [_bottomCommentLikeButton addTarget:self action:@selector(commentLikeButtonAction:) forControlEvents:UIControlEventTouchUpInside];
     [self.contentView addSubview:_bottomCommentLikeButton];
     [_bottomCommentLikeButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(_labeDate.mas_top);
@@ -173,6 +174,13 @@ static const  CGFloat image_W = 40;
 - (void)setCanDeleteComment:(BOOL)canDeleteComment {
     _canDeleteComment = canDeleteComment;
     _deleteButton.hidden = !canDeleteComment;
+}
+
+- (void)setLikesNumber:(NSNumber *)likeNumber {
+    if (_isShowTopLike) {
+        _topCommentNumberLabel.text = likeNumber.stringValue;
+    } else
+        _bottomCommentNumLabel.text = likeNumber.stringValue;
 }
 
 - (void)commentContentStr:(NSString *)commentStr replyNickName:(NSString *)nickName {
@@ -220,11 +228,17 @@ static const  CGFloat image_W = 40;
     [super setSelected:selected animated:animated];
 }
 
-- (void)topCommentButtonAction:(UIButton *)button  {
+- (void)commentLikeButtonAction:(UIButton *)button {
+    if (button.selected) {
+        [TTProgressHUD showMsg:@"你已经赞过了"];
+        return ;
+    }
     button.selected = !button.selected;
     
 }
 
-
+- (void)deleteButtonAction:(UIButton *)button {
+    
+}
 
 @end

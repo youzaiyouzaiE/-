@@ -91,6 +91,9 @@
 		DA36775C1E3300E4002CDD56 /* TTLoadMoerTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA36775A1E3300E4002CDD56 /* TTLoadMoerTableViewCell.xib */; };
 		DA36775F1E3351F2002CDD56 /* UIImage+colorImage.m in Sources */ = {isa = PBXBuildFile; fileRef = DA36775E1E3351F2002CDD56 /* UIImage+colorImage.m */; };
 		DA3677621E346008002CDD56 /* TTBottomBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = DA3677611E346008002CDD56 /* TTBottomBarView.m */; };
+		DA3677651E35AA2B002CDD56 /* TTCommentReplyListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DA3677641E35AA2B002CDD56 /* TTCommentReplyListViewController.m */; };
+		DA3677681E35CCBA002CDD56 /* TTLikesIconCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DA3677671E35CCBA002CDD56 /* TTLikesIconCell.m */; };
+		DA36776B1E35F0DE002CDD56 /* NSString+Size.m in Sources */ = {isa = PBXBuildFile; fileRef = DA36776A1E35F0DE002CDD56 /* NSString+Size.m */; };
 		DA544A261E078BE000EC6A10 /* TTNewsArticleInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = DA544A251E078BE000EC6A10 /* TTNewsArticleInfo.m */; };
 		DA5B0B801DFD8D51001067B8 /* libWeChatSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DA5B0B7B1DFD8D51001067B8 /* libWeChatSDK.a */; };
 		DA5B0B811DFD8D51001067B8 /* README.txt in Resources */ = {isa = PBXBuildFile; fileRef = DA5B0B7C1DFD8D51001067B8 /* README.txt */; };
@@ -318,6 +321,12 @@
 		DA36775E1E3351F2002CDD56 /* UIImage+colorImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+colorImage.m"; sourceTree = "<group>"; };
 		DA3677601E346008002CDD56 /* TTBottomBarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTBottomBarView.h; sourceTree = "<group>"; };
 		DA3677611E346008002CDD56 /* TTBottomBarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTBottomBarView.m; sourceTree = "<group>"; };
+		DA3677631E35AA2B002CDD56 /* TTCommentReplyListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTCommentReplyListViewController.h; sourceTree = "<group>"; };
+		DA3677641E35AA2B002CDD56 /* TTCommentReplyListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTCommentReplyListViewController.m; sourceTree = "<group>"; };
+		DA3677661E35CCBA002CDD56 /* TTLikesIconCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTLikesIconCell.h; sourceTree = "<group>"; };
+		DA3677671E35CCBA002CDD56 /* TTLikesIconCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTLikesIconCell.m; sourceTree = "<group>"; };
+		DA3677691E35F0DE002CDD56 /* NSString+Size.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Size.h"; sourceTree = "<group>"; };
+		DA36776A1E35F0DE002CDD56 /* NSString+Size.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Size.m"; sourceTree = "<group>"; };
 		DA544A241E078BE000EC6A10 /* TTNewsArticleInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTNewsArticleInfo.h; sourceTree = "<group>"; };
 		DA544A251E078BE000EC6A10 /* TTNewsArticleInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTNewsArticleInfo.m; sourceTree = "<group>"; };
 		DA5B0B7B1DFD8D51001067B8 /* libWeChatSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libWeChatSDK.a; sourceTree = "<group>"; };
@@ -765,6 +774,8 @@
 				DA62C98F1DF7BCAB00AD3928 /* SinglePictureNewsTableViewCell.h */,
 				DA62C9901DF7BCAB00AD3928 /* SinglePictureNewsTableViewCell.m */,
 				DA62C9911DF7BCAB00AD3928 /* SinglePictureNewsTableViewCell.xib */,
+				DA3677661E35CCBA002CDD56 /* TTLikesIconCell.h */,
+				DA3677671E35CCBA002CDD56 /* TTLikesIconCell.m */,
 				DA3677581E3300E4002CDD56 /* TTLoadMoerTableViewCell.h */,
 				DA3677591E3300E4002CDD56 /* TTLoadMoerTableViewCell.m */,
 				DA36775A1E3300E4002CDD56 /* TTLoadMoerTableViewCell.xib */,
@@ -864,6 +875,8 @@
 				DA62C9CE1DF7BCAB00AD3928 /* TTDetailViewController.m */,
 				DA2C95721E06885300A43E9B /* TTCommentViewController.h */,
 				DA2C95731E06885300A43E9B /* TTCommentViewController.m */,
+				DA3677631E35AA2B002CDD56 /* TTCommentReplyListViewController.h */,
+				DA3677641E35AA2B002CDD56 /* TTCommentReplyListViewController.m */,
 			);
 			path = News;
 			sourceTree = "<group>";
@@ -933,6 +946,8 @@
 				DA93165C1DF3B214007F15B3 /* NSObject+Extension.m */,
 				DA93165D1DF3B214007F15B3 /* NSString+Extension.h */,
 				DA93165E1DF3B214007F15B3 /* NSString+Extension.m */,
+				DA3677691E35F0DE002CDD56 /* NSString+Size.h */,
+				DA36776A1E35F0DE002CDD56 /* NSString+Size.m */,
 				DA93165F1DF3B214007F15B3 /* UIBarButtonItem+Extension.h */,
 				DA9316601DF3B214007F15B3 /* UIBarButtonItem+Extension.m */,
 				DA9316611DF3B214007F15B3 /* UIImage+Extension.h */,
@@ -1529,8 +1544,10 @@
 				DA7F3CBE1E07B1300070B4EC /* TTCommentsModel.m in Sources */,
 				DA93169D1DF3B214007F15B3 /* TTJudgeNetworking.m in Sources */,
 				DA23E9641DFD234A0087B232 /* UISheetView.m in Sources */,
+				DA3677651E35AA2B002CDD56 /* TTCommentReplyListViewController.m in Sources */,
 				DAC65CF71DF311430090369A /* TTBaseModel.m in Sources */,
 				DA3677621E346008002CDD56 /* TTBottomBarView.m in Sources */,
+				DA3677681E35CCBA002CDD56 /* TTLikesIconCell.m in Sources */,
 				DA62CA141DF7BCAB00AD3928 /* EditUserInfoViewController.m in Sources */,
 				DA93178C1DF3B276007F15B3 /* TTProgressHUD.m in Sources */,
 				DA9316951DF3B214007F15B3 /* TTNormalNewsFetchDataParameter.m in Sources */,
@@ -1570,6 +1587,7 @@
 				DA93168A1DF3B214007F15B3 /* NSObject+Extension.m in Sources */,
 				DA93168D1DF3B214007F15B3 /* UIImage+Extension.m in Sources */,
 				DA9316961DF3B214007F15B3 /* TTPictureFetchDataParameter.m in Sources */,
+				DA36776B1E35F0DE002CDD56 /* NSString+Size.m in Sources */,
 				DA8CB1EC1E0F960A0084DF5D /* TTAppData.m in Sources */,
 				DA62CA1C1DF7BCAB00AD3928 /* VideoCommentViewController.m in Sources */,
 				DA62CA291DF7BD9E00AD3928 /* PictureCommentCell.m in Sources */,

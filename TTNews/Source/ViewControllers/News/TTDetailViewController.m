@@ -172,6 +172,10 @@ typedef NS_ENUM(NSUInteger, TTShareScene) {
 }
 
 - (void)checkCommentsButtonClicked:(TTBottomBarView *)bottomView {
+    if (_totalComments <1) {
+        [TTProgressHUD showMsg:@"没有更多评论"];
+        return ;
+    }
     TTCommentViewController *commentVC = [[TTCommentViewController alloc] init];
     commentVC.article_id = _article_id;
     commentVC.totalComments = _detailModel.comment_num;

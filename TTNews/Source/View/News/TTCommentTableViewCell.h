@@ -19,6 +19,7 @@
 @property (nonatomic, assign) BOOL isShowTopLike;
 @property (nonatomic, assign) BOOL canDeleteComment;
 
+- (void)setLikesNumber:(NSNumber *)likeNumber;
 - (void)commentContentStr:(NSString *)commentStr replyNickName:(NSString *)nickName;
 
 + (CGFloat)heightWithCommentContent:(NSString *)content replyNickName:(NSString *)nickName;

@@ -25,8 +25,16 @@
 #define TT_FRIST_LIFE_CITY                  @"http://139.196.16.143/city.php"                   ////日期，城市天气，等信息
 #define TT_FRIST_NEWS_List                  @"http://cmstest.skykiwichina.com/api/sort_links/with_photos"///头条列表
 #define TT_OTHER_News_LIST(channelID)       [NSString stringWithFormat:@"http://cmstest.skykiwichina.com/api/articles/channel/%@",channelID]///其它频道列表
-#define TT_COMMENT_URL                      @"http://cmstest.skykiwichina.com/api/comments"    ////评论 "http://59.110.23.172/api/comments"
-#define TT_EXPOSURES_URL                    @"http://cmstest.skykiwichina.com/api/exposures"   ////爆料（post）
+
+///评论相关
+#define TT_COMMENT_LIST_URL                         @"http://cmstest.skykiwichina.com/api/comments"     ////评论 "http://59.110.23.172/api/comments"
+#define TT_COMMENT_SEND_URL                         @"http://cmstest.skykiwichina.com/api/comments"     ////发评论 (POST)
+#define TT_COMMENT_REPLY_URL                        @"http://cmstest.skykiwichina.com/api/comments/reply"//回复评论  (POST)
+#define TT_COMMENT_LIKE_URL                         @"http://cmstest.skykiwichina.com/api/comments/like" //评论和评论的回复点赞 (POST)
+#define TT_COMMENT_REPLY_LIST_URL(commentID)        [NSString stringWithFormat:@"http://cmstest.skykiwichina.com/api/comments/reply_list?comment_id=%@",commentID]///评论的回复列表 (GET)
+
+////
+#define TT_EXPOSURES_URL                            @"http://cmstest.skykiwichina.com/api/exposures"   ////爆料（post）
 
 
 
