@@ -15,8 +15,8 @@
 #import "TTLoginViewController.h"
 #import "NSString+Size.h"
 #import "TTNetworkSessionManager.h"
-//#import "TTCommentLikeModel.h"
 #import "TTLikesIconCell.h"
+#import "TTCommentLikeListViewController.h"
 
 static const CGFloat viewHeight = 44.0f;
 static const NSInteger button_H = viewHeight - 16;
@@ -320,6 +320,12 @@ static const NSInteger button_H = viewHeight - 16;
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     if (indexPath.row == _arrayReplyComments.count && indexPath.section == 1) {
         return ;
+    }
+     if (indexPath.section == 0 && indexPath.row == 1){
+         TTCommentLikeListViewController *likesVC = [[TTCommentLikeListViewController alloc] init];
+         likesVC.commentId = _sourceComment.commentId;
+         [self.navigationController pushViewController:likesVC animated:YES];
+         return ;
     }
     TTCommentsModel *comment = nil;
     if (indexPath.row == _arrayReplyComments.count) {

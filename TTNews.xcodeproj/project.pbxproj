@@ -190,6 +190,8 @@
 		DAC65CF71DF311430090369A /* TTBaseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DAC65CEF1DF311430090369A /* TTBaseModel.m */; };
 		DAC65CF81DF311430090369A /* TTBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DAC65CF11DF311430090369A /* TTBaseViewController.m */; };
 		DAC65CFA1DF311430090369A /* TTTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = DAC65CF51DF311430090369A /* TTTabBarController.m */; };
+		DAE2A0901E37B36300A1D27D /* TTCommentLikeListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DAE2A08F1E37B36300A1D27D /* TTCommentLikeListViewController.m */; };
+		DAE2A0931E37B92000A1D27D /* TTImagAndLabelCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DAE2A0921E37B92000A1D27D /* TTImagAndLabelCell.m */; };
 		DAE42AE01E0E1510007C8404 /* TTExposuresContentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DAE42ADF1E0E1510007C8404 /* TTExposuresContentCell.m */; };
 		E0C9598EA91F8C8BFE604B7B /* libPods-TTNewsUITests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D813C1B45D80A6E775754DA /* libPods-TTNewsUITests.a */; };
 		EE4635C81CC72B8900DB248F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = EE4635C71CC72B8900DB248F /* main.m */; };
@@ -503,6 +505,10 @@
 		DAC65CF11DF311430090369A /* TTBaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTBaseViewController.m; sourceTree = "<group>"; };
 		DAC65CF41DF311430090369A /* TTTabBarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTTabBarController.h; sourceTree = "<group>"; };
 		DAC65CF51DF311430090369A /* TTTabBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTTabBarController.m; sourceTree = "<group>"; };
+		DAE2A08E1E37B36300A1D27D /* TTCommentLikeListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTCommentLikeListViewController.h; sourceTree = "<group>"; };
+		DAE2A08F1E37B36300A1D27D /* TTCommentLikeListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTCommentLikeListViewController.m; sourceTree = "<group>"; };
+		DAE2A0911E37B92000A1D27D /* TTImagAndLabelCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTImagAndLabelCell.h; sourceTree = "<group>"; };
+		DAE2A0921E37B92000A1D27D /* TTImagAndLabelCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTImagAndLabelCell.m; sourceTree = "<group>"; };
 		DAE42ADE1E0E1510007C8404 /* TTExposuresContentCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTExposuresContentCell.h; sourceTree = "<group>"; };
 		DAE42ADF1E0E1510007C8404 /* TTExposuresContentCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTExposuresContentCell.m; sourceTree = "<group>"; };
 		EE4635C31CC72B8900DB248F /* TTNews.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TTNews.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -781,6 +787,8 @@
 				DA62C9911DF7BCAB00AD3928 /* SinglePictureNewsTableViewCell.xib */,
 				DA3677661E35CCBA002CDD56 /* TTLikesIconCell.h */,
 				DA3677671E35CCBA002CDD56 /* TTLikesIconCell.m */,
+				DAE2A0911E37B92000A1D27D /* TTImagAndLabelCell.h */,
+				DAE2A0921E37B92000A1D27D /* TTImagAndLabelCell.m */,
 				DA3677581E3300E4002CDD56 /* TTLoadMoerTableViewCell.h */,
 				DA3677591E3300E4002CDD56 /* TTLoadMoerTableViewCell.m */,
 				DA36775A1E3300E4002CDD56 /* TTLoadMoerTableViewCell.xib */,
@@ -882,6 +890,8 @@
 				DA2C95731E06885300A43E9B /* TTCommentViewController.m */,
 				DA3677631E35AA2B002CDD56 /* TTCommentReplyListViewController.h */,
 				DA3677641E35AA2B002CDD56 /* TTCommentReplyListViewController.m */,
+				DAE2A08E1E37B36300A1D27D /* TTCommentLikeListViewController.h */,
+				DAE2A08F1E37B36300A1D27D /* TTCommentLikeListViewController.m */,
 			);
 			path = News;
 			sourceTree = "<group>";
@@ -1528,6 +1538,7 @@
 				DA93168B1DF3B214007F15B3 /* NSString+Extension.m in Sources */,
 				DA2C956E1E0530E700A43E9B /* UITextView+Placeholder.m in Sources */,
 				DA62C9E01DF7BCAB00AD3928 /* TTChannelModel.m in Sources */,
+				DAE2A0931E37B92000A1D27D /* TTImagAndLabelCell.m in Sources */,
 				DA62CA0C1DF7BCAB00AD3928 /* TTLoginViewController.m in Sources */,
 				DA62CA1B1DF7BCAB00AD3928 /* TTNewsViewController.m in Sources */,
 				DA62CA1F1DF7BCAB00AD3928 /* VideoPlayView.m in Sources */,
@@ -1541,6 +1552,7 @@
 				DA23E9631DFD234A0087B232 /* LXActivity.m in Sources */,
 				EE4635C81CC72B8900DB248F /* main.m in Sources */,
 				DAC65CFA1DF311430090369A /* TTTabBarController.m in Sources */,
+				DAE2A0901E37B36300A1D27D /* TTCommentLikeListViewController.m in Sources */,
 				DA2C956A1E0529E500A43E9B /* TTExposuresNewsViewController.m in Sources */,
 				DA9316901DF3B214007F15B3 /* SXNetworkTools.m in Sources */,
 				DA9316931DF3B214007F15B3 /* TTDataTool.m in Sources */,

@@ -36,6 +36,7 @@ static const NSInteger button_H = viewHeight - 16;
 @property (nonatomic, strong) NSMutableArray *arrayComments;
 @property (nonatomic, strong) NSMutableArray *arrayLikeComments;///当前用户是否点赞
 @property (nonatomic, strong) NSMutableArray *arrayLikesNum;//评论里对应的喜欢数
+
 @property (nonatomic, strong) UITableView *tableView;
 
 @end
