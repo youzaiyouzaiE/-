@@ -37,7 +37,10 @@
 @property (nonatomic, copy) NSString *deleted_at;//删除时间
 @property (nonatomic, copy) NSString *url;//文章详情链接
 @property (nonatomic, strong) NSNumber *comment_num;///评论数
+
 @property (nonatomic, strong) TTNewsArticleInfo *articleInfo;
+@property (nonatomic, copy) NSDictionary *content;
+@property (nonatomic, copy) NSString *link;
 
 
 @end

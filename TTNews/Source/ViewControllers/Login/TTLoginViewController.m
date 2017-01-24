@@ -167,6 +167,7 @@
                                                     });
                                                     [TTAppData shareInstance].currentUser = userInfo;
                                                     [TTAppData shareInstance].needUpdateUserIcon = YES;
+                                                    [TTAppData shareInstance].isLogin = YES;
                                                     SHARE_APP.isLogin = YES;
                                                     [self backAction];
                                                 } else {

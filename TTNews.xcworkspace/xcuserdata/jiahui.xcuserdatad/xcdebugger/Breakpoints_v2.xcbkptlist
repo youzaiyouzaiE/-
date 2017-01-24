@@ -44,60 +44,12 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "TTNews/Source/View/News/TTCommentTableViewCell.m"
-            timestampString = "506934019.224872"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "292"
-            endingLineNumber = "292"
-            landmarkName = "-deleteCommentRequest"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "TTNews/Source/View/News/TTCommentTableViewCell.m"
-            timestampString = "506934265.398324"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "296"
-            endingLineNumber = "296"
-            landmarkName = "-deleteCommentRequest"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "TTNews/Source/View/News/TTCommentTableViewCell.m"
-            timestampString = "506934266.692147"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "287"
-            endingLineNumber = "287"
-            landmarkName = "-deleteCommentRequest"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "TTNews/Source/ViewControllers/News/TTCommentViewController.m"
-            timestampString = "506941688.011851"
+            timestampString = "506942491.575044"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "256"
-            endingLineNumber = "256"
+            startingLineNumber = "250"
+            endingLineNumber = "250"
             landmarkName = "-cellLikeActionAtIndexPath:"
             landmarkType = "7">
          </BreakpointContent>
@@ -125,11 +77,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TTNews/Source/ViewControllers/News/TTCommentViewController.m"
-            timestampString = "506941688.011851"
+            timestampString = "506942491.575044"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "88"
-            endingLineNumber = "88"
+            startingLineNumber = "82"
+            endingLineNumber = "82"
             landmarkName = "-naviBackAction"
             landmarkType = "7">
          </BreakpointContent>
@@ -227,6 +179,22 @@
             startingLineNumber = "119"
             endingLineNumber = "119"
             landmarkName = "-navigationController:didShowViewController:animated:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "TTNews/Source/ViewControllers/News/TTCommentViewController.m"
+            timestampString = "506942740.808049"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "272"
+            endingLineNumber = "272"
+            landmarkName = "-commentViewSendCommentSuccess:withComment:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

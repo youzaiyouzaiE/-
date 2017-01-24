@@ -95,6 +95,7 @@
 		DA3677681E35CCBA002CDD56 /* TTLikesIconCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DA3677671E35CCBA002CDD56 /* TTLikesIconCell.m */; };
 		DA36776B1E35F0DE002CDD56 /* NSString+Size.m in Sources */ = {isa = PBXBuildFile; fileRef = DA36776A1E35F0DE002CDD56 /* NSString+Size.m */; };
 		DA544A261E078BE000EC6A10 /* TTNewsArticleInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = DA544A251E078BE000EC6A10 /* TTNewsArticleInfo.m */; };
+		DA55B6671E379AF200461697 /* TTCommentLikeModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DA55B6661E379AF200461697 /* TTCommentLikeModel.m */; };
 		DA5B0B801DFD8D51001067B8 /* libWeChatSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DA5B0B7B1DFD8D51001067B8 /* libWeChatSDK.a */; };
 		DA5B0B811DFD8D51001067B8 /* README.txt in Resources */ = {isa = PBXBuildFile; fileRef = DA5B0B7C1DFD8D51001067B8 /* README.txt */; };
 		DA5B0B8D1DFD940B001067B8 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA5B0B8C1DFD940B001067B8 /* CFNetwork.framework */; };
@@ -329,6 +330,8 @@
 		DA36776A1E35F0DE002CDD56 /* NSString+Size.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Size.m"; sourceTree = "<group>"; };
 		DA544A241E078BE000EC6A10 /* TTNewsArticleInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTNewsArticleInfo.h; sourceTree = "<group>"; };
 		DA544A251E078BE000EC6A10 /* TTNewsArticleInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTNewsArticleInfo.m; sourceTree = "<group>"; };
+		DA55B6651E379AF200461697 /* TTCommentLikeModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTCommentLikeModel.h; sourceTree = "<group>"; };
+		DA55B6661E379AF200461697 /* TTCommentLikeModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTCommentLikeModel.m; sourceTree = "<group>"; };
 		DA5B0B7B1DFD8D51001067B8 /* libWeChatSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libWeChatSDK.a; sourceTree = "<group>"; };
 		DA5B0B7C1DFD8D51001067B8 /* README.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.txt; sourceTree = "<group>"; };
 		DA5B0B7D1DFD8D51001067B8 /* WechatAuthSDK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WechatAuthSDK.h; sourceTree = "<group>"; };
@@ -705,6 +708,8 @@
 				DA544A251E078BE000EC6A10 /* TTNewsArticleInfo.m */,
 				DA7F3CBC1E07B1300070B4EC /* TTCommentsModel.h */,
 				DA7F3CBD1E07B1300070B4EC /* TTCommentsModel.m */,
+				DA55B6651E379AF200461697 /* TTCommentLikeModel.h */,
+				DA55B6661E379AF200461697 /* TTCommentLikeModel.m */,
 				DA62C9661DF7BCAB00AD3928 /* TTNewListPageInfoModel.h */,
 				DA62C9671DF7BCAB00AD3928 /* TTNewListPageInfoModel.m */,
 			);
@@ -1574,6 +1579,7 @@
 				DABDD2D51E097BA400F3AE49 /* TTExposuresContentView.m in Sources */,
 				DAC65CF81DF311430090369A /* TTBaseViewController.m in Sources */,
 				DA62C9E61DF7BCAB00AD3928 /* TTVideo.m in Sources */,
+				DA55B6671E379AF200461697 /* TTCommentLikeModel.m in Sources */,
 				DA62CA2B1DF7BD9E00AD3928 /* PictureTableViewCell.m in Sources */,
 				DAC65CF61DF311430090369A /* AppDelegate.m in Sources */,
 				DA62C9F61DF7BCAB00AD3928 /* SinglePictureNewsTableViewCell.m in Sources */,

@@ -63,9 +63,12 @@
         NSDictionary *userInfoDic =  [[NSUserDefaults standardUserDefaults] dictionaryForKey:k_UserInfoDic];
         TTUserInfoModel *userInfo = [[TTUserInfoModel alloc] initWithDictionary:userInfoDic];
         [TTAppData shareInstance].currentUser = userInfo;
+        [TTAppData shareInstance].isLogin = YES;
         self.isLogin = YES;
-    } else
+    } else {
         self.isLogin = NO;
+        [TTAppData shareInstance].isLogin = YES;
+    }
 }
 
 #pragma mark - netWork request

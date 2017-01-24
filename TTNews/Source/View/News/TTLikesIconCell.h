@@ -10,4 +10,9 @@
 
 @interface TTLikesIconCell : UITableViewCell
 
+- (void)setLikeIconsWithURLArray:(NSArray *)array;
+- (void)setLikesNumber:(NSNumber *)num;
+
++ (CGFloat)height;
+
 @end

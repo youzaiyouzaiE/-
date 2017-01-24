@@ -15,6 +15,8 @@
 #import "TTLoginViewController.h"
 #import "NSString+Size.h"
 #import "TTNetworkSessionManager.h"
+//#import "TTCommentLikeModel.h"
+#import "TTLikesIconCell.h"
 
 static const CGFloat viewHeight = 44.0f;
 static const NSInteger button_H = viewHeight - 16;
@@ -27,11 +29,15 @@ static const NSInteger button_H = viewHeight - 16;
     
     BOOL _canLoadMoreData;////用于判断刷新状态
     BOOL _isLoading;///防止请求中多次请求
+    
+    NSMutableArray *_arrayCommentLikesURL;
+    NSNumber* _totalLikesNumber;
 }
 
-@property (nonatomic, strong)  NSMutableArray *arrayReplyComments;
+@property (nonatomic, strong) NSMutableArray *arrayReplyComments;
 @property (nonatomic, strong) NSMutableArray *arrayLikeComments;///当前用户是否点赞
 @property (nonatomic, strong) NSMutableArray *arrayLikesNum;//评论里对应的喜欢数
+//@property (nonatomic, strong) NSMutableArray *arrayCommentLikeModel;
 
 @property (nonatomic, strong) UITableView *tableView;
 
@@ -46,6 +52,8 @@ static const NSInteger button_H = viewHeight - 16;
     _arrayReplyComments = [NSMutableArray array];
     _arrayLikeComments = [NSMutableArray array];
     _arrayLikesNum = [NSMutableArray array];
+    _arrayCommentLikesURL = [NSMutableArray array];
+    
     [_arrayLikeComments addObject:@(0)];
     [_arrayLikesNum addObject:_sourceComment.like_num];
     
@@ -59,12 +67,15 @@ static const NSInteger button_H = viewHeight - 16;
     }];
     [self.tableView registerNib:[UINib nibWithNibName:NSStringFromClass([TTLoadMoerTableViewCell class]) bundle:nil]
          forCellReuseIdentifier:@"loadMoreCell"];
+    [self.tableView registerClass:[TTCommentTableViewCell class] forCellReuseIdentifier:@"commentCell"];
+    [self.tableView registerClass:[TTLikesIconCell class] forCellReuseIdentifier:@"iconImageCell"];
     [self createBottomBarView];
     _totalReplyComments = _sourceComment.reply_num.integerValue;
     if (_totalReplyComments > 0) {
         _canLoadMoreData = YES;
         [self loadMoreReplyComments];
     }
+    [self loadLikeUsers];
 }
 
 - (void)createBottomBarView {
@@ -96,6 +107,30 @@ static const NSInteger button_H = viewHeight - 16;
         make.right.mas_equalTo(-9);
         make.height.mas_equalTo(button_H);
     }];
+}
+
+#pragma  mark  NetWork Request
+- (void)loadLikeUsers {
+    [[AFHTTPSessionManager manager] GET:TT_COMMENT_REPLY_LIKE_LIST_UR
+                             parameters:@{@"comment_id":_sourceComment.commentId, @"page":@(0)}//, @"page":@(_currentPage)}
+                               progress:^(NSProgress * _Nonnull downloadProgress) {}
+                                success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *responseObject) {
+                                    NSDictionary *metaDic = responseObject[@"meta"];
+                                    NSDictionary *paginationDic = metaDic[@"pagination"];
+                                    _totalLikesNumber = paginationDic[@"total"];
+                                    
+                                    NSArray *commentLikes = responseObject[@"data"];
+                                    for (NSDictionary *dic in commentLikes) {
+                                        [_arrayCommentLikesURL addObject:dic[@"user_avatar"]];
+                                    }
+                                    if (_arrayCommentLikesURL.count > 0) {
+                                        [_tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationNone];
+//                                        [_tableView reloadData];
+                                    }
+                                }
+                                failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+                                    [TTProgressHUD showMsg:@"服务器繁忙！请求出错"];
+                                }];
 }
 
 - (void)loadMoreReplyComments {
@@ -142,6 +177,9 @@ static const NSInteger button_H = viewHeight - 16;
 #pragma mark - UITableView
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section == 0) {
+        if (indexPath.row == 1) {
+            return [TTLikesIconCell height];
+        }
         return [TTCommentTableViewCell heightWithCommentContent:_sourceComment.content];
     } else {
         if (indexPath.row == _arrayReplyComments.count) {
@@ -199,6 +237,9 @@ static const NSInteger button_H = viewHeight - 16;
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (section == 0) {
+        if (_arrayCommentLikesURL.count > 0) {
+            return 2;
+        }
         return 1;
     } else
         return _arrayReplyComments.count + 1;
@@ -216,7 +257,7 @@ static const NSInteger button_H = viewHeight - 16;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.row == _arrayReplyComments.count && indexPath.section == 1) {
+    if (indexPath.row == _arrayReplyComments.count && indexPath.section == 1) {///最后的加载提示
         TTLoadMoerTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"loadMoreCell"];
         if (_canLoadMoreData) {
             cell.activityView.hidden = NO;
@@ -230,11 +271,14 @@ static const NSInteger button_H = viewHeight - 16;
         }
         return cell;
     } else {
+        if (indexPath.section == 0 && indexPath.row == 1) {
+            TTLikesIconCell *cell = [tableView dequeueReusableCellWithIdentifier:@"iconImageCell"];
+            [cell setLikeIconsWithURLArray:_arrayCommentLikesURL];
+            [cell setLikesNumber:_totalLikesNumber];
+            return cell;
+        }
         NSString *identifierString = @"commentCell";
         TTCommentTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifierString];
-        if (!cell) {
-            cell = [[TTCommentTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifierString];
-        }
         TTCommentsModel *comment = nil;
         if (indexPath.section == 0) {
             comment = _sourceComment;
@@ -250,8 +294,8 @@ static const NSInteger button_H = viewHeight - 16;
         [cell.imageViewPortrait sd_setImageWithURL:[NSURL URLWithString:comment.user_avatar]];
         cell.labelName.text = comment.user_nick;
         NSString *publishedDate = comment.created_at;
-        if (publishedDate.length > 10) {
-            publishedDate = [publishedDate substringWithRange:NSMakeRange(0, 10)];
+        if (publishedDate.length > 13) {
+            publishedDate = [publishedDate substringWithRange:NSMakeRange(5, publishedDate.length - 8)];
         }
         cell.labeDate.text = publishedDate;
         [cell commentContentStr:comment.content];
@@ -299,6 +343,9 @@ static const NSInteger button_H = viewHeight - 16;
     weakSelf.arrayLikeComments[index] = @(1);
     NSNumber *likes = weakSelf.arrayLikesNum[index];
     weakSelf.arrayLikesNum[index] = @(likes.integerValue+1);
+    if (indexPath.section == 0) {
+        [self loadLikeUsers];
+    }
 }
 
 - (void)cellDeleteActionAtIndexPath:(NSIndexPath *)indexPath {
@@ -321,9 +368,9 @@ static const NSInteger button_H = viewHeight - 16;
 
 - (void)commentViewSendCommentSuccess:(TTCommentInputView *)commentView withComment:(TTCommentsModel *)comment{
     _totalReplyComments += 1;
-    [_arrayReplyComments addObject:comment];
-    [_arrayLikeComments addObject:@(0)];
-    [_arrayLikesNum addObject:@(0)];
+    [_arrayReplyComments insertObject:comment atIndex:1];
+    [_arrayLikeComments insertObject:@(0) atIndex:1];
+    [_arrayLikesNum insertObject:@(0) atIndex:1];
     [_tableView reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationNone];
 }
 

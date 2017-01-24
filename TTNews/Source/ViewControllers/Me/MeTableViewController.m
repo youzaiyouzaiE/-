@@ -120,6 +120,7 @@ CGFloat const footViewHeight = 30;
                                                     [TTAppData shareInstance].currentUser = userInfo;
                                                     [TTAppData shareInstance].needUpdateUserIcon = YES;
                                                     SHARE_APP.isLogin = YES;
+                                                    [TTAppData shareInstance].isLogin = YES;
                                                     [self.tableView reloadData];
                                                 } else {
                                                     [self showMessage:responseObject[@"msg"]];
@@ -263,6 +264,7 @@ CGFloat const footViewHeight = 30;
     if (buttonIndex == 1) {
         [self.tableView reloadData];
         SHARE_APP.isLogin = NO;
+        [TTAppData shareInstance].isLogin = NO;
         [[NSUserDefaults standardUserDefaults] setObject:@0 forKey:k_UserLoginType];
         [SVProgressHUD show];
         [TTDataTool deletePartOfCacheInSqlite];

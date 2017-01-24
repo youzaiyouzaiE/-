@@ -196,8 +196,8 @@ static const NSInteger button_H = viewHeight - 16;
         [cell.imageViewPortrait sd_setImageWithURL:[NSURL URLWithString:comment.user_avatar]];
         cell.labelName.text = comment.user_nick;
         NSString *publishedDate = comment.created_at;
-        if (publishedDate.length > 10) {
-            publishedDate = [publishedDate substringWithRange:NSMakeRange(0, 10)];
+        if (publishedDate.length > 13) {
+            publishedDate = [publishedDate substringWithRange:NSMakeRange(5, publishedDate.length - 8)];
         }
         cell.labeDate.text = publishedDate;
         [cell commentContentStr:comment.content];
@@ -267,11 +267,10 @@ static const NSInteger button_H = viewHeight - 16;
 
 - (void)commentViewSendCommentSuccess:(TTCommentInputView *)commentView withComment:(TTCommentsModel *)comment{
 //    _hasMoreData = YES;
-    [_arrayComments addObject:comment];
     _allCommentsNum += 1;
-    [_arrayComments addObject:comment];
-    [_arrayLikeComments addObject:@(0)];
-    [_arrayLikesNum addObject:@(0)];
+    [_arrayComments insertObject:comment atIndex:0];
+    [_arrayLikeComments insertObject:@(0) atIndex:0];
+    [_arrayLikesNum insertObject:@(0) atIndex:0];
     [_tableView reloadData];
 }
 

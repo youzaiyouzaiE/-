@@ -124,7 +124,7 @@ static const  CGFloat image_W = 40;
     [self.contentView addSubview:_deleteButton];
     [_deleteButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(_labeDate.mas_top);
-        make.left.mas_equalTo(_labeDate.mas_right).offset(10);
+        make.left.mas_equalTo(_labeDate.mas_right).offset(8);
         make.height.mas_equalTo(20);
         make.width.mas_equalTo(30);
     }];
@@ -134,12 +134,12 @@ static const  CGFloat image_W = 40;
     _labelReplyNum.font = FONT_Light_PF(12);
     _labelReplyNum.text = @"10条回复";
     _labelReplyNum.hidden = YES;
+    _labelReplyNum.textAlignment = NSTextAlignmentLeft;
     [self.contentView addSubview:_labelReplyNum];
     [_labelReplyNum mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(_labelComment.mas_bottom).offset(12);
-        make.left.mas_equalTo(_deleteButton.mas_right).offset(10);
-        make.width.mas_equalTo(70);
-        make.height.mas_equalTo(18);
+        make.top.mas_equalTo(_labeDate.mas_top);
+        make.left.mas_equalTo(_deleteButton.mas_right).offset(4);
+        make.size.mas_equalTo(CGSizeMake(60, 18));
     }];
     
     _commentShareButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -198,6 +198,19 @@ static const  CGFloat image_W = 40;
 - (void)setCanDeleteComment:(BOOL)canDeleteComment {
     _canDeleteComment = canDeleteComment;
     _deleteButton.hidden = !canDeleteComment;
+    if (_deleteButton.hidden) {
+        [_labelReplyNum mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.left.mas_equalTo(_labeDate.mas_right).offset(8);
+            make.size.mas_equalTo(CGSizeMake(60, 18));
+            make.top.mas_equalTo(_labeDate.mas_top);
+        }];
+    } else {
+        [_labelReplyNum mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.left.mas_equalTo(_deleteButton.mas_right).offset(8);
+            make.size.mas_equalTo(CGSizeMake(60, 18));
+            make.top.mas_equalTo(_labeDate.mas_top);
+        }];
+    }
 }
 
 - (void)setLikesNumber:(NSNumber *)likesNumber {
@@ -246,14 +259,18 @@ static const  CGFloat image_W = 40;
     button.selected = !button.selected;
     NSNumber *likeNum = _likesNumber;
     [self setLikesNumber:@(likeNum.integerValue + 1)];
-    if (_commentID) {
+    if (_commentID && SHARE_APP.isLogin) {
         [self likeCommentRequest];
     }
     _likeBlock(button);
 }
 
 - (void)deleteButtonAction:(UIButton *)button {
-    [self deleteCommentRequest];
+    if (SHARE_APP.isLogin && _commentID) {
+           [self deleteCommentRequest];
+    } else
+         _deleteBlock(button);;
+ 
 }
 
 #pragma makr - netWorkRequest
