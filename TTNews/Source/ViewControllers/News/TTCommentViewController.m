@@ -26,27 +26,34 @@ static const NSInteger button_H = viewHeight - 16;
 
 @interface TTCommentViewController () <UITableViewDelegate,UITableViewDataSource,UIGestureRecognizerDelegate,TTCommentInputViewDelegate> {
     NSInteger _currentPage;
-    NSMutableArray *_arrayComments;
+    NSInteger _allCommentsNum;////评论总数，包括后来添加的
     
     TTCommentInputView *_commentView;
     BOOL _hasMoreData;
     BOOL _isLoading;///防止请求中多次请求
 }
 
+@property (nonatomic, strong) NSMutableArray *arrayComments;
+@property (nonatomic, strong) NSMutableArray *arrayLikeComments;///当前用户是否点赞
+@property (nonatomic, strong) NSMutableArray *arrayLikesNum;//评论里对应的喜欢数
 @property (nonatomic, strong) UITableView *tableView;
 
 @end
 
 @implementation TTCommentViewController
 
+- (void)dealloc
+{
+    NSLog(@"%@ -> %@",NSStringFromClass([self class]), NSStringFromSelector(_cmd));
+}
+
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [TalkingData trackPageBegin:@"chaKanPingLun"];
 }
 
--(void)viewWillDisappear:(BOOL)animated {
-    [super viewWillDisappear:animated];
-    [TalkingData trackPageEnd:@"chaKanPingLun"];
+- (void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
 }
 
 - (void)viewDidLoad {
@@ -54,19 +61,28 @@ static const NSInteger button_H = viewHeight - 16;
     // Do any additional setup after loading the view.
      self.navigationItem.title = @"评论";
     _arrayComments = [NSMutableArray array];
+    _arrayLikeComments = [NSMutableArray array];
+    _arrayLikesNum = [NSMutableArray array];
+    _hasMoreData = YES;
+    _allCommentsNum = _totalComments.integerValue;
     _tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
     _tableView.delegate = self;
     _tableView.dataSource = self;
+    [self.tableView registerNib:[UINib nibWithNibName:NSStringFromClass([TTLoadMoerTableViewCell class]) bundle:nil]
+         forCellReuseIdentifier:@"loadMoreCell"];
     [self.view addSubview:_tableView];
     [_tableView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.left.right.mas_equalTo(0);
         make.bottom.mas_equalTo(self.view.mas_bottom).offset(-viewHeight+2);
     }];
     [self createBottomBarView];
-    
-    [self.tableView registerNib:[UINib nibWithNibName:NSStringFromClass([TTLoadMoerTableViewCell class]) bundle:nil]
-         forCellReuseIdentifier:@"loadMoreCell"];
-    [self loadMoreDataOrReset:YES];
+}
+
+- (void)naviBackAction {
+    if (_totalComments.integerValue == _allCommentsNum) {
+         NSLog(@"更新 bottom Bar");
+    }
+    [super naviBackAction];
 }
 
 - (void)createBottomBarView {
@@ -100,16 +116,11 @@ static const NSInteger button_H = viewHeight - 16;
     }];
 }
 
-- (void)loadMoreDataOrReset:(BOOL)isReset {////是否是刷新重置
+- (void)loadMoreDataOrReset{////是否是刷新重置
     if (_isLoading) {
         return ;
     }
     _isLoading = YES;
-    if (isReset) {
-        _currentPage = 0;
-        _hasMoreData = YES;
-        [_arrayComments removeAllObjects];
-    }
     [[AFHTTPSessionManager manager] GET:TT_COMMENT_LIST_URL
                              parameters:@{@"article_id":_article_id,@"pag":@(_currentPage)}
                                progress:^(NSProgress * _Nonnull downloadProgress) {}
@@ -119,6 +130,8 @@ static const NSInteger button_H = viewHeight - 16;
                                     for (NSDictionary *dic in comments) {
                                         TTCommentsModel *comment = [[TTCommentsModel alloc] initWithDictionary:dic];
                                         [_arrayComments addObject:comment];
+                                        [_arrayLikeComments addObject:@(0)];
+                                        [_arrayLikesNum addObject:comment.like_num];
                                     }
                                     if (_totalComments.integerValue > _arrayComments.count) {
                                         _hasMoreData = YES;
@@ -166,7 +179,7 @@ static const NSInteger button_H = viewHeight - 16;
             cell.activityView.hidden = NO;
             [cell.activityView startAnimating];
             cell.titleLabel.text = @"努力加载中…";
-            [self loadMoreDataOrReset:NO];
+            [self loadMoreDataOrReset];
         } else {
             cell.activityView.hidden = YES;
             [cell.activityView stopAnimating];
@@ -194,8 +207,16 @@ static const NSInteger button_H = viewHeight - 16;
         } else {
             cell.canDeleteComment = NO;
         }
-        [cell setLikesNumber:comment.like_num];
         cell.commentID = comment.commentId;
+        cell.isLike = [(NSNumber *)_arrayLikeComments[indexPath.row] boolValue];
+        cell.likesNumber = _arrayLikesNum[indexPath.row];
+        [cell setCommentReplyLabelNumber:comment.reply_num];
+        cell.likeBlock = ^(UIButton *button){
+             [self cellLikeActionAtIndexPath:indexPath];
+        };
+        cell.deleteBlock = ^(UIButton *button){
+            [self cellDeleteActionAtIndexPath:indexPath];
+        };
         return cell;
     }
 }
@@ -205,7 +226,6 @@ static const NSInteger button_H = viewHeight - 16;
         return;
     }
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    
     TTCommentsModel *comment = _arrayComments[indexPath.row];
     TTCommentReplyListViewController *replyListVC = [[TTCommentReplyListViewController alloc] init];
     replyListVC.sourceComment = comment;
@@ -223,6 +243,22 @@ static const NSInteger button_H = viewHeight - 16;
     [_commentView showCommentView];
 }
 
+#pragma mark - Cell Action
+- (void)cellLikeActionAtIndexPath:(NSIndexPath *)indexPath {
+    __weak __typeof(self)weakSelf = self;
+    weakSelf.arrayLikeComments[indexPath.row ] = @(1);
+    NSNumber *likes = weakSelf.arrayLikesNum[indexPath.row];
+    weakSelf.arrayLikesNum[indexPath.row] = @(likes.integerValue+1);
+}
+
+- (void)cellDeleteActionAtIndexPath:(NSIndexPath *)indexPath {
+     __weak __typeof(self)weakSelf = self;
+    [weakSelf.arrayLikesNum removeObjectAtIndex:indexPath.row];
+    [weakSelf.arrayLikeComments removeObjectAtIndex:indexPath.row];
+    [weakSelf.arrayComments removeObjectAtIndex:indexPath.row];
+    _allCommentsNum -= 1;
+    [self .tableView reloadData];
+}
 
 #pragma mark - TTCommentInputViewDelegate
 -(void)commentViewCheckNotLongin:(TTCommentInputView *)commentView; {
@@ -232,7 +268,11 @@ static const NSInteger button_H = viewHeight - 16;
 - (void)commentViewSendCommentSuccess:(TTCommentInputView *)commentView withComment:(TTCommentsModel *)comment{
 //    _hasMoreData = YES;
     [_arrayComments addObject:comment];
-//    [self loadMoreDataOrReset:YES];
+    _allCommentsNum += 1;
+    [_arrayComments addObject:comment];
+    [_arrayLikeComments addObject:@(0)];
+    [_arrayLikesNum addObject:@(0)];
+    [_tableView reloadData];
 }
 
 #pragma mark - longin View

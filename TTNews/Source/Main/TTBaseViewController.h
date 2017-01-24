@@ -8,9 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
-@interface TTBaseViewController : UIViewController 
+@interface TTBaseViewController : UIViewController <UINavigationControllerDelegate,UIGestureRecognizerDelegate>
 
 - (void)backAction;
+
+- (void)naviBackAction;
+
 - (void)addTapViewResignKeyboard;
 
 - (void)dismissSvprogressHud;

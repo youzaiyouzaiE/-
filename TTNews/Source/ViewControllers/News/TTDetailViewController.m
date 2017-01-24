@@ -60,6 +60,11 @@ typedef NS_ENUM(NSUInteger, TTShareScene) {
     [self.webView setNavigationDelegate:nil];
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self refreshCurrentArticleDetailModel];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     UIBarButtonItem * item = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"fontSelectImage"]
@@ -67,9 +72,7 @@ typedef NS_ENUM(NSUInteger, TTShareScene) {
                                                              target:self
                                                              action:@selector(selectFontSizeAction)];
     self.navigationItem.rightBarButtonItem = item;
-    
     self.view.dk_backgroundColorPicker = DKColorPickerWithRGB(0xf0f0f0, 0x343434, 0xfafafa);
-    self.view.backgroundColor = [UIColor yellowColor];
     [self setupView];
     [self setupProgressView];
     if (_article_id && (_article_id.integerValue > 0)) {
@@ -94,11 +97,11 @@ typedef NS_ENUM(NSUInteger, TTShareScene) {
     _webView = [[WKWebView alloc] init];
     _webView.navigationDelegate = self;
     [self.view addSubview:_webView];
-    [_webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:_detailModel.url]]];
     [_webView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.left.right.mas_equalTo(0);
         make.bottom.mas_equalTo(self.view.mas_bottom).offset(-44);
     }];
+    [_webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:_detailModel.url]]];
     [self.webView addObserver:self forKeyPath:NSStringFromSelector(@selector(estimatedProgress)) options:NSKeyValueObservingOptionNew context:NULL];
 }
 
@@ -114,8 +117,7 @@ typedef NS_ENUM(NSUInteger, TTShareScene) {
                 [_progressView setProgress:0.0f animated:NO];
             }];
         }
-    }
-    else {
+    } else {
         [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
     }
 }
@@ -129,7 +131,20 @@ typedef NS_ENUM(NSUInteger, TTShareScene) {
         make.left.right.mas_equalTo(0);
         make.height.mas_equalTo([TTBottomBarView height]);
     }];
-    [_bottomView setCommentNumber:[_detailModel.comment_num stringValue]];
+}
+
+
+-(void)refreshCurrentArticleDetailModel {
+    [[TTNetworkSessionManager shareManager] Get:TT_ARTICLE_DETAIL_URL(_article_id)
+                                     Parameters:nil
+                                        Success:^(NSURLSessionDataTask *task, NSDictionary *responseObject) {
+                                            NSDictionary *infoDic = responseObject[@"data"];
+                                            TTNewListModel *refreshModel = [[TTNewListModel alloc] initWithDictionary:infoDic];
+                                            _detailModel = refreshModel;
+                                            [_bottomView setCommentNumber:[refreshModel.comment_num stringValue]];
+                                        }
+                                        Failure:^(NSError *error) {
+                                        }];
 }
 
 #pragma mark - longin View

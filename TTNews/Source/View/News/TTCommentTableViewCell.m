@@ -253,7 +253,7 @@ static const  CGFloat image_W = 40;
 }
 
 - (void)deleteButtonAction:(UIButton *)button {
-    _deleteBlock(button);
+    [self deleteCommentRequest];
 }
 
 #pragma makr - netWorkRequest
@@ -271,6 +271,25 @@ static const  CGFloat image_W = 40;
                                      if (string.length > 0) {
                                           [TTProgressHUD showMsg:string];
                                      }
+                                     NSLog(@"responseObject :%@",string);
+                                 }
+                                 failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+                                     [TTProgressHUD showMsg:@"服务器请求出错，请稍后重试！"];
+                                     //                                     [self dismissWriterView];
+                                 }];
+}
+
+- (void)deleteCommentRequest {
+    NSDictionary *dic = @{@"comment_id":_commentID,
+                          @"user_id":[TTAppData shareInstance].currentUser.memberId ,
+                          @"_method":@"delete"};
+    NSMutableDictionary *parameterDic = [NSMutableDictionary dictionaryWithDictionary:dic];
+    [[AFHTTPSessionManager manager] POST:TT_COMMENT_DELETE_URL
+                              parameters:parameterDic
+                                progress:^(NSProgress * _Nonnull uploadProgress) {}
+                                 success:^(NSURLSessionDataTask * _Nonnull task, NSArray *responseObject) {
+                                     NSString *string = [responseObject firstObject];
+                                     _deleteBlock(nil);
                                      NSLog(@"responseObject :%@",string);
                                  }
                                  failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {

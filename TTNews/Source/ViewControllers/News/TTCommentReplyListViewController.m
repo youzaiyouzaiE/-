@@ -21,19 +21,17 @@ static const NSInteger button_H = viewHeight - 16;
 
 @interface TTCommentReplyListViewController () <UITableViewDelegate,UITableViewDataSource,TTCommentInputViewDelegate>{
     NSInteger _currentPage;
-    NSMutableArray *_arrayReplyComments;
     NSInteger _totalReplyComments;
     
     TTCommentInputView *_writeCommentView;
     
     BOOL _canLoadMoreData;////用于判断刷新状态
     BOOL _isLoading;///防止请求中多次请求
-    BOOL _haveReplyComments;
 }
 
-//@property (nonatomic, assign) BOOL isLikeSourceComment;
+@property (nonatomic, strong)  NSMutableArray *arrayReplyComments;
 @property (nonatomic, strong) NSMutableArray *arrayLikeComments;///当前用户是否点赞
-@property (nonatomic, strong) NSMutableArray *arrayLikesNum;//
+@property (nonatomic, strong) NSMutableArray *arrayLikesNum;//评论里对应的喜欢数
 
 @property (nonatomic, strong) UITableView *tableView;
 
@@ -112,6 +110,7 @@ static const NSInteger button_H = viewHeight - 16;
                                     NSArray *comments = responseObject[@"data"];
                                     for (NSDictionary *dic in comments) {
                                         TTCommentsModel *comment = [[TTCommentsModel alloc] initWithDictionary:dic];
+                                        
                                         [_arrayReplyComments addObject:comment];
                                         [_arrayLikeComments addObject:@(0)];
                                         [_arrayLikesNum addObject:comment.like_num];
@@ -256,14 +255,18 @@ static const NSInteger button_H = viewHeight - 16;
         }
         cell.labeDate.text = publishedDate;
         [cell commentContentStr:comment.content];
-        if ([comment.user_id.stringValue isEqualToString:[TTAppData shareInstance].currentUser.memberId]) {
+        if ([comment.user_id.stringValue isEqualToString:[TTAppData shareInstance].currentUser.memberId] && indexPath.section != 0) {
             cell.canDeleteComment = YES;
         } else {
             cell.canDeleteComment = NO;
         }
         cell.commentID = comment.commentId;
+//        [cell setCommentReplyLabelNumber:comment.reply_num];
         cell.likeBlock = ^(UIButton *btn){
             [self cellLikeActionAtIndexPath:indexPath];
+        };
+        cell.deleteBlock = ^(UIButton *button){
+            [self cellDeleteActionAtIndexPath:indexPath];
         };
         return cell;
     }
@@ -271,6 +274,9 @@ static const NSInteger button_H = viewHeight - 16;
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    if (indexPath.row == _arrayReplyComments.count && indexPath.section == 1) {
+        return ;
+    }
     TTCommentsModel *comment = nil;
     if (indexPath.row == _arrayReplyComments.count) {
         comment = _sourceComment;
@@ -286,16 +292,26 @@ static const NSInteger button_H = viewHeight - 16;
 #pragma mark - Cell Action 
 - (void)cellLikeActionAtIndexPath:(NSIndexPath *)indexPath {
     __weak __typeof(self)weakSelf = self;
-    if (indexPath.section == 0) {
-         weakSelf.arrayLikeComments[0] = @(1);
-        NSNumber *likes = weakSelf.arrayLikesNum[0];
-        weakSelf.arrayLikesNum[0] = @(likes.integerValue+1);
-        
-    } else {
-        weakSelf.arrayLikeComments[indexPath.row + 1] = @(1);
-        NSNumber *likes = weakSelf.arrayLikesNum[indexPath.row + 1];
-        weakSelf.arrayLikesNum[0] = @(likes.integerValue+1);
+    NSInteger index = 0;
+    if (indexPath.section != 0) {
+        index = indexPath.row + 1;
     }
+    weakSelf.arrayLikeComments[index] = @(1);
+    NSNumber *likes = weakSelf.arrayLikesNum[index];
+    weakSelf.arrayLikesNum[index] = @(likes.integerValue+1);
+}
+
+- (void)cellDeleteActionAtIndexPath:(NSIndexPath *)indexPath {
+    __weak __typeof(self)weakSelf = self;
+    NSInteger index = 0;
+    if (indexPath.section != 0) {
+        index = indexPath.row + 1;
+    }
+    [weakSelf.arrayLikesNum removeObjectAtIndex:index];
+    [weakSelf.arrayLikeComments removeObjectAtIndex:index];
+    [weakSelf.arrayReplyComments removeObjectAtIndex:indexPath.row];
+    _totalReplyComments -= 1;
+    [_tableView reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationNone];
 }
 
 #pragma mark - TTCommentInputViewDelegate

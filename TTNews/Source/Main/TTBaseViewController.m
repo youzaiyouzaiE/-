@@ -9,13 +9,18 @@
 #import "TTBaseViewController.h"
 #import "TTJudgeNetworking.h"
 
-@interface TTBaseViewController () <UINavigationControllerDelegate,UIGestureRecognizerDelegate> {
+@interface TTBaseViewController ()  {
     UITapGestureRecognizer *_tapGestureRecognizer;
 }
 
 @end
 
 @implementation TTBaseViewController
+
+- (void)dealloc
+{
+     NSLog(@"%@ -> %@",NSStringFromClass([self class]), NSStringFromSelector(_cmd));
+}
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
@@ -36,8 +41,8 @@
     
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@""
                                                                              style:UIBarButtonItemStylePlain
-                                                                            target:nil
-                                                                            action:nil];
+                                                                            target:self
+                                                                            action:@selector(naviBackAction)];
     
 //    UIBarButtonItem * item = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"navigationbar_pic_back_icon"]
 //                                                              style:UIBarButtonItemStylePlain
@@ -106,7 +111,8 @@
         UIViewController *topController = [context viewControllerForKey:UITransitionContextFromViewControllerKey];
         if([topController respondsToSelector:@selector(controllerDismissedByPopGesture:)]) {
             [topController performSelector:@selector(controllerDismissedByPopGesture:) withObject:@([context isCancelled])];
-        } }];
+        } }
+     ];
 }
 
 - (void)navigationController:(UINavigationController *)navigationController didShowViewController:(UIViewController *)viewController animated:(BOOL)animated {
@@ -116,14 +122,14 @@
 
 - (void)controllerDismissedByPopGesture:(NSNumber*)isCancel {
     if (![isCancel intValue]) {
-        [self.navigationController popViewControllerAnimated:YES];
+//        [self.navigationController popViewControllerAnimated:YES];
+        [self naviBackAction];
     }
 }
 
-- (void)dealloc {
-     NSLog(@"%@ -> delloc",NSStringFromClass([self class]));
+- (void)naviBackAction {
+//     [self.navigationController popViewControllerAnimated:YES];
 }
-
 
 /*
 #pragma mark - Navigation
