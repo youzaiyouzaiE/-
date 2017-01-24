@@ -16,13 +16,13 @@
 //    NIAttributedLabel *_labelComment;
 //    TTTAttributedLabel *_labelComment;
     
-    UIButton *_topCommentLikeButton;
-    UILabel *_topCommentNumberLabel;
-    
-    UILabel *_labelComment;
+    UIButton *_topCommentLikeButton;///顶部点赞
+    UILabel *_topCommentNumberLabel;//顶部点赞数
+    UILabel *_labelComment;///评论内容
+    UILabel *_labelReplyNum;;///回复条数
     
     UIButton *_deleteButton;
-    UIButton *_commentShareButton;
+    UIButton *_commentShareButton;///回复（分享） ？
     UILabel *_bottomCommentNumLabel;
     UIButton *_bottomCommentLikeButton;
 }
@@ -129,6 +129,19 @@ static const  CGFloat image_W = 40;
         make.width.mas_equalTo(30);
     }];
     
+    _labelReplyNum = [[UILabel alloc] init];
+    _labelReplyNum.textColor = [UIColor colorWithHexString:@"#9A9A9A"];
+    _labelReplyNum.font = FONT_Light_PF(12);
+    _labelReplyNum.text = @"10条回复";
+    _labelReplyNum.hidden = YES;
+    [self.contentView addSubview:_labelReplyNum];
+    [_labelReplyNum mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(_labelComment.mas_bottom).offset(12);
+        make.left.mas_equalTo(_deleteButton.mas_right).offset(10);
+        make.width.mas_equalTo(70);
+        make.height.mas_equalTo(18);
+    }];
+    
     _commentShareButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [_commentShareButton setBackgroundImage:[UIImage imageNamed:@"comment_share"] forState:UIControlStateNormal];
     [_commentShareButton setBackgroundImage:[UIImage imageNamed:@"comment_share_HL"] forState:UIControlStateHighlighted];
@@ -165,6 +178,14 @@ static const  CGFloat image_W = 40;
     }];
 }
 
+- (void)setCommentReplyLabelNumber:(NSNumber *)number {
+    if (number.integerValue > 0) {
+        _labelReplyNum.hidden = NO;
+        _labelReplyNum.text = FORMAT(@"%@条回复",number);
+    } else
+        _labelReplyNum.hidden = YES;
+}
+
 - (void)setIsShowTopLike:(BOOL)isShowTopLike {
     _isShowTopLike = isShowTopLike;
     _topCommentNumberLabel.hidden = !isShowTopLike;
@@ -179,11 +200,10 @@ static const  CGFloat image_W = 40;
     _deleteButton.hidden = !canDeleteComment;
 }
 
-- (void)setLikesNumber:(NSNumber *)likeNumber {
-    if (_isShowTopLike) {
-        _topCommentNumberLabel.text = likeNumber.stringValue;
-    } else
-        _bottomCommentNumLabel.text = likeNumber.stringValue;
+- (void)setLikesNumber:(NSNumber *)likesNumber {
+    _likesNumber = likesNumber;
+    _topCommentNumberLabel.text = likesNumber.stringValue;
+    _bottomCommentNumLabel.text = likesNumber.stringValue;
 }
 
 - (void)setIsLike:(BOOL)isLike {
@@ -224,6 +244,8 @@ static const  CGFloat image_W = 40;
         return ;
     }
     button.selected = !button.selected;
+    NSNumber *likeNum = _likesNumber;
+    [self setLikesNumber:@(likeNum.integerValue + 1)];
     if (_commentID) {
         [self likeCommentRequest];
     }
@@ -244,8 +266,12 @@ static const  CGFloat image_W = 40;
     [[AFHTTPSessionManager manager] POST:TT_COMMENT_LIKE_URL
                               parameters:parameterDic
                                 progress:^(NSProgress * _Nonnull uploadProgress) {}
-                                 success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-                                     NSLog(@"%@",responseObject);
+                                 success:^(NSURLSessionDataTask * _Nonnull task, NSArray *responseObject) {
+                                     NSString *string = [responseObject firstObject];
+                                     if (string.length > 0) {
+                                          [TTProgressHUD showMsg:string];
+                                     }
+                                     NSLog(@"responseObject :%@",string);
                                  }
                                  failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
                                      [TTProgressHUD showMsg:@"服务器请求出错，请稍后重试！"];

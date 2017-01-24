@@ -24,10 +24,11 @@ typedef void (^TTCommentLikeBlock)(UIButton *);
 @property (nonatomic, assign) BOOL isLike;
 @property (nonatomic, copy) TTCommentLikeBlock likeBlock;
 @property (nonatomic, copy) TTCommentDeleteBlock deleteBlock;
+@property (nonatomic, strong) NSNumber *likesNumber;
 
 
-- (void)setLikesNumber:(NSNumber *)likeNumber;
 - (void)commentContentStr:(NSString *)commentStr;
+- (void)setCommentReplyLabelNumber:(NSNumber *)number;
 
 + (CGFloat)heightWithCommentContent:(NSString *)content;
 

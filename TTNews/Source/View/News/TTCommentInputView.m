@@ -86,27 +86,36 @@ static const NSInteger bottomViewH = 135;
         make.size.mas_equalTo(CGSizeMake(45, 22));
     }];
     
-    UIButton *checkButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [checkButton setBackgroundImage:[UIImage imageNamed:@"checkbox_bg"] forState:UIControlStateNormal];
-    [checkButton setBackgroundImage:[UIImage imageNamed:@"checkbox_click"] forState:UIControlStateSelected];
-    [checkButton addTarget:self action:@selector(checkButtonAction:) forControlEvents:UIControlEventTouchUpInside];
-    [_bottomContentView addSubview:checkButton];
-    [checkButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo (_sendBtn.mas_top);
-        make.left.mas_equalTo(20);
-        make.size.mas_equalTo(CGSizeMake(18, 18));
-    }];
+//    UIButton *checkButton = [UIButton buttonWithType:UIButtonTypeCustom];
+////    [checkButton setBackgroundImage:[UIImage imageNamed:@"checkbox_bg"] forState:UIControlStateNormal];
+////    [checkButton setBackgroundImage:[UIImage imageNamed:@"checkbox_click"] forState:UIControlStateSelected];
+//    checkButton.layer.masksToBounds = YES;
+//    checkButton.layer.cornerRadius = 5.0f;
+//    [checkButton setTitle:@"取消" forState:UIControlStateNormal];
+//    [checkButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+//    checkButton.titleLabel.font = FONT_Regular_PF(14);
+//    [checkButton setBackgroundImage:[UIImage imageWithColor:COLOR_HexStr(@"#0076FF")] forState:UIControlStateNormal];
+//    [checkButton setBackgroundImage:[UIImage imageWithColor:COLOR_DISABLED] forState:UIControlStateDisabled];
+//    
+//    [checkButton addTarget:self action:@selector(checkButtonAction:) forControlEvents:UIControlEventTouchUpInside];
+//    [_bottomContentView addSubview:checkButton];
+//    [checkButton mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.top.mas_equalTo (_sendBtn.mas_top);
+//        make.left.mas_equalTo(20);
+////        make.size.mas_equalTo(CGSizeMake(18, 18));
+//        make.size.mas_equalTo(CGSizeMake(45, 22));
+//    }];
     
-    UILabel *signLabel = [[UILabel alloc] init];
-    signLabel.text = @"匿名";
-    signLabel.font = FONT_Light_PF(14);
-    signLabel.textColor = COLOR_DISABLED;
-    [_bottomContentView addSubview:signLabel];
-    [signLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(checkButton.mas_top).offset(-2);
-        make.left.mas_equalTo(checkButton.mas_right).offset(5);
-        make.size.mas_equalTo(CGSizeMake(30, 24));
-    }];
+//    UILabel *signLabel = [[UILabel alloc] init];
+//    signLabel.text = @"匿名";
+//    signLabel.font = FONT_Light_PF(14);
+//    signLabel.textColor = COLOR_DISABLED;
+//    [_bottomContentView addSubview:signLabel];
+//    [signLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.top.mas_equalTo(checkButton.mas_top).offset(-2);
+//        make.left.mas_equalTo(checkButton.mas_right).offset(5);
+//        make.size.mas_equalTo(CGSizeMake(30, 24));
+//    }];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillChangeFrameNotification:) name:UIKeyboardWillChangeFrameNotification object:nil];
 }
@@ -159,8 +168,9 @@ static const NSInteger bottomViewH = 135;
 
 
 - (void)checkButtonAction:(UIButton *)button {
-    button.selected = !button.selected;
-    _isChecked = button.selected;
+//    button.selected = !button.selected;
+//    _isChecked = button.selected;
+     [self dismessCommentView];
 }
 
 - (void)sendAction:(UIButton *)button {

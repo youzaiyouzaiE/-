@@ -31,8 +31,10 @@ static const NSInteger button_H = viewHeight - 16;
     BOOL _haveReplyComments;
 }
 
-@property (nonatomic, assign) BOOL isLikeSourceComment;
+//@property (nonatomic, assign) BOOL isLikeSourceComment;
 @property (nonatomic, strong) NSMutableArray *arrayLikeComments;///当前用户是否点赞
+@property (nonatomic, strong) NSMutableArray *arrayLikesNum;//
+
 @property (nonatomic, strong) UITableView *tableView;
 
 @end
@@ -45,6 +47,10 @@ static const NSInteger button_H = viewHeight - 16;
     _currentPage = 0;
     _arrayReplyComments = [NSMutableArray array];
     _arrayLikeComments = [NSMutableArray array];
+    _arrayLikesNum = [NSMutableArray array];
+    [_arrayLikeComments addObject:@(0)];
+    [_arrayLikesNum addObject:_sourceComment.like_num];
+    
     _tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
     _tableView.delegate = self;
     _tableView.dataSource = self;
@@ -108,6 +114,7 @@ static const NSInteger button_H = viewHeight - 16;
                                         TTCommentsModel *comment = [[TTCommentsModel alloc] initWithDictionary:dic];
                                         [_arrayReplyComments addObject:comment];
                                         [_arrayLikeComments addObject:@(0)];
+                                        [_arrayLikesNum addObject:comment.like_num];
                                     }
                                     if (_totalReplyComments > _arrayReplyComments.count) {
                                         _canLoadMoreData = YES;
@@ -233,11 +240,13 @@ static const NSInteger button_H = viewHeight - 16;
         if (indexPath.section == 0) {
             comment = _sourceComment;
             cell.isShowTopLike = YES;
-            cell.isLike = _isLikeSourceComment;
+            cell.isLike = [(NSNumber *)_arrayLikeComments[indexPath.row] boolValue];
+            cell.likesNumber = _arrayLikesNum[0];
         } else {
             comment = _arrayReplyComments[indexPath.row];
             cell.isShowTopLike = NO;
-            cell.isLike = [(NSNumber *)_arrayLikeComments[indexPath.row] boolValue];
+            cell.isLike = [(NSNumber *)_arrayLikeComments[indexPath.row + 1] boolValue];
+            cell.likesNumber = _arrayLikesNum[indexPath.row + 1];
         }
         [cell.imageViewPortrait sd_setImageWithURL:[NSURL URLWithString:comment.user_avatar]];
         cell.labelName.text = comment.user_nick;
@@ -252,7 +261,6 @@ static const NSInteger button_H = viewHeight - 16;
         } else {
             cell.canDeleteComment = NO;
         }
-        [cell setLikesNumber:comment.like_num];
         cell.commentID = comment.commentId;
         cell.likeBlock = ^(UIButton *btn){
             [self cellLikeActionAtIndexPath:indexPath];
@@ -262,12 +270,12 @@ static const NSInteger button_H = viewHeight - 16;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.row == _arrayReplyComments.count) {
-        return;
-    }
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    
-    TTCommentsModel *comment = _arrayReplyComments[indexPath.row];
+    TTCommentsModel *comment = nil;
+    if (indexPath.row == _arrayReplyComments.count) {
+        comment = _sourceComment;
+    }
+        comment = _arrayReplyComments[indexPath.row];
     TTCommentInputView  *commentView = [TTCommentInputView commentView];
     commentView.delegate = self;
     commentView.isReply = YES;
@@ -279,11 +287,15 @@ static const NSInteger button_H = viewHeight - 16;
 - (void)cellLikeActionAtIndexPath:(NSIndexPath *)indexPath {
     __weak __typeof(self)weakSelf = self;
     if (indexPath.section == 0) {
-        weakSelf.isLikeSourceComment = YES;
+         weakSelf.arrayLikeComments[0] = @(1);
+        NSNumber *likes = weakSelf.arrayLikesNum[0];
+        weakSelf.arrayLikesNum[0] = @(likes.integerValue+1);
+        
     } else {
-        _arrayLikeComments[indexPath.row] = @(1);
+        weakSelf.arrayLikeComments[indexPath.row + 1] = @(1);
+        NSNumber *likes = weakSelf.arrayLikesNum[indexPath.row + 1];
+        weakSelf.arrayLikesNum[0] = @(likes.integerValue+1);
     }
-//    [weakSelf.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
 }
 
 #pragma mark - TTCommentInputViewDelegate
@@ -295,7 +307,8 @@ static const NSInteger button_H = viewHeight - 16;
     _totalReplyComments += 1;
     [_arrayReplyComments addObject:comment];
     [_arrayLikeComments addObject:@(0)];
-//    [_tableView reloadData];
+    [_arrayLikesNum addObject:@(0)];
+    [_tableView reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationNone];
 }
 
 #pragma mark - longin View
