@@ -19,13 +19,13 @@
 #import "UserInfoCell.h"
 #import "TwoLabelCell.h"
 #import "TTLoginViewController.h"
-#import "AppDelegate.h"
 #import "TTNetworkSessionManager.h"
 #import "MBProgressHUD.h"
 #import "NSObject+Extension.h"
 #import "TTUserInfoModel.h"
 #import "TTAppData.h"
 #import "UIImageView+WebCache.h"
+#import "TTMyStoreViewController.h"
 
 static NSString *const UserInfoCellIdentifier = @"UserInfoCell";
 static NSString *const SwitchCellIdentifier = @"SwitchCell";
@@ -53,7 +53,7 @@ CGFloat const footViewHeight = 30;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    _arrayTitles = @[@"清除缓存",@"反馈",@"关于",@"退出"];
+    _arrayTitles = @[@"我的收藏",@"清除缓存",@"反馈",@"关于",@"退出"];
     [self caculateCacheSize];
     [self setupBasic];
 }
@@ -199,7 +199,7 @@ CGFloat const footViewHeight = 30;
         return cell;
     }
     NSString *title = _arrayTitles[indexPath.row];
-    if (indexPath.section == 1 && indexPath.row == 0) {
+    if ([title isEqualToString:@"清除缓存"]) {
         TwoLabelCell *cell = [tableView dequeueReusableCellWithIdentifier:TwoLabelCellIdentifier];
         cell.leftLabel.text = title;
         cell.rightLabel.text = [NSString stringWithFormat:@"%.1f MB",self.cacheSize];
@@ -255,6 +255,13 @@ CGFloat const footViewHeight = 30;
                                                          otherButtonTitles:@"确认退出", nil];
                 [alerView show];
             }
+        } else if ([title isEqualToString:@"我的收藏"]) {
+            if (!SHARE_APP.isLogin) {
+                [TTProgressHUD showMsg:@"请先登录帐号"];
+                return ;
+            }
+            TTMyStoreViewController *storeVC = [[TTMyStoreViewController alloc] init];
+            [self.navigationController pushViewController:storeVC animated:YES];
         }
     }
 }

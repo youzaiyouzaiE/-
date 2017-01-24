@@ -328,7 +328,7 @@ static const NSInteger button_H = viewHeight - 16;
          return ;
     }
     TTCommentsModel *comment = nil;
-    if (indexPath.row == _arrayReplyComments.count) {
+    if (indexPath.section == 0) {
         comment = _sourceComment;
     }
         comment = _arrayReplyComments[indexPath.row];
@@ -374,9 +374,9 @@ static const NSInteger button_H = viewHeight - 16;
 
 - (void)commentViewSendCommentSuccess:(TTCommentInputView *)commentView withComment:(TTCommentsModel *)comment{
     _totalReplyComments += 1;
-    [_arrayReplyComments insertObject:comment atIndex:1];
-    [_arrayLikeComments insertObject:@(0) atIndex:1];
-    [_arrayLikesNum insertObject:@(0) atIndex:1];
+    [_arrayReplyComments insertObject:comment atIndex:0];
+    [_arrayLikeComments insertObject:@(0) atIndex:0];
+    [_arrayLikesNum insertObject:@(0) atIndex:0];
     [_tableView reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationNone];
 }
 
