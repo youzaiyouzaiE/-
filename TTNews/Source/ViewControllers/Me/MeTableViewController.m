@@ -18,7 +18,6 @@
 #import "UIImage+Extension.h"
 #import "UserInfoCell.h"
 #import "TwoLabelCell.h"
-#import "DisclosureCell.h"
 #import "TTLoginViewController.h"
 #import "AppDelegate.h"
 #import "TTNetworkSessionManager.h"
@@ -31,12 +30,12 @@
 static NSString *const UserInfoCellIdentifier = @"UserInfoCell";
 static NSString *const SwitchCellIdentifier = @"SwitchCell";
 static NSString *const TwoLabelCellIdentifier = @"TwoLabelCell";
-static NSString *const DisclosureCellIdentifier = @"DisclosureCell";
 
 @interface MeTableViewController ()<UIAlertViewDelegate,UITableViewDelegate, UITableViewDataSource> {
     BOOL _isGetToken;
     NSNumber *_uid;
     NSString *_token;
+    NSArray *_arrayTitles;
 }
 
 @property (nonatomic, strong) UITableView *tableView;
@@ -46,7 +45,6 @@ static NSString *const DisclosureCellIdentifier = @"DisclosureCell";
 @property (nonatomic, assign) CGFloat cacheSize;
 @property (nonatomic, copy) NSString *currentSkinModel;
 
-
 @end
 
 CGFloat const footViewHeight = 30;
@@ -55,6 +53,7 @@ CGFloat const footViewHeight = 30;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    _arrayTitles = @[@"清除缓存",@"反馈",@"关于",@"退出"];
     [self caculateCacheSize];
     [self setupBasic];
 }
@@ -88,14 +87,11 @@ CGFloat const footViewHeight = 30;
     self.tableView.dk_separatorColorPicker = DKColorPickerWithKey(SEP);
     [self.tableView registerClass:[UserInfoCell class] forCellReuseIdentifier:UserInfoCellIdentifier];
     [self.tableView registerClass:[TwoLabelCell class] forCellReuseIdentifier:TwoLabelCellIdentifier];
-    [self.tableView registerClass:[DisclosureCell class] forCellReuseIdentifier:DisclosureCellIdentifier];
+    [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"UITableViewCell"];
 }
 
--(void)caculateCacheSize {
+- (void)caculateCacheSize {
     float imageCache = [[SDImageCache sharedImageCache] getSize]/1024.0/1024.0;
-//    NSString *path = [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject] stringByAppendingPathComponent:@"data.sqlite"];
-//    NSFileManager *fileManager = [NSFileManager defaultManager];
-//    float sqliteCache = [fileManager attributesOfItemAtPath:path error:nil].fileSize/1024.0/1024.0;
     self.cacheSize = imageCache;
 }
 
@@ -155,8 +151,8 @@ CGFloat const footViewHeight = 30;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    if (section == 0) return 1;
-    return 4;
+    if (section == 0)  return 1;
+    return _arrayTitles.count;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
@@ -179,7 +175,7 @@ CGFloat const footViewHeight = 30;
             NSString *path = [self userImagePath];
             image = [UIImage imageWithContentsOfFile:path];
             if (image == nil) {
-                image = [UIImage imageNamed:@"defaultUserIcon"];
+                [cell setImageUrlString:[[TTAppData shareInstance] currentUserIconURLString]];
             }
             name = [TTAppData shareInstance].currentUser.username;
             content = [TTAppData shareInstance].currentUser.signature;
@@ -202,27 +198,28 @@ CGFloat const footViewHeight = 30;
         cell.contentLabel.text = content;
         return cell;
     }
+    NSString *title = _arrayTitles[indexPath.row];
     if (indexPath.section == 1 && indexPath.row == 0) {
         TwoLabelCell *cell = [tableView dequeueReusableCellWithIdentifier:TwoLabelCellIdentifier];
-        cell.leftLabel.text = @"清除缓存";
+        cell.leftLabel.text = title;
         cell.rightLabel.text = [NSString stringWithFormat:@"%.1f MB",self.cacheSize];
         return cell;
     }
-    DisclosureCell *cell = [tableView dequeueReusableCellWithIdentifier:DisclosureCellIdentifier];
-    if (indexPath.row == 1) {
-        cell.leftLabel.text = @"反馈";
-         return cell;
-    } else if(indexPath.row == 2) {
-        cell.leftLabel.text = @"关于";
-         return cell;
-    } else if(indexPath.row == 3) {
-        cell.leftLabel.text = @"退出";
-         return cell;
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"UITableViewCell"];
+    if(indexPath.row == _arrayTitles.count - 1) {
+        cell.textLabel.textAlignment = NSTextAlignmentCenter;
+        cell.accessoryType = UITableViewCellAccessoryNone;
+    } else {
+        cell.textLabel.textAlignment = NSTextAlignmentLeft;
+        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     }
+    cell.textLabel.font = FONT_Regular_PF(18);
+    cell.textLabel.text = title;
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
     if (indexPath.section == 0 && indexPath.row == 0) {
         if (SHARE_APP.isLogin) {
             [self.navigationController pushViewController:[[EditUserInfoViewController alloc] init] animated:YES];
@@ -235,26 +232,29 @@ CGFloat const footViewHeight = 30;
             };
             [self.navigationController pushViewController:loginVC animated:YES];
         }
-    } else if (indexPath.section == 1 && indexPath.row ==0) {
-        [SVProgressHUD show];
-        [TTDataTool deletePartOfCacheInSqlite];
-        [[SDImageCache sharedImageCache] clearDisk];
-        [SVProgressHUD showSuccessWithStatus:@"缓存清除完毕!"];
-        [self performSelector:@selector(dismissSvprogressHud) withObject:nil afterDelay:1];
-        TwoLabelCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-        cell.rightLabel.text = [NSString stringWithFormat:@"0.0MB"];
-    } else if (indexPath.section == 1 && indexPath.row == 1) {
-        [self.navigationController pushViewController:[[SendFeedbackViewController alloc] init] animated:YES];
-    } else if (indexPath.section == 1 && indexPath.row == 2) {
-        [self.navigationController pushViewController:[[AppInfoViewController alloc] init] animated:YES];
-    } else if (indexPath.section == 1 && indexPath.row == 3) {
-        if (SHARE_APP.isLogin) {
-            UIAlertView *alerView = [[UIAlertView alloc] initWithTitle:@"提示"
-                                                               message:@"退出当前帐号,将不能同步收藏,评论,分享等"
-                                                              delegate:self
-                                                     cancelButtonTitle:@"取消"
-                                                     otherButtonTitles:@"确认退出", nil];
-            [alerView show];
+    } else {
+        NSString *title = _arrayTitles[indexPath.row];
+        if ([title isEqualToString:@"清除缓存"]) {
+            [SVProgressHUD show];
+            [TTDataTool deletePartOfCacheInSqlite];
+            [[SDImageCache sharedImageCache] clearDisk];
+            [SVProgressHUD showSuccessWithStatus:@"缓存清除完毕!"];
+            [self performSelector:@selector(dismissSvprogressHud) withObject:nil afterDelay:1];
+            TwoLabelCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+            cell.rightLabel.text = [NSString stringWithFormat:@"0.0MB"];
+        } else if ([title isEqualToString:@"反馈"]) {
+            [self.navigationController pushViewController:[[SendFeedbackViewController alloc] init] animated:YES];
+        } else if ([title isEqualToString:@"关于"]) {
+            [self.navigationController pushViewController:[[AppInfoViewController alloc] init] animated:YES];
+        } else if ([title isEqualToString:@"退出"]) {
+            if (SHARE_APP.isLogin) {
+                UIAlertView *alerView = [[UIAlertView alloc] initWithTitle:@"提示"
+                                                                   message:@"退出当前帐号,将不能同步收藏,评论,分享等"
+                                                                  delegate:self
+                                                         cancelButtonTitle:@"取消"
+                                                         otherButtonTitles:@"确认退出", nil];
+                [alerView show];
+            }
         }
     }
 }

@@ -9,6 +9,7 @@
 
 #import "UserInfoCell.h"
 #import <DKNightVersion.h>
+#import <UIImageView+WebCache.h>
 
 @interface UserInfoCell()
 
@@ -25,7 +26,6 @@
         UIImageView *avatarImageView = [[UIImageView alloc] init];
         self.avatarImageView = avatarImageView;
         avatarImageView.frame =CGRectMake(margin, margin, cellHeight - 2*margin, cellHeight - 2*margin);
-        
         avatarImageView.layer.cornerRadius = avatarImageView.frame.size.width * 0.5;
         avatarImageView.layer.masksToBounds = YES;
         [self addSubview:avatarImageView];
@@ -33,7 +33,7 @@
         UILabel *nameLabel = [[UILabel alloc] init];
         self.nameLabel = nameLabel;
         CGFloat nameLabelHeight = 21.5;
-        nameLabel.font = [UIFont systemFontOfSize:18];
+        nameLabel.font = FONT_Regular_PF(18);
         
         nameLabel.frame = CGRectMake(CGRectGetMaxX(avatarImageView.frame) + margin, avatarImageView.frame.origin.y +avatarImageView.frame.size.height*0.5 - nameLabelHeight-0.5*margin, kScreenWidth - 3*margin -avatarImageView.frame.size.width, nameLabelHeight);
         nameLabel.dk_textColorPicker = DKColorPickerWithKey(TEXT);
@@ -43,7 +43,7 @@
         self.contentLabel = contentLabel;
         CGFloat contentLabelHeight = 17.5;
         
-        contentLabel.font = [UIFont systemFontOfSize:14];
+        contentLabel.font = FONT_Regular_PF(14);;
         contentLabel.textColor = [UIColor grayColor];
         contentLabel.frame = CGRectMake(CGRectGetMaxX(avatarImageView.frame) + margin, avatarImageView.frame.origin.y +avatarImageView.frame.size.height*0.5+0.5*margin, kScreenWidth - 3*margin -avatarImageView.frame.size.width, contentLabelHeight);
         contentLabel.lineBreakMode = NSLineBreakByTruncatingTail;
@@ -57,4 +57,10 @@
     }
     return self;
 }
+
+
+- (void)setImageUrlString:(NSString *)urlStr {
+    [_avatarImageView sd_setImageWithURL:[NSURL URLWithString:urlStr] placeholderImage:[UIImage imageNamed:@"defaultUserIcon"]];
+}
+
 @end

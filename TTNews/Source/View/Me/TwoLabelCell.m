@@ -17,6 +17,7 @@
         UILabel *label1 = [[UILabel alloc] init];
         self.leftLabel = label1;
         label1.frame = CGRectMake(15, 0, 120, self.frame.size.height);
+        label1.font = FONT_Regular_PF(18);
         label1.dk_textColorPicker = DKColorPickerWithKey(TEXT);
         [self addSubview:label1];
        
@@ -24,6 +25,7 @@
         self.rightLabel = label2;
         label2.frame = CGRectMake(self.frame.size.width-90, 0, 80, self.frame.size.height);
         label2.textAlignment= NSTextAlignmentRight;
+        label2.font = FONT_Regular_PF(18);
         label2.dk_textColorPicker = DKColorPickerWithKey(TEXT);
         [self addSubview:label2];
         self.dk_backgroundColorPicker = DKColorPickerWithRGB(0xffffff, 0x343434, 0xfafafa);

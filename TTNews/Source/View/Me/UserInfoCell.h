@@ -14,4 +14,7 @@
 @property (nonatomic, strong) UILabel *nameLabel;
 @property (nonatomic, strong) UILabel *contentLabel;
 
+
+- (void)setImageUrlString:(NSString *)urlStr;
+
 @end

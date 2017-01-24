@@ -113,7 +113,6 @@
 		DA62C9E61DF7BCAB00AD3928 /* TTVideo.m in Sources */ = {isa = PBXBuildFile; fileRef = DA62C9711DF7BCAB00AD3928 /* TTVideo.m */; };
 		DA62C9E71DF7BCAB00AD3928 /* TTVideoComment.m in Sources */ = {isa = PBXBuildFile; fileRef = DA62C9731DF7BCAB00AD3928 /* TTVideoComment.m */; };
 		DA62C9E81DF7BCAB00AD3928 /* TTVideoUser.m in Sources */ = {isa = PBXBuildFile; fileRef = DA62C9751DF7BCAB00AD3928 /* TTVideoUser.m */; };
-		DA62C9E91DF7BCAB00AD3928 /* DisclosureCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DA62C9791DF7BCAB00AD3928 /* DisclosureCell.m */; };
 		DA62C9EA1DF7BCAB00AD3928 /* SwitchCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DA62C97B1DF7BCAB00AD3928 /* SwitchCell.m */; };
 		DA62C9EB1DF7BCAB00AD3928 /* TwoLabelCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DA62C97D1DF7BCAB00AD3928 /* TwoLabelCell.m */; };
 		DA62C9EC1DF7BCAB00AD3928 /* UserInfoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DA62C97F1DF7BCAB00AD3928 /* UserInfoCell.m */; };
@@ -364,8 +363,6 @@
 		DA62C9731DF7BCAB00AD3928 /* TTVideoComment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTVideoComment.m; sourceTree = "<group>"; };
 		DA62C9741DF7BCAB00AD3928 /* TTVideoUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTVideoUser.h; sourceTree = "<group>"; };
 		DA62C9751DF7BCAB00AD3928 /* TTVideoUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTVideoUser.m; sourceTree = "<group>"; };
-		DA62C9781DF7BCAB00AD3928 /* DisclosureCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DisclosureCell.h; sourceTree = "<group>"; };
-		DA62C9791DF7BCAB00AD3928 /* DisclosureCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DisclosureCell.m; sourceTree = "<group>"; };
 		DA62C97A1DF7BCAB00AD3928 /* SwitchCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwitchCell.h; sourceTree = "<group>"; };
 		DA62C97B1DF7BCAB00AD3928 /* SwitchCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SwitchCell.m; sourceTree = "<group>"; };
 		DA62C97C1DF7BCAB00AD3928 /* TwoLabelCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TwoLabelCell.h; sourceTree = "<group>"; };
@@ -767,8 +764,6 @@
 		DA62C9771DF7BCAB00AD3928 /* Me */ = {
 			isa = PBXGroup;
 			children = (
-				DA62C9781DF7BCAB00AD3928 /* DisclosureCell.h */,
-				DA62C9791DF7BCAB00AD3928 /* DisclosureCell.m */,
 				DA62C97A1DF7BCAB00AD3928 /* SwitchCell.h */,
 				DA62C97B1DF7BCAB00AD3928 /* SwitchCell.m */,
 				DA62C97C1DF7BCAB00AD3928 /* TwoLabelCell.h */,
@@ -1598,7 +1593,6 @@
 				DA2C95771E06977000A43E9B /* TTCommentTableViewCell.m in Sources */,
 				DA93168F1DF3B214007F15B3 /* UIView+Extension.m in Sources */,
 				DA16CA5D1E0ACDBD00F2F75A /* TTImagesCollectionViewCell.m in Sources */,
-				DA62C9E91DF7BCAB00AD3928 /* DisclosureCell.m in Sources */,
 				DA62CA081DF7BCAB00AD3928 /* VideoTableViewCell.m in Sources */,
 				DA62CA1A1DF7BCAB00AD3928 /* TTNewsContentViewController.m in Sources */,
 				DA62C9E31DF7BCAB00AD3928 /* TTPicture.m in Sources */,
