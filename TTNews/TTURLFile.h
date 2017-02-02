@@ -36,11 +36,15 @@
 #define TT_COMMENT_REPLY_URL                        @"http://cmstest.skykiwichina.com/api/comments/reply"//回复评论  (POST)
 #define TT_COMMENT_LIKE_URL                         @"http://cmstest.skykiwichina.com/api/comments/like" //评论和评论的回复点赞 (POST)
 #define TT_COMMENT_REPLY_LIST_URL                   @"http://cmstest.skykiwichina.com/api/comments/reply_list"///评论的回复列表 (GET)
-#define TT_COMMENT_REPLY_LIKE_LIST_UR               @"http://cmstest.skykiwichina.com/api/comments/like_users"///评论回复点赞列表 (GET)
+#define TT_COMMENT_REPLY_LIKE_LIST_URL               @"http://cmstest.skykiwichina.com/api/comments/like_users"///评论回复点赞列表 (GET)
 
 ////
 #define TT_EXPOSURES_URL                            @"http://cmstest.skykiwichina.com/api/exposures"   ////爆料（post）
 
+/////收藏
+#define TT_STORE_ATRICLE_URL(user_id,article_id)    [NSString stringWithFormat:@"http://cmstest.skykiwichina.com/api/favorites/user/%@/article/%@",user_id,article_id]//用户是否收藏某文章 (GET)
+#define TT_STORE_FAVORITES_URL                      @"http://cmstest.skykiwichina.com/api/favorites"//收藏和取消收藏 (POST)
+#define TT_STORE_LIST_URL(user_id)                  [NSString stringWithFormat:@"http://cmstest.skykiwichina.com/api/favorites/user/%@",user_id]  ///用户收藏文章列表(GET)
 
 
 #endif /* TTURLFile_h */

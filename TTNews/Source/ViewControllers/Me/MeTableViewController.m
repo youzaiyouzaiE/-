@@ -272,6 +272,7 @@ CGFloat const footViewHeight = 30;
         [self.tableView reloadData];
         SHARE_APP.isLogin = NO;
         [TTAppData shareInstance].isLogin = NO;
+        [TTAppData shareInstance].currentUser = nil;
         [[NSUserDefaults standardUserDefaults] setObject:@0 forKey:k_UserLoginType];
         [SVProgressHUD show];
         [TTDataTool deletePartOfCacheInSqlite];

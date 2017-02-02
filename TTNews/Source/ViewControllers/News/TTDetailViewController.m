@@ -83,6 +83,7 @@ typedef NS_ENUM(NSUInteger, TTShareScene) {
             make.bottom.mas_equalTo(self.view.mas_bottom);
         }];
     }
+    [self checkTheArticleIsStored];
 }
 
 - (void)setupProgressView {
@@ -133,8 +134,8 @@ typedef NS_ENUM(NSUInteger, TTShareScene) {
     }];
 }
 
-
--(void)refreshCurrentArticleDetailModel {
+#pragma mark - NetWork
+- (void)refreshCurrentArticleDetailModel {
     [[TTNetworkSessionManager shareManager] Get:TT_ARTICLE_DETAIL_URL(_article_id)
                                      Parameters:nil
                                         Success:^(NSURLSessionDataTask *task, NSDictionary *responseObject) {
@@ -145,6 +146,44 @@ typedef NS_ENUM(NSUInteger, TTShareScene) {
                                         }
                                         Failure:^(NSError *error) {
                                         }];
+}
+
+- (void)checkTheArticleIsStored {
+    if (!SHARE_APP.isLogin) {
+        return ;
+    }
+    [[TTNetworkSessionManager shareManager] Get:TT_STORE_ATRICLE_URL([TTAppData shareInstance].currentUser.memberId,_article_id)
+                                     Parameters:nil
+                                        Success:^(NSURLSessionDataTask *task, NSArray *responseObject) {
+                                            BOOL isChecked = [[responseObject firstObject] boolValue];
+                                            _bottomView.isStored = isChecked;
+                                        }
+                                        Failure:^(NSError *error) {
+                                        }];
+}
+
+- (void)storeTheArticle:(BOOL)store {
+    NSInteger storeType = 0;
+    if (store) {
+        storeType = 1;
+    }
+    NSDictionary *parameterDic = @{@"article_id":_article_id,@"user_id":[TTAppData shareInstance].currentUser.memberId,@"action":@(storeType)};
+    [[AFHTTPSessionManager manager] POST:TT_STORE_FAVORITES_URL
+                              parameters:parameterDic
+                                progress:^(NSProgress * _Nonnull uploadProgress) {
+                                    
+                                } success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *responseObject) {
+                                    if (store) {
+                                        [TTProgressHUD showMsg:@"收藏成功！"];
+                                    } else
+                                        [TTProgressHUD showMsg:@"已取消收藏！"];
+                                    _bottomView.isStored = store;
+                                 }
+                                 failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+                                     [TTProgressHUD dismiss];
+                                     [TTProgressHUD showMsg:@"服务器请求出错，请稍后重试！"];
+                                     _bottomView.isStored = NO;
+                                 }];
 }
 
 #pragma mark - longin View
@@ -187,7 +226,7 @@ typedef NS_ENUM(NSUInteger, TTShareScene) {
 }
 
 - (void)checkCommentsButtonClicked:(TTBottomBarView *)bottomView {
-    if (_totalComments <1) {
+    if (_totalComments < 1) {
         [TTProgressHUD showMsg:@"没有更多评论"];
         return ;
     }
@@ -198,7 +237,12 @@ typedef NS_ENUM(NSUInteger, TTShareScene) {
 }
 
 - (void)storeButtonClicked:(TTBottomBarView *)bottomView isStore:(BOOL)isStore {
-    
+    if (!SHARE_APP.isLogin) {
+        [TTProgressHUD showMsg:@"登录后才能收藏文章"];
+        bottomView.isStored = NO;
+        return ;
+    }
+    [self storeTheArticle:isStore];
 }
 
 - (void)shareButtonClicked:(TTBottomBarView *)bottomView {

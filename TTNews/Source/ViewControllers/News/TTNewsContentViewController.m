@@ -35,6 +35,7 @@ static const NSInteger  infoLabelHeight = 30;
     
     NSDictionary *_locationDic;
     BOOL _hasMoreData;
+    BOOL _isLoading;
 }
 
 @property (nonatomic, strong) UITableView *tableView;
@@ -125,7 +126,7 @@ static const NSInteger  infoLabelHeight = 30;
     }];
 }
 
--(void)addTabelView {
+- (void)addTabelView {
     _tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStyleGrouped];
     _tableView.backgroundColor = [UIColor whiteColor];
     _tableView.delegate = self;
@@ -148,7 +149,7 @@ static const NSInteger  infoLabelHeight = 30;
     [self setupRefresh];
 }
 
--(void)setupRefresh {
+- (void)setupRefresh {
     self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadData)];
     [self.tableView.mj_header beginRefreshing];
 }
@@ -251,6 +252,10 @@ static const NSInteger  infoLabelHeight = 30;
 }
 
 - (void)loadListForPage:(NSInteger)page andIsRefresh:(BOOL)isRefresh {
+    if (_isLoading) {
+        return;
+    }
+    _isLoading = YES;
     NSString *urlStr = TT_OTHER_News_LIST([_channel.id_Channel stringValue]);
     if (_isFristNews) {
         urlStr = TT_FRIST_NEWS_List;
@@ -261,24 +266,25 @@ static const NSInteger  infoLabelHeight = 30;
                              parameters:parameterDic
                                progress:^(NSProgress * _Nonnull downloadProgress) {}
                                 success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-                                    [TTProgressHUD dismiss];
+                                    _isLoading = NO;
                                     if (isRefresh) {
                                         [_arrayList removeAllObjects];
                                     }
                                     NSDictionary *pageInfoDic = responseObject[@"meta"][@"pagination"];
                                     _pagInfo = [[TTNewListPageInfoModel alloc] initWithDictionary:pageInfoDic];
                                     NSArray *dataArray = responseObject[@"data"];
-                                    if (dataArray.count < 1) {
-                                        [weakSelf updateMJViewStatusWithIsUpload:isRefresh footHaveMoreData:NO];
-                                    } else {
-                                        for (NSDictionary *dic in dataArray) {
-                                            TTNewListModel *model = [[TTNewListModel alloc] initWithDictionary:dic];
-                                            [_arrayList addObject:model];
-                                        }
-                                        [weakSelf updateMJViewStatusWithIsUpload:isRefresh footHaveMoreData:YES];
+                                    for (NSDictionary *dic in dataArray) {
+                                        TTNewListModel *model = [[TTNewListModel alloc] initWithDictionary:dic];
+                                        [_arrayList addObject:model];
                                     }
+                                    BOOL hasMoreData = NO;
+                                    if (_arrayList.count < _pagInfo.total_pages.integerValue) {
+                                        hasMoreData = YES;
+                                    }
+                                    [weakSelf updateMJViewStatusWithIsUpload:isRefresh footHaveMoreData:hasMoreData];
                                 }
                                 failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+                                    _isLoading = NO;
                                     [TTProgressHUD dismiss];
                                     [TTProgressHUD showMsg:@"服务器繁忙！请求出错"];
                                     [_tableView.mj_header endRefreshing];
@@ -295,9 +301,10 @@ static const NSInteger  infoLabelHeight = 30;
         } else {
             _hasMoreData = NO;
         }
-        [_tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:_arrayList.count inSection:0]] withRowAnimation:UITableViewRowAnimationFade];
+        [_tableView reloadData];
     }
 }
+
 
 #pragma mark - SDCycleScrollViewDelegate
 /** 点击图片回调 */

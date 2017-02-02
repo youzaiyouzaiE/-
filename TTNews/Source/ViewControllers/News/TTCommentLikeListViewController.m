@@ -53,7 +53,7 @@
         return;
     }
     _isLoading = YES;
-    [[AFHTTPSessionManager manager] GET:TT_COMMENT_REPLY_LIKE_LIST_UR
+    [[AFHTTPSessionManager manager] GET:TT_COMMENT_REPLY_LIKE_LIST_URL
                              parameters:@{@"comment_id":_commentId, @"page":@(_currentPage)}//, @"page":@(_currentPage)}
                                progress:^(NSProgress * _Nonnull downloadProgress) {}
                                 success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *responseObject) {

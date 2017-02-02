@@ -111,7 +111,7 @@ static const NSInteger button_H = viewHeight - 16;
 
 #pragma  mark  NetWork Request
 - (void)loadLikeUsers {
-    [[AFHTTPSessionManager manager] GET:TT_COMMENT_REPLY_LIKE_LIST_UR
+    [[AFHTTPSessionManager manager] GET:TT_COMMENT_REPLY_LIKE_LIST_URL 
                              parameters:@{@"comment_id":_sourceComment.commentId, @"page":@(0)}//, @"page":@(_currentPage)}
                                progress:^(NSProgress * _Nonnull downloadProgress) {}
                                 success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *responseObject) {
