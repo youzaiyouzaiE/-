@@ -125,7 +125,6 @@ static const NSInteger button_H = viewHeight - 16;
                                     }
                                     if (_arrayCommentLikesURL.count > 0) {
                                         [_tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationNone];
-//                                        [_tableView reloadData];
                                     }
                                 }
                                 failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
@@ -330,7 +329,7 @@ static const NSInteger button_H = viewHeight - 16;
     TTCommentsModel *comment = nil;
     if (indexPath.section == 0) {
         comment = _sourceComment;
-    }
+    } else
         comment = _arrayReplyComments[indexPath.row];
     TTCommentInputView  *commentView = [TTCommentInputView commentView];
     commentView.delegate = self;

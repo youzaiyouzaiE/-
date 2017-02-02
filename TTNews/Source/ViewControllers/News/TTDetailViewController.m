@@ -71,7 +71,7 @@ typedef NS_ENUM(NSUInteger, TTShareScene) {
                                                               style:UIBarButtonItemStylePlain
                                                              target:self
                                                              action:@selector(selectFontSizeAction)];
-    self.navigationItem.rightBarButtonItem = item;
+//    self.navigationItem.rightBarButtonItem = item;
     self.view.dk_backgroundColorPicker = DKColorPickerWithRGB(0xf0f0f0, 0x343434, 0xfafafa);
     [self setupView];
     [self setupProgressView];
