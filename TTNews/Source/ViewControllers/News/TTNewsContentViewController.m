@@ -252,8 +252,8 @@ static NSString * const k_lifeTipInfoDic = @"lifeTipInfoDic";
     [[TTNetworkSessionManager shareManager] Get:TT_FRIST_LIFE_CITY
                                      Parameters:nil
                                         Success:^(NSURLSessionDataTask *task, NSDictionary *responseObject) {
-                                            if (!responseObject) {
-                                                return  ;
+                                            if (!responseObject || responseObject.allKeys.count < 1) {
+                                                return ;
                                             }
                                             _labelDate.text =  [NSString stringWithFormat:@"%@",responseObject[@"date"]];
                                             _labelWeather.text = responseObject[@"tmp"];
