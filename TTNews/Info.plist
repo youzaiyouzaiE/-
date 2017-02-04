@@ -70,7 +70,7 @@
 	<key>NSCameraUsageDescription</key>
 	<string>App需要访问您的相机</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>根据位置信息推荐更多精彩</string>
+	<string>需要定位</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>App需要访问您的相册</string>
 	<key>UIRequiredDeviceCapabilities</key>
@@ -94,5 +94,7 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+<!--	<key>NSLocationAlwaysUsageDescription</key>-->
+<!--	<string>需要使用定位</string>-->
 </dict>
 </plist>

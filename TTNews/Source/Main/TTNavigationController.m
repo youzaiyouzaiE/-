@@ -7,7 +7,6 @@
 //
 
 #import "TTNavigationController.h"
-#import <CYLTabBarController.h>
 
 @interface TTNavigationController ()
 

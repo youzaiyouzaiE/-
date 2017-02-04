@@ -103,4 +103,76 @@ NSString * const k_UserLoginType = @"UseLonginType";
     }
 }
 
+
+#pragma mark – DATE
+//返回更直观的时间
++ (NSString *)intervalSinceNow:(NSString *)theDate {
+    NSDateFormatter *date=[[NSDateFormatter alloc] init];
+    [date setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+    NSDate *d=[date dateFromString:theDate];
+    NSTimeInterval late=[d timeIntervalSince1970]*1;
+    NSDate* dat = [NSDate dateWithTimeIntervalSinceNow:0];
+    NSTimeInterval now=[dat timeIntervalSince1970]*1;
+    NSString *timeString=@"";
+    NSTimeInterval cha=now-late;
+    
+    if (cha/3600<1) {
+        if (cha/60<1) {
+            timeString = @"1";
+        }
+        else
+        {
+            timeString = [NSString stringWithFormat:@"%f", cha/60];
+            timeString = [timeString substringToIndex:timeString.length-7];
+        }
+        
+        timeString=[NSString stringWithFormat:@"%@分钟前", timeString];
+    }
+    else if (cha/3600>1&&cha/86400<1) {
+        timeString = [NSString stringWithFormat:@"%f", cha/3600];
+        timeString = [timeString substringToIndex:timeString.length-7];
+        timeString=[NSString stringWithFormat:@"%@小时前", timeString];
+    }
+    else if (cha/86400>1&&cha/864000<1)
+    {
+        timeString = [NSString stringWithFormat:@"%f", cha/86400];
+        timeString = [timeString substringToIndex:timeString.length-7];
+        timeString=[NSString stringWithFormat:@"%@天前", timeString];
+    }
+    else
+    {
+        //        timeString = [NSString stringWithFormat:@"%d-%"]
+        NSArray *array = [theDate componentsSeparatedByString:@" "];
+        //        return [array objectAtIndex:0];
+        timeString = [array objectAtIndex:0];
+    }
+    return timeString;
+}
+
++ (NSString *)dateFormatMMDD {
+//    1.通过date方法创建出来的对象,就是当前时间对象;
+    NSDate *date = [NSDate date];
+    NSLog(@"now = %@", date);
+    
+//    2.获取当前所处时区
+    NSTimeZone *zone = [NSTimeZone systemTimeZone];
+    NSLog(@"now = %@", zone);
+    
+//    3.获取当前时区和指定时间差
+    NSInteger seconds = [zone secondsFromGMTForDate:date];
+    NSLog(@"seconds = %lu", seconds);
+    
+    NSDate *nowDate = [date dateByAddingTimeInterval:seconds];
+    NSLog(@"nowDate = %@", nowDate);
+    
+//    创建一个时间格式化对象
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    
+//    按照什么样的格式来格式化时间
+    formatter.dateFormat = @"MM月dd日";
+    NSString *res = [formatter stringFromDate:date];
+    return res;
+}
+
+
 @end

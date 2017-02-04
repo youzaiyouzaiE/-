@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16C67" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16D32" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -15,16 +15,26 @@
             <rect key="frame" x="0.0" y="0.0" width="372" height="97"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
-                <rect key="frame" x="0.0" y="0.0" width="372" height="96"/>
+                <rect key="frame" x="0.0" y="0.0" width="372" height="97"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="YOn-GG-NyU">
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="images_default" translatesAutoresizingMaskIntoConstraints="NO" id="YOn-GG-NyU">
                         <rect key="frame" x="9" y="9" width="104" height="78"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="104" id="0Qh-cy-jMQ"/>
                             <constraint firstAttribute="height" constant="78" id="8m6-X0-LJY"/>
                         </constraints>
                     </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="无图代替" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QAH-jg-gn8">
+                        <rect key="frame" x="15" y="64" width="92" height="21"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="92" id="GpG-Ab-GMp"/>
+                            <constraint firstAttribute="height" constant="21" id="ULM-te-Wzy"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" name="PingFangSC-Regular" family="PingFang SC" pointSize="17"/>
+                        <color key="textColor" red="0.71764705880000002" green="0.71764705880000002" blue="0.71764705880000002" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="杭州西湖区风景旅游局长被查杭州西湖区风景旅游局长被查" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="n7R-v2-oFm">
                         <rect key="frame" x="128" y="9" width="236" height="56"/>
                         <constraints>
@@ -58,6 +68,7 @@
                     </label>
                 </subviews>
                 <constraints>
+                    <constraint firstItem="QAH-jg-gn8" firstAttribute="bottom" secondItem="YOn-GG-NyU" secondAttribute="bottom" constant="-2" id="3pi-RF-aEW"/>
                     <constraint firstItem="YOn-GG-NyU" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="9" id="DGL-Gv-HMb"/>
                     <constraint firstItem="YOn-GG-NyU" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="9" id="HUL-ls-lx0"/>
                     <constraint firstItem="daM-EL-83T" firstAttribute="bottom" secondItem="YOn-GG-NyU" secondAttribute="bottom" id="UMc-aq-lrk"/>
@@ -67,10 +78,12 @@
                     <constraint firstAttribute="trailing" secondItem="n7R-v2-oFm" secondAttribute="trailing" constant="8" id="ocn-Y1-GfR"/>
                     <constraint firstItem="daM-EL-83T" firstAttribute="trailing" secondItem="n7R-v2-oFm" secondAttribute="trailing" id="rZm-vY-xED"/>
                     <constraint firstItem="tGo-w4-96R" firstAttribute="leading" secondItem="n7R-v2-oFm" secondAttribute="leading" id="wcS-mM-Dql"/>
+                    <constraint firstItem="QAH-jg-gn8" firstAttribute="leading" secondItem="YOn-GG-NyU" secondAttribute="leading" constant="6" id="x2I-KH-k3e"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>
                 <outlet property="dateLabel" destination="tGo-w4-96R" id="5Il-ry-Mah"/>
+                <outlet property="labelImage" destination="QAH-jg-gn8" id="6cm-VR-nJ8"/>
                 <outlet property="newsTittleLabel" destination="n7R-v2-oFm" id="jK1-BK-Pwe"/>
                 <outlet property="pictureImageView" destination="YOn-GG-NyU" id="tNd-ka-Vrq"/>
                 <outlet property="sourceLabel" destination="daM-EL-83T" id="u5j-Q5-Xon"/>
@@ -79,4 +92,7 @@
             <point key="canvasLocation" x="-18" y="339.5"/>
         </tableViewCell>
     </objects>
+    <resources>
+        <image name="images_default" width="135" height="135"/>
+    </resources>
 </document>

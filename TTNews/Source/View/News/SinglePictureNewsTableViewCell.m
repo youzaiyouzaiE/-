@@ -16,6 +16,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *newsTittleLabel;
 @property (weak, nonatomic) IBOutlet UILabel *sourceLabel;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *sourecLabel_W;
+@property (weak, nonatomic) IBOutlet UILabel *labelImage;
 
 @end
 @implementation SinglePictureNewsTableViewCell
@@ -30,11 +31,18 @@
     _sourceLabel.layer.borderColor = COLOR_HexStr(@"DCDCDC").CGColor;
     _sourceLabel.layer.borderWidth = 0.5f;
     _sourceLabel.layer.cornerRadius = 4.0f;
+    _labelImage.hidden = YES;
 }
 
 - (void)setImageUrl:(NSString *)imageUrl {
     _imageUrl = imageUrl;
-    [self.pictureImageView  sd_setImageWithURL:[NSURL URLWithString:imageUrl]];
+    UIImage *placeHolderImage = [UIImage imageNamed:@"images_default"];
+    if (imageUrl && imageUrl.length > 1) {
+        placeHolderImage = [UIImage imageNamed:@"images_failed"];
+        _labelImage.hidden = YES;
+    } else
+        _labelImage.hidden = NO;
+    [self.pictureImageView sd_setImageWithURL:[NSURL URLWithString:imageUrl] placeholderImage:placeHolderImage];
 }
 
 - (void)setContentTittle:(NSString *)contentTittle {

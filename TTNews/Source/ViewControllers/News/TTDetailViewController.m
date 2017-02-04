@@ -67,10 +67,10 @@ typedef NS_ENUM(NSUInteger, TTShareScene) {
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    UIBarButtonItem * item = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"fontSelectImage"]
-                                                              style:UIBarButtonItemStylePlain
-                                                             target:self
-                                                             action:@selector(selectFontSizeAction)];
+//    UIBarButtonItem * item = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"fontSelectImage"]
+//                                                              style:UIBarButtonItemStylePlain
+//                                                             target:self
+//                                                             action:@selector(selectFontSizeAction)];
 //    self.navigationItem.rightBarButtonItem = item;
     self.view.dk_backgroundColorPicker = DKColorPickerWithRGB(0xf0f0f0, 0x343434, 0xfafafa);
     [self setupView];

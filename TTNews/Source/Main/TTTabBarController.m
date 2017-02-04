@@ -9,7 +9,6 @@
 
 #import "TTTabBarController.h"
 #import "TTNavigationController.h"
-
 #import "TTNewsViewController.h"
 #import "PictureViewController.h"
 #import "VideoViewController.h"

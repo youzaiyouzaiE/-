@@ -33,4 +33,7 @@ extern NSString * const k_UserInfoDic;
 //返回广告图片本地地址，没有返回nil ，传入nil则移除之前图片
 + (NSString *)getADImageFilePath:(NSString *)imageName;
 
+#pragma mark – DATE
++ (NSString *)intervalSinceNow:(NSString *)theDate;
++ (NSString *)dateFormatMMDD;
 @end

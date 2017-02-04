@@ -16,9 +16,10 @@
 #import "TTNetworkSessionManager.h"
 #import <CoreLocation/CoreLocation.h>
 #import "TTLoadMoerTableViewCell.h"
-//#import "TTCycleImageModel.h"
+#import "TTAppData.h"
 
 static const NSInteger  infoLabelHeight = 30;
+static NSString * const k_lifeTipInfoDic = @"lifeTipInfoDic";
 
 @interface TTNewsContentViewController () <SDCycleScrollViewDelegate,UITableViewDelegate,UITableViewDataSource,CLLocationManagerDelegate> {
     SDCycleScrollView *_cycleScrollView;
@@ -76,7 +77,7 @@ static const NSInteger  infoLabelHeight = 30;
     _headerView = [[UIView alloc] init];
     _cycleScrollView = [SDCycleScrollView cycleScrollViewWithFrame:CGRectZero
                                                            delegate:self
-                                                   placeholderImage:[UIImage imageNamed:@"night_photoset_list_cell_icon"]];
+                                                   placeholderImage:[UIImage imageNamed:@"images_failed"]];
     _cycleScrollView.backgroundColor = [UIColor whiteColor];
     _cycleScrollView.autoScrollTimeInterval = 4;
     _cycleScrollView.pageControlAliment = SDCycleScrollViewPageContolAlimentRight;
@@ -124,6 +125,16 @@ static const NSInteger  infoLabelHeight = 30;
         make.right.mas_equalTo(_labelWeather.mas_left);
         make.height.mas_equalTo(infoLabelHeight);
     }];
+    
+    NSDictionary *lifeTipInfoDic =  [[NSUserDefaults standardUserDefaults] dictionaryForKey:k_lifeTipInfoDic];
+    NSString *dateStr = [TTAppData dateFormatMMDD];
+    if (![dateStr isEqualToString:lifeTipInfoDic[@"date"]]) {
+        dateStr = lifeTipInfoDic[@"date"];
+    }
+    _labelDate.text = FORMAT(@"%@",dateStr);
+    _labelWeather.text = lifeTipInfoDic[@"tmp"];
+    _labelRate.text = lifeTipInfoDic[@"rate"];
+    
 }
 
 - (void)addTabelView {
@@ -240,11 +251,15 @@ static const NSInteger  infoLabelHeight = 30;
 - (void)loadLifeInfoDataWithDic:(NSDictionary *)dic {
     [[TTNetworkSessionManager shareManager] Get:TT_FRIST_LIFE_CITY
                                      Parameters:nil
-                                        Success:^(NSURLSessionDataTask *task, id responseObject) {
-//                                            _labelDate.text =  [NSString stringWithFormat:@"%@  %@",responseObject[@"date"],responseObject[@"city"]];
+                                        Success:^(NSURLSessionDataTask *task, NSDictionary *responseObject) {
+                                            if (!responseObject) {
+                                                return  ;
+                                            }
                                             _labelDate.text =  [NSString stringWithFormat:@"%@",responseObject[@"date"]];
                                             _labelWeather.text = responseObject[@"tmp"];
                                             _labelRate.text = responseObject[@"rate"];
+                                            [[NSUserDefaults standardUserDefaults] setObject:responseObject forKey:k_lifeTipInfoDic];
+                                            
                                         } Failure:^(NSError *error) {
                                             NSLog(@"error %@",error.description);
                                             [TTProgressHUD showMsg:@"天气信息，请求出错"];
