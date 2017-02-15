@@ -34,7 +34,7 @@
 
 // Called when the browser has determined the underlying images is not
 // already loaded into memory but needs it.
-- (void)loadUnderlyingImageAndNotify;
+- (void)loadUnderlyingImageAndNotifyWihtIndex:(NSInteger)index;
 
 // Fetch the image data from a source and notify when complete.
 // You must load the image asyncronously (and decompress it for better performance).
@@ -52,7 +52,16 @@
 // as long as the image can be re-loaded (from cache, file, or URL)
 - (void)unloadUnderlyingImage;
 
+@property (assign, nonatomic)  NSInteger index;
+
 @optional
+
+// If photo is empty, in which case, don't show loading error icons
+@property (nonatomic) BOOL emptyImage;
+
+// Video
+@property (nonatomic) BOOL isVideo;
+- (void)getVideoURL:(void (^)(NSURL *url))completion;
 
 // Return a caption string to be displayed over the image
 // Return nil to display no caption

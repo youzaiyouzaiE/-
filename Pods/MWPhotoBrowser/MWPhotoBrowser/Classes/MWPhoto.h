@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <Photos/Photos.h>
 #import "MWPhotoProtocol.h"
 
 // This class models a photo/image and it's caption
@@ -16,17 +17,25 @@
 @interface MWPhoto : NSObject <MWPhoto>
 
 @property (nonatomic, strong) NSString *caption;
-@property (nonatomic, readonly) UIImage *image;
-@property (nonatomic, readonly) NSURL *photoURL;
-@property (nonatomic, readonly) NSString *filePath  __attribute__((deprecated("Use photoURL"))); // Depreciated
+@property (nonatomic, strong) NSURL *videoURL;
+@property (nonatomic) BOOL emptyImage;
+@property (nonatomic) BOOL isVideo;
+
 
 + (MWPhoto *)photoWithImage:(UIImage *)image;
-+ (MWPhoto *)photoWithFilePath:(NSString *)path  __attribute__((deprecated("Use photoWithURL: with a file URL"))); // Depreciated
 + (MWPhoto *)photoWithURL:(NSURL *)url;
++ (MWPhoto *)photoWithAsset:(PHAsset *)asset targetSize:(CGSize)targetSize;
++ (MWPhoto *)videoWithURL:(NSURL *)url; // Initialise video with no poster image
 
+- (id)init;
 - (id)initWithImage:(UIImage *)image;
 - (id)initWithURL:(NSURL *)url;
-- (id)initWithFilePath:(NSString *)path  __attribute__((deprecated("Use initWithURL: with a file URL"))); // Depreciated
+- (id)initWithAsset:(PHAsset *)asset targetSize:(CGSize)targetSize;
+- (id)initWithVideoURL:(NSURL *)url;
+
+
+///////modify for jiahui (为了从icoloud 下载完照片后更改Grid里item可选状态
+@property (assign, nonatomic)  NSInteger index;
 
 @end
 

@@ -19,10 +19,15 @@
 #import "TTNetworkSessionManager.h"
 #import "MBProgressHUD.h"
 
+#import "TTPhotosGridViewController.h"
+#import <AssetsLibrary/AssetsLibrary.h>
+
 #define k_TEXTFIELD     @"textFieldKey"
 #define k_TEXTVIEW      @"textViewKey"
 
-@interface TTExposuresNewsViewController () <UITextFieldDelegate, UITextViewDelegate,ExposuresContentViewDelegate,TTLabelAndTextFieldViewDelegate,MWPhotoBrowserDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,UITableViewDelegate,UITableViewDataSource,NSURLConnectionDataDelegate>{
+static const NSInteger _maxIamges = 9;
+
+@interface TTExposuresNewsViewController () <UITextFieldDelegate, UITextViewDelegate,ExposuresContentViewDelegate,TTLabelAndTextFieldViewDelegate,MWPhotoBrowserDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,UITableViewDelegate,UITableViewDataSource,NSURLConnectionDataDelegate,TTPhotoGridDelegate>{
     UIBarButtonItem *_rightItem;
     
     NSArray *_sectionTitleArray;
@@ -174,7 +179,7 @@
 - (void)exposuresView:(TTExposuresContentView *)exposureView collectionViewDidSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     [self.view endEditing:YES];
     if (indexPath.row == _arraySelectImages.count) {
-        if (_arraySelectImages.count >= 9) {
+        if (_arraySelectImages.count >= _maxIamges) {
             [TTProgressHUD showMsg:@"最多添加9张图片!"];
             return;
         }
@@ -292,15 +297,29 @@
 
     }]];
     [alertControl addAction:[UIAlertAction actionWithTitle:@"从相册选择" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        UIImagePickerController *imagePickerController = [[UIImagePickerController alloc] init];
-        imagePickerController.delegate = self;
-        imagePickerController.allowsEditing = YES;
-        imagePickerController.navigationBar.tintColor = self.navigationController.navigationBar.tintColor;
-        imagePickerController.navigationBar.barTintColor = self.navigationController.navigationBar.barTintColor;
-        imagePickerController.navigationBar.titleTextAttributes = self.navigationController.navigationBar.titleTextAttributes;
-        imagePickerController.sourceType = UIImagePickerControllerSourceTypeSavedPhotosAlbum;
-        imagePickerController.mediaTypes = [[NSArray alloc] initWithObjects:(NSString *)kUTTypeImage, nil];
-        [self.navigationController presentViewController:imagePickerController animated:YES completion:nil];
+//        ALAuthorizationStatus author = [ALAssetsLibrary authorizationStatus];
+//        if (author == ALAuthorizationStatusRestricted || author ==ALAuthorizationStatusDenied){
+//            //无权限 做一个友好的提示
+//            UIAlertView * alart = [[UIAlertView alloc]initWithTitle:@"温馨提示" message:@"请您设置允许APP访问您的相册\n设置>隐私>照片" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+//            [alart show];
+//            return ;
+//        } else {
+            UIImagePickerController *imagePickerController = [[UIImagePickerController alloc] init];
+            imagePickerController.delegate = self;
+            imagePickerController.allowsEditing = YES;
+            imagePickerController.navigationBar.tintColor = self.navigationController.navigationBar.tintColor;
+            imagePickerController.navigationBar.barTintColor = self.navigationController.navigationBar.barTintColor;
+            imagePickerController.navigationBar.titleTextAttributes = self.navigationController.navigationBar.titleTextAttributes;
+            imagePickerController.sourceType = UIImagePickerControllerSourceTypeSavedPhotosAlbum;
+            imagePickerController.mediaTypes = [[NSArray alloc] initWithObjects:(NSString *)kUTTypeImage, nil];
+            [self.navigationController presentViewController:imagePickerController animated:YES completion:nil];
+//            TTPhotosGridViewController *photoGridVC = [[TTPhotosGridViewController alloc] init];
+//            photoGridVC.delegate = self;
+//            photoGridVC.maxSelected = _maxIamges;
+//            photoGridVC.alreadyHaveNum = _arraySelectImages.count;
+//            UINavigationController *navigationVC = [[UINavigationController alloc] initWithRootViewController:photoGridVC];
+//            [self presentViewController:navigationVC animated:YES completion:nil];
+//        }
     }]];
     
     [alertControl addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) { }]];
@@ -329,6 +348,25 @@
         return NO;
     }
     return YES;
+}
+
+#pragma mark - PhotoGridDelegate
+- (void)photoGrid:(TTPhotosGridViewController *)grid selectedAset:(NSArray *)assets {
+//    if (!_imageManager) {
+//        self.imageManager = [[PHCachingImageManager alloc] init];
+//    }
+//    PHImageRequestOptions *option = [PHImageRequestOptions new];
+//    option.synchronous = YES;
+//    [assets enumerateObjectsUsingBlock:^(PHAsset *asset, NSUInteger idx, BOOL * stop) {
+//        [self.imageManager requestImageForAsset:asset
+//                                     targetSize:[self imageAssetSize:asset]
+//                                    contentMode:PHImageContentModeAspectFill
+//                                        options:option
+//                                  resultHandler:^(UIImage *result, NSDictionary *info) {
+//                                      [self saveImageToDocument:result imageName:[AppData random_uuid]];
+//                                  }];
+//    }];
+//    [self.collectionView reloadData];
 }
 
 #pragma mark - UIImagePickerControllerDelegate

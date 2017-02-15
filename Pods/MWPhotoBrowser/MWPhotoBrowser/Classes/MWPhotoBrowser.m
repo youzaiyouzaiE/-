@@ -11,9 +11,11 @@
 #import "MWPhotoBrowser.h"
 #import "MWPhotoBrowserPrivate.h"
 #import "SDImageCache.h"
+#import "UIImage+MWPhotoBrowser.h"
 
 #define PADDING                  10
-#define ACTION_SHEET_OLD_ACTIONS 2000
+
+static void * MWVideoPlayerObservation = &MWVideoPlayerObservation;
 
 @implementation MWPhotoBrowser
 
@@ -35,7 +37,7 @@
 
 - (id)initWithPhotos:(NSArray *)photosArray {
 	if ((self = [self init])) {
-		_depreciatedPhotoData = photosArray;
+		_fixedPhotosArray = photosArray;
 	}
 	return self;
 }
@@ -56,12 +58,13 @@
     } else {
         _isVCBasedStatusBarAppearance = YES; // default
     }
-    self.wantsFullScreenLayout = YES;
     self.hidesBottomBarWhenPushed = YES;
+    _hasBelongedToViewController = NO;
     _photoCount = NSNotFound;
     _previousLayoutBounds = CGRectZero;
     _currentPageIndex = 0;
     _previousPageIndex = NSUIntegerMax;
+    _currentVideoIndex = NSUIntegerMax;
     _displayActionButton = YES;
     _displayNavArrows = NO;
     _zoomPhotosToFill = YES;
@@ -70,15 +73,15 @@
     _viewIsActive = NO;
     _enableGrid = YES;
     _startOnGrid = NO;
+    _enableSwipeToDismiss = YES;
+    _delayToHideElements = 5;
     _visiblePages = [[NSMutableSet alloc] init];
     _recycledPages = [[NSMutableSet alloc] init];
     _photos = [[NSMutableArray alloc] init];
     _thumbPhotos = [[NSMutableArray alloc] init];
     _currentGridContentOffset = CGPointMake(0, CGFLOAT_MAX);
     _didSavePreviousStateOfNavBar = NO;
-    if ([self respondsToSelector:@selector(automaticallyAdjustsScrollViewInsets)]){
-        self.automaticallyAdjustsScrollViewInsets = NO;
-    }
+    self.automaticallyAdjustsScrollViewInsets = NO;
     
     // Listen for MWPhoto notifications
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -89,6 +92,7 @@
 }
 
 - (void)dealloc {
+    [self clearCurrentVideo];
     _pagingScrollView.delegate = nil;
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [self releaseAllUnderlyingPhotos:NO];
@@ -157,27 +161,20 @@
 	
     // Toolbar
     _toolbar = [[UIToolbar alloc] initWithFrame:[self frameForToolbarAtOrientation:self.interfaceOrientation]];
-    _toolbar.tintColor = SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7") ? [UIColor whiteColor] : nil;
-    if ([_toolbar respondsToSelector:@selector(setBarTintColor:)]) {
-        _toolbar.barTintColor = nil;
-    }
-    if ([[UIToolbar class] respondsToSelector:@selector(appearance)]) {
-        [_toolbar setBackgroundImage:nil forToolbarPosition:UIToolbarPositionAny barMetrics:UIBarMetricsDefault];
-        [_toolbar setBackgroundImage:nil forToolbarPosition:UIToolbarPositionAny barMetrics:UIBarMetricsLandscapePhone];
-    }
+    _toolbar.tintColor = [UIColor whiteColor];
+    _toolbar.barTintColor = nil;
+    [_toolbar setBackgroundImage:nil forToolbarPosition:UIToolbarPositionAny barMetrics:UIBarMetricsDefault];
+    [_toolbar setBackgroundImage:nil forToolbarPosition:UIToolbarPositionAny barMetrics:UIBarMetricsLandscapePhone];
     _toolbar.barStyle = UIBarStyleBlackTranslucent;
     _toolbar.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleWidth;
     
     // Toolbar Items
     if (self.displayNavArrows) {
-        NSString *arrowPathFormat;
-        if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7")) {
-            arrowPathFormat = @"MWPhotoBrowser.bundle/images/UIBarButtonItemArrowOutline%@.png";
-        } else {
-            arrowPathFormat = @"MWPhotoBrowser.bundle/images/UIBarButtonItemArrow%@.png";
-        }
-        _previousButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:[NSString stringWithFormat:arrowPathFormat, @"Left"]] style:UIBarButtonItemStylePlain target:self action:@selector(gotoPreviousPage)];
-        _nextButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:[NSString stringWithFormat:arrowPathFormat, @"Right"]] style:UIBarButtonItemStylePlain target:self action:@selector(gotoNextPage)];
+        NSString *arrowPathFormat = @"MWPhotoBrowser.bundle/UIBarButtonItemArrow%@";
+        UIImage *previousButtonImage = [UIImage imageForResourcePath:[NSString stringWithFormat:arrowPathFormat, @"Left"] ofType:@"png" inBundle:[NSBundle bundleForClass:[self class]]];
+        UIImage *nextButtonImage = [UIImage imageForResourcePath:[NSString stringWithFormat:arrowPathFormat, @"Right"] ofType:@"png" inBundle:[NSBundle bundleForClass:[self class]]];
+        _previousButton = [[UIBarButtonItem alloc] initWithImage:previousButtonImage style:UIBarButtonItemStylePlain target:self action:@selector(gotoPreviousPage)];
+        _nextButton = [[UIBarButtonItem alloc] initWithImage:nextButtonImage style:UIBarButtonItemStylePlain target:self action:@selector(gotoNextPage)];
     }
     if (self.displayActionButton) {
         _actionButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(actionButtonPressed:)];
@@ -185,6 +182,13 @@
     
     // Update
     [self reloadData];
+    
+    // Swipe to dismiss
+    if (_enableSwipeToDismiss) {
+        UISwipeGestureRecognizer *swipeGesture = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(doneButtonPressed:)];
+        swipeGesture.direction = UISwipeGestureRecognizerDirectionDown | UISwipeGestureRecognizerDirectionUp;
+        [self.view addGestureRecognizer:swipeGesture];
+    }
     
 	// Super
     [super viewDidLoad];
@@ -206,31 +210,32 @@
         // We're first on stack so show done button
         _doneButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Done", nil) style:UIBarButtonItemStylePlain target:self action:@selector(doneButtonPressed:)];
         // Set appearance
-        if ([UIBarButtonItem respondsToSelector:@selector(appearance)]) {
-            [_doneButton setBackgroundImage:nil forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
-            [_doneButton setBackgroundImage:nil forState:UIControlStateNormal barMetrics:UIBarMetricsLandscapePhone];
-            [_doneButton setBackgroundImage:nil forState:UIControlStateHighlighted barMetrics:UIBarMetricsDefault];
-            [_doneButton setBackgroundImage:nil forState:UIControlStateHighlighted barMetrics:UIBarMetricsLandscapePhone];
-            [_doneButton setTitleTextAttributes:[NSDictionary dictionary] forState:UIControlStateNormal];
-            [_doneButton setTitleTextAttributes:[NSDictionary dictionary] forState:UIControlStateHighlighted];
-        }
+        [_doneButton setBackgroundImage:nil forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
+        [_doneButton setBackgroundImage:nil forState:UIControlStateNormal barMetrics:UIBarMetricsLandscapePhone];
+        [_doneButton setBackgroundImage:nil forState:UIControlStateHighlighted barMetrics:UIBarMetricsDefault];
+        [_doneButton setBackgroundImage:nil forState:UIControlStateHighlighted barMetrics:UIBarMetricsLandscapePhone];
+        [_doneButton setTitleTextAttributes:[NSDictionary dictionary] forState:UIControlStateNormal];
+        [_doneButton setTitleTextAttributes:[NSDictionary dictionary] forState:UIControlStateHighlighted];
         self.navigationItem.rightBarButtonItem = _doneButton;
     } else {
         // We're not first so show back button
-        UIViewController *previousViewController = [self.navigationController.viewControllers objectAtIndex:self.navigationController.viewControllers.count-2];
-        NSString *backButtonTitle = previousViewController.navigationItem.backBarButtonItem ? previousViewController.navigationItem.backBarButtonItem.title : previousViewController.title;
-        UIBarButtonItem *newBackButton = [[UIBarButtonItem alloc] initWithTitle:backButtonTitle style:UIBarButtonItemStylePlain target:nil action:nil];
-        // Appearance
-        if ([UIBarButtonItem respondsToSelector:@selector(appearance)]) {
-            [newBackButton setBackButtonBackgroundImage:nil forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
-            [newBackButton setBackButtonBackgroundImage:nil forState:UIControlStateNormal barMetrics:UIBarMetricsLandscapePhone];
-            [newBackButton setBackButtonBackgroundImage:nil forState:UIControlStateHighlighted barMetrics:UIBarMetricsDefault];
-            [newBackButton setBackButtonBackgroundImage:nil forState:UIControlStateHighlighted barMetrics:UIBarMetricsLandscapePhone];
-            [newBackButton setTitleTextAttributes:[NSDictionary dictionary] forState:UIControlStateNormal];
-            [newBackButton setTitleTextAttributes:[NSDictionary dictionary] forState:UIControlStateHighlighted];
-        }
-        _previousViewControllerBackButton = previousViewController.navigationItem.backBarButtonItem; // remember previous
-        previousViewController.navigationItem.backBarButtonItem = newBackButton;
+//        UIViewController *previousViewController = [self.navigationController.viewControllers objectAtIndex:self.navigationController.viewControllers.count-2];
+//        NSString *backButtonTitle = previousViewController.navigationItem.backBarButtonItem ? previousViewController.navigationItem.backBarButtonItem.title : previousViewController.title;
+//        UIBarButtonItem *newBackButton = [[UIBarButtonItem alloc] initWithTitle:backButtonTitle style:UIBarButtonItemStylePlain target:nil action:nil];
+//        // Appearance
+//        [newBackButton setBackButtonBackgroundImage:nil forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
+//        [newBackButton setBackButtonBackgroundImage:nil forState:UIControlStateNormal barMetrics:UIBarMetricsLandscapePhone];
+//        [newBackButton setBackButtonBackgroundImage:nil forState:UIControlStateHighlighted barMetrics:UIBarMetricsDefault];
+//        [newBackButton setBackButtonBackgroundImage:nil forState:UIControlStateHighlighted barMetrics:UIBarMetricsLandscapePhone];
+//        [newBackButton setTitleTextAttributes:[NSDictionary dictionary] forState:UIControlStateNormal];
+//        [newBackButton setTitleTextAttributes:[NSDictionary dictionary] forState:UIControlStateHighlighted];
+//        _previousViewControllerBackButton = previousViewController.navigationItem.backBarButtonItem; // remember previous
+//        previousViewController.navigationItem.backBarButtonItem = newBackButton;
+        
+        UIBarButtonItem * item = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"barbutton_back"] style:UIBarButtonItemStylePlain target:self action:@selector(backBarButtonAction:)];
+        item.tintColor = [UIColor whiteColor];
+        self.navigationItem.leftBarButtonItem = item;
+        
     }
 
     // Toolbar items
@@ -243,9 +248,7 @@
     // Left button - Grid
     if (_enableGrid) {
         hasItems = YES;
-        NSString *buttonName = @"UIBarButtonItemGrid";
-        if (SYSTEM_VERSION_LESS_THAN(@"7")) buttonName = @"UIBarButtonItemGridiOS6";
-        [items addObject:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:[NSString stringWithFormat:@"MWPhotoBrowser.bundle/images/%@.png", buttonName]] style:UIBarButtonItemStylePlain target:self action:@selector(showGridAnimated)]];
+        [items addObject:[[UIBarButtonItem alloc] initWithImage:[UIImage imageForResourcePath:@"MWPhotoBrowser.bundle/UIBarButtonItemGrid" ofType:@"png" inBundle:[NSBundle bundleForClass:[self class]]] style:UIBarButtonItemStylePlain target:self action:@selector(showGridAnimated)]];
     } else {
         [items addObject:fixedSpace];
     }
@@ -297,6 +300,11 @@
     
 }
 
+- (void)backBarButtonAction:(id)sender {
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+
 // Release any retained subviews of the main view.
 - (void)viewDidUnload {
 	_currentPageIndex = 0;
@@ -337,18 +345,17 @@
 	[super viewWillAppear:animated];
     
     // Status bar
-    if ([UIViewController instancesRespondToSelector:@selector(prefersStatusBarHidden)]) {
+    if (!_viewHasAppearedInitially) {
         _leaveStatusBarAlone = [self presentingViewControllerPrefersStatusBarHidden];
-    } else {
-        _leaveStatusBarAlone = [UIApplication sharedApplication].statusBarHidden;
+        // Check if status bar is hidden on first appear, and if so then ignore it
+        if (CGRectEqualToRect([[UIApplication sharedApplication] statusBarFrame], CGRectZero)) {
+            _leaveStatusBarAlone = YES;
+        }
     }
-    if (CGRectEqualToRect([[UIApplication sharedApplication] statusBarFrame], CGRectZero)) {
-        // If the frame is zero then definitely leave it alone
-        _leaveStatusBarAlone = YES;
-    }
-    if (!_leaveStatusBarAlone && self.wantsFullScreenLayout && UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+    // Set style
+    if (!_leaveStatusBarAlone && UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
         _previousStatusBarStyle = [[UIApplication sharedApplication] statusBarStyle];
-        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackTranslucent animated:animated];
+        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent animated:animated];
     }
     
     // Navigation bar appearance
@@ -356,10 +363,6 @@
         [self storePreviousNavBarAppearance];
     }
     [self setNavBarAppearance:animated];
-    
-    // Hide navigation controller's toolbar
-    _previousNavToolbarHidden = self.navigationController.toolbarHidden;
-    [self.navigationController setToolbarHidden:YES];
     
     // Update UI
 	[self hideControlsAfterDelay];
@@ -369,19 +372,50 @@
         if (_startOnGrid) {
             [self showGrid:NO];
         }
-        _viewHasAppearedInitially = YES;
     }
+    
+    // If rotation occured while we're presenting a modal
+    // and the index changed, make sure we show the right one now
+    if (_currentPageIndex != _pageIndexBeforeRotation) {
+        [self jumpToPageAtIndex:_pageIndexBeforeRotation animated:NO];
+    }
+    
+    // Layout
+    [self.view setNeedsLayout];
 
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    _viewIsActive = YES;
+    
+    // Autoplay if first is video
+    if (!_viewHasAppearedInitially) {
+        if (_autoPlayOnAppear) {
+            MWPhoto *photo = [self photoAtIndex:_currentPageIndex];
+            if ([photo respondsToSelector:@selector(isVideo)] && photo.isVideo) {
+                [self playVideoAtIndex:_currentPageIndex];
+            }
+        }
+    }
+    
+    _viewHasAppearedInitially = YES;
+        
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
     
-    // Check that we're being popped for good
-    if ([self.navigationController.viewControllers objectAtIndex:0] != self &&
-        ![self.navigationController.viewControllers containsObject:self]) {
-        
+    // Detect if rotation occurs while we're presenting a modal
+    _pageIndexBeforeRotation = _currentPageIndex;
+    
+    // Check that we're disappearing for good
+    // self.isMovingFromParentViewController just doesn't work, ever. Or self.isBeingDismissed
+    if ((_doneButton && self.navigationController.isBeingDismissed) ||
+        ([self.navigationController.viewControllers objectAtIndex:0] != self && ![self.navigationController.viewControllers containsObject:self])) {
+
         // State
         _viewIsActive = NO;
+        [self clearCurrentVideo]; // Clear current playing video
         
         // Bar state / appearance
         [self restorePreviousNavBarAppearance:animated];
@@ -394,21 +428,23 @@
     [self setControlsHidden:NO animated:NO permanent:YES];
     
     // Status bar
-    if (!_leaveStatusBarAlone && self.wantsFullScreenLayout && UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+    if (!_leaveStatusBarAlone && UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
         [[UIApplication sharedApplication] setStatusBarStyle:_previousStatusBarStyle animated:animated];
     }
-    
-    // Show navigation controller's toolbar
-    [self.navigationController setToolbarHidden:_previousNavToolbarHidden];
     
 	// Super
 	[super viewWillDisappear:animated];
     
 }
 
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-    _viewIsActive = YES;
+- (void)willMoveToParentViewController:(UIViewController *)parent {
+    if (parent && _hasBelongedToViewController) {
+        [NSException raise:@"MWPhotoBrowser Instance Reuse" format:@"MWPhotoBrowser instances cannot be reused."];
+    }
+}
+
+- (void)didMoveToParentViewController:(UIViewController *)parent {
+    if (!parent) _hasBelongedToViewController = YES;
 }
 
 #pragma mark - Nav Bar Appearance
@@ -416,32 +452,24 @@
 - (void)setNavBarAppearance:(BOOL)animated {
     [self.navigationController setNavigationBarHidden:NO animated:animated];
     UINavigationBar *navBar = self.navigationController.navigationBar;
-    navBar.tintColor = SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7") ? [UIColor whiteColor] : nil;
-    if ([navBar respondsToSelector:@selector(setBarTintColor:)]) {
-        navBar.barTintColor = nil;
-        navBar.shadowImage = nil;
-    }
+    navBar.tintColor = [UIColor whiteColor];
+    navBar.barTintColor = nil;
+    navBar.shadowImage = nil;
     navBar.translucent = YES;
     navBar.barStyle = UIBarStyleBlackTranslucent;
-    if ([[UINavigationBar class] respondsToSelector:@selector(appearance)]) {
-        [navBar setBackgroundImage:nil forBarMetrics:UIBarMetricsDefault];
-        [navBar setBackgroundImage:nil forBarMetrics:UIBarMetricsLandscapePhone];
-    }
+    [navBar setBackgroundImage:nil forBarMetrics:UIBarMetricsDefault];
+    [navBar setBackgroundImage:nil forBarMetrics:UIBarMetricsLandscapePhone];
 }
 
 - (void)storePreviousNavBarAppearance {
     _didSavePreviousStateOfNavBar = YES;
-    if ([UINavigationBar instancesRespondToSelector:@selector(barTintColor)]) {
-        _previousNavBarBarTintColor = self.navigationController.navigationBar.barTintColor;
-    }
+    _previousNavBarBarTintColor = self.navigationController.navigationBar.barTintColor;
     _previousNavBarTranslucent = self.navigationController.navigationBar.translucent;
     _previousNavBarTintColor = self.navigationController.navigationBar.tintColor;
     _previousNavBarHidden = self.navigationController.navigationBarHidden;
     _previousNavBarStyle = self.navigationController.navigationBar.barStyle;
-    if ([[UINavigationBar class] respondsToSelector:@selector(appearance)]) {
-        _previousNavigationBarBackgroundImageDefault = [self.navigationController.navigationBar backgroundImageForBarMetrics:UIBarMetricsDefault];
-        _previousNavigationBarBackgroundImageLandscapePhone = [self.navigationController.navigationBar backgroundImageForBarMetrics:UIBarMetricsLandscapePhone];
-    }
+    _previousNavigationBarBackgroundImageDefault = [self.navigationController.navigationBar backgroundImageForBarMetrics:UIBarMetricsDefault];
+    _previousNavigationBarBackgroundImageLandscapePhone = [self.navigationController.navigationBar backgroundImageForBarMetrics:UIBarMetricsLandscapePhone];
 }
 
 - (void)restorePreviousNavBarAppearance:(BOOL)animated {
@@ -450,14 +478,10 @@
         UINavigationBar *navBar = self.navigationController.navigationBar;
         navBar.tintColor = _previousNavBarTintColor;
         navBar.translucent = _previousNavBarTranslucent;
-        if ([UINavigationBar instancesRespondToSelector:@selector(barTintColor)]) {
-            navBar.barTintColor = _previousNavBarBarTintColor;
-        }
+        navBar.barTintColor = _previousNavBarBarTintColor;
         navBar.barStyle = _previousNavBarStyle;
-        if ([[UINavigationBar class] respondsToSelector:@selector(appearance)]) {
-            [navBar setBackgroundImage:_previousNavigationBarBackgroundImageDefault forBarMetrics:UIBarMetricsDefault];
-            [navBar setBackgroundImage:_previousNavigationBarBackgroundImageLandscapePhone forBarMetrics:UIBarMetricsLandscapePhone];
-        }
+        [navBar setBackgroundImage:_previousNavigationBarBackgroundImageDefault forBarMetrics:UIBarMetricsDefault];
+        [navBar setBackgroundImage:_previousNavigationBarBackgroundImageLandscapePhone forBarMetrics:UIBarMetricsLandscapePhone];
         // Restore back button if we need to
         if (_previousViewControllerBackButton) {
             UIViewController *previousViewController = [self.navigationController topViewController]; // We've disappeared so previous is now top
@@ -507,6 +531,9 @@
         if (page.selectedButton) {
             page.selectedButton.frame = [self frameForSelectedButton:page.selectedButton atIndex:index];
         }
+        if (page.playButton) {
+            page.playButton.frame = [self frameForPlayButton:page.playButton atIndex:index];
+        }
         
         // Adjust scales if bounds has changed since last time
         if (!CGRectEqualToRect(_previousLayoutBounds, self.view.bounds)) {
@@ -516,6 +543,9 @@
         }
 
 	}
+    
+    // Adjust video loading indicator if it's visible
+    [self positionVideoLoadingIndicator];
 	
 	// Adjust contentOffset to preserve page location based on values collected prior to location
 	_pagingScrollView.contentOffset = [self contentOffsetForPageAtIndex:indexPriorToLayout];
@@ -533,7 +563,7 @@
     return YES;
 }
 
-- (NSUInteger)supportedInterfaceOrientations {
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations {
     return UIInterfaceOrientationMaskAll;
 }
 
@@ -593,20 +623,22 @@
         [_photos addObject:[NSNull null]];
         [_thumbPhotos addObject:[NSNull null]];
     }
-    
-    // Remove everything
-    while (_pagingScrollView.subviews.count) {
-        [[_pagingScrollView.subviews lastObject] removeFromSuperview];
+
+    // Update current page index
+    if (numberOfPhotos > 0) {
+        _currentPageIndex = MAX(0, MIN(_currentPageIndex, numberOfPhotos - 1));
+    } else {
+        _currentPageIndex = 0;
     }
     
-    // Update current page index
-    _currentPageIndex = MAX(0, MIN(_currentPageIndex, numberOfPhotos - 1));
-    
-    // Update
-    [self performLayout];
-    
-    // Layout
-    [self.view setNeedsLayout];
+    // Update layout
+    if ([self isViewLoaded]) {
+        while (_pagingScrollView.subviews.count) {
+            [[_pagingScrollView.subviews lastObject] removeFromSuperview];
+        }
+        [self performLayout];
+        [self.view setNeedsLayout];
+    }
     
 }
 
@@ -614,8 +646,8 @@
     if (_photoCount == NSNotFound) {
         if ([_delegate respondsToSelector:@selector(numberOfPhotosInPhotoBrowser:)]) {
             _photoCount = [_delegate numberOfPhotosInPhotoBrowser:self];
-        } else if (_depreciatedPhotoData) {
-            _photoCount = _depreciatedPhotoData.count;
+        } else if (_fixedPhotosArray) {
+            _photoCount = _fixedPhotosArray.count;
         }
     }
     if (_photoCount == NSNotFound) _photoCount = 0;
@@ -628,8 +660,8 @@
         if ([_photos objectAtIndex:index] == [NSNull null]) {
             if ([_delegate respondsToSelector:@selector(photoBrowser:photoAtIndex:)]) {
                 photo = [_delegate photoBrowser:self photoAtIndex:index];
-            } else if (_depreciatedPhotoData && index < _depreciatedPhotoData.count) {
-                photo = [_depreciatedPhotoData objectAtIndex:index];
+            } else if (_fixedPhotosArray && index < _fixedPhotosArray.count) {
+                photo = [_fixedPhotosArray objectAtIndex:index];
             }
             if (photo) [_photos replaceObjectAtIndex:index withObject:photo];
         } else {
@@ -689,10 +721,11 @@
 - (UIImage *)imageForPhoto:(id<MWPhoto>)photo {
 	if (photo) {
 		// Get image or obtain in background
+        photo.index = _currentPageIndex;
 		if ([photo underlyingImage]) {
 			return [photo underlyingImage];
 		} else {
-            [photo loadUnderlyingImageAndNotify];
+            [photo loadUnderlyingImageAndNotifyWihtIndex:_currentPageIndex];
 		}
 	}
 	return nil;
@@ -707,17 +740,19 @@
             if (pageIndex > 0) {
                 // Preload index - 1
                 id <MWPhoto> photo = [self photoAtIndex:pageIndex-1];
+                photo.index = pageIndex-1;
                 if (![photo underlyingImage]) {
-                    [photo loadUnderlyingImageAndNotify];
-                    MWLog(@"Pre-loading image at index %i", pageIndex-1);
+                    [photo loadUnderlyingImageAndNotifyWihtIndex:pageIndex -1];
+                    MWLog(@"Pre-loading image at index %lu", (unsigned long)pageIndex-1);
                 }
             }
             if (pageIndex < [self numberOfPhotos] - 1) {
                 // Preload index + 1
                 id <MWPhoto> photo = [self photoAtIndex:pageIndex+1];
+                  photo.index = pageIndex + 1;
                 if (![photo underlyingImage]) {
-                    [photo loadUnderlyingImageAndNotify];
-                    MWLog(@"Pre-loading image at index %i", pageIndex+1);
+                    [photo loadUnderlyingImageAndNotifyWihtIndex:pageIndex+1];
+                    MWLog(@"Pre-loading image at index %lu", (unsigned long)pageIndex+1);
                 }
             }
         }
@@ -735,6 +770,7 @@
             [page displayImage];
             [self loadAdjacentPhotosIfNecessary:photo];
         } else {
+            
             // Failed to load
             [page displayImageFailure];
         }
@@ -766,9 +802,10 @@
 			[_recycledPages addObject:page];
             [page.captionView removeFromSuperview];
             [page.selectedButton removeFromSuperview];
+            [page.playButton removeFromSuperview];
             [page prepareForReuse];
 			[page removeFromSuperview];
-			MWLog(@"Removed page at index %i", PAGE_INDEX(page));
+			MWLog(@"Removed page at index %lu", (unsigned long)pageIndex);
 		}
 	}
 	[_visiblePages minusSet:_recycledPages];
@@ -788,7 +825,7 @@
 			[self configurePage:page forIndex:index];
 
 			[_pagingScrollView addSubview:page];
-			MWLog(@"Added page at index %i", index);
+			MWLog(@"Added page at index %lu", (unsigned long)index);
             
             // Add caption
             MWCaptionView *captionView = [self captionViewForPhotoAtIndex:index];
@@ -798,11 +835,29 @@
                 page.captionView = captionView;
             }
             
+            // Add play button if needed
+            if (page.displayingVideo) {
+                UIButton *playButton = [UIButton buttonWithType:UIButtonTypeCustom];
+                [playButton setImage:[UIImage imageForResourcePath:@"MWPhotoBrowser.bundle/PlayButtonOverlayLarge" ofType:@"png" inBundle:[NSBundle bundleForClass:[self class]]] forState:UIControlStateNormal];
+                [playButton setImage:[UIImage imageForResourcePath:@"MWPhotoBrowser.bundle/PlayButtonOverlayLargeTap" ofType:@"png" inBundle:[NSBundle bundleForClass:[self class]]] forState:UIControlStateHighlighted];
+                [playButton addTarget:self action:@selector(playButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
+                [playButton sizeToFit];
+                playButton.frame = [self frameForPlayButton:playButton atIndex:index];
+                [_pagingScrollView addSubview:playButton];
+                page.playButton = playButton;
+            }
+            
             // Add selected button
             if (self.displaySelectionButtons) {
                 UIButton *selectedButton = [UIButton buttonWithType:UIButtonTypeCustom];
-                [selectedButton setImage:[UIImage imageNamed:@"MWPhotoBrowser.bundle/images/ImageSelectedOff.png"] forState:UIControlStateNormal];
-                [selectedButton setImage:[UIImage imageNamed:@"MWPhotoBrowser.bundle/images/ImageSelectedOn.png"] forState:UIControlStateSelected];
+                [selectedButton setImage:[UIImage imageForResourcePath:@"MWPhotoBrowser.bundle/ImageSelectedOff" ofType:@"png" inBundle:[NSBundle bundleForClass:[self class]]] forState:UIControlStateNormal];
+                UIImage *selectedOnImage;
+                if (self.customImageSelectedIconName) {
+                    selectedOnImage = [UIImage imageNamed:self.customImageSelectedIconName];
+                } else {
+                    selectedOnImage = [UIImage imageForResourcePath:@"MWPhotoBrowser.bundle/ImageSelectedOn" ofType:@"png" inBundle:[NSBundle bundleForClass:[self class]]];
+                }
+                [selectedButton setImage:selectedOnImage forState:UIControlStateSelected];
                 [selectedButton sizeToFit];
                 selectedButton.adjustsImageWhenHighlighted = NO;
                 [selectedButton addTarget:self action:@selector(selectedButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
@@ -826,6 +881,14 @@
         
     }
 }
+
+//////==================added for jia hui==============///////
+- (void)setCurrentPhotoSelectedButtonType:(BOOL)select {
+    MWPhoto *photo = [self photoAtIndex:_currentPageIndex];
+    MWZoomingScrollView *page = [self pageDisplayingPhoto:photo];
+    page.selectedButton.selected = select;
+}
+//////=============================================///////
 
 - (BOOL)isDisplayingPageForIndex:(NSUInteger)index {
 	for (MWZoomingScrollView *page in _visiblePages)
@@ -870,10 +933,16 @@
 // Handle page changes
 - (void)didStartViewingPageAtIndex:(NSUInteger)index {
     
+    // Handle 0 photos
     if (![self numberOfPhotos]) {
         // Show controls
         [self setControlsHidden:NO animated:YES permanent:YES];
         return;
+    }
+    
+    // Handle video on page change
+    if (!_rotating && index != _currentVideoIndex) {
+        [self clearCurrentVideo];
     }
     
     // Release images further away than +/-1
@@ -885,7 +954,7 @@
             if (photo != [NSNull null]) {
                 [photo unloadUnderlyingImage];
                 [_photos replaceObjectAtIndex:i withObject:[NSNull null]];
-                MWLog(@"Released underlying image at index %i", i);
+                MWLog(@"Released underlying image at index %lu", (unsigned long)i);
             }
         }
     }
@@ -896,7 +965,7 @@
             if (photo != [NSNull null]) {
                 [photo unloadUnderlyingImage];
                 [_photos replaceObjectAtIndex:i withObject:[NSNull null]];
-                MWLog(@"Released underlying image at index %i", i);
+                MWLog(@"Released underlying image at index %lu", (unsigned long)i);
             }
         }
     }
@@ -973,16 +1042,25 @@
 
 - (CGRect)frameForSelectedButton:(UIButton *)selectedButton atIndex:(NSUInteger)index {
     CGRect pageFrame = [self frameForPageAtIndex:index];
+    CGFloat padding = 20;
     CGFloat yOffset = 0;
     if (![self areControlsHidden]) {
         UINavigationBar *navBar = self.navigationController.navigationBar;
         yOffset = navBar.frame.origin.y + navBar.frame.size.height;
     }
-    CGRect captionFrame = CGRectMake(pageFrame.origin.x + pageFrame.size.width - 20 - selectedButton.frame.size.width,
-                                     20 + yOffset,
-                                     selectedButton.frame.size.width,
-                                     selectedButton.frame.size.height);
-    return CGRectIntegral(captionFrame);
+    CGRect selectedButtonFrame = CGRectMake(pageFrame.origin.x + pageFrame.size.width - selectedButton.frame.size.width - padding,
+                                            padding + yOffset,
+                                            selectedButton.frame.size.width,
+                                            selectedButton.frame.size.height);
+    return CGRectIntegral(selectedButtonFrame);
+}
+
+- (CGRect)frameForPlayButton:(UIButton *)playButton atIndex:(NSUInteger)index {
+    CGRect pageFrame = [self frameForPageAtIndex:index];
+    return CGRectMake(floorf(CGRectGetMidX(pageFrame) - playButton.frame.size.width / 2),
+                      floorf(CGRectGetMidY(pageFrame) - playButton.frame.size.height / 2),
+                      playButton.frame.size.width,
+                      playButton.frame.size.height);
 }
 
 #pragma mark - UIScrollView Delegate
@@ -1037,7 +1115,11 @@
             self.title = [NSString stringWithFormat:@"%lu %@", (unsigned long)numberOfPhotos, photosText];
         }
     } else if (numberOfPhotos > 1) {
-		self.title = [NSString stringWithFormat:@"%lu %@ %lu", (unsigned long)(_currentPageIndex+1), NSLocalizedString(@"of", @"Used in the context: 'Showing 1 of 3 items'"), (unsigned long)numberOfPhotos];
+        if ([_delegate respondsToSelector:@selector(photoBrowser:titleForPhotoAtIndex:)]) {
+            self.title = [_delegate photoBrowser:self titleForPhotoAtIndex:_currentPageIndex];
+        } else {
+            self.title = [NSString stringWithFormat:@"%lu %@ %lu", (unsigned long)(_currentPageIndex+1), NSLocalizedString(@"of", @"Used in the context: 'Showing 1 of 3 items'"), (unsigned long)numberOfPhotos];
+        }
 	} else {
 		self.title = nil;
 	}
@@ -1045,7 +1127,16 @@
 	// Buttons
 	_previousButton.enabled = (_currentPageIndex > 0);
 	_nextButton.enabled = (_currentPageIndex < numberOfPhotos - 1);
-    _actionButton.enabled = [[self photoAtIndex:_currentPageIndex] underlyingImage] != nil;
+    
+    // Disable action button if there is no image or it's a video
+    MWPhoto *photo = [self photoAtIndex:_currentPageIndex];
+    if ([photo underlyingImage] == nil || ([photo respondsToSelector:@selector(isVideo)] && photo.isVideo)) {
+        _actionButton.enabled = NO;
+        _actionButton.tintColor = [UIColor clearColor]; // Tint to hide button
+    } else {
+        _actionButton.enabled = YES;
+        _actionButton.tintColor = nil;
+    }
 	
 }
 
@@ -1095,6 +1186,140 @@
     }
 }
 
+- (void)playButtonTapped:(id)sender {
+    // Ignore if we're already playing a video
+    if (_currentVideoIndex != NSUIntegerMax) {
+        return;
+    }
+    NSUInteger index = [self indexForPlayButton:sender];
+    if (index != NSUIntegerMax) {
+        if (!_currentVideoPlayerViewController) {
+            [self playVideoAtIndex:index];
+        }
+    }
+}
+
+- (NSUInteger)indexForPlayButton:(UIView *)playButton {
+    NSUInteger index = NSUIntegerMax;
+    for (MWZoomingScrollView *page in _visiblePages) {
+        if (page.playButton == playButton) {
+            index = page.index;
+            break;
+        }
+    }
+    return index;
+}
+
+#pragma mark - Video
+
+- (void)playVideoAtIndex:(NSUInteger)index {
+    id photo = [self photoAtIndex:index];
+    if ([photo respondsToSelector:@selector(getVideoURL:)]) {
+        
+        // Valid for playing
+        [self clearCurrentVideo];
+        _currentVideoIndex = index;
+        [self setVideoLoadingIndicatorVisible:YES atPageIndex:index];
+
+        // Get video and play
+        typeof(self) __weak weakSelf = self;
+        [photo getVideoURL:^(NSURL *url) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                // If the video is not playing anymore then bail
+                typeof(self) strongSelf = weakSelf;
+                if (!strongSelf) return;
+                if (strongSelf->_currentVideoIndex != index || !strongSelf->_viewIsActive) {
+                    return;
+                }
+                if (url) {
+                    [weakSelf _playVideo:url atPhotoIndex:index];
+                } else {
+                    [weakSelf setVideoLoadingIndicatorVisible:NO atPageIndex:index];
+                }
+            });
+        }];
+        
+    }
+}
+
+- (void)_playVideo:(NSURL *)videoURL atPhotoIndex:(NSUInteger)index {
+
+    // Setup player
+    _currentVideoPlayerViewController = [[MPMoviePlayerViewController alloc] initWithContentURL:videoURL];
+    [_currentVideoPlayerViewController.moviePlayer prepareToPlay];
+    _currentVideoPlayerViewController.moviePlayer.shouldAutoplay = YES;
+    _currentVideoPlayerViewController.moviePlayer.scalingMode = MPMovieScalingModeAspectFit;
+    _currentVideoPlayerViewController.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+    
+    // Remove the movie player view controller from the "playback did finish" notification observers
+    // Observe ourselves so we can get it to use the crossfade transition
+    [[NSNotificationCenter defaultCenter] removeObserver:_currentVideoPlayerViewController
+                                                    name:MPMoviePlayerPlaybackDidFinishNotification
+                                                  object:_currentVideoPlayerViewController.moviePlayer];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(videoFinishedCallback:)
+                                                 name:MPMoviePlayerPlaybackDidFinishNotification
+                                               object:_currentVideoPlayerViewController.moviePlayer];
+
+    // Show
+    [self presentViewController:_currentVideoPlayerViewController animated:YES completion:nil];
+
+}
+
+- (void)videoFinishedCallback:(NSNotification*)notification {
+    
+    // Remove observer
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:MPMoviePlayerPlaybackDidFinishNotification
+                                                  object:_currentVideoPlayerViewController.moviePlayer];
+    
+    // Clear up
+    [self clearCurrentVideo];
+    
+    // Dismiss
+    BOOL error = [[[notification userInfo] objectForKey:MPMoviePlayerPlaybackDidFinishReasonUserInfoKey] intValue] == MPMovieFinishReasonPlaybackError;
+    if (error) {
+        // Error occured so dismiss with a delay incase error was immediate and we need to wait to dismiss the VC
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [self dismissViewControllerAnimated:YES completion:nil];
+        });
+    } else {
+        [self dismissViewControllerAnimated:YES completion:nil];
+    }
+    
+}
+
+- (void)clearCurrentVideo {
+    [_currentVideoPlayerViewController.moviePlayer stop];
+    [_currentVideoLoadingIndicator removeFromSuperview];
+    _currentVideoPlayerViewController = nil;
+    _currentVideoLoadingIndicator = nil;
+    [[self pageDisplayedAtIndex:_currentVideoIndex] playButton].hidden = NO;
+    _currentVideoIndex = NSUIntegerMax;
+}
+
+- (void)setVideoLoadingIndicatorVisible:(BOOL)visible atPageIndex:(NSUInteger)pageIndex {
+    if (_currentVideoLoadingIndicator && !visible) {
+        [_currentVideoLoadingIndicator removeFromSuperview];
+        _currentVideoLoadingIndicator = nil;
+        [[self pageDisplayedAtIndex:pageIndex] playButton].hidden = NO;
+    } else if (!_currentVideoLoadingIndicator && visible) {
+        _currentVideoLoadingIndicator = [[UIActivityIndicatorView alloc] initWithFrame:CGRectZero];
+        [_currentVideoLoadingIndicator sizeToFit];
+        [_currentVideoLoadingIndicator startAnimating];
+        [_pagingScrollView addSubview:_currentVideoLoadingIndicator];
+        [self positionVideoLoadingIndicator];
+        [[self pageDisplayedAtIndex:pageIndex] playButton].hidden = YES;
+    }
+}
+
+- (void)positionVideoLoadingIndicator {
+    if (_currentVideoLoadingIndicator && _currentVideoIndex != NSUIntegerMax) {
+        CGRect frame = [self frameForPageAtIndex:_currentVideoIndex];
+        _currentVideoLoadingIndicator.center = CGPointMake(CGRectGetMidX(frame), CGRectGetMidY(frame));
+    }
+}
+
 #pragma mark - Grid
 
 - (void)showGridAnimated {
@@ -1105,13 +1330,16 @@
 
     if (_gridController) return;
     
+    // Clear video
+    [self clearCurrentVideo];
+    
     // Init grid controller
     _gridController = [[MWGridViewController alloc] init];
     _gridController.initialContentOffset = _currentGridContentOffset;
     _gridController.browser = self;
     _gridController.selectionMode = _displaySelectionButtons;
     _gridController.view.frame = self.view.bounds;
-    _gridController.view.frame = CGRectOffset(_gridController.view.frame, 0, self.view.bounds.size.height);
+    _gridController.view.frame = CGRectOffset(_gridController.view.frame, 0, (self.startOnGrid ? -1 : 1) * self.view.bounds.size.height);
 
     // Stop specific layout being triggered
     _skipNextPagingScrollViewPositioning = YES;
@@ -1119,6 +1347,10 @@
     // Add as a child view controller
     [self addChildViewController:_gridController];
     [self.view addSubview:_gridController.view];
+    
+    // Perform any adjustments
+    [_gridController.view layoutIfNeeded];
+    [_gridController adjustOffsetsAsRequired];
     
     // Hide action button on nav bar if it exists
     if (self.navigationItem.rightBarButtonItem == _actionButton) {
@@ -1133,10 +1365,11 @@
     [self setControlsHidden:NO animated:YES permanent:YES];
     
     // Animate grid in and photo scroller out
+    [_gridController willMoveToParentViewController:self];
     [UIView animateWithDuration:animated ? 0.3 : 0 animations:^(void) {
         _gridController.view.frame = self.view.bounds;
         CGRect newPagingFrame = [self frameForPagingScrollView];
-        newPagingFrame = CGRectOffset(newPagingFrame, 0, -newPagingFrame.size.height);
+        newPagingFrame = CGRectOffset(newPagingFrame, 0, (self.startOnGrid ? 1 : -1) * newPagingFrame.size.height);
         _pagingScrollView.frame = newPagingFrame;
     } completion:^(BOOL finished) {
         [_gridController didMoveToParentViewController:self];
@@ -1158,7 +1391,7 @@
     
     // Position prior to hide animation
     CGRect newPagingFrame = [self frameForPagingScrollView];
-    newPagingFrame = CGRectOffset(newPagingFrame, 0, -newPagingFrame.size.height);
+    newPagingFrame = CGRectOffset(newPagingFrame, 0, (self.startOnGrid ? 1 : -1) * newPagingFrame.size.height);
     _pagingScrollView.frame = newPagingFrame;
     
     // Remember and remove controller now so things can detect a nil grid controller
@@ -1171,7 +1404,7 @@
     
     // Animate, hide grid and show paging scroll view
     [UIView animateWithDuration:0.3 animations:^{
-        tmpGridController.view.frame = CGRectOffset(self.view.bounds, 0, self.view.bounds.size.height);
+        tmpGridController.view.frame = CGRectOffset(self.view.bounds, 0, (self.startOnGrid ? -1 : 1) * self.view.bounds.size.height);
         _pagingScrollView.frame = [self frameForPagingScrollView];
     } completion:^(BOOL finished) {
         [tmpGridController willMoveToParentViewController:nil];
@@ -1196,66 +1429,33 @@
     [self cancelControlHiding];
     
     // Animations & positions
-    BOOL slideAndFade = SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7");
     CGFloat animatonOffset = 20;
     CGFloat animationDuration = (animated ? 0.35 : 0);
     
     // Status bar
     if (!_leaveStatusBarAlone) {
-        if ([self respondsToSelector:@selector(setNeedsStatusBarAppearanceUpdate)]) {
-            
-            // Hide status bar
-            if (!_isVCBasedStatusBarAppearance) {
-                
-                // Non-view controller based
-                [[UIApplication sharedApplication] setStatusBarHidden:hidden withAnimation:animated ? UIStatusBarAnimationSlide : UIStatusBarAnimationNone];
-                
-            } else {
-                
-                // View controller based so animate away
-                _statusBarShouldBeHidden = hidden;
-                [UIView animateWithDuration:animationDuration animations:^(void) {
-                    [self setNeedsStatusBarAppearanceUpdate];
-                } completion:^(BOOL finished) {}];
-                
-            }
 
+        // Hide status bar
+        if (!_isVCBasedStatusBarAppearance) {
+            
+            // Non-view controller based
+            [[UIApplication sharedApplication] setStatusBarHidden:hidden withAnimation:animated ? UIStatusBarAnimationSlide : UIStatusBarAnimationNone];
+            
         } else {
             
-            // Status bar and nav bar positioning
-            if (self.wantsFullScreenLayout) {
-                
-                // Need to get heights and set nav bar position to overcome display issues
-                
-                // Get status bar height if visible
-                CGFloat statusBarHeight = 0;
-                if (![UIApplication sharedApplication].statusBarHidden) {
-                    CGRect statusBarFrame = [[UIApplication sharedApplication] statusBarFrame];
-                    statusBarHeight = MIN(statusBarFrame.size.height, statusBarFrame.size.width);
-                }
-                
-                // Status Bar
-                [[UIApplication sharedApplication] setStatusBarHidden:hidden withAnimation:animated?UIStatusBarAnimationFade:UIStatusBarAnimationNone];
-                
-                // Get status bar height if visible
-                if (![UIApplication sharedApplication].statusBarHidden) {
-                    CGRect statusBarFrame = [[UIApplication sharedApplication] statusBarFrame];
-                    statusBarHeight = MIN(statusBarFrame.size.height, statusBarFrame.size.width);
-                }
-                
-                // Set navigation bar frame
-                CGRect navBarFrame = self.navigationController.navigationBar.frame;
-                navBarFrame.origin.y = statusBarHeight;
-                self.navigationController.navigationBar.frame = navBarFrame;
-                
-            }
+            // View controller based so animate away
+            _statusBarShouldBeHidden = hidden;
+            [UIView animateWithDuration:animationDuration animations:^(void) {
+                [self setNeedsStatusBarAppearanceUpdate];
+            } completion:^(BOOL finished) {}];
             
         }
+
     }
     
     // Toolbar, nav bar and captions
-    // Pre-appear animation positions for iOS 7 sliding
-    if (slideAndFade && [self areControlsHidden] && !hidden && animated) {
+    // Pre-appear animation positions for sliding
+    if ([self areControlsHidden] && !hidden && animated) {
         
         // Toolbar
         _toolbar.frame = CGRectOffset([self frameForToolbarAtOrientation:self.interfaceOrientation], 0, animatonOffset);
@@ -1276,27 +1476,23 @@
         
         CGFloat alpha = hidden ? 0 : 1;
 
-        // Nav bar slides up on it's own on iOS 7
+        // Nav bar slides up on it's own on iOS 7+
         [self.navigationController.navigationBar setAlpha:alpha];
         
         // Toolbar
-        if (slideAndFade) {
-            _toolbar.frame = [self frameForToolbarAtOrientation:self.interfaceOrientation];
-            if (hidden) _toolbar.frame = CGRectOffset(_toolbar.frame, 0, animatonOffset);
-        }
+        _toolbar.frame = [self frameForToolbarAtOrientation:self.interfaceOrientation];
+        if (hidden) _toolbar.frame = CGRectOffset(_toolbar.frame, 0, animatonOffset);
         _toolbar.alpha = alpha;
 
         // Captions
         for (MWZoomingScrollView *page in _visiblePages) {
             if (page.captionView) {
                 MWCaptionView *v = page.captionView;
-                if (slideAndFade) {
-                    // Pass any index, all we're interested in is the Y
-                    CGRect captionFrame = [self frameForCaptionView:v atIndex:0];
-                    captionFrame.origin.x = v.frame.origin.x; // Reset X
-                    if (hidden) captionFrame = CGRectOffset(captionFrame, 0, animatonOffset);
-                    v.frame = captionFrame;
-                }
+                // Pass any index, all we're interested in is the Y
+                CGRect captionFrame = [self frameForCaptionView:v atIndex:0];
+                captionFrame.origin.x = v.frame.origin.x; // Reset X
+                if (hidden) captionFrame = CGRectOffset(captionFrame, 0, animatonOffset);
+                v.frame = captionFrame;
                 v.alpha = alpha;
             }
         }
@@ -1328,6 +1524,10 @@
     }
 }
 
+- (UIStatusBarStyle)preferredStatusBarStyle {
+    return UIStatusBarStyleLightContent;
+}
+
 - (UIStatusBarAnimation)preferredStatusBarUpdateAnimation {
     return UIStatusBarAnimationSlide;
 }
@@ -1344,25 +1544,26 @@
 - (void)hideControlsAfterDelay {
 	if (![self areControlsHidden]) {
         [self cancelControlHiding];
-		_controlVisibilityTimer = [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(hideControls) userInfo:nil repeats:NO];
+		_controlVisibilityTimer = [NSTimer scheduledTimerWithTimeInterval:self.delayToHideElements target:self selector:@selector(hideControls) userInfo:nil repeats:NO];
 	}
 }
 
 - (BOOL)areControlsHidden { return (_toolbar.alpha == 0); }
 - (void)hideControls { [self setControlsHidden:YES animated:YES permanent:NO]; }
+- (void)showControls { [self setControlsHidden:NO animated:YES permanent:NO]; }
 - (void)toggleControls { [self setControlsHidden:![self areControlsHidden] animated:YES permanent:NO]; }
 
 #pragma mark - Properties
 
-// Handle depreciated method
-- (void)setInitialPageIndex:(NSUInteger)index {
-    [self setCurrentPhotoIndex:index];
-}
-
 - (void)setCurrentPhotoIndex:(NSUInteger)index {
     // Validate
-    if (index >= [self numberOfPhotos])
-        index = [self numberOfPhotos]-1;
+    NSUInteger photoCount = [self numberOfPhotos];
+    if (photoCount == 0) {
+        index = 0;
+    } else {
+        if (index >= photoCount)
+            index = [self numberOfPhotos]-1;
+    }
     _currentPageIndex = index;
 	if ([self isViewLoaded]) {
         [self jumpToPageAtIndex:index animated:NO];
@@ -1374,107 +1575,80 @@
 #pragma mark - Misc
 
 - (void)doneButtonPressed:(id)sender {
-    [self dismissViewControllerAnimated:YES completion:nil];
+    // Only if we're modal and there's a done button
+    if (_doneButton) {
+        // See if we actually just want to show/hide grid
+        if (self.enableGrid) {
+            if (self.startOnGrid && !_gridController) {
+                [self showGrid:YES];
+                return;
+            } else if (!self.startOnGrid && _gridController) {
+                [self hideGrid];
+                return;
+            }
+        }
+        // Dismiss view controller
+        if ([_delegate respondsToSelector:@selector(photoBrowserDidFinishModalPresentation:)]) {
+            // Call delegate method and let them dismiss us
+            [_delegate photoBrowserDidFinishModalPresentation:self];
+        } else  {
+            [self dismissViewControllerAnimated:YES completion:nil];
+        }
+    }
 }
 
 #pragma mark - Actions
 
 - (void)actionButtonPressed:(id)sender {
-    if (_actionsSheet) {
-        
-        // Dismiss
-        [_actionsSheet dismissWithClickedButtonIndex:_actionsSheet.cancelButtonIndex animated:YES];
-        
-    } else {
-        
-        // Only react when image has loaded
-        id <MWPhoto> photo = [self photoAtIndex:_currentPageIndex];
-        if ([self numberOfPhotos] > 0 && [photo underlyingImage]) {
-            
-            // If they have defined a delegate method then just message them
-            if ([self.delegate respondsToSelector:@selector(photoBrowser:actionButtonPressedForPhotoAtIndex:)]) {
-                
-                // Let delegate handle things
-                [self.delegate photoBrowser:self actionButtonPressedForPhotoAtIndex:_currentPageIndex];
-                
-            } else {
-                
-                // Handle default actions
-                if (SYSTEM_VERSION_LESS_THAN(@"6")) {
-                    
-                    // Old handling of activities with action sheet
-                    if ([MFMailComposeViewController canSendMail]) {
-                        _actionsSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self
-                                                               cancelButtonTitle:NSLocalizedString(@"Cancel", nil) destructiveButtonTitle:nil
-                                                               otherButtonTitles:NSLocalizedString(@"Save", nil), NSLocalizedString(@"Copy", nil), NSLocalizedString(@"Email", nil), nil];
-                    } else {
-                        _actionsSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self
-                                                               cancelButtonTitle:NSLocalizedString(@"Cancel", nil) destructiveButtonTitle:nil
-                                                               otherButtonTitles:NSLocalizedString(@"Save", nil), NSLocalizedString(@"Copy", nil), nil];
-                    }
-                    _actionsSheet.tag = ACTION_SHEET_OLD_ACTIONS;
-                    _actionsSheet.actionSheetStyle = UIActionSheetStyleBlackTranslucent;
-                    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-                        [_actionsSheet showFromBarButtonItem:sender animated:YES];
-                    } else {
-                        [_actionsSheet showInView:self.view];
-                    }
-                    
-                } else {
-                    
-                    // Show activity view controller
-                    NSMutableArray *items = [NSMutableArray arrayWithObject:[photo underlyingImage]];
-                    if (photo.caption) {
-                        [items addObject:photo.caption];
-                    }
-                    self.activityViewController = [[UIActivityViewController alloc] initWithActivityItems:items applicationActivities:nil];
-                    
-                    // Show loading spinner after a couple of seconds
-                    double delayInSeconds = 2.0;
-                    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
-                    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-                        if (self.activityViewController) {
-                            [self showProgressHUDWithMessage:nil];
-                        }
-                    });
 
-                    // Show
-                    typeof(self) __weak weakSelf = self;
-                    [self.activityViewController setCompletionHandler:^(NSString *activityType, BOOL completed) {
-                        weakSelf.activityViewController = nil;
-                        [weakSelf hideControlsAfterDelay];
-                        [weakSelf hideProgressHUD:YES];
-                    }];
-                    [self presentViewController:self.activityViewController animated:YES completion:nil];
-                    
+    // Only react when image has loaded
+    id <MWPhoto> photo = [self photoAtIndex:_currentPageIndex];
+    if ([self numberOfPhotos] > 0 && [photo underlyingImage]) {
+        
+        // If they have defined a delegate method then just message them
+        if ([self.delegate respondsToSelector:@selector(photoBrowser:actionButtonPressedForPhotoAtIndex:)]) {
+            
+            // Let delegate handle things
+            [self.delegate photoBrowser:self actionButtonPressedForPhotoAtIndex:_currentPageIndex];
+            
+        } else {
+            
+            // Show activity view controller
+            NSMutableArray *items = [NSMutableArray arrayWithObject:[photo underlyingImage]];
+            if (photo.caption) {
+                [items addObject:photo.caption];
+            }
+            self.activityViewController = [[UIActivityViewController alloc] initWithActivityItems:items applicationActivities:nil];
+            
+            // Show loading spinner after a couple of seconds
+            double delayInSeconds = 2.0;
+            dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
+            dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+                if (self.activityViewController) {
+                    [self showProgressHUDWithMessage:nil];
                 }
-                
+            });
+
+            // Show
+            typeof(self) __weak weakSelf = self;
+            [self.activityViewController setCompletionHandler:^(NSString *activityType, BOOL completed) {
+                weakSelf.activityViewController = nil;
+                [weakSelf hideControlsAfterDelay];
+                [weakSelf hideProgressHUD:YES];
+            }];
+            // iOS 8 - Set the Anchor Point for the popover
+            if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8")) {
+                self.activityViewController.popoverPresentationController.barButtonItem = _actionButton;
             }
-            
-            // Keep controls hidden
-            [self setControlsHidden:NO animated:YES permanent:YES];
+            [self presentViewController:self.activityViewController animated:YES completion:nil];
 
         }
-    }
-}
+        
+        // Keep controls hidden
+        [self setControlsHidden:NO animated:YES permanent:YES];
 
-#pragma mark - Action Sheet Delegate
-
-- (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex {
-    if (actionSheet.tag == ACTION_SHEET_OLD_ACTIONS) {
-        // Old Actions
-        _actionsSheet = nil;
-        if (buttonIndex != actionSheet.cancelButtonIndex) {
-            if (buttonIndex == actionSheet.firstOtherButtonIndex) {
-                [self savePhoto]; return;
-            } else if (buttonIndex == actionSheet.firstOtherButtonIndex + 1) {
-                [self copyPhoto]; return;	
-            } else if (buttonIndex == actionSheet.firstOtherButtonIndex + 2) {
-                [self emailPhoto]; return;
-            }
-        }
     }
-    [self hideControlsAfterDelay]; // Continue as normal...
+    
 }
 
 #pragma mark - Action Progress
@@ -1484,10 +1658,6 @@
         _progressHUD = [[MBProgressHUD alloc] initWithView:self.view];
         _progressHUD.minSize = CGSizeMake(120, 120);
         _progressHUD.minShowTime = 1;
-        // The sample image is based on the
-        // work by: http://www.pixelpressicons.com
-        // licence: http://creativecommons.org/licenses/by/2.5/ca/
-        self.progressHUD.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"MWPhotoBrowser.bundle/images/Checkmark.png"]];
         [self.view addSubview:_progressHUD];
     }
     return _progressHUD;
@@ -1515,77 +1685,6 @@
         [self.progressHUD hide:YES];
     }
     self.navigationController.navigationBar.userInteractionEnabled = YES;
-}
-
-#pragma mark - Actions
-
-- (void)savePhoto {
-    id <MWPhoto> photo = [self photoAtIndex:_currentPageIndex];
-    if ([photo underlyingImage]) {
-        [self showProgressHUDWithMessage:[NSString stringWithFormat:@"%@\u2026" , NSLocalizedString(@"Saving", @"Displayed with ellipsis as 'Saving...' when an item is in the process of being saved")]];
-        [self performSelector:@selector(actuallySavePhoto:) withObject:photo afterDelay:0];
-    }
-}
-
-- (void)actuallySavePhoto:(id<MWPhoto>)photo {
-    if ([photo underlyingImage]) {
-        UIImageWriteToSavedPhotosAlbum([photo underlyingImage], self, 
-                                       @selector(image:didFinishSavingWithError:contextInfo:), nil);
-    }
-}
-
-- (void)image:(UIImage *)image didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo {
-    [self showProgressHUDCompleteMessage: error ? NSLocalizedString(@"Failed", @"Informing the user a process has failed") : NSLocalizedString(@"Saved", @"Informing the user an item has been saved")];
-    [self hideControlsAfterDelay]; // Continue as normal...
-}
-
-- (void)copyPhoto {
-    id <MWPhoto> photo = [self photoAtIndex:_currentPageIndex];
-    if ([photo underlyingImage]) {
-        [self showProgressHUDWithMessage:[NSString stringWithFormat:@"%@\u2026" , NSLocalizedString(@"Copying", @"Displayed with ellipsis as 'Copying...' when an item is in the process of being copied")]];
-        [self performSelector:@selector(actuallyCopyPhoto:) withObject:photo afterDelay:0];
-    }
-}
-
-- (void)actuallyCopyPhoto:(id<MWPhoto>)photo {
-    if ([photo underlyingImage]) {
-        [[UIPasteboard generalPasteboard] setData:UIImagePNGRepresentation([photo underlyingImage])
-                                forPasteboardType:@"public.png"];
-        [self showProgressHUDCompleteMessage:NSLocalizedString(@"Copied", @"Informing the user an item has finished copying")];
-        [self hideControlsAfterDelay]; // Continue as normal...
-    }
-}
-
-- (void)emailPhoto {
-    id <MWPhoto> photo = [self photoAtIndex:_currentPageIndex];
-    if ([photo underlyingImage]) {
-        [self showProgressHUDWithMessage:[NSString stringWithFormat:@"%@\u2026" , NSLocalizedString(@"Preparing", @"Displayed with ellipsis as 'Preparing...' when an item is in the process of being prepared")]];
-        [self performSelector:@selector(actuallyEmailPhoto:) withObject:photo afterDelay:0];
-    }
-}
-
-- (void)actuallyEmailPhoto:(id<MWPhoto>)photo {
-    if ([photo underlyingImage]) {
-        MFMailComposeViewController *emailer = [[MFMailComposeViewController alloc] init];
-        emailer.mailComposeDelegate = self;
-        [emailer setSubject:NSLocalizedString(@"Photo", nil)];
-        [emailer addAttachmentData:UIImagePNGRepresentation([photo underlyingImage]) mimeType:@"png" fileName:@"Photo.png"];
-        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-            emailer.modalPresentationStyle = UIModalPresentationPageSheet;
-        }
-        [self presentModalViewController:emailer animated:YES];
-        [self hideProgressHUD:NO];
-    }
-}
-
-- (void)mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error {
-    if (result == MFMailComposeResultFailed) {
-		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Email", nil)
-                                                         message:NSLocalizedString(@"Email failed to send. Please try again.", nil)
-                                                        delegate:nil cancelButtonTitle:NSLocalizedString(@"Dismiss", nil) otherButtonTitles:nil];
-		[alert show];
-    }
-    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 @end
