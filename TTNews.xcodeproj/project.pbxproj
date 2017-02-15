@@ -94,6 +94,9 @@
 		DA3677651E35AA2B002CDD56 /* TTCommentReplyListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DA3677641E35AA2B002CDD56 /* TTCommentReplyListViewController.m */; };
 		DA3677681E35CCBA002CDD56 /* TTLikesIconCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DA3677671E35CCBA002CDD56 /* TTLikesIconCell.m */; };
 		DA36776B1E35F0DE002CDD56 /* NSString+Size.m in Sources */ = {isa = PBXBuildFile; fileRef = DA36776A1E35F0DE002CDD56 /* NSString+Size.m */; };
+		DA4C070E1E514A0B00F7601A /* TTNormalDismissAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = DA4C070B1E514A0B00F7601A /* TTNormalDismissAnimation.m */; };
+		DA4C070F1E514A0B00F7601A /* TTPanInteractiveTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = DA4C070D1E514A0B00F7601A /* TTPanInteractiveTransition.m */; };
+		DA4C07121E515D7100F7601A /* PresentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DA4C07111E515D7100F7601A /* PresentViewController.m */; };
 		DA544A261E078BE000EC6A10 /* TTNewsArticleInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = DA544A251E078BE000EC6A10 /* TTNewsArticleInfo.m */; };
 		DA55B6671E379AF200461697 /* TTCommentLikeModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DA55B6661E379AF200461697 /* TTCommentLikeModel.m */; };
 		DA5B0B801DFD8D51001067B8 /* libWeChatSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DA5B0B7B1DFD8D51001067B8 /* libWeChatSDK.a */; };
@@ -330,6 +333,12 @@
 		DA3677671E35CCBA002CDD56 /* TTLikesIconCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTLikesIconCell.m; sourceTree = "<group>"; };
 		DA3677691E35F0DE002CDD56 /* NSString+Size.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Size.h"; sourceTree = "<group>"; };
 		DA36776A1E35F0DE002CDD56 /* NSString+Size.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Size.m"; sourceTree = "<group>"; };
+		DA4C070A1E514A0B00F7601A /* TTNormalDismissAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTNormalDismissAnimation.h; sourceTree = "<group>"; };
+		DA4C070B1E514A0B00F7601A /* TTNormalDismissAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTNormalDismissAnimation.m; sourceTree = "<group>"; };
+		DA4C070C1E514A0B00F7601A /* TTPanInteractiveTransition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTPanInteractiveTransition.h; sourceTree = "<group>"; };
+		DA4C070D1E514A0B00F7601A /* TTPanInteractiveTransition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTPanInteractiveTransition.m; sourceTree = "<group>"; };
+		DA4C07101E515D7100F7601A /* PresentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PresentViewController.h; sourceTree = "<group>"; };
+		DA4C07111E515D7100F7601A /* PresentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PresentViewController.m; sourceTree = "<group>"; };
 		DA544A241E078BE000EC6A10 /* TTNewsArticleInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTNewsArticleInfo.h; sourceTree = "<group>"; };
 		DA544A251E078BE000EC6A10 /* TTNewsArticleInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTNewsArticleInfo.m; sourceTree = "<group>"; };
 		DA55B6651E379AF200461697 /* TTCommentLikeModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTCommentLikeModel.h; sourceTree = "<group>"; };
@@ -669,6 +678,17 @@
 			path = Icon_7;
 			sourceTree = "<group>";
 		};
+		DA4C07091E514A0B00F7601A /* VCTransition */ = {
+			isa = PBXGroup;
+			children = (
+				DA4C070A1E514A0B00F7601A /* TTNormalDismissAnimation.h */,
+				DA4C070B1E514A0B00F7601A /* TTNormalDismissAnimation.m */,
+				DA4C070C1E514A0B00F7601A /* TTPanInteractiveTransition.h */,
+				DA4C070D1E514A0B00F7601A /* TTPanInteractiveTransition.m */,
+			);
+			path = VCTransition;
+			sourceTree = "<group>";
+		};
 		DA5B0B7A1DFD8D51001067B8 /* OpenSDK1.7.5 */ = {
 			isa = PBXGroup;
 			children = (
@@ -751,6 +771,7 @@
 		DA62C9761DF7BCAB00AD3928 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				DA4C07091E514A0B00F7601A /* VCTransition */,
 				DA62C9771DF7BCAB00AD3928 /* Me */,
 				DA62C9801DF7BCAB00AD3928 /* News */,
 				DA62CA221DF7BD9E00AD3928 /* Picture */,
@@ -886,6 +907,8 @@
 				DA62C9D01DF7BCAB00AD3928 /* TTNewsContentViewController.m */,
 				DA62C9CD1DF7BCAB00AD3928 /* TTDetailViewController.h */,
 				DA62C9CE1DF7BCAB00AD3928 /* TTDetailViewController.m */,
+				DA4C07101E515D7100F7601A /* PresentViewController.h */,
+				DA4C07111E515D7100F7601A /* PresentViewController.m */,
 				DA2C95721E06885300A43E9B /* TTCommentViewController.h */,
 				DA2C95731E06885300A43E9B /* TTCommentViewController.m */,
 				DA3677631E35AA2B002CDD56 /* TTCommentReplyListViewController.h */,
@@ -1556,6 +1579,7 @@
 				DA2C956A1E0529E500A43E9B /* TTExposuresNewsViewController.m in Sources */,
 				DA9316901DF3B214007F15B3 /* SXNetworkTools.m in Sources */,
 				DA9316931DF3B214007F15B3 /* TTDataTool.m in Sources */,
+				DA4C070E1E514A0B00F7601A /* TTNormalDismissAnimation.m in Sources */,
 				DA62CA0A1DF7BCAB00AD3928 /* TTFindPasswordViewController.m in Sources */,
 				DA544A261E078BE000EC6A10 /* TTNewsArticleInfo.m in Sources */,
 				DA7F3CBE1E07B1300070B4EC /* TTCommentsModel.m in Sources */,
@@ -1593,6 +1617,7 @@
 				DAC65CF81DF311430090369A /* TTBaseViewController.m in Sources */,
 				DA62C9E61DF7BCAB00AD3928 /* TTVideo.m in Sources */,
 				DA55B6671E379AF200461697 /* TTCommentLikeModel.m in Sources */,
+				DA4C07121E515D7100F7601A /* PresentViewController.m in Sources */,
 				DA62CA2B1DF7BD9E00AD3928 /* PictureTableViewCell.m in Sources */,
 				DAC65CF61DF311430090369A /* AppDelegate.m in Sources */,
 				DA62C9F61DF7BCAB00AD3928 /* SinglePictureNewsTableViewCell.m in Sources */,
@@ -1609,6 +1634,7 @@
 				DA8CB1EC1E0F960A0084DF5D /* TTAppData.m in Sources */,
 				DA62CA1C1DF7BCAB00AD3928 /* VideoCommentViewController.m in Sources */,
 				DA62CA291DF7BD9E00AD3928 /* PictureCommentCell.m in Sources */,
+				DA4C070F1E514A0B00F7601A /* TTPanInteractiveTransition.m in Sources */,
 				DA62C9EA1DF7BCAB00AD3928 /* SwitchCell.m in Sources */,
 				DA62CA101DF7BCAB00AD3928 /* TTRegisterViewController.m in Sources */,
 				DA62CA161DF7BCAB00AD3928 /* MeTableViewController.m in Sources */,

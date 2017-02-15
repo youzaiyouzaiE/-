@@ -104,7 +104,6 @@ static NSString * const PictureCell = @"PictureCell";
     } failure:^(NSError *error) {
         NSLog(@"%@%@",self,error);
     }];
-    
 }
 
 #pragma mark --上拉加载更多数据

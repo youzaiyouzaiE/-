@@ -16,7 +16,10 @@
 #import "NSString+Extension.h"
 #import "TTAppData.h"
 
-@interface TTLoginViewController () <UITextFieldDelegate> {
+#import "TTNormalDismissAnimation.h"
+#import "TTPanInteractiveTransition.h"
+
+@interface TTLoginViewController () <UITextFieldDelegate,UIViewControllerTransitioningDelegate> {
     
     __weak IBOutlet UITextField *_userNameTextField;
     __weak IBOutlet UITextField *_passwordTextField;
@@ -27,6 +30,9 @@
     TTRegisterViewController *_registerVC;
 }
 
+
+@property (nonatomic, strong) TTNormalDismissAnimation *dismissAnimation;
+@property (nonatomic, strong) TTPanInteractiveTransition *transitionController;
 
 @end
 
@@ -55,12 +61,34 @@
     _loginButton.layer.masksToBounds = YES;
     _loginButton.layer.cornerRadius = 6;
     _loginButton.dk_backgroundColorPicker = DKColorPickerWithRGB(0xfa5054, 0x444444, 0xfa5054);
+    
+    if (_isPresentInto) {
+        _transitionController = [[TTPanInteractiveTransition alloc] init];
+        self.transitioningDelegate = self;
+        [self.transitionController wireToViewController:self];
+        self.dismissAnimation = [[TTNormalDismissAnimation alloc] init];
+    }
 }
 
 - (void)backAction {
     [self dismissViewControllerAnimated:YES completion:^{ }];
 }
 
+//- (void)setIsPresentInto:(BOOL)isPresentInto {
+//    _isPresentInto = isPresentInto;
+////    if (isPresentInto) {
+////        [self needInteractiveTransitionDissmiss:YES];
+////    }
+//}
+
+#pragma mark – UIViewControllerTransitioningDelegate
+-(id<UIViewControllerAnimatedTransitioning>)animationControllerForDismissedController:(UIViewController *)dismissed {
+    return self.dismissAnimation;
+}
+
+- (id <UIViewControllerInteractiveTransitioning>)interactionControllerForDismissal:(id <UIViewControllerAnimatedTransitioning>)animator {
+    return self.transitionController.interacting ? self.transitionController : nil;
+}
 
 #pragma mark - UITextFieldDelegate
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {

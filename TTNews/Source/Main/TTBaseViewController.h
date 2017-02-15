@@ -11,11 +11,10 @@
 @interface TTBaseViewController : UIViewController <UINavigationControllerDelegate,UIGestureRecognizerDelegate>
 
 - (void)backAction;
-
 - (void)naviBackAction;
-
-- (void)addTapViewResignKeyboard;
-
+- (UITapGestureRecognizer *)addTapViewResignKeyboard;
 - (void)dismissSvprogressHud;
+- (void)needInteractiveTransitionDissmiss:(BOOL)isNeed;
+
 
 @end

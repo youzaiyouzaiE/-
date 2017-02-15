@@ -25,6 +25,8 @@
 #import "TTNetworkSessionManager.h"
 #import "TTBottomBarView.h"
 
+//#import "PresentViewController.h"
+
 typedef NS_ENUM(NSUInteger, TTShareScene) {
     TTShareSceneWeChat_Scene,  
     TTShareSceneWeChat_TimeScene,
@@ -237,6 +239,8 @@ typedef NS_ENUM(NSUInteger, TTShareScene) {
 }
 
 - (void)storeButtonClicked:(TTBottomBarView *)bottomView isStore:(BOOL)isStore {
+//     UINavigationController *navitagtionVC = [[UINavigationController alloc] initWithRootViewController:[[PresentViewController alloc] init]];
+//    [self presentViewController:[[PresentViewController alloc] init] animated:YES completion:nil];
     if (!SHARE_APP.isLogin) {
         [TTProgressHUD showMsg:@"登录后才能收藏文章"];
         bottomView.isStored = NO;

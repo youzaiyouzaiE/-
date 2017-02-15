@@ -8,10 +8,15 @@
 
 #import "TTBaseViewController.h"
 #import "TTJudgeNetworking.h"
+#import "TTNormalDismissAnimation.h"
+#import "TTPanInteractiveTransition.h"
 
-@interface TTBaseViewController ()  {
+@interface TTBaseViewController ()<UIViewControllerTransitioningDelegate>  {
     UITapGestureRecognizer *_tapGestureRecognizer;
 }
+
+@property (nonatomic, strong) TTNormalDismissAnimation *dismissAnimation;
+@property (nonatomic, strong) TTPanInteractiveTransition *transitionController;
 
 @end
 
@@ -33,12 +38,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
-//    UIImage *backImage = [UIImage imageNamed:@"navigationbar_pic_back_icon"];
-//    self.navigationController.navigationBar.backIndicatorImage = backImage;
-//    self.navigationController.navigationBar.backIndicatorTransitionMaskImage = backImage;
-//    self.navigationController.navigationBar.translucent = NO;
-    
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@""
                                                                              style:UIBarButtonItemStylePlain
                                                                             target:self
@@ -60,7 +59,6 @@
     self.view.dk_backgroundColorPicker = DKColorPickerWithRGB(0xf0f0f0, 0x000000, 0xfafafa);
     if([TTJudgeNetworking judge] == NO) {
         [SVProgressHUD showErrorWithStatus:@"无网络连接!"];
-//        [TTProgressHUD showMsg:@"请检查网络设置！"];
         [self performSelector:@selector(dismissSvprogressHud) withObject:nil afterDelay:1];
     }
 }
@@ -73,10 +71,11 @@
     [super didReceiveMemoryWarning];
 }
 
-- (void)addTapViewResignKeyboard {
+- (UITapGestureRecognizer *)addTapViewResignKeyboard {
     _tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(resignKeyboard)];
     _tapGestureRecognizer.delegate = self;
     [self.view addGestureRecognizer:_tapGestureRecognizer];
+    return _tapGestureRecognizer;
 }
 
 - (void)resignKeyboard {
@@ -87,6 +86,15 @@
     if (self.navigationController) {
         [self.navigationController popViewControllerAnimated:YES];
     }
+}
+
+- (void)needInteractiveTransitionDissmiss:(BOOL)isNeed {
+//    if (isNeed) {
+//        _dismissAnimation = [TTNormalDismissAnimation new];
+//        _transitionController = [[TTPanInteractiveTransition alloc] init];
+//        self.transitioningDelegate = self;
+//        [self.transitionController wireToViewController:self];
+//    }
 }
 
 #pragma mark - UIGestureRecognizerDelegate
@@ -102,7 +110,6 @@
         }
     }
 }
-
 
 #pragma mark - UINavigationControllerDelegate
 - (void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated {
@@ -131,14 +138,13 @@
 //     [self.navigationController popViewControllerAnimated:YES];
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+//#pragma mark – UIViewControllerTransitioningDelegate
+//-(id<UIViewControllerAnimatedTransitioning>)animationControllerForDismissedController:(UIViewController *)dismissed {
+//    return self.dismissAnimation;
+//}
+//
+//- (id <UIViewControllerInteractiveTransitioning>)interactionControllerForDismissal:(id <UIViewControllerAnimatedTransitioning>)animator {
+//    return self.transitionController.interacting ? self.transitionController : nil;
+//}
 
 @end
